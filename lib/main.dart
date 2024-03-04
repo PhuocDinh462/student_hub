@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:student_hub/layout/navigation.dart';
+import 'package:student_hub/routes/app_routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,9 +17,12 @@ class MyApp extends StatelessWidget {
       ),
     );
 
-    return const MaterialApp(
-      home: SafeArea(child: Navigation()),
-      debugShowCheckedModeBanner: false,
+    return SafeArea(
+      child: MaterialApp(
+        initialRoute: '/',
+        routes: AppRoutes.routes,
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
