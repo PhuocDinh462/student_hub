@@ -17,7 +17,7 @@ class _NavigationState extends State<Navigation> {
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) =>
             setState(() => currentScreenIndex = index),
-        indicatorColor: Colors.blue,
+        // indicatorColor: Colors.blue,
         selectedIndex: currentScreenIndex,
         destinations: const <Widget>[
           NavigationDestination(

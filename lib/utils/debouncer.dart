@@ -17,3 +17,12 @@ class Debouncer {
     _timer?.cancel();
   }
 }
+
+// How to use:
+// Step 1: Create a debouncer:
+// final _debouncer = Debouncer(milliseconds: 500);
+
+// Step 2: Use it:
+// onTextChange(String text) {
+//   _debouncer.run(() => print(text));
+// }
