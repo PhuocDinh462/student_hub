@@ -12,17 +12,19 @@ Future<bool> loadMode() async {
 }
 
 class ThemeProvider with ChangeNotifier {
-  bool isDarkMode = false;
+  bool _isDarkMode = false;
+
+  bool get getThemeMode => _isDarkMode;
 
   ThemeProvider() {
     loadMode().then((mode) async {
-      isDarkMode = mode;
+      _isDarkMode = mode;
       notifyListeners();
     });
   }
 
   Future<void> setThemeMode(bool mode) async {
-    isDarkMode = mode;
+    _isDarkMode = mode;
     notifyListeners();
     await saveMode(mode);
   }
