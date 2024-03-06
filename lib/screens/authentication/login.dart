@@ -15,7 +15,6 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: const Color.fromRGBO(224, 224, 224, 1),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -64,6 +63,9 @@ class Login extends StatelessWidget {
               //sign in button
               Button(
                 onTap: signIn,
+                colorButton: Colors.blue,
+                colorText: Colors.white,
+                text: 'Sign In',
               ),
 
               const Gap(25),
