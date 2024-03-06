@@ -30,7 +30,11 @@ class _VerifyCodeState extends State<VerifyCode> {
     }
   }
 
-  void resendCode() async {}
+  void resendCode() async {
+    setState(() {
+      pinInput = '';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -26,8 +26,8 @@ class AppRoutes {
     login: (context) => Login(),
     forgotPassword: (context) => ForgotPassword(),
     verifyCode: (context) => const VerifyCode(),
-    createAccount: (context) => CreateAccountCompany(),
-    signUpOption: (context) => SignUpOption(),
+    createAccount: (context) => const CreateAccountCompany(),
+    signUpOption: (context) => const SignUpOption(),
     profile: (context) => const Profile(),
     nav: (context) => const Navigation(),
   };

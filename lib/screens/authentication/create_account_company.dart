@@ -61,7 +61,7 @@ class _CreateAccountCompanyState extends State<CreateAccountCompany> {
               const Gap(20),
               //forgot password
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -75,7 +75,7 @@ class _CreateAccountCompanyState extends State<CreateAccountCompany> {
                       activeColor: Colors.blue,
                     ),
                     const Text(
-                      'Yes, I understand and agree to all policies',
+                      'Yes, I agree to all policies',
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
