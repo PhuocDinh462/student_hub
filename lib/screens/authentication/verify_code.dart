@@ -3,21 +3,35 @@ import 'package:gap/gap.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:pinput/pinput.dart';
 
-class VerifyCode extends StatelessWidget {
+class VerifyCode extends StatefulWidget {
   const VerifyCode({super.key});
 
-  //sign in
-  void verifyCode(pin) async {
+  @override
+  State<VerifyCode> createState() => _VerifyCodeState();
+}
+
+class _VerifyCodeState extends State<VerifyCode> {
+  late String pinInput;
+
+  @override
+  void initState() {
+    super.initState();
+    pinInput = '';
+  }
+
+  // Sign in
+  void verifyCode(String pin) async {
     if (pin.length == 4) {
-      print('Entered PIN is: pin');
-      // Gọi hàm xác thực OTP ở đây
+      print('Entered PIN is: $pin');
+      // Call OTP verification function here
     } else {
       print('PIN must be 4 characters long');
-      // Hiển thị thông báo lỗi nếu PIN không đủ 4 ký tự
+      // Display error message if PIN is not 4 characters long
     }
   }
 
   void resendCode() async {}
+
   @override
   Widget build(BuildContext context) {
     final defaultPinTheme = PinTheme(
@@ -34,14 +48,14 @@ class VerifyCode extends StatelessWidget {
         border: Border.all(color: Colors.transparent),
       ),
     );
-    String pinInput = '';
+
     return Scaffold(
       body: SafeArea(
         child: Center(
           child: Column(
             children: [
               const Gap(50),
-              //Verify Code
+              // Verify Code
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
@@ -50,33 +64,36 @@ class VerifyCode extends StatelessWidget {
                     Text(
                       'Verify Code',
                       style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.black,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
               ),
 
-              //Enter OTP
+              // Enter OTP
               const Gap(5),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
                       'Enter OTP',
                       style: TextStyle(
-                          color: Colors.grey[500],
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.grey,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
               ),
               const Gap(30),
-              //OTP input
+
+              // OTP input
               Pinput(
                 length: 4,
                 defaultPinTheme: defaultPinTheme,
@@ -89,21 +106,24 @@ class VerifyCode extends StatelessWidget {
                   verifyCode(pin);
                 },
                 onChanged: (pin) {
-                  pinInput = pin;
+                  setState(() {
+                    pinInput = pin;
+                  });
                 },
               ),
               const Gap(30),
 
-              //Code was sent to your email
+              // Code was sent to your email
               const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Code was sent to your email',
                     style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Gap(10),
                   Row(
@@ -112,17 +132,19 @@ class VerifyCode extends StatelessWidget {
                       Text(
                         'This code expires in',
                         style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Gap(10),
                       Text(
                         '5 minutes',
                         style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                          color: Colors.blue,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
@@ -130,7 +152,7 @@ class VerifyCode extends StatelessWidget {
               ),
 
               const Gap(30),
-              //Verify Code
+              // Verify Code
               Button(
                 onTap: () {
                   verifyCode(pinInput);
@@ -140,7 +162,7 @@ class VerifyCode extends StatelessWidget {
                 text: 'Verify Code',
               ),
               const Gap(25),
-              //Resend Code
+              // Resend Code
               Button(
                 onTap: resendCode,
                 colorButton: const Color(0xFFFDEDD9),

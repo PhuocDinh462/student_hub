@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/widgets/button.dart';
-import 'package:student_hub/widgets/text_field.dart';
 
 class SignUpOption extends StatefulWidget {
-  SignUpOption({Key? key}) : super(key: key);
+  const SignUpOption({super.key});
 
   @override
-  _SignUpOptionState createState() => _SignUpOptionState();
+  State<SignUpOption> createState() => _SignUpOptionState();
 }
 
 class _SignUpOptionState extends State<SignUpOption> {

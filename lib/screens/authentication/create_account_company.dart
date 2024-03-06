@@ -4,10 +4,10 @@ import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
 
 class CreateAccountCompany extends StatefulWidget {
-  CreateAccountCompany({Key? key}) : super(key: key);
+  const CreateAccountCompany({super.key});
 
   @override
-  _CreateAccountCompanyState createState() => _CreateAccountCompanyState();
+  State<CreateAccountCompany> createState() => _CreateAccountCompanyState();
 }
 
 class _CreateAccountCompanyState extends State<CreateAccountCompany> {
