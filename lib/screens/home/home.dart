@@ -33,10 +33,7 @@ class Home extends StatelessWidget {
             const SizedBox(height: 80),
             ElevatedButton.icon(
               onPressed: () {},
-              icon: const Icon(
-                Icons.business,
-                size: 24.0,
-              ),
+              icon: const Icon(Icons.business),
               label: const Text('Company'),
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(150, 40),
@@ -47,10 +44,7 @@ class Home extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton.icon(
               onPressed: () {},
-              icon: const Icon(
-                Icons.people,
-                size: 24.0,
-              ),
+              icon: const Icon(Icons.people),
               label: const Text('Student'),
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(150, 40),

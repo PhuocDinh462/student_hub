@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/constants/colors.dart';
+import 'package:student_hub/providers/theme_provider.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -18,11 +21,10 @@ class Dashboard extends StatelessWidget {
               children: [
                 const Text('Your jobs'),
                 ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.post_add,
-                    size: 24.0,
-                  ),
+                  onPressed: () {
+                    themeProvider.setThemeMode(!themeProvider.getThemeMode);
+                  },
+                  icon: const Icon(Icons.post_add),
                   label: const Text('Post a job'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primary_300,

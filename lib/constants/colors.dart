@@ -59,13 +59,17 @@ class AppTheme {
       labelSmall:
           TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: text_800),
     ),
+    iconTheme: const IconThemeData(
+      color: text_800,
+      size: 24.0,
+    ),
   );
 
   static final darkTheme = ThemeData(
     colorScheme: const ColorScheme.dark(
       primary: text_50,
       onPrimary: text_50,
-      surface: primary_300,
+      surface: text_900,
       onSurface: text_50,
     ),
     textTheme: const TextTheme(
@@ -99,6 +103,10 @@ class AppTheme {
           TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: text_50),
       labelSmall:
           TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: text_50),
+    ),
+    iconTheme: const IconThemeData(
+      color: text_50,
+      size: 24.0,
     ),
   );
 }

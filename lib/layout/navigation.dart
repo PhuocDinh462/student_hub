@@ -19,34 +19,30 @@ class _NavigationState extends State<Navigation> {
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) =>
             setState(() => currentScreenIndex = index),
-        indicatorColor: primary_300,
+        indicatorColor: primary_200,
         selectedIndex: currentScreenIndex,
-        destinations: <Widget>[
+        destinations: const <Widget>[
           NavigationDestination(
             icon: Icon(
               Icons.task,
-              color: currentScreenIndex == 0 ? text_100 : text_900,
             ),
             label: 'Projects',
           ),
           NavigationDestination(
             icon: Icon(
               Icons.dashboard,
-              color: currentScreenIndex == 1 ? text_100 : text_900,
             ),
             label: 'Dashboard',
           ),
           NavigationDestination(
             icon: Icon(
               Icons.message,
-              color: currentScreenIndex == 2 ? text_100 : text_900,
             ),
             label: 'Message',
           ),
           NavigationDestination(
             icon: Icon(
               Icons.notifications,
-              color: currentScreenIndex == 3 ? text_100 : text_900,
             ),
             label: 'Alerts',
           ),
