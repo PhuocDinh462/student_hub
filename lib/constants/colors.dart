@@ -20,12 +20,20 @@ const Color text_50 = Color(0xfff5f5f5);
 
 class AppTheme {
   static final lightTheme = ThemeData(
-    brightness: Brightness.light,
-    primaryColor: primary_300,
+    colorScheme: const ColorScheme.light(
+      primary: text_50,
+      onPrimary: text_50,
+      surface: primary_300,
+      onSurface: text_800,
+    ),
   );
 
   static final darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    primaryColor: Colors.deepPurple,
+    colorScheme: const ColorScheme.dark(
+      primary: text_800,
+      onPrimary: text_800,
+      surface: Colors.deepPurple,
+      onSurface: text_50,
+    ),
   );
 }
