@@ -30,9 +30,9 @@ class AppTheme {
 
   static final darkTheme = ThemeData(
     colorScheme: const ColorScheme.dark(
-      primary: text_800,
-      onPrimary: text_800,
-      surface: Colors.deepPurple,
+      primary: text_50,
+      onPrimary: text_50,
+      surface: primary_300,
       onSurface: text_50,
     ),
   );
