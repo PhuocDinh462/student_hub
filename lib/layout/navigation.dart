@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/screens/dashboard/dashboard.dart';
 import 'package:student_hub/screens/projects/projects.dart';
 
 class Navigation extends StatefulWidget {
@@ -48,7 +49,7 @@ class _NavigationState extends State<Navigation> {
       ),
       body: <Widget>[
         const Projects(),
-        const Text('Dashboard'),
+        const Dashboard(),
         const Text('Message'),
         const Text('Alerts'),
       ][currentScreenIndex],
