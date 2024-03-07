@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/constants/colors.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -6,8 +7,9 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      body: Container(
+        width: double.infinity,
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -38,6 +40,8 @@ class Home extends StatelessWidget {
               label: const Text('Company'),
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(150, 40),
+                backgroundColor: primary_300,
+                foregroundColor: text_50,
               ),
             ),
             const SizedBox(height: 20),
@@ -50,6 +54,8 @@ class Home extends StatelessWidget {
               label: const Text('Student'),
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(150, 40),
+                backgroundColor: primary_300,
+                foregroundColor: text_50,
               ),
             ),
             const SizedBox(height: 80),
