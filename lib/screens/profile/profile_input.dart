@@ -4,8 +4,8 @@ import 'package:student_hub/constants/colors.dart';
 import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
-class ProfileInputNoInfo extends StatelessWidget {
-  const ProfileInputNoInfo({super.key});
+class ProfileInput extends StatelessWidget {
+  const ProfileInput({super.key});
 
   @override
   Widget build(BuildContext context) {

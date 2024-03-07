@@ -3,7 +3,7 @@ import 'package:student_hub/layout/navigation.dart';
 import 'package:student_hub/screens/Authentication/authentication.dart';
 import 'package:student_hub/screens/home/Home.dart';
 import 'package:student_hub/screens/profile/profile.dart';
-import 'package:student_hub/screens/profile/profile_input_no_info.dart';
+import 'package:student_hub/screens/profile/profile_input.dart';
 
 class AppRoutes {
   static const String home = '/';
@@ -16,7 +16,7 @@ class AppRoutes {
     home: (context) => const Home(),
     auth: (context) => const Authentication(),
     profile: (context) => const Profile(),
-    profileNoInfo: (context) => const ProfileInputNoInfo(),
+    profileNoInfo: (context) => const ProfileInput(),
     nav: (context) => const Navigation(),
   };
 }
