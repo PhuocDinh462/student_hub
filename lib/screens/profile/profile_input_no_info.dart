@@ -41,65 +41,69 @@ class ProfileInputNoInfo extends StatelessWidget {
                       size: 16,
                       textAlign: TextAlign.center,
                     )),
-                Container(
-                  margin: const EdgeInsets.only(top: 30),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Column(
+                      // verticalDirection: VerticalDirection.up,
                       children: [
-                        Container(
-                            margin: const EdgeInsets.only(left: 15, bottom: 10),
-                            child: const DisplayText(
-                              text: 'How many people are in your company?',
-                              color: text_900,
-                              fontWeight: FontWeight.w600,
-                              size: 16,
-                            )),
-                        const DisplayRadioList(),
+                        Column(
+                          children: [
+                            Container(
+                                margin: const EdgeInsets.only(
+                                    left: 15, bottom: 10, top: 30),
+                                child: const DisplayText(
+                                  text: 'How many people are in your company?',
+                                  color: text_900,
+                                  fontWeight: FontWeight.w600,
+                                  size: 16,
+                                )),
+                            const DisplayRadioList(),
+                          ],
+                        ),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 15),
                           margin: const EdgeInsets.only(top: 20),
-                          child: Column(children: [
-                            const CommonTextField(
+                          child: const Column(children: [
+                            CommonTextField(
                                 title: 'Company name',
                                 hintText: 'Your company'),
-                            const Gap(20),
-                            const CommonTextField(
+                            Gap(20),
+                            CommonTextField(
                                 title: 'Website', hintText: 'Your website'),
-                            const Gap(20),
-                            const CommonTextField(
+                            Gap(20),
+                            CommonTextField(
                               title: 'Description',
                               hintText: 'Your description',
                               maxLines: 3,
                             ),
-                            const Gap(30),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                ElevatedButton(
-                                    style: buttonPrimary,
-                                    onPressed: () {},
-                                    child: const DisplayText(
-                                      text: 'Continue',
-                                      color: Colors.white,
-                                      size: 18,
-                                      fontWeight: FontWeight.w400,
-                                    )),
-                                const Gap(15),
-                                ElevatedButton(
-                                    style: buttonSecondary,
-                                    onPressed: () {},
-                                    child: const DisplayText(
-                                      text: 'Cancel',
-                                      color: Colors.white,
-                                      size: 18,
-                                      fontWeight: FontWeight.w400,
-                                    ))
-                              ],
-                            )
                           ]),
-                        )
+                        ),
                       ]),
-                )
+                  const Gap(30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                          style: buttonPrimary,
+                          onPressed: () {},
+                          child: const DisplayText(
+                            text: 'Continue',
+                            color: Colors.white,
+                            size: 18,
+                            fontWeight: FontWeight.w400,
+                          )),
+                      const Gap(15),
+                      ElevatedButton(
+                          style: buttonSecondary,
+                          onPressed: () {},
+                          child: const DisplayText(
+                            text: 'Cancel',
+                            color: Colors.white,
+                            size: 18,
+                            fontWeight: FontWeight.w400,
+                          ))
+                    ],
+                  )
+                ])
               ],
             ),
           ),
