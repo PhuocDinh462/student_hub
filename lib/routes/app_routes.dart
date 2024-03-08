@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/layout/navigation.dart';
 import 'package:student_hub/screens/Authentication/authentication.dart';
+import 'package:student_hub/screens/authentication/reset_password.dart';
+import 'package:student_hub/screens/authentication/change_password.dart';
 import 'package:student_hub/screens/authentication/create_account_company.dart';
 import 'package:student_hub/screens/authentication/create_account_student.dart';
 import 'package:student_hub/screens/authentication/forgot_password.dart';
@@ -19,7 +21,9 @@ class AppRoutes {
   static const String createAccountCompany = '/auth/create_account_company';
   static const String createAccountStudent = '/auth/create_account_student';
   static const String signUpOption = '/auth/sign_up';
+  static const String resetPassword = '/auth/reset_password';
   static const String profile = '/profile';
+  static const String changePassword = '/profile/change_password';
   static const String nav = '/nav';
 
   static Map<String, WidgetBuilder> routes = {
@@ -31,6 +35,8 @@ class AppRoutes {
     createAccountCompany: (context) => const CreateAccountCompany(),
     createAccountStudent: (context) => const CreateAccountStudent(),
     signUpOption: (context) => const SignUpOption(),
+    resetPassword: (context) => const ResetPassword(),
+    changePassword: (context) => const ChangePassword(),
     profile: (context) => const Profile(),
     nav: (context) => const Navigation(),
   };
