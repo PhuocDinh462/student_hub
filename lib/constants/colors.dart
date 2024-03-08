@@ -29,38 +29,38 @@ class AppTheme {
     ),
     textTheme: const TextTheme(
       displayLarge:
-          TextStyle(fontSize: 96, fontWeight: FontWeight.w300, color: text_800),
+          TextStyle(fontSize: 96, fontWeight: FontWeight.w300, color: text_700),
       displayMedium:
-          TextStyle(fontSize: 60, fontWeight: FontWeight.w300, color: text_800),
+          TextStyle(fontSize: 60, fontWeight: FontWeight.w300, color: text_700),
       displaySmall:
-          TextStyle(fontSize: 48, fontWeight: FontWeight.w400, color: text_800),
+          TextStyle(fontSize: 48, fontWeight: FontWeight.w400, color: text_700),
       headlineLarge:
-          TextStyle(fontSize: 40, fontWeight: FontWeight.w400, color: text_800),
+          TextStyle(fontSize: 40, fontWeight: FontWeight.w400, color: text_700),
       headlineMedium:
-          TextStyle(fontSize: 34, fontWeight: FontWeight.w400, color: text_800),
+          TextStyle(fontSize: 34, fontWeight: FontWeight.w400, color: text_700),
       headlineSmall:
-          TextStyle(fontSize: 24, fontWeight: FontWeight.w400, color: text_800),
+          TextStyle(fontSize: 24, fontWeight: FontWeight.w400, color: text_700),
       titleLarge:
-          TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: text_800),
+          TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: text_700),
       titleMedium:
-          TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: text_800),
+          TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: text_700),
       titleSmall:
-          TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: text_800),
+          TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: text_700),
       bodyLarge:
-          TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: text_800),
+          TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: text_700),
       bodyMedium:
-          TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: text_800),
+          TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: text_700),
       bodySmall:
-          TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: text_800),
+          TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: text_700),
       labelLarge:
-          TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: text_800),
+          TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: text_700),
       labelMedium:
-          TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: text_800),
+          TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: text_700),
       labelSmall:
-          TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: text_800),
+          TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: text_700),
     ),
     iconTheme: const IconThemeData(
-      color: text_800,
+      color: text_500,
       size: 24.0,
     ),
   );
@@ -105,7 +105,7 @@ class AppTheme {
           TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: text_50),
     ),
     iconTheme: const IconThemeData(
-      color: text_50,
+      color: text_100,
       size: 24.0,
     ),
   );
