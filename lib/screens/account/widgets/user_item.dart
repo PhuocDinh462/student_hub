@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:student_hub/models/user.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 
-class AccountItem extends StatelessWidget {
+class UserItem extends StatelessWidget {
   final String username;
   final UserType userType;
 
-  const AccountItem({
+  const UserItem({
     super.key,
     required this.username,
     required this.userType,
@@ -20,8 +20,11 @@ class AccountItem extends StatelessWidget {
       },
       child: Row(
         children: [
-          Icon(userType == UserType.student ? Icons.person : Icons.business,
-              size: 46),
+          Icon(
+              userType == UserType.student
+                  ? Icons.school_outlined
+                  : Icons.business,
+              size: 32),
           const Gap(16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
