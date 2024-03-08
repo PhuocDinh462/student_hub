@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
 
     return SafeArea(
       child: MaterialApp(
-        initialRoute: '/profile/change_password',
+        initialRoute: '/',
         routes: AppRoutes.routes,
         theme: themeProvider.getThemeMode
             ? AppTheme.darkTheme

@@ -11,6 +11,7 @@ import 'package:student_hub/screens/authentication/sign_up_option.dart';
 import 'package:student_hub/screens/authentication/verify_code.dart';
 import 'package:student_hub/screens/home/Home.dart';
 import 'package:student_hub/screens/profile/profile.dart';
+import 'package:student_hub/screens/profile/profile_input.dart';
 
 class AppRoutes {
   static const String home = '/';
@@ -23,6 +24,7 @@ class AppRoutes {
   static const String signUpOption = '/auth/sign_up';
   static const String resetPassword = '/auth/reset_password';
   static const String profile = '/profile';
+  static const String profileNoInfo = '/profile/no-info';
   static const String changePassword = '/profile/change_password';
   static const String nav = '/nav';
 
@@ -38,6 +40,7 @@ class AppRoutes {
     resetPassword: (context) => const ResetPassword(),
     changePassword: (context) => const ChangePassword(),
     profile: (context) => const Profile(),
+    profileNoInfo: (context) => const ProfileInput(),
     nav: (context) => const Navigation(),
   };
 }
