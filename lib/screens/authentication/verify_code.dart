@@ -141,7 +141,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Gap(10),
+                      Gap(5),
                       Text(
                         '5 minutes',
                         style: TextStyle(

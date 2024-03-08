@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/routes/app_routes.dart';
 import 'package:student_hub/widgets/button.dart';
 
 class SignUpOption extends StatefulWidget {
@@ -18,7 +19,13 @@ class _SignUpOptionState extends State<SignUpOption> {
   bool agreePersonalData = false;
 
   //sign in
-  void signIn() async {}
+  void signIn() async {
+    if (_selectedOption == 0) {
+      Navigator.pushNamed(context, AppRoutes.createAccountCompany);
+    } else if (_selectedOption == 1) {
+      Navigator.pushNamed(context, AppRoutes.createAccountStudent);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +60,9 @@ class _SignUpOptionState extends State<SignUpOption> {
                       ),
                       child: RadioListTile<int>(
                         title: const Text(
-                          'Company',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          'I\'m a Company, find engineer for project',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                         value: 0,
                         groupValue: _selectedOption,
@@ -116,14 +124,19 @@ class _SignUpOptionState extends State<SignUpOption> {
                     style: TextStyle(color: Colors.grey[700], fontSize: 16),
                   ),
                   const SizedBox(width: 4),
-                  const Text(
-                    'Login',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 99, 183, 252),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.login);
+                    },
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 99, 183, 252),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
-                  )
+                  ),
                 ],
               )
             ],

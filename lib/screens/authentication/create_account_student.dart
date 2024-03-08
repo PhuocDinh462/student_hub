@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/routes/app_routes.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
 
@@ -43,12 +44,14 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                 controller: nameController,
                 hintText: 'Fullname',
                 obscureText: false,
+                icon: Icons.person,
               ),
               const Gap(20),
               InputText(
                 controller: emailController,
                 hintText: 'Work Email Address',
                 obscureText: false,
+                icon: Icons.email,
               ),
               const Gap(20),
 
@@ -57,6 +60,7 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                 controller: passwordController,
                 hintText: 'Password (8 or more characters)',
                 obscureText: true,
+                icon: Icons.lock,
               ),
               const Gap(20),
               //forgot password
@@ -75,7 +79,7 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                       activeColor: Colors.blue,
                     ),
                     const Text(
-                      'Yes, I understand and agree to all policies',
+                      'Yes, I agree to all policies',
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -103,14 +107,20 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                     style: TextStyle(color: Colors.grey[700], fontSize: 16),
                   ),
                   const SizedBox(width: 4),
-                  const Text(
-                    'Apply as company',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 99, 183, 252),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                          context, AppRoutes.createAccountCompany);
+                    },
+                    child: const Text(
+                      'Apply as company',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 99, 183, 252),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
-                  )
+                  ),
                 ],
               )
             ],

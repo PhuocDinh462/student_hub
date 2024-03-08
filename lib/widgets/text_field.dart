@@ -4,11 +4,13 @@ class InputText extends StatelessWidget {
   final controller;
   final String hintText;
   final bool obscureText;
+  final IconData? icon;
   const InputText(
       {super.key,
       required this.controller,
       required this.hintText,
-      required this.obscureText});
+      required this.obscureText,
+      this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +20,7 @@ class InputText extends StatelessWidget {
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
+          prefixIcon: icon != null ? Icon(icon) : null,
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(
               color: Color.fromRGBO(189, 189, 189, 1),

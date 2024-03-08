@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/routes/app_routes.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
 
-class ForgotPassword extends StatelessWidget {
-  ForgotPassword({super.key});
+class ForgotPassword extends StatefulWidget {
+  const ForgotPassword({super.key});
 
-  //text editting controller
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  @override
+  State<ForgotPassword> createState() => _ForgotPasswordState();
+}
 
-  //sign in
-  void sendCode() async {}
+class _ForgotPasswordState extends State<ForgotPassword> {
+  // Text editing controller
+  final TextEditingController emailController = TextEditingController();
+
+  // Sign in
+  void sendCode() async {
+    // Your logic to send code
+    Navigator.pushNamed(context, AppRoutes.verifyCode);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +29,7 @@ class ForgotPassword extends StatelessWidget {
           child: Column(
             children: [
               const Gap(50),
-              //Forgot Password?
+              // Forgot Password?
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
@@ -29,77 +38,90 @@ class ForgotPassword extends StatelessWidget {
                     Text(
                       'Forgot Password?',
                       style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.black,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
               ),
-
-              //Don't worry about your account
               const Gap(5),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              // Don't worry about your account
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
                       'Don\'t worry about your account',
                       style: TextStyle(
-                          color: Colors.grey[500],
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.grey,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
               ),
               const Gap(30),
-              //email textfield
+              // Enter to send code to your email
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Enter to send code to your email',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Gap(10),
+              // Email textfield
               InputText(
                 controller: emailController,
                 hintText: 'Email',
                 obscureText: false,
+                icon: Icons.email,
               ),
-              const Gap(20),
-
-              //Enter to send code to your email
+              const Gap(10),
+              // Code will expire in 5 minutes
               const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Enter to send code to your email',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
                   Gap(10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Code will expires in',
+                        'Code will expire in',
                         style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      Gap(10),
+                      Gap(5),
                       Text(
                         '5 minutes',
                         style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                          color: Colors.blue,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
-
-              const Gap(30),
-              //Sebnd code
+              const Gap(20),
+              // Send code button
               Button(
                 onTap: sendCode,
                 colorButton: Colors.blue,

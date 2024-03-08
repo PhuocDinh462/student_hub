@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/routes/app_routes.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
 
@@ -43,12 +44,14 @@ class _CreateAccountCompanyState extends State<CreateAccountCompany> {
                 controller: nameController,
                 hintText: 'Fullname',
                 obscureText: false,
+                icon: Icons.person,
               ),
               const Gap(20),
               InputText(
                 controller: emailController,
                 hintText: 'Work Email Address',
                 obscureText: false,
+                icon: Icons.email,
               ),
               const Gap(20),
 
@@ -57,6 +60,7 @@ class _CreateAccountCompanyState extends State<CreateAccountCompany> {
                 controller: passwordController,
                 hintText: 'Password (8 or more characters)',
                 obscureText: true,
+                icon: Icons.lock,
               ),
               const Gap(20),
               //forgot password
@@ -103,14 +107,20 @@ class _CreateAccountCompanyState extends State<CreateAccountCompany> {
                     style: TextStyle(color: Colors.grey[700], fontSize: 16),
                   ),
                   const SizedBox(width: 4),
-                  const Text(
-                    'Apply as student',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 99, 183, 252),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                          context, AppRoutes.createAccountStudent);
+                    },
+                    child: const Text(
+                      'Apply as student',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 99, 183, 252),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
-                  )
+                  ),
                 ],
               )
             ],

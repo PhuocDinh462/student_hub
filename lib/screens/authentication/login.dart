@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/routes/app_routes.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
 
@@ -34,6 +35,7 @@ class Login extends StatelessWidget {
                 controller: emailController,
                 hintText: 'Email',
                 obscureText: false,
+                icon: Icons.email,
               ),
               const Gap(20),
               // password textfield
@@ -41,25 +43,32 @@ class Login extends StatelessWidget {
                 controller: passwordController,
                 hintText: 'Password',
                 obscureText: true,
+                icon: Icons.lock,
               ),
-              const Gap(20),
+              const Gap(10),
               //forgot password
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      'Forgot Password?',
-                      style: TextStyle(
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, AppRoutes.forgotPassword);
+                      },
+                      child: const Text(
+                        'Forgot Password?',
+                        style: TextStyle(
                           color: Color.fromARGB(255, 99, 183, 252),
                           fontWeight: FontWeight.bold,
-                          fontSize: 18),
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
-              const Gap(10),
+              const Gap(25),
               //sign in button
               Button(
                 onTap: signIn,
@@ -78,13 +87,19 @@ class Login extends StatelessWidget {
                     style: TextStyle(color: Colors.grey[700], fontSize: 16),
                   ),
                   const SizedBox(width: 4),
-                  const Text(
-                    'Sign up here',
-                    style: TextStyle(
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.signUpOption);
+                    },
+                    child: const Text(
+                      'Sign up here',
+                      style: TextStyle(
                         color: Color.fromARGB(255, 99, 183, 252),
                         fontWeight: FontWeight.bold,
-                        fontSize: 16),
-                  )
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
                 ],
               )
             ],
