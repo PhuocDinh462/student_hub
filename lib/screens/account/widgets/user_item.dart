@@ -25,7 +25,7 @@ class UserItem extends StatelessWidget {
                   ? Icons.school_outlined
                   : Icons.business,
               size: 32),
-          const Gap(16),
+          const Gap(12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

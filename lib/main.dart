@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/colors.dart';
+import 'package:student_hub/layout/header_layout.dart';
 import 'package:student_hub/providers/theme_provider.dart';
 import 'package:student_hub/routes/app_routes.dart';
 
@@ -29,14 +30,14 @@ class MyApp extends StatelessWidget {
       ),
     );
 
-    return SafeArea(
-      child: MaterialApp(
-        initialRoute: '/account',
+    return HeaderLayout(
+      body: MaterialApp(
         routes: AppRoutes.routes,
+        initialRoute: '/account',
+        debugShowCheckedModeBanner: false,
         theme: themeProvider.getThemeMode
             ? AppTheme.darkTheme
             : AppTheme.lightTheme,
-        debugShowCheckedModeBanner: false,
       ),
     );
   }
