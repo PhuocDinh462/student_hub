@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:student_hub/layout/navigation.dart';
 import 'package:student_hub/screens/Authentication/authentication.dart';
 import 'package:student_hub/screens/authentication/reset_password.dart';
-import 'package:student_hub/screens/authentication/change_password.dart';
+import 'package:student_hub/screens/account/change_password.dart';
 import 'package:student_hub/screens/authentication/create_account_company.dart';
 import 'package:student_hub/screens/authentication/create_account_student.dart';
 import 'package:student_hub/screens/authentication/forgot_password.dart';

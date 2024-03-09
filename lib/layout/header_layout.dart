@@ -42,7 +42,6 @@ class HeaderLayout extends StatelessWidget {
               ),
             ],
           ),
-          // backgroundColor: themeProvider.getThemeMode ? text_800 : primary_300,
         ),
         body: body,
       ),
