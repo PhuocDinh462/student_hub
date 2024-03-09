@@ -38,8 +38,9 @@ class Settings extends StatelessWidget {
                 Switch(
                   value: themeProvider.getThemeMode,
                   onChanged: (value) => themeProvider.setThemeMode(value),
-                  activeColor: primary_300,
-                  inactiveThumbColor: text_500,
+                  activeColor: primary_200,
+                  inactiveTrackColor: text_200,
+                  inactiveThumbColor: text_400,
                 ),
               ],
             ),

@@ -25,8 +25,9 @@ class AppTheme {
     colorScheme: const ColorScheme.light(
       primary: primary_300,
       onPrimary: text_50,
-      surface: text_50,
+      surface: primary_300,
       onSurface: text_800,
+      outline: Colors.transparent,
     ),
     textTheme: const TextTheme(
       displayLarge:
@@ -71,7 +72,7 @@ class AppTheme {
     colorScheme: const ColorScheme.dark(
       primary: text_50,
       onPrimary: text_50,
-      surface: text_900,
+      surface: text_800,
       onSurface: text_50,
     ),
     textTheme: const TextTheme(
