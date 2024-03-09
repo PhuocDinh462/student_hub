@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:student_hub/constants/colors.dart';
+import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/widgets/widgets.dart';
 

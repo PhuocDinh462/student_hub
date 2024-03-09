@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/constants/colors.dart';
+import 'package:student_hub/constants/theme.dart';
 
 final ButtonStyle buttonPrimary = ElevatedButton.styleFrom(
     padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),

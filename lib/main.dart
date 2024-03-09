@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:student_hub/constants/colors.dart';
+import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/layout/header_layout.dart';
 import 'package:student_hub/providers/theme_provider.dart';
 import 'package:student_hub/routes/app_routes.dart';

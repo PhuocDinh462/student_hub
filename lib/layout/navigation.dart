@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/screens/dashboard/dashboard.dart';
 import 'package:student_hub/screens/projects/projects.dart';
-import 'package:student_hub/constants/colors.dart';
+import 'package:student_hub/constants/theme.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});

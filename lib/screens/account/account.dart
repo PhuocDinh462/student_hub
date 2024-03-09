@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/models/user.dart';
 import 'package:student_hub/screens/account/widgets/user_item.dart';
-import 'package:flutter_gap/flutter_gap.dart';
-import 'package:student_hub/constants/colors.dart';
+import 'package:gap/gap.dart';
+import 'package:student_hub/constants/theme.dart';
 
 class Account extends StatelessWidget {
   const Account({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:student_hub/models/user.dart';
-import 'package:flutter_gap/flutter_gap.dart';
 
 class UserItem extends StatelessWidget {
   final String username;

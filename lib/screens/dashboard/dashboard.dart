@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/constants/colors.dart';
+import 'package:student_hub/constants/theme.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});

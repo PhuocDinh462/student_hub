@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/providers/theme_provider.dart';
-import 'package:flutter_gap/flutter_gap.dart';
-import 'package:student_hub/constants/colors.dart';
+import 'package:gap/gap.dart';
+import 'package:student_hub/constants/theme.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
