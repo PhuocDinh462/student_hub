@@ -56,15 +56,21 @@ class Account extends StatelessWidget {
                 height: 40, thickness: .5, endIndent: 0, color: text_400),
 
             // Others setting
-            Row(
-              children: [
-                const Icon(Icons.account_box, size: 32),
-                const Gap(10),
-                Text(
-                  'Profiles',
-                  style: Theme.of(context).textTheme.titleLarge,
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                color: Colors.transparent,
+                child: Row(
+                  children: [
+                    const Icon(Icons.account_box, size: 32),
+                    const Gap(10),
+                    Text(
+                      'Profiles',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
             const Divider(
               height: 50,
@@ -75,15 +81,18 @@ class Account extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () => Navigator.pushNamed(context, '/account/settings'),
-              child: Row(
-                children: [
-                  const Icon(Icons.settings, size: 32),
-                  const Gap(10),
-                  Text(
-                    'Settings',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ],
+              child: Container(
+                color: Colors.transparent,
+                child: Row(
+                  children: [
+                    const Icon(Icons.settings, size: 32),
+                    const Gap(10),
+                    Text(
+                      'Settings',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ],
+                ),
               ),
             ),
             const Divider(
@@ -93,15 +102,21 @@ class Account extends StatelessWidget {
               endIndent: 20,
               color: text_400,
             ),
-            Row(
-              children: [
-                const Icon(Icons.lock, size: 32),
-                const Gap(10),
-                Text(
-                  'Change password',
-                  style: Theme.of(context).textTheme.titleLarge,
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                color: Colors.transparent,
+                child: Row(
+                  children: [
+                    const Icon(Icons.lock, size: 32),
+                    const Gap(10),
+                    Text(
+                      'Change password',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
             const Divider(
               height: 50,
@@ -110,17 +125,24 @@ class Account extends StatelessWidget {
               endIndent: 20,
               color: text_400,
             ),
-            Row(
-              children: [
-                const Icon(Icons.logout_rounded, size: 32, color: Colors.red),
-                const Gap(10),
-                Text(
-                  'Logout',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: Colors.red,
-                      ),
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                color: Colors.transparent,
+                child: Row(
+                  children: [
+                    const Icon(Icons.logout_rounded,
+                        size: 32, color: Colors.red),
+                    const Gap(10),
+                    Text(
+                      'Logout',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: Colors.red,
+                          ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ],
         ),
