@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-// Primary color
+// Primary colors
 const Color primary_300 = Color(0xff1597FF);
 const Color primary_200 = Color(0xff87C4FF);
 const Color primary_100 = Color(0xffE0F4FF);
 const Color primary_50 = Color(0xffFFEED9);
 
-// Text color
+// Text colors
 const Color text_900 = Color(0xff111111);
 const Color text_800 = Color(0xff262626);
 const Color text_700 = Color(0xff434343);
@@ -18,14 +18,98 @@ const Color text_200 = Color(0xffd9d9d9);
 const Color text_100 = Color(0xffe9e9e9);
 const Color text_50 = Color(0xfff5f5f5);
 
+// Themes
 class AppTheme {
   static final lightTheme = ThemeData(
-    brightness: Brightness.light,
-    primaryColor: primary_300,
+    useMaterial3: true,
+    colorScheme: const ColorScheme.light(
+      primary: primary_300,
+      onPrimary: text_50,
+      surface: primary_300,
+      onSurface: text_600,
+      outline: Colors.transparent,
+    ),
+    textTheme: const TextTheme(
+      displayLarge:
+          TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: text_700),
+      displayMedium:
+          TextStyle(fontSize: 24, fontWeight: FontWeight.w400, color: text_700),
+      displaySmall:
+          TextStyle(fontSize: 24, fontWeight: FontWeight.w300, color: text_700),
+      headlineLarge:
+          TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: text_700),
+      headlineMedium:
+          TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: text_700),
+      headlineSmall:
+          TextStyle(fontSize: 20, fontWeight: FontWeight.w300, color: text_700),
+      titleLarge:
+          TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: text_700),
+      titleMedium:
+          TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: text_700),
+      titleSmall:
+          TextStyle(fontSize: 18, fontWeight: FontWeight.w300, color: text_700),
+      bodyLarge:
+          TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: text_700),
+      bodyMedium:
+          TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: text_700),
+      bodySmall:
+          TextStyle(fontSize: 16, fontWeight: FontWeight.w300, color: text_700),
+      labelLarge:
+          TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: text_700),
+      labelMedium:
+          TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: text_700),
+      labelSmall:
+          TextStyle(fontSize: 14, fontWeight: FontWeight.w300, color: text_700),
+    ),
+    iconTheme: const IconThemeData(
+      color: text_600,
+      size: 24.0,
+    ),
   );
 
   static final darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    primaryColor: Colors.deepPurple,
+    useMaterial3: true,
+    colorScheme: const ColorScheme.dark(
+      primary: text_50,
+      onPrimary: text_50,
+      surface: text_800,
+      onSurface: text_50,
+    ),
+    textTheme: const TextTheme(
+      displayLarge:
+          TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: text_50),
+      displayMedium:
+          TextStyle(fontSize: 24, fontWeight: FontWeight.w400, color: text_50),
+      displaySmall:
+          TextStyle(fontSize: 24, fontWeight: FontWeight.w300, color: text_50),
+      headlineLarge:
+          TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: text_50),
+      headlineMedium:
+          TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: text_50),
+      headlineSmall:
+          TextStyle(fontSize: 20, fontWeight: FontWeight.w300, color: text_50),
+      titleLarge:
+          TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: text_50),
+      titleMedium:
+          TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: text_50),
+      titleSmall:
+          TextStyle(fontSize: 18, fontWeight: FontWeight.w300, color: text_50),
+      bodyLarge:
+          TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: text_50),
+      bodyMedium:
+          TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: text_50),
+      bodySmall:
+          TextStyle(fontSize: 16, fontWeight: FontWeight.w300, color: text_50),
+      labelLarge:
+          TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: text_50),
+      labelMedium:
+          TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: text_50),
+      labelSmall:
+          TextStyle(fontSize: 14, fontWeight: FontWeight.w300, color: text_50),
+    ),
+    iconTheme: const IconThemeData(
+      color: text_100,
+      size: 24.0,
+    ),
   );
 }

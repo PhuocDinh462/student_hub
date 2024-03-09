@@ -12,6 +12,9 @@ import 'package:student_hub/screens/authentication/verify_code.dart';
 import 'package:student_hub/screens/home/Home.dart';
 import 'package:student_hub/screens/profile/profile.dart';
 import 'package:student_hub/screens/profile/profile_input.dart';
+import 'package:student_hub/screens/welcome/welcome.dart';
+import 'package:student_hub/screens/account/account.dart';
+import 'package:student_hub/screens/account/settings.dart';
 
 class AppRoutes {
   static const String home = '/';
@@ -27,6 +30,9 @@ class AppRoutes {
   static const String profileNoInfo = '/profile/no-info';
   static const String changePassword = '/profile/change_password';
   static const String nav = '/nav';
+  static const String welcome = '/welcome';
+  static const String account = '/account';
+  static const String settings = '/account/settings';
 
   static Map<String, WidgetBuilder> routes = {
     home: (context) => const Home(),
@@ -42,5 +48,8 @@ class AppRoutes {
     profile: (context) => const Profile(),
     profileNoInfo: (context) => const ProfileInput(),
     nav: (context) => const Navigation(),
+    welcome: (context) => const Welcome(),
+    account: (context) => const Account(),
+    settings: (context) => const Settings(),
   };
 }
