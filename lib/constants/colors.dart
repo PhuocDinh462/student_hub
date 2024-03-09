@@ -26,7 +26,7 @@ class AppTheme {
       primary: primary_300,
       onPrimary: text_50,
       surface: primary_300,
-      onSurface: text_800,
+      onSurface: text_600,
       outline: Colors.transparent,
     ),
     textTheme: const TextTheme(
