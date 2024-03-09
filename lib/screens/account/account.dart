@@ -31,13 +31,11 @@ class Account extends StatelessWidget {
                     'Hai Pham',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  subtitle: const Text(
+                  subtitle: Text(
                     'Student',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      fontStyle: FontStyle.italic,
-                    ),
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                          fontStyle: FontStyle.italic,
+                        ),
                   ),
                   children: const <Widget>[
                     Gap(5),

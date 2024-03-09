@@ -31,16 +31,13 @@ class UserItem extends StatelessWidget {
             children: [
               Text(
                 username,
-                style:
-                    const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               Text(
                 userType == UserType.student ? 'Student' : 'Company',
-                style: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  fontStyle: FontStyle.italic,
-                ),
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      fontStyle: FontStyle.italic,
+                    ),
               ),
             ],
           ),
