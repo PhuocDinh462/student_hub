@@ -73,15 +73,18 @@ class Account extends StatelessWidget {
               endIndent: 20,
               color: text_400,
             ),
-            Row(
-              children: [
-                const Icon(Icons.settings, size: 32),
-                const Gap(10),
-                Text(
-                  'Settings',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ],
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(context, '/account/settings'),
+              child: Row(
+                children: [
+                  const Icon(Icons.settings, size: 32),
+                  const Gap(10),
+                  Text(
+                    'Settings',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ],
+              ),
             ),
             const Divider(
               height: 50,

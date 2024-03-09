@@ -21,6 +21,7 @@ const Color text_50 = Color(0xfff5f5f5);
 // Themes
 class AppTheme {
   static final lightTheme = ThemeData(
+    useMaterial3: true,
     colorScheme: const ColorScheme.light(
       primary: primary_300,
       onPrimary: text_50,
@@ -66,6 +67,7 @@ class AppTheme {
   );
 
   static final darkTheme = ThemeData(
+    useMaterial3: true,
     colorScheme: const ColorScheme.dark(
       primary: text_50,
       onPrimary: text_50,
