@@ -38,9 +38,9 @@ class Settings extends StatelessWidget {
                       children: [
                         Icon(
                             themeProvider.getTheme == ThemeMode.light
-                                ? Icons.light_mode
+                                ? Icons.light_mode_outlined
                                 : themeProvider.getTheme == ThemeMode.dark
-                                    ? Icons.dark_mode
+                                    ? Icons.dark_mode_outlined
                                     : Icons.sync,
                             size: 32),
                         const Gap(10),

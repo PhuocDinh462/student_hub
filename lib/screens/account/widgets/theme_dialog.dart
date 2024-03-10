@@ -15,7 +15,7 @@ class ThemeDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           RadioListTile<ThemeMode>(
-            title: const Text('Light'),
+            title: const Text('Light Mode'),
             value: ThemeMode.light,
             groupValue: themeProvider.getTheme,
             onChanged: (value) {
@@ -24,7 +24,7 @@ class ThemeDialog extends StatelessWidget {
             },
           ),
           RadioListTile<ThemeMode>(
-            title: const Text('Dark'),
+            title: const Text('Dark Mode'),
             value: ThemeMode.dark,
             groupValue: themeProvider.getTheme,
             onChanged: (value) {
@@ -33,7 +33,7 @@ class ThemeDialog extends StatelessWidget {
             },
           ),
           RadioListTile<ThemeMode>(
-            title: const Text('System'),
+            title: const Text('System Settings'),
             value: ThemeMode.system,
             groupValue: themeProvider.getTheme,
             onChanged: (value) {
