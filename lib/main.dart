@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     return HeaderLayout(
       body: MaterialApp(
         routes: AppRoutes.routes,
-        initialRoute: '/projects',
+        initialRoute: '/projects/saved',
         debugShowCheckedModeBanner: false,
         theme: themeProvider.getThemeMode
             ? AppTheme.darkTheme
