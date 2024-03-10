@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/routes/app_routes.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
@@ -22,13 +23,8 @@ class Login extends StatelessWidget {
             children: [
               const Gap(50),
               //welcome back
-              const Text(
-                'Welcome back to StudentHub!',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
+              Text('Welcome back to StudentHub!',
+                  style: Theme.of(context).textTheme.titleLarge),
               const Gap(30),
               //user name textfield
               InputText(
@@ -59,7 +55,7 @@ class Login extends StatelessWidget {
                       child: const Text(
                         'Forgot Password?',
                         style: TextStyle(
-                          color: Color.fromARGB(255, 99, 183, 252),
+                          color: primary_300,
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
@@ -72,8 +68,8 @@ class Login extends StatelessWidget {
               //sign in button
               Button(
                 onTap: signIn,
-                colorButton: Colors.blue,
-                colorText: Colors.white,
+                colorButton: primary_300,
+                colorText: text_50,
                 text: 'Sign In',
               ),
 
@@ -84,7 +80,7 @@ class Login extends StatelessWidget {
                 children: [
                   Text(
                     'Don\'t have an Account?',
-                    style: TextStyle(color: Colors.grey[700], fontSize: 16),
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const SizedBox(width: 4),
                   GestureDetector(
@@ -94,7 +90,7 @@ class Login extends StatelessWidget {
                     child: const Text(
                       'Sign up here',
                       style: TextStyle(
-                        color: Color.fromARGB(255, 99, 183, 252),
+                        color: primary_200,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
