@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/theme_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HeaderLayout extends StatelessWidget {
   final Widget body;
@@ -19,6 +20,9 @@ class HeaderLayout extends StatelessWidget {
     );
 
     return MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: Locale(themeProvider.getLanguage),
       theme:
           themeProvider.getThemeMode ? AppTheme.darkTheme : AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,

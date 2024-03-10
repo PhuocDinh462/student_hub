@@ -3,6 +3,7 @@ import 'package:student_hub/models/user.dart';
 import 'package:student_hub/screens/account/widgets/user_item.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Account extends StatelessWidget {
   const Account({super.key});
@@ -73,8 +74,7 @@ class Account extends StatelessWidget {
             const Divider(
               height: 50,
               thickness: .5,
-              indent: 20,
-              endIndent: 20,
+              indent: 40,
               color: text_400,
             ),
             GestureDetector(
@@ -96,8 +96,7 @@ class Account extends StatelessWidget {
             const Divider(
               height: 50,
               thickness: .5,
-              indent: 20,
-              endIndent: 20,
+              indent: 40,
               color: text_400,
             ),
             GestureDetector(
@@ -119,8 +118,7 @@ class Account extends StatelessWidget {
             const Divider(
               height: 50,
               thickness: .5,
-              indent: 20,
-              endIndent: 20,
+              indent: 40,
               color: text_400,
             ),
             GestureDetector(
@@ -133,7 +131,7 @@ class Account extends StatelessWidget {
                         size: 32, color: Colors.red),
                     const Gap(10),
                     Text(
-                      'Logout',
+                      AppLocalizations.of(context)!.helloWorld,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                             color: Colors.red,
                           ),

@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> saveMode(bool mode) async {
+Future<void> saveData({bool? mode, String? language}) async {
   final prefs = await SharedPreferences.getInstance();
-  await prefs.setBool('theme_mode', mode);
+  if (mode != null) await prefs.setBool('theme_mode', mode);
+  if (language != null) await prefs.setString('language', language);
 }
 
-Future<bool> loadMode() async {
+Future<Object> loadData() async {
   final prefs = await SharedPreferences.getInstance();
-  return prefs.getBool('theme_mode') ?? false;
+  return {
+    'mode': prefs.getBool('theme_mode') ?? false,
+    'language': prefs.getString('language') ?? 'en'
+  };
 }
 
 class ThemeProvider with ChangeNotifier {
-  bool _isDarkMode = false;
+  late bool _isDarkMode;
+  late String _language;
 
   bool get getThemeMode => _isDarkMode;
+  String get getLanguage => _language;
 
   ThemeProvider() {
-    loadMode().then((mode) async {
-      _isDarkMode = mode;
+    loadData().then((data) async {
+      _isDarkMode = (data as Map<String, dynamic>)['mode'];
+      _language = (data)['language'];
       notifyListeners();
     });
   }
@@ -26,6 +33,12 @@ class ThemeProvider with ChangeNotifier {
   Future<void> setThemeMode(bool mode) async {
     _isDarkMode = mode;
     notifyListeners();
-    await saveMode(mode);
+    await saveData(mode: mode);
+  }
+
+  Future<void> setLanguage(String language) async {
+    _language = language;
+    notifyListeners();
+    await saveData(language: language);
   }
 }

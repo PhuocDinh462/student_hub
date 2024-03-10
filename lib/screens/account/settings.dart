@@ -16,6 +16,7 @@ class Settings extends StatelessWidget {
         width: double.infinity,
         margin: const EdgeInsets.all(20),
         child: Column(
+          // Dark mode
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
@@ -44,6 +45,19 @@ class Settings extends StatelessWidget {
                 ),
               ],
             ),
+
+            // Language
+            DropdownButton<String>(
+              value: themeProvider.getLanguage,
+              onChanged: (value) => themeProvider.setLanguage(value!),
+              items: <String>['en', 'vi']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            )
           ],
         ),
       ),
