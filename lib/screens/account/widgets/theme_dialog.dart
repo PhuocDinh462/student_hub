@@ -10,12 +10,16 @@ class ThemeDialog extends StatelessWidget {
     final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
     return AlertDialog(
-      title: const Text('Select Theme'),
+      title: Text('Select Theme',
+          style: Theme.of(context).textTheme.displayMedium),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           RadioListTile<ThemeMode>(
-            title: const Text('Light Mode'),
+            title: Text(
+              'Light Mode',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
             value: ThemeMode.light,
             groupValue: themeProvider.getTheme,
             onChanged: (value) {
@@ -24,7 +28,10 @@ class ThemeDialog extends StatelessWidget {
             },
           ),
           RadioListTile<ThemeMode>(
-            title: const Text('Dark Mode'),
+            title: Text(
+              'Dark Mode',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
             value: ThemeMode.dark,
             groupValue: themeProvider.getTheme,
             onChanged: (value) {
@@ -33,7 +40,10 @@ class ThemeDialog extends StatelessWidget {
             },
           ),
           RadioListTile<ThemeMode>(
-            title: const Text('System Settings'),
+            title: Text(
+              'System Settings',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
             value: ThemeMode.system,
             groupValue: themeProvider.getTheme,
             onChanged: (value) {

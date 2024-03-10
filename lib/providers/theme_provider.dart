@@ -18,11 +18,11 @@ Future<Object> loadData() async {
 
 ThemeMode themeModeFromString(String theme) {
   switch (theme) {
-    case 'system':
+    case 'ThemeMode.system':
       return ThemeMode.system;
-    case 'light':
+    case 'ThemeMode.light':
       return ThemeMode.light;
-    case 'dark':
+    case 'ThemeMode.dark':
       return ThemeMode.dark;
     default:
       return ThemeMode.system;

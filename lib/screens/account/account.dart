@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/models/user.dart';
+import 'package:student_hub/providers/theme_provider.dart';
 import 'package:student_hub/screens/account/widgets/user_item.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Account extends StatelessWidget {
   const Account({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -127,14 +130,18 @@ class Account extends StatelessWidget {
                 color: Colors.transparent,
                 child: Row(
                   children: [
-                    const Icon(Icons.logout_rounded,
-                        size: 32, color: Colors.red),
+                    Icon(Icons.logout_rounded,
+                        size: 32,
+                        color: themeProvider.getThemeMode
+                            ? const Color.fromARGB(255, 255, 116, 106)
+                            : Colors.red),
                     const Gap(10),
                     Text(
                       'Logout',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: Colors.red,
-                          ),
+                          color: themeProvider.getThemeMode
+                              ? const Color.fromARGB(255, 255, 116, 106)
+                              : Colors.red),
                     ),
                   ],
                 ),
