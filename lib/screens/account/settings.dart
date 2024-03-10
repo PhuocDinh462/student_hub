@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:language_code/language_code.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/providers/theme_provider.dart';
 import 'package:gap/gap.dart';
@@ -75,7 +76,9 @@ class Settings extends StatelessWidget {
                             ),
                             const Gap(5),
                             Text(
-                              AppLocalizations.of(context)!.localeName,
+                              LanguageCodes.fromCode(
+                                      AppLocalizations.of(context)!.localeName)
+                                  .nativeName,
                               style: Theme.of(context)
                                   .textTheme
                                   .labelMedium
