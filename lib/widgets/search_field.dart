@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/constants/theme.dart';
 
 class SearchBox extends StatefulWidget {
   final TextEditingController controller;
@@ -17,9 +18,9 @@ class _SearchBoxState extends State<SearchBox> {
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: text_50,
               borderRadius: BorderRadius.circular(20),
             ),
             child: TextField(
@@ -28,7 +29,7 @@ class _SearchBoxState extends State<SearchBox> {
                 contentPadding: EdgeInsets.all(0),
                 prefixIcon: Icon(
                   Icons.search,
-                  color: Color(0xFF3A3A3A),
+                  color: text_700,
                   size: 20,
                 ),
                 prefixIconConstraints: BoxConstraints(
@@ -38,7 +39,7 @@ class _SearchBoxState extends State<SearchBox> {
                 border: InputBorder.none,
                 hintText: 'Search',
                 hintStyle: TextStyle(
-                  color: Color(0xFF717171),
+                  color: text_500,
                 ),
               ),
               onChanged: (value) {

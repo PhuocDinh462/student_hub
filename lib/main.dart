@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     return HeaderLayout(
       body: MaterialApp(
         routes: AppRoutes.routes,
-        initialRoute: '/auth/reset_password',
+        initialRoute: '/projects',
         debugShowCheckedModeBanner: false,
         theme: themeProvider.getThemeMode
             ? AppTheme.darkTheme
