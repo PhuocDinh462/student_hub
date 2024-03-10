@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 class Button extends StatefulWidget {
   const Button({
     super.key,
-    required this.onTap,
+    this.onTap,
     required this.text,
     required this.colorButton,
     required this.colorText,
+    this.width,
   });
 
   final Function()? onTap;
   final String text;
   final Color colorButton;
   final Color colorText;
+  final double? width;
 
   @override
   State<Button> createState() => _ButtonState();
@@ -43,8 +45,9 @@ class _ButtonState extends State<Button> {
       child: Opacity(
         opacity: _opacity,
         child: Container(
+          width: widget.width,
           padding: const EdgeInsets.all(15),
-          margin: const EdgeInsets.symmetric(horizontal: 25),
+          margin: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
             color: widget.colorButton,
             borderRadius: BorderRadius.circular(16),

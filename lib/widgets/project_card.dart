@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
+import 'package:student_hub/widgets/project_detail.dart';
 
 class ProjectCard extends StatefulWidget {
   final Project project;
@@ -130,8 +131,17 @@ class _ProjectCardState extends State<ProjectCard> {
                 ),
               ],
             ),
-            onTap: () {
-              // Xử lý khi người dùng nhấn vào dự án
+            onTap: () async {
+              await showModalBottomSheet(
+                  context: context,
+                  backgroundColor: Colors.white,
+                  isScrollControlled: true,
+                  builder: (ctx) {
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: ProjectDetails(project: widget.project),
+                    );
+                  });
             },
           ),
           Positioned(

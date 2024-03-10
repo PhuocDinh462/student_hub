@@ -11,7 +11,7 @@ final List<Project> data = [
     completionTime: '1-3 months',
     requiredStudents: 5,
     description:
-        'Description of Project 1. Description of Project 1. Description of Project 1.',
+        'Description of Project 1. Description of Project 1. Description of Project 2. ',
     proposals: ['a', 'b'],
     favorite: true,
   ),
