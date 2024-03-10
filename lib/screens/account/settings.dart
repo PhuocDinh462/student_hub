@@ -5,6 +5,7 @@ import 'package:student_hub/providers/theme_provider.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:student_hub/screens/account/widgets/theme_dialog.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -19,33 +20,53 @@ class Settings extends StatelessWidget {
         margin: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          // Dark mode
+          // Theme mode
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+            GestureDetector(
+              onTap: () => showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const ThemeDialog();
+                },
+              ),
+              child: Container(
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.dark_mode, size: 32),
+                        Icon(
+                            themeProvider.getTheme == ThemeMode.light
+                                ? Icons.light_mode
+                                : themeProvider.getTheme == ThemeMode.dark
+                                    ? Icons.dark_mode
+                                    : Icons.sync,
+                            size: 32),
                         const Gap(10),
-                        Text(
-                          'Dark mode',
-                          style: Theme.of(context).textTheme.titleLarge,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Theme',
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            const Gap(5),
+                            Text(
+                              themeProvider.getThemeName,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.copyWith(fontStyle: FontStyle.italic),
+                            ),
+                          ],
                         ),
                       ],
                     ),
+                    const Icon(Icons.arrow_forward_ios, size: 20),
                   ],
                 ),
-                Switch(
-                  value: themeProvider.getThemeMode,
-                  onChanged: (value) => themeProvider.setThemeMode(value),
-                  activeColor: primary_200,
-                  inactiveTrackColor: text_200,
-                  inactiveThumbColor: text_400,
-                ),
-              ],
+              ),
             ),
             const Divider(
               height: 40,
