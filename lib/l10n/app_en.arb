@@ -1,6 +1,5 @@
 {
-  "helloWorld": "Hello World!",
-  "@helloWorld": {
-    "description": "The conventional newborn programmer greeting"
-  }
+  "@@locale": "en",
+  "english": "English",
+  "vietnamese": "Vietnamese"
 }

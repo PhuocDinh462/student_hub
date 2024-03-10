@@ -131,7 +131,7 @@ class Account extends StatelessWidget {
                         size: 32, color: Colors.red),
                     const Gap(10),
                     Text(
-                      AppLocalizations.of(context)!.helloWorld,
+                      'Logout',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                             color: Colors.red,
                           ),
