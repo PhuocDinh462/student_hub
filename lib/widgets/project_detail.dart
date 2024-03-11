@@ -159,7 +159,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   text: 'Apply Now',
                   colorButton: primary_300,
                   colorText: text_50,
-                  width: MediaQuery.of(context).size.width * 0.35,
+                  width: MediaQuery.of(context).size.width * 0.4,
                 ),
                 Button(
                   onTap: () {
@@ -168,7 +168,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   text: 'Saved',
                   colorButton: primary_300,
                   colorText: text_50,
-                  width: MediaQuery.of(context).size.width * 0.35,
+                  width: MediaQuery.of(context).size.width * 0.4,
                 ),
               ],
             ),

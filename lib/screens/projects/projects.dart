@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
+import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/widgets/filter_projects.dart';
 import 'package:student_hub/widgets/project_card.dart';
 import 'package:student_hub/widgets/search_field.dart';
 
@@ -80,7 +83,7 @@ class Projects extends StatefulWidget {
 class _ProjectsState extends State<Projects> {
   final List<Project> projects = data;
   final searchController = TextEditingController();
-
+  String _selectedMenu = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,12 +97,79 @@ class _ProjectsState extends State<Projects> {
                   Expanded(
                     child: SearchBox(controller: searchController),
                   ),
-                  IconButton(
+                  PopupMenuButton<String>(
+                    icon: const Icon(Icons.more_vert),
                     iconSize: 32,
-                    icon: const Icon(Icons.filter_alt),
-                    onPressed: () {
-                      // Handle filter button tap
+                    offset: const Offset(-30, 45),
+                    color: primary_100,
+                    onSelected: (String value) {
+                      setState(() {
+                        _selectedMenu = value;
+                      });
                     },
+                    itemBuilder: (BuildContext context) =>
+                        <PopupMenuEntry<String>>[
+                      PopupMenuItem<String>(
+                        value: 'Saved',
+                        height: 60,
+                        onTap: () {
+                          Navigator.pushNamed(context, AppRoutes.projectsSaved);
+                        },
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.favorite,
+                              color: primary_300,
+                            ),
+                            const Gap(16),
+                            Text(
+                              'Saved projects',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.copyWith(
+                                      color: primary_300,
+                                      fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem<String>(
+                        value: 'Filter',
+                        height: 60,
+                        onTap: () async {
+                          await showModalBottomSheet(
+                              context: context,
+                              backgroundColor: Colors.white,
+                              isScrollControlled: true,
+                              builder: (ctx) {
+                                return SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.8,
+                                  child: const FilterProject(),
+                                );
+                              });
+                        },
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.filter_alt,
+                              color: primary_300,
+                            ),
+                            const Gap(16),
+                            Text(
+                              'Filter projects',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.copyWith(
+                                      color: primary_300,
+                                      fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

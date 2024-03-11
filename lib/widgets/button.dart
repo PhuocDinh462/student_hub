@@ -47,7 +47,7 @@ class _ButtonState extends State<Button> {
         child: Container(
           width: widget.width,
           padding: const EdgeInsets.all(15),
-          margin: const EdgeInsets.symmetric(horizontal: 16),
+          margin: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
             color: widget.colorButton,
             borderRadius: BorderRadius.circular(16),
