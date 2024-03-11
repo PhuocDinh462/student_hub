@@ -169,6 +169,32 @@ class _ProjectsState extends State<Projects> {
                           ],
                         ),
                       ),
+                      PopupMenuItem<String>(
+                        value: 'Cancel', // Giá trị cho mục "Cancel"
+                        height: 60,
+                        onTap: () {
+                          // Xử lý khi chọn "Cancel"
+                        },
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.cancel,
+                              color: primary_300,
+                            ),
+                            const Gap(16),
+                            Text(
+                              'Cancel',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.copyWith(
+                                    color: primary_300,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ],
