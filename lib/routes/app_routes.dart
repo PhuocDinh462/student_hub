@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/layout/navigation.dart';
 import 'package:student_hub/screens/Authentication/authentication.dart';
 import 'package:student_hub/screens/account/languages.dart';
@@ -37,7 +38,7 @@ class AppRoutes {
   static const String languages = '/account/settings/languages';
 
   static Map<String, WidgetBuilder> routes = {
-    home: (context) => const Home(),
+    home: (context) => const AccountHeader(title: 'Home', body: Home()),
     auth: (context) => const Authentication(),
     login: (context) => Login(),
     forgotPassword: (context) => const ForgotPassword(),
@@ -51,8 +52,11 @@ class AppRoutes {
     profileNoInfo: (context) => const ProfileInput(),
     nav: (context) => const Navigation(),
     welcome: (context) => const Welcome(),
-    account: (context) => const Account(),
-    settings: (context) => const Settings(),
-    languages: (context) => const Languages(),
+    account: (context) =>
+        const AccountHeader(title: 'Account', body: Account()),
+    settings: (context) =>
+        const AccountHeader(title: 'Settings', body: Settings()),
+    languages: (context) =>
+        const AccountHeader(title: 'Languages', body: Languages()),
   };
 }
