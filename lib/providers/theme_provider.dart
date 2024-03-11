@@ -37,11 +37,11 @@ class ThemeProvider with ChangeNotifier {
 
   String get getThemeName {
     if (_theme == ThemeMode.light) {
-      return 'Light';
+      return 'light';
     } else if (_theme == ThemeMode.dark) {
-      return 'Dark';
+      return 'dark';
     } else {
-      return 'System';
+      return 'system';
     }
   }
 

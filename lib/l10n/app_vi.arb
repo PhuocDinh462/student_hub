@@ -1,5 +1,39 @@
 {
   "@@locale": "vi",
-  "english": "Tiếng Anh",
-  "vietnamese": "Tiếng Việt"
+  "language": "{language, select, english{Tiếng Anh} vietnamese{Tiếng Việt} other{Ngôn ngữ}}",
+  "@language": {
+    "description": "language",
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "theme": "{theme, select, light{Sáng} dark{Tối} system{Hệ thống} selectTheme{Chọn giao diện} other{Giao diện}}",
+  "@theme": {
+    "description": "theme",
+    "placeholders": {
+      "theme": {
+        "type": "String"
+      }
+    }
+  },
+  "account": "{account, select, profiles{Hồ sơ} settings{Cài đặt} changePassword{Đổi mật khẩu} logout{Đăng xuất} other{Tài khoản}}",
+  "@account": {
+    "description": "account",
+    "placeholders": {
+      "account": {
+        "type": "String"
+      }
+    }
+  },
+  "user": "{user, select, student{Sinh viên} company{Công ty} other{Người dùng}}",
+  "@user": {
+    "description": "user",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  }
 }

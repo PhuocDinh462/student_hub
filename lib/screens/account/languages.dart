@@ -18,13 +18,14 @@ class Languages extends StatelessWidget {
             LanguageItem(
               countryCode: 'us',
               languageCode: 'en',
-              languageName: AppLocalizations.of(context)!.english,
+              languageName: AppLocalizations.of(context)!.language('english'),
             ),
             const Gap(20),
             LanguageItem(
               countryCode: 'vn',
               languageCode: 'vi',
-              languageName: AppLocalizations.of(context)!.vietnamese,
+              languageName:
+                  AppLocalizations.of(context)!.language('vietnamese'),
             ),
           ],
         ),

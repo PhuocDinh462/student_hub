@@ -48,12 +48,13 @@ class Settings extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Theme',
+                              AppLocalizations.of(context)!.theme(''),
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                             const Gap(5),
                             Text(
-                              themeProvider.getThemeName,
+                              AppLocalizations.of(context)!
+                                  .theme(themeProvider.getThemeName),
                               style: Theme.of(context)
                                   .textTheme
                                   .labelMedium
@@ -92,7 +93,7 @@ class Settings extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Language',
+                              AppLocalizations.of(context)!.language(''),
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                             const Gap(5),

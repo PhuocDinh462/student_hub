@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/providers/theme_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ThemeDialog extends StatelessWidget {
   const ThemeDialog({super.key});
@@ -10,14 +11,14 @@ class ThemeDialog extends StatelessWidget {
     final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
     return AlertDialog(
-      title: Text('Select Theme',
+      title: Text(AppLocalizations.of(context)!.theme('selectTheme'),
           style: Theme.of(context).textTheme.displayMedium),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           RadioListTile<ThemeMode>(
             title: Text(
-              'Light Mode',
+              AppLocalizations.of(context)!.theme('light'),
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             value: ThemeMode.light,
@@ -29,7 +30,7 @@ class ThemeDialog extends StatelessWidget {
           ),
           RadioListTile<ThemeMode>(
             title: Text(
-              'Dark Mode',
+              AppLocalizations.of(context)!.theme('dark'),
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             value: ThemeMode.dark,
@@ -41,7 +42,7 @@ class ThemeDialog extends StatelessWidget {
           ),
           RadioListTile<ThemeMode>(
             title: Text(
-              'System Settings',
+              AppLocalizations.of(context)!.theme('system'),
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             value: ThemeMode.system,

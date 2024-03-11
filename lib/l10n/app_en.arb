@@ -1,5 +1,39 @@
 {
   "@@locale": "en",
-  "english": "English",
-  "vietnamese": "Vietnamese"
+  "language": "{language, select, english{English} vietnamese{Vietnamese} other{Language}}",
+  "@language": {
+    "description": "language",
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "theme": "{theme, select, light{Light} dark{Dark} system{System} selectTheme{Select theme} other{Theme}}",
+  "@theme": {
+    "description": "theme",
+    "placeholders": {
+      "theme": {
+        "type": "String"
+      }
+    }
+  },
+  "account": "{account, select, profiles{Profiles} settings{Settings} changePassword{Change password} logout{Logout} other{Account}}",
+  "@account": {
+    "description": "account",
+    "placeholders": {
+      "account": {
+        "type": "String"
+      }
+    }
+  },
+  "user": "{user, select, student{Student} company{Company} other{User}}",
+  "@user": {
+    "description": "user",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  }
 }
