@@ -1,43 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/providers/theme_provider.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        foregroundColor: themeProvider.getThemeMode ? text_900 : text_50,
+        backgroundColor: themeProvider.getThemeMode ? primary_200 : primary_300,
+        child: const Icon(Icons.add),
+      ),
+      body: DefaultTabController(
+        length: 3,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Your jobs'),
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.post_add),
-                  label: const Text('Post a job'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primary_300,
-                    foregroundColor: text_50,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+            TabBar(
+              dividerColor: themeProvider.getThemeMode ? text_800 : text_200,
+              tabs: const [
+                Padding(
+                  padding: EdgeInsets.only(top: 2.0),
+                  child: Tab(
+                    child: Text(
+                      'All projects',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 2.0),
+                  child: Tab(
+                    child: Text(
+                      'Working',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 2.0),
+                  child: Tab(
+                    child: Text(
+                      'Archived',
+                      style: TextStyle(fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 50),
-            const Column(
-              children: [
-                Text('Welcome, Hai!'),
-                Text('You have no jobs!'),
-              ],
-            )
+            const Expanded(
+              child: TabBarView(
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  Center(
+                    child: Text('All projects'),
+                  ),
+                  Center(
+                    child: Text('Working'),
+                  ),
+                  Center(
+                    child: Text('Archived'),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

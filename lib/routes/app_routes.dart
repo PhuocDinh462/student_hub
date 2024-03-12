@@ -50,7 +50,8 @@ class AppRoutes {
     changePassword: (context) => const ChangePassword(),
     profile: (context) => const Profile(),
     profileNoInfo: (context) => const ProfileInput(),
-    nav: (context) => const Navigation(),
+    nav: (context) =>
+        const AccountHeader(title: 'Student Hub', body: Navigation()),
     welcome: (context) => const Welcome(),
     account: (context) =>
         const AccountHeader(title: 'Account', body: Account()),
