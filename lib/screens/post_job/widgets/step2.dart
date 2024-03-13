@@ -3,9 +3,10 @@ import 'package:gap/gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:student_hub/constants/theme.dart';
 
-class Step1 extends StatelessWidget {
-  Step1({super.key, required this.next});
+class Step2 extends StatelessWidget {
+  Step2({super.key, required this.back, required this.next});
   final _formKey = GlobalKey<FormState>();
+  final VoidCallback back;
   final VoidCallback next;
 
   @override
@@ -15,7 +16,7 @@ class Step1 extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("1/4\t\t\t\t\tLet's start with a strong title",
+          Text('2/4\t\t\t\t\tNext, estimate the scope of your job',
               style: Theme.of(context).textTheme.titleLarge),
           const Gap(5),
           SvgPicture.asset(
@@ -49,20 +50,40 @@ class Step1 extends StatelessWidget {
             ),
           ),
           const Gap(20),
-          Align(
-            alignment: Alignment.centerRight,
-            child: ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) next();
-              },
-              child: const Text(
-                'Next',
-                style: TextStyle(
-                  color: text_50,
-                  fontSize: 18,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: text_300,
+                ),
+                onPressed: () => back(),
+                child: const Text(
+                  'Back',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
                 ),
               ),
-            ),
+              const Gap(15),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Processing Data')),
+                    );
+                  }
+                },
+                child: const Text(
+                  'Next',
+                  style: TextStyle(
+                    color: text_50,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/screens/post_job/widgets/step1.dart';
+import 'package:student_hub/screens/post_job/widgets/widgets.dart';
 
 class PostJob extends StatefulWidget {
   const PostJob({super.key});
@@ -12,10 +12,25 @@ class PostJob extends StatefulWidget {
 }
 
 class _PostJobState extends State<PostJob> {
-  final int _currentStep = 1;
+  int _currentStep = 1;
+
+  void next() => setState(() => _currentStep++);
+  void back() => setState(() => _currentStep--);
 
   @override
   Widget build(BuildContext context) {
+    Widget stepWidget;
+    switch (_currentStep) {
+      case 1:
+        stepWidget = Step1(next: next);
+        break;
+      case 2:
+        stepWidget = Step2(back: back, next: next);
+        break;
+      default:
+        stepWidget = Step1(next: next);
+    }
+
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -30,7 +45,7 @@ class _PostJobState extends State<PostJob> {
               unselectedColor: primary_50,
             ),
             const Gap(15),
-            const Step1(),
+            stepWidget,
             const Gap(15),
           ],
         ),
