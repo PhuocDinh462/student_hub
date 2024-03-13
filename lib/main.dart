@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale(themeProvider.getLanguage),
       routes: AppRoutes.routes,
-      initialRoute: '/nav',
+      initialRoute: '/post_job',
       debugShowCheckedModeBanner: false,
       theme:
           themeProvider.getThemeMode ? AppTheme.darkTheme : AppTheme.lightTheme,

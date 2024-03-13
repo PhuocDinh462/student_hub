@@ -12,6 +12,7 @@ import 'package:student_hub/screens/authentication/login.dart';
 import 'package:student_hub/screens/authentication/sign_up_option.dart';
 import 'package:student_hub/screens/authentication/verify_code.dart';
 import 'package:student_hub/screens/home/Home.dart';
+import 'package:student_hub/screens/post_job/post_job.dart';
 import 'package:student_hub/screens/profile/profile.dart';
 import 'package:student_hub/screens/profile/profile_input.dart';
 import 'package:student_hub/screens/welcome/welcome.dart';
@@ -36,6 +37,7 @@ class AppRoutes {
   static const String account = '/account';
   static const String settings = '/account/settings';
   static const String languages = '/account/settings/languages';
+  static const String postJob = '/post_job';
 
   static Map<String, WidgetBuilder> routes = {
     home: (context) => const AccountHeader(title: 'Home', body: Home()),
@@ -59,5 +61,7 @@ class AppRoutes {
         const AccountHeader(title: 'Settings', body: Settings()),
     languages: (context) =>
         const AccountHeader(title: 'Languages', body: Languages()),
+    postJob: (context) =>
+        const AccountHeader(title: 'Post Job', body: PostJob()),
   };
 }

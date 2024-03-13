@@ -42,6 +42,8 @@ dependencies:
     sdk: flutter
   country_flags: ^2.2.0
   language_code: ^0.4.1
+  step_progress_indicator: ^1.0.2
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +66,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   generate: true
+  assets:
+    - assets/svg/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
