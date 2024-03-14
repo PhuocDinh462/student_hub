@@ -10,11 +10,11 @@ import 'package:student_hub/screens/authentication/login.dart';
 import 'package:student_hub/screens/authentication/sign_up_option.dart';
 import 'package:student_hub/screens/authentication/verify_code.dart';
 import 'package:student_hub/screens/home/Home.dart';
-import 'package:student_hub/screens/profile/profile.dart';
-import 'package:student_hub/screens/profile/profile_input.dart';
 import 'package:student_hub/screens/welcome/welcome.dart';
 import 'package:student_hub/screens/account/account.dart';
 import 'package:student_hub/screens/account/settings.dart';
+
+import 'package:student_hub/screens/screens.dart';
 
 class AppRoutes {
   static const String home = '/';
@@ -26,11 +26,11 @@ class AppRoutes {
   static const String createAccountStudent = '/auth/create_account_student';
   static const String signUpOption = '/auth/sign_up';
   static const String resetPassword = '/auth/reset_password';
-  static const String profile = '/profile';
-  static const String profileNoInfo = '/profile/no-info';
+  static const String profile = '/account/profile';
   static const String changePassword = '/profile/change_password';
   static const String nav = '/nav';
   static const String welcome = '/welcome';
+  static const String welcomeCompany = '/welcome/company';
   static const String account = '/account';
   static const String settings = '/account/settings';
 
@@ -45,10 +45,10 @@ class AppRoutes {
     signUpOption: (context) => const SignUpOption(),
     resetPassword: (context) => const ResetPassword(),
     changePassword: (context) => const ChangePassword(),
-    profile: (context) => const Profile(),
-    profileNoInfo: (context) => const ProfileInput(),
+    profile: (context) => const ProfileCompanyInput(),
     nav: (context) => const Navigation(),
     welcome: (context) => const Welcome(),
+    welcomeCompany: (context) => const WelcomeCompany(),
     account: (context) => const Account(),
     settings: (context) => const Settings(),
   };

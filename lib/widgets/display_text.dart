@@ -1,29 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/utils/utils.dart';
 
 class DisplayText extends StatelessWidget {
   const DisplayText(
-      {super.key,
-      required this.text,
-      this.size,
-      this.fontWeight,
-      this.color,
-      this.textAlign});
+      {super.key, required this.text, this.textAlign, required this.style});
   final String text;
-  final double? size;
-  final FontWeight? fontWeight;
-  final Color? color;
+  final TextStyle style;
   final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: context.textTheme.headlineSmall?.copyWith(
-        color: color,
-        fontSize: size,
-        fontWeight: fontWeight ?? FontWeight.bold,
-      ),
+      style: style,
       textAlign: textAlign ?? TextAlign.start,
     );
   }

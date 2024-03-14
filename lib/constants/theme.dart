@@ -27,15 +27,16 @@ class AppTheme {
       onPrimary: text_50,
       surface: primary_300,
       onSurface: text_600,
+      onBackground: Colors.white,
       outline: Colors.transparent,
     ),
     textTheme: const TextTheme(
       displayLarge:
-          TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: text_700),
+          TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: text_700),
       displayMedium:
-          TextStyle(fontSize: 24, fontWeight: FontWeight.w400, color: text_700),
+          TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: text_700),
       displaySmall:
-          TextStyle(fontSize: 24, fontWeight: FontWeight.w300, color: text_700),
+          TextStyle(fontSize: 24, fontWeight: FontWeight.w400, color: text_700),
       headlineLarge:
           TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: text_700),
       headlineMedium:
@@ -43,17 +44,17 @@ class AppTheme {
       headlineSmall:
           TextStyle(fontSize: 20, fontWeight: FontWeight.w300, color: text_700),
       titleLarge:
-          TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: text_700),
+          TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: text_700),
       titleMedium:
-          TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: text_700),
+          TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: text_700),
       titleSmall:
-          TextStyle(fontSize: 18, fontWeight: FontWeight.w300, color: text_700),
+          TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: text_700),
       bodyLarge:
-          TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: text_700),
+          TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: text_700),
       bodyMedium:
-          TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: text_700),
+          TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: text_700),
       bodySmall:
-          TextStyle(fontSize: 16, fontWeight: FontWeight.w300, color: text_700),
+          TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: text_700),
       labelLarge:
           TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: text_700),
       labelMedium:
@@ -70,11 +71,11 @@ class AppTheme {
   static final darkTheme = ThemeData(
     useMaterial3: true,
     colorScheme: const ColorScheme.dark(
-      primary: text_50,
-      onPrimary: text_50,
-      surface: text_800,
-      onSurface: text_50,
-    ),
+        primary: text_50,
+        onPrimary: text_50,
+        surface: text_800,
+        onSurface: text_50,
+        onBackground: text_800),
     textTheme: const TextTheme(
       displayLarge:
           TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: text_50),

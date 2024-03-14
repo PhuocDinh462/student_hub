@@ -11,7 +11,8 @@ class CommonTextField extends StatelessWidget {
       this.controller,
       this.maxLines,
       this.suffixIcon,
-      this.readOnly = false});
+      this.readOnly = false,
+      this.focusNode});
 
   final String title;
   final String hintText;
@@ -19,35 +20,42 @@ class CommonTextField extends StatelessWidget {
   final int? maxLines;
   final Widget? suffixIcon;
   final bool readOnly;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         DisplayText(
           text: title,
-          color: text_900,
-          fontWeight: FontWeight.w600,
-          size: 16,
+          style: textTheme.bodyLarge!,
         ),
         const Gap(10),
         TextField(
-            autofocus: true,
+            focusNode: focusNode,
             readOnly: readOnly,
             controller: controller,
             maxLines: maxLines,
+            style: textTheme.bodySmall,
             onTapOutside: (event) {
               FocusManager.instance.primaryFocus?.unfocus();
             },
             decoration: InputDecoration(
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                hintText: hintText,
-                suffixIcon: suffixIcon,
-                hintStyle: const TextStyle(fontWeight: FontWeight.w400),
-                border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))))),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              hintText: hintText,
+              suffixIcon: suffixIcon,
+              hintStyle: textTheme.bodySmall!.copyWith(color: text_400),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: colorScheme.primary),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: colorScheme.onSurface),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+            )),
       ],
     );
   }
