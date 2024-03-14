@@ -18,9 +18,11 @@ class Step1 extends StatelessWidget {
           Text("1/4\t\t\t\t\tLet's start with a strong title",
               style: Theme.of(context).textTheme.titleLarge),
           const Gap(5),
-          SvgPicture.asset(
-            'assets/svg/Hand-holding-pen.svg',
-            width: MediaQuery.of(context).size.width,
+          Center(
+            child: SvgPicture.asset(
+              'assets/svg/Hand-holding-pen.svg',
+              width: MediaQuery.of(context).size.width / 1.5,
+            ),
           ),
           const Text(
             'This helps your post stand out to the right students. '
