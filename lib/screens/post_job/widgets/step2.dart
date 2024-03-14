@@ -58,7 +58,7 @@ class Step2 extends StatelessWidget {
             ],
           ),
           const Gap(20),
-          Text('How long will your project take?',
+          Text('How many students do you want for this project?',
               style: Theme.of(context).textTheme.titleLarge),
           const Gap(20),
           TextFormField(
