@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/providers/theme_provider.dart';
 import 'package:student_hub/routes/app_routes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -11,6 +12,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => PostJobProvider()),
       ],
       child: const MyApp(),
     ),

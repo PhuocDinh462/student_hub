@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/providers/post_job_provider.dart';
 
 class Step1 extends StatelessWidget {
   Step1({super.key, required this.next});
@@ -10,6 +12,9 @@ class Step1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PostJobProvider postJobProvider =
+        Provider.of<PostJobProvider>(context);
+
     return Form(
       key: _formKey,
       child: Column(
@@ -31,6 +36,8 @@ class Step1 extends StatelessWidget {
           ),
           const Gap(20),
           TextFormField(
+            initialValue: postJobProvider.getTitle,
+            onChanged: (value) => postJobProvider.setTitle = value,
             scrollPadding: const EdgeInsets.only(bottom: double.infinity),
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -57,6 +64,9 @@ class Step1 extends StatelessWidget {
               onPressed: () {
                 if (_formKey.currentState!.validate()) next();
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primary_300,
+              ),
               child: const Text(
                 'Next',
                 style: TextStyle(

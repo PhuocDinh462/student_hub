@@ -27,6 +27,9 @@ class _PostJobState extends State<PostJob> {
       case 2:
         stepWidget = Step2(back: back, next: next);
         break;
+      case 3:
+        stepWidget = Step3(back: back, next: next);
+        break;
       default:
         stepWidget = Step1(next: next);
     }
