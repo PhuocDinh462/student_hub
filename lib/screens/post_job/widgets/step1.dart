@@ -60,18 +60,21 @@ class Step1 extends StatelessWidget {
           const Gap(20),
           Align(
             alignment: Alignment.centerRight,
-            child: ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) next();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: primary_300,
-              ),
-              child: const Text(
-                'Next',
-                style: TextStyle(
-                  color: text_50,
-                  fontSize: 18,
+            child: SizedBox(
+              width: 100,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) next();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: primary_300,
+                ),
+                child: const Text(
+                  'Next',
+                  style: TextStyle(
+                    color: text_50,
+                    fontSize: 18,
+                  ),
                 ),
               ),
             ),

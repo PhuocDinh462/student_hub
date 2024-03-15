@@ -33,6 +33,9 @@ class _PostJobState extends State<PostJob> {
       case 3:
         stepWidget = Step3(back: back, next: next);
         break;
+      case 4:
+        stepWidget = Step4(back: back);
+        break;
       default:
         stepWidget = Step1(next: next);
     }
@@ -42,6 +45,7 @@ class _PostJobState extends State<PostJob> {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Gap(15),
             StepProgressIndicator(

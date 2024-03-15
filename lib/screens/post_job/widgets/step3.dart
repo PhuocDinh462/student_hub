@@ -60,33 +60,39 @@ class Step3 extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      themeProvider.getThemeMode ? text_800 : text_300,
-                ),
-                onPressed: () => back(),
-                child: const Text(
-                  'Back',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
+              SizedBox(
+                width: 100,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        themeProvider.getThemeMode ? text_800 : text_300,
+                  ),
+                  onPressed: () => back(),
+                  child: const Text(
+                    'Back',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),
               const Gap(15),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) next();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primary_300,
-                ),
-                child: const Text(
-                  'Next',
-                  style: TextStyle(
-                    color: text_50,
-                    fontSize: 18,
+              SizedBox(
+                width: 100,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) next();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primary_300,
+                  ),
+                  child: const Text(
+                    'Next',
+                    style: TextStyle(
+                      color: text_50,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),
