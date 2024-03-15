@@ -51,6 +51,7 @@ class _PostJobState extends State<PostJob> {
             StepProgressIndicator(
               totalSteps: 4,
               currentStep: _currentStep,
+              roundedEdges: const Radius.circular(10),
               selectedColor: themeProvider.getThemeMode ? text_50 : primary_300,
               unselectedColor:
                   themeProvider.getThemeMode ? text_800 : primary_50,

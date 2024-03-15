@@ -164,11 +164,12 @@ class Step4 extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
+                    SnackBar(
                       content: Text(
                         'Processing Data',
                         style: TextStyle(
-                          color: text_200,
+                          color:
+                              themeProvider.getThemeMode ? text_700 : text_200,
                           fontSize: 18,
                         ),
                       ),
