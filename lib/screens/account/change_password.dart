@@ -21,7 +21,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   //sign in
   void changePassword() async {
-    Navigator.pushNamed(context, AppRoutes.profile);
+    Navigator.pushNamed(context, AppRoutes.profileCompany);
   }
 
   @override

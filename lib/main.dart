@@ -12,7 +12,8 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => IndexPageProvider()),
-        ChangeNotifierProvider(create: (_) => OpenIdProvider())
+        ChangeNotifierProvider(create: (_) => OpenIdProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider())
       ],
       child: const MyApp(),
     ),
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
     return HeaderLayout(
       body: MaterialApp(
         routes: AppRoutes.routes,
-        initialRoute: '/student/dashboard',
+        initialRoute: AppRoutes.profileStudentStepOne,
         debugShowCheckedModeBanner: false,
         theme: themeProvider.getThemeMode
             ? AppTheme.darkTheme

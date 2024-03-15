@@ -56,7 +56,8 @@ class Account extends StatelessWidget {
 
             // Others setting
             GestureDetector(
-              onTap: () => Navigator.pushNamed(context, AppRoutes.profile),
+              onTap: () =>
+                  Navigator.pushNamed(context, AppRoutes.profileCompany),
               child: Container(
                 color: Colors.transparent,
                 child: Row(

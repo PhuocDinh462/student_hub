@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> saveIndex(String key, int value) async {
+Future<void> saveValue(String key, int value) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setInt(key, value);
 }
 
-Future<int> loadIndex(String key) async {
+Future<int> loadValue(String key) async {
   final prefs = await SharedPreferences.getInstance();
   return prefs.getInt(key) ?? 0;
 }
@@ -15,7 +15,7 @@ class IndexPageProvider with ChangeNotifier {
   int _indexDBStudent = 0;
 
   IndexPageProvider() {
-    loadIndex('db_student').then((index) async {
+    loadValue('db_student').then((index) async {
       _indexDBStudent = index;
       notifyListeners();
     });
@@ -26,7 +26,7 @@ class IndexPageProvider with ChangeNotifier {
   Future<void> setIndexDBStudent(int index) async {
     _indexDBStudent = index;
     notifyListeners();
-    await saveIndex('db_student', index);
+    await saveValue('db_student', index);
   }
 }
 

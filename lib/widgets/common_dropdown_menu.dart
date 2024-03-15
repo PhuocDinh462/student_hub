@@ -62,10 +62,13 @@ class CommonDropdownMenu extends StatelessWidget {
                     ])))),
         if (isExpanded)
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(4),
             height: 450,
             decoration: BoxDecoration(
               color: colorScheme.onPrimary,
+              borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(5),
+                  bottomRight: Radius.circular(5)),
             ),
             child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
@@ -74,27 +77,30 @@ class CommonDropdownMenu extends StatelessWidget {
                 itemBuilder: (ctx, index) {
                   return Container(
                     decoration: const BoxDecoration(color: Colors.white),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        DisplayText(
-                            text: 'Senior frontend developer (Fintech)',
-                            style: textTheme.labelMedium!),
-                        const Gap(5),
-                        DisplayText(
-                            text: 'Submitted 3 days ago',
-                            style: textTheme.labelSmall!),
-                        const Gap(10),
-                        DisplayText(
-                            text: 'Students are looking for...',
-                            style: textTheme.labelMedium!),
-                        const Gap(20),
-                        const Divider(
-                          color: text_400,
-                          height: 2,
-                        ),
-                        const Gap(30)
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DisplayText(
+                              text: 'Senior frontend developer (Fintech)',
+                              style: textTheme.labelMedium!),
+                          const Gap(5),
+                          DisplayText(
+                              text: 'Submitted 3 days ago',
+                              style: textTheme.labelSmall!),
+                          const Gap(10),
+                          DisplayText(
+                              text: 'Students are looking for...',
+                              style: textTheme.labelMedium!),
+                          const Gap(20),
+                          const Divider(
+                            color: text_400,
+                            height: 2,
+                          ),
+                          const Gap(30)
+                        ],
+                      ),
                     ),
                   );
                 }),
