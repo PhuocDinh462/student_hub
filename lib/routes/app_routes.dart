@@ -9,6 +9,7 @@ import 'package:student_hub/screens/authentication/forgot_password.dart';
 import 'package:student_hub/screens/authentication/login.dart';
 import 'package:student_hub/screens/authentication/sign_up_option.dart';
 import 'package:student_hub/screens/authentication/verify_code.dart';
+import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
 import 'package:student_hub/screens/home/Home.dart';
 import 'package:student_hub/screens/welcome/welcome.dart';
 import 'package:student_hub/screens/account/account.dart';
@@ -33,6 +34,7 @@ class AppRoutes {
   static const String welcomeCompany = '/welcome/company';
   static const String account = '/account';
   static const String settings = '/account/settings';
+  static const String dashboardStudent = '/student/dashboard';
 
   static Map<String, WidgetBuilder> routes = {
     home: (context) => const Home(),
@@ -51,5 +53,6 @@ class AppRoutes {
     welcomeCompany: (context) => const WelcomeCompany(),
     account: (context) => const Account(),
     settings: (context) => const Settings(),
+    dashboardStudent: (context) => const DashboardStudent(),
   };
 }

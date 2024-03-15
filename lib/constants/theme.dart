@@ -27,7 +27,6 @@ class AppTheme {
       onPrimary: text_50,
       surface: primary_300,
       onSurface: text_600,
-      onBackground: Colors.white,
       outline: Colors.transparent,
     ),
     textTheme: const TextTheme(
@@ -71,11 +70,11 @@ class AppTheme {
   static final darkTheme = ThemeData(
     useMaterial3: true,
     colorScheme: const ColorScheme.dark(
-        primary: text_50,
-        onPrimary: text_50,
-        surface: text_800,
-        onSurface: text_50,
-        onBackground: text_800),
+      primary: text_50,
+      onPrimary: text_50,
+      surface: text_800,
+      onSurface: text_50,
+    ),
     textTheme: const TextTheme(
       displayLarge:
           TextStyle(fontSize: 24, fontWeight: FontWeight.w500, color: text_50),
