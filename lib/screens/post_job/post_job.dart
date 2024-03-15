@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/providers/theme_provider.dart';
 import 'package:student_hub/screens/post_job/widgets/widgets.dart';
 
 class PostJob extends StatefulWidget {
@@ -13,12 +15,13 @@ class PostJob extends StatefulWidget {
 
 class _PostJobState extends State<PostJob> {
   int _currentStep = 1;
-
   void next() => setState(() => _currentStep++);
   void back() => setState(() => _currentStep--);
 
   @override
   Widget build(BuildContext context) {
+    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+
     Widget stepWidget;
     switch (_currentStep) {
       case 1:
@@ -44,8 +47,9 @@ class _PostJobState extends State<PostJob> {
             StepProgressIndicator(
               totalSteps: 4,
               currentStep: _currentStep,
-              selectedColor: primary_300,
-              unselectedColor: primary_50,
+              selectedColor: themeProvider.getThemeMode ? text_50 : primary_300,
+              unselectedColor:
+                  themeProvider.getThemeMode ? text_800 : primary_50,
             ),
             const Gap(15),
             stepWidget,

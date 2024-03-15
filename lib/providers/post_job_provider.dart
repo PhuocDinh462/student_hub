@@ -11,7 +11,7 @@ class PostJobProvider with ChangeNotifier {
   PostJobProvider() {
     _title = '';
     _timeLine = TimeLine.oneToThreeMonths;
-    _numOfStudents = 0;
+    _numOfStudents = 1;
     _description = '';
   }
 
@@ -33,9 +33,27 @@ class PostJobProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void addStudents() {
+    _numOfStudents++;
+    notifyListeners();
+  }
+
+  void removeStudents() {
+    _numOfStudents--;
+    notifyListeners();
+  }
+
   String get getDescription => _description;
   set setDescription(String description) {
     _description = description;
+    notifyListeners();
+  }
+
+  void clear() {
+    _title = '';
+    _timeLine = TimeLine.oneToThreeMonths;
+    _numOfStudents = 1;
+    _description = '';
     notifyListeners();
   }
 }

@@ -44,6 +44,7 @@ dependencies:
   language_code: ^0.4.1
   step_progress_indicator: ^1.0.2
   flutter_svg: ^2.0.10+1
+  numberpicker: ^2.1.2
 
 dev_dependencies:
   flutter_test:

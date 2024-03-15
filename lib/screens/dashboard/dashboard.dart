@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/providers/theme_provider.dart';
 
 class Dashboard extends StatelessWidget {
@@ -9,10 +10,15 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    final PostJobProvider postJobProvider =
+        Provider.of<PostJobProvider>(context);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          postJobProvider.clear();
+          Navigator.pushNamed(context, '/post_job');
+        },
         foregroundColor: themeProvider.getThemeMode ? text_900 : text_50,
         backgroundColor: themeProvider.getThemeMode ? primary_200 : primary_300,
         child: const Icon(Icons.add),

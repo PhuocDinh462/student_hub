@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
@@ -69,37 +69,46 @@ class Step2 extends StatelessWidget {
           Text('How many students do you want for this project?',
               style: Theme.of(context).textTheme.titleLarge),
           const Gap(20),
-          TextFormField(
-            initialValue: postJobProvider.getNumOfStudents.toString(),
-            onChanged: (value) =>
-                postJobProvider.setNumOfStudents = int.parse(value),
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly
-            ],
-            scrollPadding: const EdgeInsets.only(bottom: double.infinity),
-            validator: (value) {
-              if (value == null ||
-                  value.isEmpty ||
-                  int.tryParse(value) == null ||
-                  int.parse(value) <= 0) {
-                return 'Please enter a valid number';
-              }
-              return null;
-            },
-            decoration: const InputDecoration(
-              hintText: 'Number of students',
-              contentPadding: EdgeInsets.all(15),
-              border: OutlineInputBorder(),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: text_500,
-                  width: 1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                  onPressed: () => postJobProvider.getNumOfStudents > 1
+                      ? postJobProvider.removeStudents()
+                      : null,
+                  icon: const Icon(Icons.remove)),
+              const Gap(20),
+              NumberPicker(
+                value: postJobProvider.getNumOfStudents,
+                selectedTextStyle: TextStyle(
+                  color:
+                      themeProvider.getThemeMode ? Colors.white : primary_300,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 22,
+                ),
+                minValue: 1,
+                maxValue: 100,
+                itemHeight: 60,
+                itemWidth: 60,
+                axis: Axis.horizontal,
+                onChanged: (value) => postJobProvider.setNumOfStudents = value,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                      color:
+                          themeProvider.getThemeMode ? text_300 : primary_300,
+                      width: 2),
                 ),
               ),
-            ),
+              const Gap(20),
+              IconButton(
+                  onPressed: () => postJobProvider.getNumOfStudents < 100
+                      ? postJobProvider.addStudents()
+                      : null,
+                  icon: const Icon(Icons.add)),
+            ],
           ),
-          const Gap(20),
+          const Gap(50),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
