@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 // Primary colors
 const Color primary_300 = Color(0xff1597FF);
