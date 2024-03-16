@@ -22,7 +22,8 @@ import 'package:student_hub/screens/account/account.dart';
 import 'package:student_hub/screens/account/settings.dart';
 
 class AppRoutes {
-  static const String home = '/';
+  static const String nav = '/';
+  static const String home = '/home';
   static const String auth = '/auth';
   static const String login = '/auth/login';
   static const String forgotPassword = '/auth/forgot_password';
@@ -36,7 +37,6 @@ class AppRoutes {
   static const String changePassword = '/profile/change_password';
   static const String projects = '/projects';
   static const String projectsSaved = '/projects/saved';
-  static const String nav = '/nav';
   static const String welcome = '/welcome';
   static const String account = '/account';
   static const String settings = '/account/settings';
