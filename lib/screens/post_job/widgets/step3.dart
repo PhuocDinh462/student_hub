@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
-import 'package:student_hub/providers/theme_provider.dart';
 
 class Step3 extends StatelessWidget {
   Step3({super.key, required this.next, required this.back});
@@ -14,7 +13,6 @@ class Step3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     final PostJobProvider postJobProvider =
         Provider.of<PostJobProvider>(context);
 
@@ -65,7 +63,9 @@ class Step3 extends StatelessWidget {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
-                        themeProvider.getThemeMode ? text_800 : text_300,
+                        Theme.of(context).brightness == Brightness.dark
+                            ? text_800
+                            : text_300,
                   ),
                   onPressed: () => back(),
                   child: const Text(

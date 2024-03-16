@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:student_hub/models/user.dart';
-import 'package:student_hub/providers/theme_provider.dart';
 import 'package:student_hub/screens/account/widgets/user_item.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
@@ -12,8 +10,6 @@ class Account extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
-
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -133,14 +129,14 @@ class Account extends StatelessWidget {
                   children: [
                     Icon(Icons.logout_rounded,
                         size: 32,
-                        color: themeProvider.getThemeMode
+                        color: Theme.of(context).brightness == Brightness.dark
                             ? const Color.fromARGB(255, 255, 116, 106)
                             : Colors.red),
                     const Gap(10),
                     Text(
                       AppLocalizations.of(context)!.account('logout'),
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: themeProvider.getThemeMode
+                          color: Theme.of(context).brightness == Brightness.dark
                               ? const Color.fromARGB(255, 255, 116, 106)
                               : Colors.red),
                     ),

@@ -20,8 +20,8 @@ class _SearchBoxState extends State<SearchBox> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-              color: text_50,
-              borderRadius: BorderRadius.circular(20),
+              color: Theme.of(context).colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(1000),
             ),
             child: TextField(
               controller: widget.controller,

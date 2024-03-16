@@ -24,13 +24,17 @@ class LanguageItem extends StatelessWidget {
     return GestureDetector(
       onTap: () => themeProvider.setLanguage(languageCode),
       child: Material(
-        color: themeProvider.getThemeMode ? text_800 : text_50,
+        color: Theme.of(context).colorScheme.onPrimary,
         elevation: 3,
-        shadowColor: themeProvider.getThemeMode ? text_700 : text_100,
+        shadowColor: Theme.of(context).brightness == Brightness.dark
+            ? text_700
+            : text_100,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
           side: BorderSide(
-              color: themeProvider.getThemeMode ? text_700 : text_300,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? text_700
+                  : text_300,
               width: .5),
         ),
         child: Container(

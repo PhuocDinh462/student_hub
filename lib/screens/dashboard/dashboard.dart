@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
-import 'package:student_hub/providers/theme_provider.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     final PostJobProvider postJobProvider =
         Provider.of<PostJobProvider>(context);
 
@@ -19,8 +17,10 @@ class Dashboard extends StatelessWidget {
           postJobProvider.clear();
           Navigator.pushNamed(context, '/post_job');
         },
-        foregroundColor: themeProvider.getThemeMode ? text_900 : text_50,
-        backgroundColor: themeProvider.getThemeMode ? primary_200 : primary_300,
+        foregroundColor: Theme.of(context).colorScheme.secondaryContainer,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? primary_200
+            : primary_300,
         child: const Icon(Icons.add),
       ),
       body: DefaultTabController(
@@ -28,7 +28,9 @@ class Dashboard extends StatelessWidget {
         child: Column(
           children: [
             TabBar(
-              dividerColor: themeProvider.getThemeMode ? text_800 : text_200,
+              dividerColor: Theme.of(context).brightness == Brightness.dark
+                  ? text_800
+                  : text_200,
               tabs: const [
                 Padding(
                   padding: EdgeInsets.only(top: 2.0),

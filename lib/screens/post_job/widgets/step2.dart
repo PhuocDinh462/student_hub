@@ -5,7 +5,6 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
-import 'package:student_hub/providers/theme_provider.dart';
 
 class Step2 extends StatelessWidget {
   Step2({
@@ -19,7 +18,6 @@ class Step2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     final PostJobProvider postJobProvider =
         Provider.of<PostJobProvider>(context);
 
@@ -81,8 +79,9 @@ class Step2 extends StatelessWidget {
               NumberPicker(
                 value: postJobProvider.getNumOfStudents,
                 selectedTextStyle: TextStyle(
-                  color:
-                      themeProvider.getThemeMode ? Colors.white : primary_300,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : primary_300,
                   fontWeight: FontWeight.w500,
                   fontSize: 22,
                 ),
@@ -95,8 +94,9 @@ class Step2 extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                      color:
-                          themeProvider.getThemeMode ? text_300 : primary_300,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? text_300
+                          : primary_300,
                       width: 2),
                 ),
               ),
@@ -117,7 +117,9 @@ class Step2 extends StatelessWidget {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
-                        themeProvider.getThemeMode ? text_800 : text_300,
+                        Theme.of(context).brightness == Brightness.dark
+                            ? text_800
+                            : text_300,
                   ),
                   onPressed: () => back(),
                   child: const Text(

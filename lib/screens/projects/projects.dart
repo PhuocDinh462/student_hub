@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/routes/app_routes.dart';
 import 'package:student_hub/widgets/filter_projects.dart';
@@ -101,7 +100,7 @@ class _ProjectsState extends State<Projects> {
                     icon: const Icon(Icons.more_vert),
                     iconSize: 32,
                     offset: const Offset(-30, 45),
-                    color: primary_100,
+                    color: Theme.of(context).colorScheme.secondaryContainer,
                     onSelected: (String value) {
                       setState(() {
                         _selectedMenu = value;
@@ -117,9 +116,15 @@ class _ProjectsState extends State<Projects> {
                         },
                         child: Row(
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.favorite,
-                              color: primary_300,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? 1
+                                      : .7),
                             ),
                             const Gap(16),
                             Text(
@@ -127,9 +132,7 @@ class _ProjectsState extends State<Projects> {
                               style: Theme.of(context)
                                   .textTheme
                                   .labelMedium
-                                  ?.copyWith(
-                                      color: primary_300,
-                                      fontWeight: FontWeight.bold),
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
@@ -152,9 +155,15 @@ class _ProjectsState extends State<Projects> {
                         },
                         child: Row(
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.filter_alt,
-                              color: primary_300,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? 1
+                                      : .7),
                             ),
                             const Gap(16),
                             Text(
@@ -162,9 +171,7 @@ class _ProjectsState extends State<Projects> {
                               style: Theme.of(context)
                                   .textTheme
                                   .labelMedium
-                                  ?.copyWith(
-                                      color: primary_300,
-                                      fontWeight: FontWeight.bold),
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
@@ -177,9 +184,15 @@ class _ProjectsState extends State<Projects> {
                         },
                         child: Row(
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.cancel,
-                              color: primary_300,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? 1
+                                      : .7),
                             ),
                             const Gap(16),
                             Text(
@@ -188,7 +201,6 @@ class _ProjectsState extends State<Projects> {
                                   .textTheme
                                   .labelMedium
                                   ?.copyWith(
-                                    color: primary_300,
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),

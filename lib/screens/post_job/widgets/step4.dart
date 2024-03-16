@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/providers/theme_provider.dart';
 
 class Step4 extends StatelessWidget {
   const Step4({super.key, required this.back});
@@ -11,7 +10,6 @@ class Step4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     final PostJobProvider postJobProvider =
         Provider.of<PostJobProvider>(context);
 
@@ -146,7 +144,9 @@ class Step4 extends StatelessWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
-                      themeProvider.getThemeMode ? text_800 : text_300,
+                      Theme.of(context).brightness == Brightness.dark
+                          ? text_800
+                          : text_300,
                 ),
                 onPressed: () => back(),
                 child: const Text(
@@ -168,8 +168,9 @@ class Step4 extends StatelessWidget {
                       content: Text(
                         'Processing Data',
                         style: TextStyle(
-                          color:
-                              themeProvider.getThemeMode ? text_700 : text_200,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? text_700
+                              : text_200,
                           fontSize: 18,
                         ),
                       ),

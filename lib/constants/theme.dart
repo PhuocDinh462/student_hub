@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 // Primary colors
 const Color primary_300 = Color(0xff1597FF);
@@ -18,9 +19,6 @@ const Color text_200 = Color(0xffd9d9d9);
 const Color text_100 = Color(0xffe9e9e9);
 const Color text_50 = Color(0xfff5f5f5);
 
-// Card colors
-const Color cardColor = Color(0xFFFFF6E9);
-
 // Themes
 class AppTheme {
   static final lightTheme = ThemeData(
@@ -28,9 +26,16 @@ class AppTheme {
     colorScheme: const ColorScheme.light(
       primary: primary_300,
       onPrimary: text_50,
+      primaryContainer: text_100,
+      secondaryContainer: text_50,
       surface: primary_300,
       onSurface: text_500,
       outline: Colors.transparent,
+    ),
+    cardTheme: const CardTheme(
+      color: text_50,
+      surfaceTintColor: Colors.transparent,
+      shadowColor: text_900,
     ),
     textTheme: const TextTheme(
       displayLarge:
@@ -74,9 +79,16 @@ class AppTheme {
     useMaterial3: true,
     colorScheme: const ColorScheme.dark(
       primary: text_50,
-      onPrimary: text_50,
+      onPrimary: text_800,
+      primaryContainer: text_800,
+      secondaryContainer: text_900,
       surface: text_800,
       onSurface: text_50,
+    ),
+    cardTheme: const CardTheme(
+      color: text_800,
+      surfaceTintColor: Colors.transparent,
+      shadowColor: text_600,
     ),
     textTheme: const TextTheme(
       displayLarge:

@@ -46,7 +46,6 @@ class _ProjectCardState extends State<ProjectCard> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      color: cardColor,
       child: Stack(
         children: [
           ListTile(
