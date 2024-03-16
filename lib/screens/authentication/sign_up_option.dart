@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/routes/app_routes.dart';
 import 'package:student_hub/widgets/button.dart';
 
@@ -36,12 +37,12 @@ class _SignUpOptionState extends State<SignUpOption> {
             children: [
               const Gap(50),
               //Join as Company or Student
-              const Text(
+              Text(
                 'Join as Company or Student',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold),
+                style: Theme.of(context)
+                    .textTheme
+                    .displayLarge
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
               const Gap(30),
               //Options
@@ -59,10 +60,12 @@ class _SignUpOptionState extends State<SignUpOption> {
                         ),
                       ),
                       child: RadioListTile<int>(
-                        title: const Text(
+                        title: Text(
                           'I\'m a Company, find engineer for project',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         value: 0,
                         groupValue: _selectedOption,
@@ -86,9 +89,12 @@ class _SignUpOptionState extends State<SignUpOption> {
                         ),
                       ),
                       child: RadioListTile<int>(
-                        title: const Text(
+                        title: Text(
                           'Student',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         value: 1,
                         groupValue: _selectedOption,
@@ -109,8 +115,8 @@ class _SignUpOptionState extends State<SignUpOption> {
               //create button
               Button(
                 onTap: signIn,
-                colorButton: Colors.blue,
-                colorText: Colors.white,
+                colorButton: primary_300,
+                colorText: text_50,
                 text: 'Create Account',
               ),
 
@@ -121,20 +127,20 @@ class _SignUpOptionState extends State<SignUpOption> {
                 children: [
                   Text(
                     'Already have an account ?',
-                    style: TextStyle(color: Colors.grey[700], fontSize: 16),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(width: 4),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, AppRoutes.login);
                     },
-                    child: const Text(
+                    child: Text(
                       'Login',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 99, 183, 252),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.bold, color: primary_300),
                     ),
                   ),
                 ],

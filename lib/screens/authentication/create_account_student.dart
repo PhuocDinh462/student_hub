@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/routes/app_routes.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
@@ -31,12 +32,12 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
             children: [
               const Gap(50),
               //welcome back
-              const Text(
+              Text(
                 'Sign Up As Student',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold),
+                style: Theme.of(context)
+                    .textTheme
+                    .displayLarge
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
               const Gap(30),
               //user name textfield
@@ -65,7 +66,7 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
               const Gap(20),
               //forgot password
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -76,14 +77,14 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                           agreePersonalData = value ?? false;
                         });
                       },
-                      activeColor: Colors.blue,
+                      activeColor: primary_300,
                     ),
-                    const Text(
+                    Text(
                       'Yes, I agree to all policies',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -92,8 +93,8 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
               //sign in button
               Button(
                 onTap: signIn,
-                colorButton: Colors.blue,
-                colorText: Colors.white,
+                colorButton: primary_300,
+                colorText: text_50,
                 text: 'Create My Account',
               ),
 
@@ -104,21 +105,21 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                 children: [
                   Text(
                     'Looking for a project ?',
-                    style: TextStyle(color: Colors.grey[700], fontSize: 16),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(width: 4),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(
-                          context, AppRoutes.createAccountCompany);
+                          context, AppRoutes.createAccountStudent);
                     },
-                    child: const Text(
+                    child: Text(
                       'Apply as company',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 99, 183, 252),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.bold, color: primary_200),
                     ),
                   ),
                 ],

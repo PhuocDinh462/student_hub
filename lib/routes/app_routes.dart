@@ -12,6 +12,8 @@ import 'package:student_hub/screens/authentication/verify_code.dart';
 import 'package:student_hub/screens/home/Home.dart';
 import 'package:student_hub/screens/profile/profile.dart';
 import 'package:student_hub/screens/profile/profile_input.dart';
+import 'package:student_hub/screens/projects/projects.dart';
+import 'package:student_hub/screens/projects/projects_saved.dart';
 import 'package:student_hub/screens/welcome/welcome.dart';
 import 'package:student_hub/screens/account/account.dart';
 import 'package:student_hub/screens/account/settings.dart';
@@ -29,6 +31,8 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String profileNoInfo = '/profile/no-info';
   static const String changePassword = '/profile/change_password';
+  static const String projects = '/projects';
+  static const String projectsSaved = '/projects/saved';
   static const String nav = '/nav';
   static const String welcome = '/welcome';
   static const String account = '/account';
@@ -47,6 +51,8 @@ class AppRoutes {
     changePassword: (context) => const ChangePassword(),
     profile: (context) => const Profile(),
     profileNoInfo: (context) => const ProfileInput(),
+    projects: (context) => const Projects(),
+    projectsSaved: (context) => const ProjectsSaved(),
     nav: (context) => const Navigation(),
     welcome: (context) => const Welcome(),
     account: (context) => const Account(),
