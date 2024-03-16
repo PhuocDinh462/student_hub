@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:language_code/language_code.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/providers/theme_provider.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:student_hub/screens/account/widgets/theme_dialog.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -17,32 +20,100 @@ class Settings extends StatelessWidget {
         margin: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          // Theme mode
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+            GestureDetector(
+              onTap: () => showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const ThemeDialog();
+                },
+              ),
+              child: Container(
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.dark_mode, size: 32),
+                        Icon(
+                            themeProvider.getTheme == ThemeMode.light
+                                ? Icons.light_mode_outlined
+                                : themeProvider.getTheme == ThemeMode.dark
+                                    ? Icons.dark_mode_outlined
+                                    : Icons.sync,
+                            size: 32),
                         const Gap(10),
-                        Text(
-                          'Dark mode',
-                          style: Theme.of(context).textTheme.titleLarge,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.theme(''),
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            const Gap(5),
+                            Text(
+                              AppLocalizations.of(context)!
+                                  .theme(themeProvider.getThemeName),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.copyWith(fontStyle: FontStyle.italic),
+                            ),
+                          ],
                         ),
                       ],
                     ),
+                    const Icon(Icons.arrow_forward_ios, size: 20),
                   ],
                 ),
-                Switch(
-                  value: themeProvider.getThemeMode,
-                  onChanged: (value) => themeProvider.setThemeMode(value),
-                  activeColor: primary_200,
-                  inactiveTrackColor: text_200,
-                  inactiveThumbColor: text_400,
+              ),
+            ),
+            const Divider(
+              height: 40,
+              thickness: .5,
+              indent: 40,
+              color: text_400,
+            ),
+
+            // Language
+            GestureDetector(
+              onTap: () =>
+                  Navigator.pushNamed(context, '/account/settings/languages'),
+              child: Container(
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.language, size: 32),
+                        const Gap(10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.language(''),
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            const Gap(5),
+                            Text(
+                              LanguageCodes.fromCode(
+                                      AppLocalizations.of(context)!.localeName)
+                                  .nativeName,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.copyWith(fontStyle: FontStyle.italic),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const Icon(Icons.arrow_forward_ios, size: 20),
+                  ],
                 ),
-              ],
+              ),
             ),
           ],
         ),

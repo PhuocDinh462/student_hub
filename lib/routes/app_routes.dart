@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/layout/navigation.dart';
 import 'package:student_hub/screens/Authentication/authentication.dart';
+import 'package:student_hub/screens/account/languages.dart';
 import 'package:student_hub/screens/authentication/reset_password.dart';
 import 'package:student_hub/screens/account/change_password.dart';
 import 'package:student_hub/screens/authentication/create_account_company.dart';
@@ -10,6 +12,7 @@ import 'package:student_hub/screens/authentication/login.dart';
 import 'package:student_hub/screens/authentication/sign_up_option.dart';
 import 'package:student_hub/screens/authentication/verify_code.dart';
 import 'package:student_hub/screens/home/Home.dart';
+import 'package:student_hub/screens/post_job/post_job.dart';
 import 'package:student_hub/screens/profile/profile.dart';
 import 'package:student_hub/screens/profile/profile_input.dart';
 import 'package:student_hub/screens/projects/projects.dart';
@@ -37,9 +40,11 @@ class AppRoutes {
   static const String welcome = '/welcome';
   static const String account = '/account';
   static const String settings = '/account/settings';
+  static const String languages = '/account/settings/languages';
+  static const String postJob = '/post_job';
 
   static Map<String, WidgetBuilder> routes = {
-    home: (context) => const Home(),
+    home: (context) => const AccountHeader(title: 'Home', body: Home()),
     auth: (context) => const Authentication(),
     login: (context) => Login(),
     forgotPassword: (context) => const ForgotPassword(),
@@ -51,11 +56,18 @@ class AppRoutes {
     changePassword: (context) => const ChangePassword(),
     profile: (context) => const Profile(),
     profileNoInfo: (context) => const ProfileInput(),
+    nav: (context) =>
+        const AccountHeader(title: 'Student Hub', body: Navigation()),
     projects: (context) => const Projects(),
     projectsSaved: (context) => const ProjectsSaved(),
-    nav: (context) => const Navigation(),
     welcome: (context) => const Welcome(),
-    account: (context) => const Account(),
-    settings: (context) => const Settings(),
+    account: (context) =>
+        const AccountHeader(title: 'Account', body: Account()),
+    settings: (context) =>
+        const AccountHeader(title: 'Settings', body: Settings()),
+    languages: (context) =>
+        const AccountHeader(title: 'Languages', body: Languages()),
+    postJob: (context) =>
+        const AccountHeader(title: 'Post Job', body: PostJob()),
   };
 }

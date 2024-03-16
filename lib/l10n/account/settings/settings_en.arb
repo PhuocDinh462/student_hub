@@ -1,0 +1,12 @@
+{
+  "@@locale": "en",
+  "@@context": "settings",
+  "selectTheme": "Select Theme",
+  "theme": "Theme",
+  "light": "Light",
+  "dark": "Dark",
+  "system": "System",
+  "language": "Language",
+  "english": "English",
+  "vietnamese": "Vietnamese"
+}

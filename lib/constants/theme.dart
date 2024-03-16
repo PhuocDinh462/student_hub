@@ -29,7 +29,7 @@ class AppTheme {
       primary: primary_300,
       onPrimary: text_50,
       surface: primary_300,
-      onSurface: text_600,
+      onSurface: text_500,
       outline: Colors.transparent,
     ),
     textTheme: const TextTheme(
@@ -65,7 +65,7 @@ class AppTheme {
           TextStyle(fontSize: 14, fontWeight: FontWeight.w300, color: text_700),
     ),
     iconTheme: const IconThemeData(
-      color: text_600,
+      color: text_500,
       size: 24.0,
     ),
   );

@@ -20,6 +20,7 @@ class _NavigationState extends State<Navigation> {
         onDestinationSelected: (int index) =>
             setState(() => currentScreenIndex = index),
         indicatorColor: primary_200,
+        backgroundColor: Colors.transparent,
         selectedIndex: currentScreenIndex,
         destinations: const <Widget>[
           NavigationDestination(
