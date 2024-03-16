@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
+import 'package:student_hub/utils/extensions.dart';
 
 class Step1 extends StatelessWidget {
   Step1({super.key, required this.next});
@@ -24,9 +24,9 @@ class Step1 extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge),
           const Gap(5),
           Center(
-            child: SvgPicture.asset(
-              'assets/svg/Hand-holding-pen.svg',
-              width: MediaQuery.of(context).size.width / 1.5,
+            child: Image.asset(
+              'assets/images/Hand-coding.png',
+              width: context.deviceSize.width / 1.5,
             ),
           ),
           const Text(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/models/user.dart';
+import 'package:student_hub/routes/app_routes.dart';
 import 'package:student_hub/screens/account/widgets/user_item.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
@@ -78,7 +79,7 @@ class Account extends StatelessWidget {
               color: text_400,
             ),
             GestureDetector(
-              onTap: () => Navigator.pushNamed(context, '/account/settings'),
+              onTap: () => Navigator.pushNamed(context, AppRoutes.settings),
               child: Container(
                 color: Colors.transparent,
                 child: Row(

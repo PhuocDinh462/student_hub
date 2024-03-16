@@ -176,6 +176,7 @@ class Step4 extends StatelessWidget {
                       ),
                     ),
                   );
+                  Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primary_300,

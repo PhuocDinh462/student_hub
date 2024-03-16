@@ -44,6 +44,11 @@ class AppRoutes {
   static const String postJob = '/post_job';
 
   static Map<String, WidgetBuilder> routes = {
+    nav: (context) => const AccountHeader(
+          title: 'Student Hub',
+          body: Navigation(),
+          resizeToAvoidBottomInset: false,
+        ),
     home: (context) => const AccountHeader(title: 'Home', body: Home()),
     auth: (context) => const Authentication(),
     login: (context) => Login(),
@@ -56,8 +61,6 @@ class AppRoutes {
     changePassword: (context) => const ChangePassword(),
     profile: (context) => const Profile(),
     profileNoInfo: (context) => const ProfileInput(),
-    nav: (context) =>
-        const AccountHeader(title: 'Student Hub', body: Navigation()),
     projects: (context) => const Projects(),
     projectsSaved: (context) => const ProjectsSaved(),
     welcome: (context) => const Welcome(),

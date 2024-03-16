@@ -4,16 +4,19 @@ import 'package:student_hub/constants/theme.dart';
 class AccountHeader extends StatelessWidget {
   final String title;
   final Widget body;
+  final bool resizeToAvoidBottomInset;
 
   const AccountHeader({
     super.key,
     required this.title,
     required this.body,
+    this.resizeToAvoidBottomInset = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       appBar: AppBar(
         leading: ModalRoute.of(context)!.settings.name != '/'
             ? IconButton(

@@ -6,6 +6,7 @@ import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/providers/theme_provider.dart';
 import 'package:student_hub/routes/app_routes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:student_hub/utils/image_list.dart';
 
 void main() {
   runApp(
@@ -25,6 +26,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+
+    ImageList.loadImage(context);
 
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(

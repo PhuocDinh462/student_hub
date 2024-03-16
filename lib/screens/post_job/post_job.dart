@@ -19,6 +19,7 @@ class _PostJobState extends State<PostJob> {
   @override
   Widget build(BuildContext context) {
     Widget stepWidget;
+
     switch (_currentStep) {
       case 1:
         stepWidget = Step1(next: next);

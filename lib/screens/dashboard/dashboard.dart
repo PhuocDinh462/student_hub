@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
+import 'package:student_hub/routes/app_routes.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
@@ -15,7 +16,7 @@ class Dashboard extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           postJobProvider.clear();
-          Navigator.pushNamed(context, '/post_job');
+          Navigator.pushNamed(context, AppRoutes.postJob);
         },
         foregroundColor: Theme.of(context).colorScheme.secondaryContainer,
         backgroundColor: Theme.of(context).brightness == Brightness.dark

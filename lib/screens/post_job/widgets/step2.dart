@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
+import 'package:student_hub/utils/extensions.dart';
 
 class Step2 extends StatelessWidget {
   Step2({
@@ -30,9 +30,9 @@ class Step2 extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge),
           const Gap(5),
           Center(
-            child: SvgPicture.asset(
-              'assets/svg/Coding-workshop.svg',
-              width: MediaQuery.of(context).size.width / 1.5,
+            child: Image.asset(
+              'assets/images/Coding-workshop.png',
+              width: context.deviceSize.width / 1.5,
             ),
           ),
           const Gap(5),
