@@ -18,6 +18,9 @@ const Color text_200 = Color(0xffd9d9d9);
 const Color text_100 = Color(0xffe9e9e9);
 const Color text_50 = Color(0xfff5f5f5);
 
+// Card colors
+const Color cardColor = Color(0xFFFFF6E9);
+
 // Themes
 class AppTheme {
   static final lightTheme = ThemeData(

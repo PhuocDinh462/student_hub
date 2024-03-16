@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:pinput/pinput.dart';
 
@@ -60,37 +61,30 @@ class _VerifyCodeState extends State<VerifyCode> {
             children: [
               const Gap(50),
               // Verify Code
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 22.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      'Verify Code',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    Text('Verify Code',
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayLarge
+                            ?.copyWith(fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
 
               // Enter OTP
               const Gap(5),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
                       'Enter OTP',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ],
                 ),
@@ -103,7 +97,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                 defaultPinTheme: defaultPinTheme,
                 focusedPinTheme: defaultPinTheme.copyWith(
                   decoration: defaultPinTheme.decoration!.copyWith(
-                    border: Border.all(color: Colors.blue),
+                    border: Border.all(color: primary_300),
                   ),
                 ),
                 onCompleted: (pin) {
@@ -118,37 +112,29 @@ class _VerifyCodeState extends State<VerifyCode> {
               const Gap(30),
 
               // Code was sent to your email
-              const Column(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Code was sent to your email',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Gap(10),
+                  const Gap(10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'This code expires in',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                      Gap(5),
+                      const Gap(5),
                       Text(
                         '5 minutes',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold, color: primary_300),
                       ),
                     ],
                   ),
@@ -161,16 +147,16 @@ class _VerifyCodeState extends State<VerifyCode> {
                 onTap: () {
                   verifyCode(pinInput);
                 },
-                colorButton: Colors.blue,
-                colorText: Colors.white,
+                colorButton: primary_300,
+                colorText: text_50,
                 text: 'Verify Code',
               ),
               const Gap(25),
               // Resend Code
               Button(
                 onTap: resendCode,
-                colorButton: const Color(0xFFFDEDD9),
-                colorText: Colors.black,
+                colorButton: primary_300,
+                colorText: text_50,
                 text: 'Resend Code',
               ),
             ],

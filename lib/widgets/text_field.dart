@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/constants/theme.dart';
 
 class InputText extends StatelessWidget {
-  final controller;
+  final TextEditingController controller;
   final String hintText;
   final bool obscureText;
   final IconData? icon;
@@ -23,22 +24,22 @@ class InputText extends StatelessWidget {
           prefixIcon: icon != null ? Icon(icon) : null,
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(
-              color: Color.fromRGBO(189, 189, 189, 1),
+              color: text_400,
               width: 2.0,
             ),
             borderRadius: BorderRadius.circular(10.0),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(
-              color: Color.fromARGB(255, 0, 133, 242),
+              color: primary_300,
               width: 2.0,
             ),
             borderRadius: BorderRadius.circular(10.0),
           ),
-          fillColor: const Color.fromRGBO(238, 238, 238, 1),
+          fillColor: text_100,
           filled: true,
           hintText: hintText,
-          hintStyle: const TextStyle(color: Colors.grey),
+          hintStyle: const TextStyle(color: text_500),
         ),
       ),
     );
