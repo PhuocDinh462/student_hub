@@ -200,7 +200,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       isScrollControlled: true,
                       builder: (ctx) {
                         return SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.6,
+                          height: MediaQuery.of(context).size.height * 0.7,
                           child: const CreateMeeting(),
                         );
                       });
@@ -329,7 +329,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                             builder: (ctx) {
                               return SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.6,
+                                    MediaQuery.of(context).size.height * 0.7,
                                 child: const CreateMeeting(),
                               );
                             });

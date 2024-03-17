@@ -5,7 +5,11 @@ import 'package:student_hub/utils/helpers.dart';
 import 'package:student_hub/widgets/text_field_title.dart';
 
 class SelectDateTime extends StatefulWidget {
-  const SelectDateTime({super.key});
+  const SelectDateTime(
+      {super.key, required this.titleDate, required this.titleTime});
+
+  final String titleDate;
+  final String titleTime;
 
   @override
   State<SelectDateTime> createState() => _SelectDateTimeState();
@@ -28,7 +32,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
       children: [
         Expanded(
           child: TextFieldTitle(
-            title: 'Date',
+            title: widget.titleDate,
             hintText: DateFormat.yMMMd().format(_pickedDate),
             readOnly: true,
             suffixIcon: IconButton(
@@ -40,12 +44,12 @@ class _SelectDateTimeState extends State<SelectDateTime> {
         const Gap(10),
         Expanded(
           child: TextFieldTitle(
-            title: 'Time',
+            title: widget.titleTime,
             hintText: Helpers.timeToString(_pickedTime),
             readOnly: true,
             suffixIcon: IconButton(
               onPressed: () => _selectTime(context),
-              icon: const Icon(Icons.calendar_month),
+              icon: const Icon(Icons.alarm),
             ),
           ),
         ),

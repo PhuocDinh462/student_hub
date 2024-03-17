@@ -26,7 +26,7 @@ class _CreateMeetingState extends State<CreateMeeting> {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: SizedBox(
-        width: double.infinity, // Chiếm toàn bộ chiều rộng của màn hình
+        width: double.infinity,
         child: Column(
           children: [
             CircleContainer(
@@ -41,19 +41,29 @@ class _CreateMeetingState extends State<CreateMeeting> {
                   .bodyLarge
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
+            const Gap(4),
+            const Divider(thickness: 1.5, color: primary_300),
             const Gap(8),
-            const Divider(thickness: 1.5, color: primary_300),
-            const Gap(20),
-            TextFieldTitle(
-              title: 'Title',
-              hintText: 'Catch up meeting',
-              controller: titleController,
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  TextFieldTitle(
+                    title: 'Title',
+                    hintText: 'Catch up meeting',
+                    controller: titleController,
+                  ),
+                  const Gap(30),
+                  const SelectDateTime(
+                      titleDate: 'Start Date', titleTime: 'Start Time'),
+                  const Gap(30),
+                  const SelectDateTime(
+                      titleDate: 'End Date', titleTime: 'End Time'),
+                  const Gap(20),
+                  const Divider(thickness: 1.5, color: primary_300),
+                  const Gap(30),
+                ],
+              ),
             ),
-            const Gap(36),
-            const SelectDateTime(),
-            const Gap(20),
-            const Divider(thickness: 1.5, color: primary_300),
-            const Gap(50),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
