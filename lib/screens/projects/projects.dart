@@ -82,7 +82,7 @@ class Projects extends StatefulWidget {
 class _ProjectsState extends State<Projects> {
   final List<Project> projects = data;
   final searchController = TextEditingController();
-  String _selectedMenu = '';
+  // String _selectedMenu = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,7 +103,7 @@ class _ProjectsState extends State<Projects> {
                     color: Theme.of(context).colorScheme.secondaryContainer,
                     onSelected: (String value) {
                       setState(() {
-                        _selectedMenu = value;
+                        // _selectedMenu = value;
                       });
                     },
                     itemBuilder: (BuildContext context) =>
