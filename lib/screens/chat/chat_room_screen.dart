@@ -4,7 +4,8 @@ import 'package:student_hub/models/chat/chat_room.dart';
 import 'package:student_hub/models/chat/message.dart';
 import 'package:student_hub/widgets/avatar.dart';
 import 'package:student_hub/widgets/create_meeting.dart';
-import 'package:student_hub/widgets/message_bubble.dart';
+import 'package:student_hub/widgets/message_chat_bubble.dart';
+import 'package:student_hub/widgets/message_meeting_bubble.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 
@@ -88,6 +89,41 @@ List<Message> sampleMessages = [
     receiverUserId: 'userId1',
     content: 'Sure, I will. Thanks again!',
     createdAt: DateTime.now().add(const Duration(minutes: 45)),
+  ),
+  Message(
+    id: const Uuid().v4(),
+    chatRoomId: 'chatRoomId1',
+    senderUserId: 'userId2',
+    receiverUserId: 'userId1',
+    title: 'Catch up meeting',
+    createdAt: DateTime.now().add(const Duration(minutes: 60)),
+    startTime: DateTime.now(),
+    endTime: DateTime.now().add(const Duration(minutes: 15)),
+    meeting: true,
+    canceled: true,
+  ),
+  Message(
+    id: const Uuid().v4(),
+    chatRoomId: 'chatRoomId1',
+    senderUserId: 'userId1',
+    receiverUserId: 'userId2',
+    title: 'Catch up meeting',
+    createdAt: DateTime.now().add(const Duration(minutes: 70)),
+    startTime: DateTime.now(),
+    endTime: DateTime.now().add(const Duration(minutes: 15)),
+    meeting: true,
+  ),
+  Message(
+    id: const Uuid().v4(),
+    chatRoomId: 'chatRoomId1',
+    senderUserId: 'userId1',
+    receiverUserId: 'userId2',
+    title: 'Catch up meeting',
+    createdAt: DateTime.now().add(const Duration(minutes: 70)),
+    startTime: DateTime.now(),
+    endTime: DateTime.now().add(const Duration(minutes: 15)),
+    meeting: true,
+    canceled: true,
   ),
 ];
 
@@ -284,19 +320,38 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                               : MainAxisAlignment.start,
                           children: [
                             if (showImage && message.senderUserId == 'userId1')
-                              const Avatar(
-                                imageUrl: 'assets/images/default_avatar.png',
-                                radius: 12,
+                              const Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Avatar(
+                                    imageUrl:
+                                        'assets/images/default_avatar.png',
+                                    radius: 12,
+                                  ),
+                                ],
                               ),
-                            MessageBubble(
-                              userId1: 'userId1',
-                              userId2: 'userId2',
-                              message: message,
-                            ),
+                            if (message.meeting)
+                              MessageMeetingBubble(
+                                userId1: 'userId1',
+                                userId2: 'userId2',
+                                message: message,
+                              )
+                            else
+                              MessageChatBubble(
+                                userId1: 'userId1',
+                                userId2: 'userId2',
+                                message: message,
+                              ),
                             if (showImage && message.senderUserId != 'userId1')
-                              const Avatar(
-                                imageUrl: 'assets/images/default_avatar.png',
-                                radius: 12,
+                              const Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Avatar(
+                                    imageUrl:
+                                        'assets/images/default_avatar.png',
+                                    radius: 12,
+                                  ),
+                                ],
                               ),
                           ],
                         ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/models/chat/message.dart';
 
-class MessageBubble extends StatelessWidget {
-  const MessageBubble({
+class MessageChatBubble extends StatelessWidget {
+  const MessageChatBubble({
     super.key,
     required this.message,
     required this.userId1,

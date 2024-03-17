@@ -8,6 +8,11 @@ class Message extends Equatable {
   final String receiverUserId;
   final String? content;
   final DateTime createdAt;
+  final DateTime? startTime;
+  final DateTime? endTime;
+  final String? title;
+  final bool meeting;
+  final bool canceled;
 
   const Message({
     this.id,
@@ -16,6 +21,11 @@ class Message extends Equatable {
     required this.receiverUserId,
     this.content,
     required this.createdAt,
+    this.startTime,
+    this.endTime,
+    this.title,
+    this.meeting = false,
+    this.canceled = false,
   });
 
   Message copyWith({
@@ -25,6 +35,11 @@ class Message extends Equatable {
     String? receiverUserId,
     String? content,
     DateTime? createdAt,
+    DateTime? startTime,
+    DateTime? endTime,
+    String? title,
+    bool? meeting,
+    bool? canceled,
   }) {
     return Message(
       id: id ?? this.id,
@@ -33,6 +48,11 @@ class Message extends Equatable {
       receiverUserId: receiverUserId ?? this.receiverUserId,
       content: content ?? this.content,
       createdAt: createdAt ?? this.createdAt,
+      startTime: startTime ?? this.startTime,
+      endTime: endTime ?? this.endTime,
+      title: title ?? this.title,
+      meeting: meeting ?? this.meeting,
+      canceled: canceled ?? this.canceled,
     );
   }
 
@@ -44,6 +64,14 @@ class Message extends Equatable {
       receiverUserId: json['receiver_user_id'] ?? '',
       content: json['content'],
       createdAt: DateTime.parse(json['created_at']),
+      startTime: json['start_time'] != null
+          ? DateTime.parse(json['start_time'])
+          : null,
+      endTime:
+          json['end_time'] != null ? DateTime.parse(json['end_time']) : null,
+      title: json['title'],
+      meeting: json['meeting'] ?? false,
+      canceled: json['canceled'] ?? false,
     );
   }
 
@@ -54,6 +82,11 @@ class Message extends Equatable {
       'receiver_user_id': receiverUserId,
       'content': content,
       'created_at': createdAt.toIso8601String(),
+      'start_time': startTime?.toIso8601String(),
+      'end_time': endTime?.toIso8601String(),
+      'title': title,
+      'meeting': meeting,
+      'canceled': canceled,
     };
   }
 
@@ -65,5 +98,10 @@ class Message extends Equatable {
         receiverUserId,
         content,
         createdAt,
+        startTime,
+        endTime,
+        title,
+        meeting,
+        canceled,
       ];
 }
