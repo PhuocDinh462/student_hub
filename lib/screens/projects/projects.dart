@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/routes/app_routes.dart';
-import 'package:student_hub/widgets/filter_projects.dart';
+import 'package:student_hub/widgets/project_filter.dart';
 import 'package:student_hub/widgets/project_card.dart';
 import 'package:student_hub/widgets/search_field.dart';
 
@@ -149,7 +149,7 @@ class _ProjectsState extends State<Projects> {
                                 return SizedBox(
                                   height:
                                       MediaQuery.of(context).size.height * 0.8,
-                                  child: const FilterProject(),
+                                  child: const ProjectFilter(),
                                 );
                               });
                         },

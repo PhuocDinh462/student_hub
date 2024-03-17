@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:student_hub/models/chat/chat_room.dart';
 import 'package:student_hub/models/chat/message.dart';
 import 'package:student_hub/widgets/avatar.dart';
+import 'package:student_hub/widgets/create_meeting.dart';
 import 'package:student_hub/widgets/message_bubble.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
@@ -179,10 +180,6 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           ],
         ),
         actions: [
-          // IconButton(
-          //   onPressed: () {},
-          //   icon: const Icon(Icons.more_vert),
-          // ),
           PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert),
             offset: const Offset(-30, 45),
@@ -194,9 +191,20 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               PopupMenuItem<String>(
-                value: 'Saved',
+                value: 'Schedule an interview',
                 height: 60,
-                onTap: () {},
+                onTap: () async {
+                  await showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.white,
+                      isScrollControlled: true,
+                      builder: (ctx) {
+                        return SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.6,
+                          child: const CreateMeeting(),
+                        );
+                      });
+                },
                 child: Row(
                   children: [
                     Icon(
@@ -313,8 +321,18 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                 child: Row(
                   children: [
                     IconButton(
-                      onPressed: () {
-                        // TODO: Send an image
+                      onPressed: () async {
+                        await showModalBottomSheet(
+                            context: context,
+                            backgroundColor: Colors.white,
+                            isScrollControlled: true,
+                            builder: (ctx) {
+                              return SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.6,
+                                child: const CreateMeeting(),
+                              );
+                            });
                       },
                       icon: const Icon(Icons.calendar_month),
                     ),
