@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/screens/profile/student/components/components.dart';
 import 'package:student_hub/styles/button_style.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/widgets.dart';
@@ -12,6 +13,7 @@ class ProfileStudentStepTwo extends StatefulWidget {
 }
 
 class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
+  List<int> test = [1, 2, 3, 4];
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -21,7 +23,8 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
       children: [
         SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.only(
+                top: 20, left: 20, right: 20, bottom: 130),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -50,6 +53,9 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
                             Icons.add,
                           ))
                     ]),
+                Column(
+                  children: test.map((e) => ProjectItem()).toList(),
+                )
               ],
             ),
           ),

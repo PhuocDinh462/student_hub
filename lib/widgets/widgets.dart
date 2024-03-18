@@ -5,3 +5,4 @@ export 'common_text_field.dart';
 export 'button.dart';
 export 'common_tabbar_button.dart';
 export 'common_dropdown_text.dart';
+export 'chip_list.dart';

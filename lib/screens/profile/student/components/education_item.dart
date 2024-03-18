@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
 class EducationItem extends StatefulWidget {
@@ -14,15 +15,21 @@ class _EducationItemState extends State<EducationItem> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final deviceSize = context.deviceSize;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DisplayText(
-                text: 'Le Hong Phong High School', style: textTheme.bodySmall!),
+            SizedBox(
+              width: deviceSize.width * 0.6,
+              child: DisplayText(
+                  text: 'Le Hong Phong High School',
+                  style: textTheme.bodySmall!),
+            ),
             Row(
               children: [
                 IconButton(
