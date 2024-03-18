@@ -29,6 +29,7 @@ class AppRoutes {
   static const String resetPassword = '/auth/reset_password';
   static const String profileCompany = '/account-company/profile';
   static const String profileStudentStepOne = '/account-student/profile-1';
+  static const String profileStudentStepTwo = '/account-student/profile-2';
   static const String changePassword = '/profile/change_password';
   static const String nav = '/nav';
   static const String welcome = '/welcome';
@@ -56,5 +57,6 @@ class AppRoutes {
     dashboardStudent: (context) => const DashboardStudent(),
     profileCompany: (context) => const ProfileCompanyInput(),
     profileStudentStepOne: (context) => const ProfileStudentStepOne(),
+    profileStudentStepTwo: (context) => const ProfileStudentStepTwo(),
   };
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/screens/profile/student/components/components.dart';
 import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/utils/extensions.dart';
 
@@ -25,6 +26,12 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
     super.dispose();
   }
 
+  List<String> educations = [
+    'Le Hong Phong Hight School',
+    'Le Hong Phong Hight School',
+    'Le Hong Phong Hight School'
+  ];
+
   List<String> languages = [
     'English: Native or Bilingual',
     'English',
@@ -38,20 +45,6 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
   List<String> languagesSelected = [
     'English: Native or Bilingual',
     'English',
-    'Vietnamese',
-    'Vietnamese',
-    'Vietnamese',
-    'Vietnamese',
-    'Vietnamese',
-    'Vietnamese',
-    'Vietnamese',
-    'Vietnamese',
-    'Vietnamese',
-    'Vietnamese',
-    'Vietnamese',
-    'Vietnamese',
-    'Vietnamese',
-    'Vietnamese',
     'Vietnamese',
   ];
 
@@ -98,7 +91,8 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
       children: [
         SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.only(
+                top: 20, left: 20, right: 20, bottom: 130),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -143,7 +137,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                           : Row(children: [
                               IconButton(
                                   iconSize: 30,
-                                  onPressed: () => showDialog<String>(
+                                  onPressed: () => showDialog(
                                         context: context,
                                         builder: (ctx) => AlertDialog(
                                           backgroundColor:
@@ -212,29 +206,31 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                     decoration: BoxDecoration(
-                      // border: Border.all(color: colorScheme.onSurface),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
                       children: languagesSelected
-                          .map((e) => Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                    child: DisplayText(
-                                      text: e,
-                                      style: textTheme.bodySmall!,
-                                    ),
-                                  ),
-                                  Divider(
-                                    color: colorScheme.onSurface,
-                                  )
-                                ],
+                          .map((e) => LanguageItem(
+                                text: e,
                               ))
                           .toList(),
                     ),
+                  ),
+                  const Gap(20),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        DisplayText(
+                            text: 'Education', style: textTheme.bodyLarge!),
+                        IconButton(
+                            iconSize: 30,
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.add,
+                            ))
+                      ]),
+                  Column(
+                    children: educations.map((e) => EducationItem()).toList(),
                   )
                 ]),
           ),
@@ -244,13 +240,13 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
           right: 0,
           child: Container(
             width: deviceSize.width,
-            padding: const EdgeInsets.all(30),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             decoration: BoxDecoration(color: Colors.white, boxShadow: [
               BoxShadow(
                 color: colorScheme.onSurface.withOpacity(0.1),
                 spreadRadius: 5,
                 blurRadius: 7,
-                offset: const Offset(0, -3), // changes position of shadow
+                offset: const Offset(0, -3),
               ),
             ]),
             child: ElevatedButton(
