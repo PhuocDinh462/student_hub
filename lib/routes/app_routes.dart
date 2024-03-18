@@ -27,8 +27,8 @@ class AppRoutes {
   static const String createAccountStudent = '/auth/create_account_student';
   static const String signUpOption = '/auth/sign_up';
   static const String resetPassword = '/auth/reset_password';
-  static const String profileCompany = '/company/account/profile';
-  static const String profileStudentStepOne = '/student/account/profile-1';
+  static const String profileCompany = '/account-company/profile';
+  static const String profileStudentStepOne = '/account-student/profile-1';
   static const String changePassword = '/profile/change_password';
   static const String nav = '/nav';
   static const String welcome = '/welcome';

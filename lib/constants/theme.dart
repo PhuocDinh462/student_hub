@@ -18,6 +18,9 @@ const Color text_200 = Color(0xffd9d9d9);
 const Color text_100 = Color(0xffe9e9e9);
 const Color text_50 = Color(0xfff5f5f5);
 
+// More colors
+const Color color_1 = Color.fromARGB(255, 255, 77, 64);
+
 // Themes
 class AppTheme {
   static final lightTheme = ThemeData(
@@ -55,11 +58,11 @@ class AppTheme {
       bodySmall:
           TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: text_700),
       labelLarge:
-          TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: text_700),
+          TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: text_700),
       labelMedium:
-          TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: text_700),
+          TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: text_700),
       labelSmall:
-          TextStyle(fontSize: 14, fontWeight: FontWeight.w300, color: text_700),
+          TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: text_700),
     ),
     iconTheme: const IconThemeData(
       color: text_600,
@@ -101,11 +104,11 @@ class AppTheme {
       bodySmall:
           TextStyle(fontSize: 16, fontWeight: FontWeight.w300, color: text_50),
       labelLarge:
-          TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: text_50),
+          TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: text_50),
       labelMedium:
-          TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: text_50),
+          TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: text_50),
       labelSmall:
-          TextStyle(fontSize: 14, fontWeight: FontWeight.w300, color: text_50),
+          TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: text_50),
     ),
     iconTheme: const IconThemeData(
       color: text_100,

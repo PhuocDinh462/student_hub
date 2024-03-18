@@ -26,6 +26,7 @@ class CommonTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -50,7 +51,7 @@ class CommonTextField extends StatelessWidget {
               suffixIcon: suffixIcon,
               hintStyle: textTheme.bodySmall!.copyWith(color: text_400),
               focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: colorScheme.primary),
+                  borderSide: BorderSide(color: colorScheme.onSurface),
                   borderRadius: const BorderRadius.all(Radius.circular(10))),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: colorScheme.onSurface),

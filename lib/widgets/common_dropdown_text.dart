@@ -19,6 +19,7 @@ class CommonDropdownText extends StatelessWidget {
   Widget build(BuildContext context) {
     int value = Provider.of<ProfileProvider>(context).curTechStackValue;
     final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       DisplayText(text: title, style: textTheme.bodyLarge!),
@@ -29,13 +30,15 @@ class CommonDropdownText extends StatelessWidget {
         icon: const Icon(Icons.arrow_drop_down),
         style: textTheme.bodySmall,
         menuMaxHeight: maxHeight,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(borderSide: BorderSide(color: text_100)),
-          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          enabledBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: text_100)),
-          focusedBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: text_100)),
+        decoration: InputDecoration(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: colorScheme.onSurface),
+              borderRadius: const BorderRadius.all(Radius.circular(10))),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: colorScheme.onSurface),
+              borderRadius: const BorderRadius.all(Radius.circular(10))),
         ),
         onChanged: (int? value) {
           Provider.of<ProfileProvider>(context).setCurTechStackValue(value!);
@@ -50,7 +53,7 @@ class CommonDropdownText extends StatelessWidget {
                         Text(e),
                         const Gap(10),
                         const Divider(
-                          color: text_100,
+                          color: text_300,
                           height: 2,
                         ),
                       ],

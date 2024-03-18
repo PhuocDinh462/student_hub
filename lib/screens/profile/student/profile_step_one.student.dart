@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:student_hub/widgets/display_text.dart';
+import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/styles/styles.dart';
+import 'package:student_hub/utils/extensions.dart';
+
+import 'package:student_hub/widgets/chip_list.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
 class ProfileStudentStepOne extends StatefulWidget {
@@ -12,6 +16,54 @@ class ProfileStudentStepOne extends StatefulWidget {
 
 class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
   String valueDrop = 'FullStack Engineer';
+  bool langEdit = false;
+  final TextEditingController _titleController = TextEditingController();
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    super.dispose();
+  }
+
+  List<String> languages = [
+    'English: Native or Bilingual',
+    'English',
+    'Vietnamese',
+    'Japanese',
+    'Chinese',
+    'Korea',
+    'Swedish',
+  ];
+
+  List<String> languagesSelected = [
+    'English: Native or Bilingual',
+    'English',
+    'Vietnamese',
+    'Vietnamese',
+    'Vietnamese',
+    'Vietnamese',
+    'Vietnamese',
+    'Vietnamese',
+    'Vietnamese',
+    'Vietnamese',
+    'Vietnamese',
+    'Vietnamese',
+    'Vietnamese',
+    'Vietnamese',
+    'Vietnamese',
+    'Vietnamese',
+    'Vietnamese',
+  ];
+
+  List<String> skills = [
+    'Reactjs',
+    'Nodejs',
+    'Flutter',
+    'Dart',
+    'Python',
+    'JavaScript',
+    'C/C++'
+  ];
 
   List<String> lst = [
     'FullStack Engineer',
@@ -39,6 +91,8 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final deviceSize = context.deviceSize;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Stack(
       children: [
@@ -64,8 +118,150 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                   CommonDropdownText(
                     listItem: lst,
                     title: 'Techstack',
+                  ),
+                  const Gap(20),
+                  const CommonTextField(
+                      title: 'Skillset', hintText: 'Add your skill'),
+                  ChipList(listChip: skills),
+                  const Gap(20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      DisplayText(
+                          text: 'Languages', style: textTheme.bodyLarge!),
+                      langEdit
+                          ? IconButton(
+                              iconSize: 30,
+                              onPressed: () {
+                                setState(() {
+                                  langEdit = false;
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.close,
+                              ))
+                          : Row(children: [
+                              IconButton(
+                                  iconSize: 30,
+                                  onPressed: () => showDialog<String>(
+                                        context: context,
+                                        builder: (ctx) => AlertDialog(
+                                          backgroundColor:
+                                              colorScheme.background,
+                                          title: DisplayText(
+                                              text: 'Languages',
+                                              style: textTheme.headlineLarge!),
+                                          content: SizedBox(
+                                              height: 300,
+                                              width: deviceSize.width,
+                                              child: ListView.builder(
+                                                itemCount: languages.length,
+                                                itemBuilder: (ctx, index) =>
+                                                    Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    border: Border(
+                                                      bottom: BorderSide(
+                                                          color:
+                                                              text_500), // This adds a border at the bottom
+                                                    ),
+                                                  ),
+                                                  child: CheckboxListTile(
+                                                    title: DisplayText(
+                                                      text: languages[index],
+                                                      style:
+                                                          textTheme.bodySmall!,
+                                                    ),
+                                                    value: languagesSelected
+                                                        .contains(
+                                                            languages[index]),
+                                                    onChanged: (bool? value) {},
+                                                  ),
+                                                ),
+                                              )),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: DisplayText(
+                                                  text: 'Save',
+                                                  style: textTheme.labelLarge!
+                                                      .copyWith(
+                                                    color: colorScheme.primary,
+                                                  ),
+                                                ))
+                                          ],
+                                        ),
+                                      ),
+                                  icon: const Icon(
+                                    Icons.add,
+                                  )),
+                              IconButton(
+                                  iconSize: 25,
+                                  onPressed: () {
+                                    setState(() {
+                                      langEdit = true;
+                                    });
+                                  },
+                                  icon: const Icon(Icons.edit)),
+                            ])
+                    ],
+                  ),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                    decoration: BoxDecoration(
+                      // border: Border.all(color: colorScheme.onSurface),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      children: languagesSelected
+                          .map((e) => Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 5),
+                                    child: DisplayText(
+                                      text: e,
+                                      style: textTheme.bodySmall!,
+                                    ),
+                                  ),
+                                  Divider(
+                                    color: colorScheme.onSurface,
+                                  )
+                                ],
+                              ))
+                          .toList(),
+                    ),
                   )
                 ]),
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: Container(
+            width: deviceSize.width,
+            padding: const EdgeInsets.all(30),
+            decoration: BoxDecoration(color: Colors.white, boxShadow: [
+              BoxShadow(
+                color: colorScheme.onSurface.withOpacity(0.1),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: const Offset(0, -3), // changes position of shadow
+              ),
+            ]),
+            child: ElevatedButton(
+                style: buttonPrimary,
+                onPressed: () {},
+                child: DisplayText(
+                  text: 'Next',
+                  style: textTheme.labelLarge!.copyWith(
+                    color: Colors.white,
+                  ),
+                )),
           ),
         )
       ],
