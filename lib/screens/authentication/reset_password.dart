@@ -21,7 +21,7 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   //sign in
   void resetPassword() async {
-    Navigator.pushNamed(context, AppRoutes.profile);
+    Navigator.pushNamed(context, AppRoutes.profileCompany);
   }
 
   @override

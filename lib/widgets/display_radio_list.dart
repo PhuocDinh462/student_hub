@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
 class DisplayRadioList extends StatefulWidget {
@@ -17,11 +16,17 @@ List<String> options = [
   'More than 1000 employees',
 ];
 
+List<String> options2 = [
+  'It\'s just me',
+];
+
 class _DisplayRadioListState extends State<DisplayRadioList> {
   int curOption = 0;
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return ListView.builder(
       itemCount: options.length,
       shrinkWrap: true,
@@ -37,8 +42,8 @@ class _DisplayRadioListState extends State<DisplayRadioList> {
             child: Row(
               children: [
                 Radio(
-                  value: index,
-                  groupValue: curOption,
+                  value: index, groupValue: curOption,
+                  // onChanged: null,
                   onChanged: (value) {
                     setState(() {
                       curOption = value!;
@@ -47,9 +52,7 @@ class _DisplayRadioListState extends State<DisplayRadioList> {
                 ),
                 DisplayText(
                   text: options[index],
-                  color: text_900,
-                  fontWeight: FontWeight.w400,
-                  size: 16,
+                  style: textTheme.bodySmall!,
                 )
               ],
             ));

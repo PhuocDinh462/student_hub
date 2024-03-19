@@ -11,6 +11,7 @@ import 'package:student_hub/screens/authentication/forgot_password.dart';
 import 'package:student_hub/screens/authentication/login.dart';
 import 'package:student_hub/screens/authentication/sign_up_option.dart';
 import 'package:student_hub/screens/authentication/verify_code.dart';
+import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
 import 'package:student_hub/screens/home/Home.dart';
 import 'package:student_hub/screens/post_job/post_job.dart';
 import 'package:student_hub/screens/profile/profile.dart';
@@ -20,6 +21,8 @@ import 'package:student_hub/screens/projects/projects_saved.dart';
 import 'package:student_hub/screens/welcome/welcome.dart';
 import 'package:student_hub/screens/account/account.dart';
 import 'package:student_hub/screens/account/settings.dart';
+
+import 'package:student_hub/screens/screens.dart';
 
 class AppRoutes {
   static const String nav = '/';
@@ -32,14 +35,20 @@ class AppRoutes {
   static const String createAccountStudent = '/auth/create_account_student';
   static const String signUpOption = '/auth/sign_up';
   static const String resetPassword = '/auth/reset_password';
-  static const String profile = '/profile';
-  static const String profileNoInfo = '/profile/no-info';
+  static const String profileCompany = '/account-company/profile';
+  static const String profileStudentStepOne = '/account-student/profile-1';
+  static const String profileStudentStepTwo =
+      '/account-student/profile-1/profile-2';
+  static const String profileStudentStepThree =
+      '/account-student/profile-1/profile-2/profile-3';
   static const String changePassword = '/profile/change_password';
   static const String projects = '/projects';
   static const String projectsSaved = '/projects/saved';
   static const String welcome = '/welcome';
+  static const String welcomeCompany = '/welcome/company';
   static const String account = '/account';
   static const String settings = '/account/settings';
+  static const String dashboardStudent = '/student/dashboard';
   static const String languages = '/account/settings/languages';
   static const String postJob = '/post_job';
 
@@ -59,11 +68,15 @@ class AppRoutes {
     signUpOption: (context) => const SignUpOption(),
     resetPassword: (context) => const ResetPassword(),
     changePassword: (context) => const ChangePassword(),
-    profile: (context) => const Profile(),
-    profileNoInfo: (context) => const ProfileInput(),
+    welcome: (context) => const Welcome(),
+    welcomeCompany: (context) => const WelcomeCompany(),
+    dashboardStudent: (context) => const DashboardStudent(),
+    profileCompany: (context) => const ProfileCompanyInput(),
+    profileStudentStepOne: (context) => const ProfileStudentStepOne(),
+    profileStudentStepTwo: (context) => const ProfileStudentStepTwo(),
+    profileStudentStepThree: (context) => const ProfileStudentStepThree(),
     projects: (context) => const Projects(),
     projectsSaved: (context) => const ProjectsSaved(),
-    welcome: (context) => const Welcome(),
     account: (context) =>
         const AccountHeader(title: 'Account', body: Account()),
     settings: (context) =>
