@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/screens/dashboard/widgets/project_item.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
@@ -66,8 +67,19 @@ class Dashboard extends StatelessWidget {
               child: TabBarView(
                 physics: NeverScrollableScrollPhysics(),
                 children: [
-                  Center(
-                    child: Text('All projects'),
+                  // All projects
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                    child: Column(
+                      children: [
+                        ProjectItem(),
+                        Divider(
+                          height: 50,
+                          thickness: 1,
+                          color: text_400,
+                        ),
+                      ],
+                    ),
                   ),
                   Center(
                     child: Text('Working'),
