@@ -9,10 +9,9 @@ class DisplayText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: style,
-      textAlign: textAlign ?? TextAlign.start,
-    );
+    return Text(text,
+        style: style,
+        textAlign: textAlign ?? TextAlign.start,
+        overflow: TextOverflow.ellipsis);
   }
 }

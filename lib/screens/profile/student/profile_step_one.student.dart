@@ -230,7 +230,8 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                             ))
                       ]),
                   Column(
-                    children: educations.map((e) => EducationItem()).toList(),
+                    children:
+                        educations.map((e) => const EducationItem()).toList(),
                   )
                 ]),
           ),

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/routes/app_routes.dart';
-import 'package:student_hub/screens/profile/student/components/components.dart';
 import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/utils/extensions.dart';
+import 'package:student_hub/widgets/picked_image.dart';
 
 import 'package:student_hub/widgets/widgets.dart';
 
@@ -33,18 +31,21 @@ class _ProfileStudentStepThreeState extends State<ProfileStudentStepThree> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       DisplayText(
-                        text: 'Welcome to Student Hub',
+                        text: 'CV & Transcript',
                         style: textTheme.headlineLarge!,
                         textAlign: TextAlign.center,
                       ),
                       const Gap(10),
                       DisplayText(
                         text:
-                            'Tell us about your self and you will be on your way connect with real-world projects.',
+                            'Tell us about your self and you will be on your way connect with real-world project.',
                         style: textTheme.bodySmall!,
                         textAlign: TextAlign.center,
                       ),
                       const Gap(20),
+                      const PickedImage(label: 'Resume/CV (*)'),
+                      const Gap(20),
+                      const PickedImage(label: 'Transcript (*)')
                     ]))),
         Positioned(
           bottom: 0,
@@ -62,10 +63,9 @@ class _ProfileStudentStepThreeState extends State<ProfileStudentStepThree> {
             ]),
             child: ElevatedButton(
                 style: buttonPrimary,
-                onPressed: () => Navigator.pushNamed(
-                    context, AppRoutes.profileStudentStepTwo),
+                onPressed: () {},
                 child: DisplayText(
-                  text: 'Next',
+                  text: 'Continue',
                   style: textTheme.labelLarge!.copyWith(
                     color: Colors.white,
                   ),

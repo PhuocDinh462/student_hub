@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
     return HeaderLayout(
       body: MaterialApp(
         routes: AppRoutes.routes,
-        initialRoute: AppRoutes.profileStudentStepTwo,
+        initialRoute: AppRoutes.profileStudentStepThree,
         debugShowCheckedModeBanner: false,
         theme: themeProvider.getThemeMode
             ? AppTheme.darkTheme

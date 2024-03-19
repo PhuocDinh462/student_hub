@@ -29,7 +29,7 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 DisplayText(
-                  text: 'Welcome to Student Hub',
+                  text: 'Experiences',
                   style: textTheme.headlineLarge!,
                   textAlign: TextAlign.center,
                 ),
@@ -54,7 +54,7 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
                           ))
                     ]),
                 Column(
-                  children: test.map((e) => ProjectItem()).toList(),
+                  children: test.map((e) => const ProjectItem()).toList(),
                 )
               ],
             ),

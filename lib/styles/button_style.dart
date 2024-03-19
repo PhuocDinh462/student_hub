@@ -10,7 +10,9 @@ final ButtonStyle buttonPrimary = ElevatedButton.styleFrom(
 
 final ButtonStyle buttonSecondary = ElevatedButton.styleFrom(
     padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 0),
-    backgroundColor: text_500,
+    backgroundColor: text_200,
+    textStyle: const TextStyle(
+        fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
     elevation: 0,
     shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(5))));
+        borderRadius: BorderRadius.all(Radius.circular(1000))));

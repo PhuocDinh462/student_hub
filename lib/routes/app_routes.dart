@@ -31,6 +31,8 @@ class AppRoutes {
   static const String profileStudentStepOne = '/account-student/profile-1';
   static const String profileStudentStepTwo =
       '/account-student/profile-1/profile-2';
+  static const String profileStudentStepThree =
+      '/account-student/profile-1/profile-2/profile-3';
   static const String changePassword = '/profile/change_password';
   static const String nav = '/nav';
   static const String welcome = '/welcome';
@@ -59,5 +61,6 @@ class AppRoutes {
     profileCompany: (context) => const ProfileCompanyInput(),
     profileStudentStepOne: (context) => const ProfileStudentStepOne(),
     profileStudentStepTwo: (context) => const ProfileStudentStepTwo(),
+    profileStudentStepThree: (context) => const ProfileStudentStepThree(),
   };
 }
