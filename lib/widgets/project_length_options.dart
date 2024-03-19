@@ -40,9 +40,11 @@ class _ProjectLengthOptionsState extends State<ProjectLengthOptions> {
                 ),
                 DisplayText(
                   text: widget.options[index],
-                  color: text_900,
-                  fontWeight: FontWeight.w400,
-                  size: 16,
+                  style: const TextStyle(
+                    color: text_900,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                  ),
                 )
               ],
             ));

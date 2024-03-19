@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/layout/navigation.dart';
-import 'package:student_hub/screens/Authentication/authentication.dart';
+import 'package:student_hub/screens/authentication/authentication.dart';
 import 'package:student_hub/screens/account/languages.dart';
 import 'package:student_hub/screens/authentication/reset_password.dart';
 import 'package:student_hub/screens/account/change_password.dart';
@@ -15,7 +15,6 @@ import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
 import 'package:student_hub/screens/home/Home.dart';
 import 'package:student_hub/screens/post_job/post_job.dart';
 import 'package:student_hub/screens/profile/profile.dart';
-import 'package:student_hub/screens/profile/profile_input.dart';
 import 'package:student_hub/screens/projects/projects.dart';
 import 'package:student_hub/screens/projects/projects_saved.dart';
 import 'package:student_hub/screens/welcome/welcome.dart';

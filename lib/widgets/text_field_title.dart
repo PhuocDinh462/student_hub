@@ -27,9 +27,11 @@ class TextFieldTitle extends StatelessWidget {
       children: [
         DisplayText(
           text: title,
-          color: text_900,
-          fontWeight: FontWeight.w600,
-          size: 16,
+          style: const TextStyle(
+            color: text_900,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
         ),
         const Gap(10),
         TextField(
