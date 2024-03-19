@@ -28,9 +28,16 @@ class AppTheme {
     colorScheme: const ColorScheme.light(
       primary: primary_300,
       onPrimary: text_50,
+      primaryContainer: text_100,
+      secondaryContainer: text_50,
       surface: primary_300,
-      onSurface: text_600,
+      onSurface: text_500,
       outline: Colors.transparent,
+    ),
+    cardTheme: const CardTheme(
+      color: text_50,
+      surfaceTintColor: Colors.transparent,
+      shadowColor: text_900,
     ),
     textTheme: const TextTheme(
       displayLarge:
@@ -65,7 +72,7 @@ class AppTheme {
           TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: text_700),
     ),
     iconTheme: const IconThemeData(
-      color: text_600,
+      color: text_500,
       size: 24.0,
     ),
   );
@@ -74,9 +81,16 @@ class AppTheme {
     useMaterial3: true,
     colorScheme: const ColorScheme.dark(
       primary: text_50,
-      onPrimary: text_50,
+      onPrimary: text_800,
+      primaryContainer: text_800,
+      secondaryContainer: text_900,
       surface: text_800,
       onSurface: text_50,
+    ),
+    cardTheme: const CardTheme(
+      color: text_800,
+      surfaceTintColor: Colors.transparent,
+      shadowColor: text_600,
     ),
     textTheme: const TextTheme(
       displayLarge:

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/layout/navigation.dart';
 import 'package:student_hub/screens/Authentication/authentication.dart';
+import 'package:student_hub/screens/account/languages.dart';
 import 'package:student_hub/screens/authentication/reset_password.dart';
 import 'package:student_hub/screens/account/change_password.dart';
 import 'package:student_hub/screens/authentication/create_account_company.dart';
@@ -11,6 +13,11 @@ import 'package:student_hub/screens/authentication/sign_up_option.dart';
 import 'package:student_hub/screens/authentication/verify_code.dart';
 import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
 import 'package:student_hub/screens/home/Home.dart';
+import 'package:student_hub/screens/post_job/post_job.dart';
+import 'package:student_hub/screens/profile/profile.dart';
+import 'package:student_hub/screens/profile/profile_input.dart';
+import 'package:student_hub/screens/projects/projects.dart';
+import 'package:student_hub/screens/projects/projects_saved.dart';
 import 'package:student_hub/screens/welcome/welcome.dart';
 import 'package:student_hub/screens/account/account.dart';
 import 'package:student_hub/screens/account/settings.dart';
@@ -18,7 +25,8 @@ import 'package:student_hub/screens/account/settings.dart';
 import 'package:student_hub/screens/screens.dart';
 
 class AppRoutes {
-  static const String home = '/';
+  static const String nav = '/';
+  static const String home = '/home';
   static const String auth = '/auth';
   static const String login = '/auth/login';
   static const String forgotPassword = '/auth/forgot_password';
@@ -34,15 +42,23 @@ class AppRoutes {
   static const String profileStudentStepThree =
       '/account-student/profile-1/profile-2/profile-3';
   static const String changePassword = '/profile/change_password';
-  static const String nav = '/nav';
+  static const String projects = '/projects';
+  static const String projectsSaved = '/projects/saved';
   static const String welcome = '/welcome';
   static const String welcomeCompany = '/welcome/company';
   static const String account = '/account';
   static const String settings = '/account/settings';
   static const String dashboardStudent = '/student/dashboard';
+  static const String languages = '/account/settings/languages';
+  static const String postJob = '/post_job';
 
   static Map<String, WidgetBuilder> routes = {
-    home: (context) => const Home(),
+    nav: (context) => const AccountHeader(
+          title: 'Student Hub',
+          body: Navigation(),
+          resizeToAvoidBottomInset: false,
+        ),
+    home: (context) => const AccountHeader(title: 'Home', body: Home()),
     auth: (context) => const Authentication(),
     login: (context) => Login(),
     forgotPassword: (context) => const ForgotPassword(),
@@ -52,15 +68,22 @@ class AppRoutes {
     signUpOption: (context) => const SignUpOption(),
     resetPassword: (context) => const ResetPassword(),
     changePassword: (context) => const ChangePassword(),
-    nav: (context) => const Navigation(),
     welcome: (context) => const Welcome(),
     welcomeCompany: (context) => const WelcomeCompany(),
-    account: (context) => const Account(),
-    settings: (context) => const Settings(),
     dashboardStudent: (context) => const DashboardStudent(),
     profileCompany: (context) => const ProfileCompanyInput(),
     profileStudentStepOne: (context) => const ProfileStudentStepOne(),
     profileStudentStepTwo: (context) => const ProfileStudentStepTwo(),
     profileStudentStepThree: (context) => const ProfileStudentStepThree(),
+    projects: (context) => const Projects(),
+    projectsSaved: (context) => const ProjectsSaved(),
+    account: (context) =>
+        const AccountHeader(title: 'Account', body: Account()),
+    settings: (context) =>
+        const AccountHeader(title: 'Settings', body: Settings()),
+    languages: (context) =>
+        const AccountHeader(title: 'Languages', body: Languages()),
+    postJob: (context) =>
+        const AccountHeader(title: 'Post Job', body: PostJob()),
   };
 }

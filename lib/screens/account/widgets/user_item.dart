@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/models/user.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserItem extends StatelessWidget {
   final String username;
@@ -34,7 +35,8 @@ class UserItem extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               Text(
-                userType == UserType.student ? 'Student' : 'Company',
+                AppLocalizations.of(context)!
+                    .user(userType == UserType.student ? 'student' : 'company'),
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       fontStyle: FontStyle.italic,
                     ),

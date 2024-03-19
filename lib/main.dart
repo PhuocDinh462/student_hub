@@ -4,7 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/layout/header_layout.dart';
 import 'package:student_hub/providers/providers.dart';
+import 'package:student_hub/providers/post_job_provider.dart';
+import 'package:student_hub/providers/theme_provider.dart';
 import 'package:student_hub/routes/app_routes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:student_hub/utils/image_list.dart';
 
 void main() {
   runApp(
@@ -14,6 +18,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => IndexPageProvider()),
         ChangeNotifierProvider(create: (_) => OpenIdProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider())
+        ChangeNotifierProvider(create: (_) => PostJobProvider()),
       ],
       child: const MyApp(),
     ),
@@ -27,21 +32,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
+    ImageList.loadImage(context);
+
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.black,
       ),
     );
 
-    return HeaderLayout(
-      body: MaterialApp(
-        routes: AppRoutes.routes,
-        initialRoute: AppRoutes.profileStudentStepThree,
-        debugShowCheckedModeBanner: false,
-        theme: themeProvider.getThemeMode
-            ? AppTheme.darkTheme
-            : AppTheme.lightTheme,
-      ),
+
+    return MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: Locale(themeProvider.getLanguage),
+      routes: AppRoutes.routes,
+      initialRoute: '/',
+      debugShowCheckedModeBanner: false,
+      theme:
+          themeProvider.getThemeMode ? AppTheme.darkTheme : AppTheme.lightTheme,
+
     );
   }
 }

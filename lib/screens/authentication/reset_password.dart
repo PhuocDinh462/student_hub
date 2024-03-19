@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/routes/app_routes.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
@@ -42,19 +43,19 @@ class _ResetPasswordState extends State<ResetPassword> {
                   child: Icon(
                     Icons.lock,
                     size: 60,
-                    color: Colors.black,
+                    color: text_700,
                   ),
                 ),
               ),
               //
               const Gap(20),
               //welcome back
-              const Text(
+              Text(
                 'Reset Your Password',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold),
+                style: Theme.of(context)
+                    .textTheme
+                    .displayLarge
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
               const Gap(30),
               // password textfield
@@ -77,8 +78,8 @@ class _ResetPasswordState extends State<ResetPassword> {
               //Reset Password
               Button(
                 onTap: resetPassword,
-                colorButton: Colors.blue,
-                colorText: Colors.white,
+                colorButton: primary_300,
+                colorText: text_50,
                 text: 'Reset Password',
               ),
             ],

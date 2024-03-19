@@ -4,6 +4,7 @@ import 'package:student_hub/routes/app_routes.dart';
 import 'package:student_hub/screens/account/widgets/user_item.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Account extends StatelessWidget {
   const Account({super.key});
@@ -33,7 +34,7 @@ class Account extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   subtitle: Text(
-                    'Student',
+                    AppLocalizations.of(context)!.user('student'),
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                           fontStyle: FontStyle.italic,
                         ),
@@ -65,7 +66,7 @@ class Account extends StatelessWidget {
                     const Icon(Icons.account_box, size: 32),
                     const Gap(10),
                     Text(
-                      'Profiles',
+                      AppLocalizations.of(context)!.account('profiles'),
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ],
@@ -75,12 +76,11 @@ class Account extends StatelessWidget {
             const Divider(
               height: 50,
               thickness: .5,
-              indent: 20,
-              endIndent: 20,
+              indent: 40,
               color: text_400,
             ),
             GestureDetector(
-              onTap: () => Navigator.pushNamed(context, '/account/settings'),
+              onTap: () => Navigator.pushNamed(context, AppRoutes.settings),
               child: Container(
                 color: Colors.transparent,
                 child: Row(
@@ -88,7 +88,7 @@ class Account extends StatelessWidget {
                     const Icon(Icons.settings, size: 32),
                     const Gap(10),
                     Text(
-                      'Settings',
+                      AppLocalizations.of(context)!.account('settings'),
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ],
@@ -98,8 +98,7 @@ class Account extends StatelessWidget {
             const Divider(
               height: 50,
               thickness: .5,
-              indent: 20,
-              endIndent: 20,
+              indent: 40,
               color: text_400,
             ),
             GestureDetector(
@@ -111,7 +110,7 @@ class Account extends StatelessWidget {
                     const Icon(Icons.lock, size: 32),
                     const Gap(10),
                     Text(
-                      'Change password',
+                      AppLocalizations.of(context)!.account('changePassword'),
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ],
@@ -121,8 +120,7 @@ class Account extends StatelessWidget {
             const Divider(
               height: 50,
               thickness: .5,
-              indent: 20,
-              endIndent: 20,
+              indent: 40,
               color: text_400,
             ),
             GestureDetector(
@@ -131,14 +129,18 @@ class Account extends StatelessWidget {
                 color: Colors.transparent,
                 child: Row(
                   children: [
-                    const Icon(Icons.logout_rounded,
-                        size: 32, color: Colors.red),
+                    Icon(Icons.logout_rounded,
+                        size: 32,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? const Color.fromARGB(255, 255, 116, 106)
+                            : Colors.red),
                     const Gap(10),
                     Text(
-                      'Logout',
+                      AppLocalizations.of(context)!.account('logout'),
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: Colors.red,
-                          ),
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? const Color.fromARGB(255, 255, 116, 106)
+                              : Colors.red),
                     ),
                   ],
                 ),
