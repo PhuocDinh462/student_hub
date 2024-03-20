@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/screens/dashboard/widgets/bottom_tool_menu.dart';
 
 class ProjectItem extends StatelessWidget {
   const ProjectItem({super.key});
@@ -23,11 +24,13 @@ class ProjectItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Gap(10),
-                      Text('Senior frontend developer (Fintech)',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(color: primary_300)),
+                      Text(
+                        'Senior frontend developer (Fintech)',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge
+                            ?.copyWith(color: primary_300),
+                      ),
                       const Gap(3),
                       Text(
                         'Created 3 days ago',
@@ -45,7 +48,16 @@ class ProjectItem extends StatelessWidget {
                       Icons.more_horiz,
                       size: 32,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                        context: context,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.background,
+                        builder: (BuildContext context) {
+                          return const BottomToolMenu();
+                        },
+                      );
+                    },
                   ),
                 ),
               ],
