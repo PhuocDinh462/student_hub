@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
@@ -69,16 +70,25 @@ class Dashboard extends StatelessWidget {
                 children: [
                   // All projects
                   Padding(
-                    padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                    child: Column(
-                      children: [
-                        ProjectItem(),
-                        Divider(
-                          height: 50,
-                          thickness: 1,
-                          color: text_400,
-                        ),
-                      ],
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Gap(10),
+                          ProjectItem(),
+                          Gap(10),
+                          ProjectItem(),
+                          Gap(10),
+                          ProjectItem(),
+                          Gap(10),
+                          ProjectItem(),
+                          Gap(10),
+                          ProjectItem(),
+                          Gap(10),
+                          ProjectItem(),
+                          Gap(85),
+                        ],
+                      ),
                     ),
                   ),
                   Center(

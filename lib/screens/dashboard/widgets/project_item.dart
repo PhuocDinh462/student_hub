@@ -7,101 +7,85 @@ class ProjectItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 5, 5, 15),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Gap(10),
-                Text('Senior frontend developer (Fintech)',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(color: primary_300)),
-                const Gap(3),
-                Text(
-                  'Created 3 days ago',
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        fontStyle: FontStyle.italic,
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Gap(10),
+                      Text('Senior frontend developer (Fintech)',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge
+                              ?.copyWith(color: primary_300)),
+                      const Gap(3),
+                      Text(
+                        'Created 3 days ago',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              fontStyle: FontStyle.italic,
+                            ),
                       ),
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.more_horiz,
+                      size: 32,
+                    ),
+                    onPressed: () {},
+                  ),
                 ),
               ],
             ),
-            IconButton(
-              icon: const Icon(
-                Icons.more,
-                size: 32,
-                color: primary_300,
-              ),
-              onPressed: () {},
-            ),
+            const Gap(10),
+            const Text(
+                'Students are looking for\n - Clear expectation about your project or deliverables'),
+            const Gap(20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Row(
+                  children: [
+                    Text('8', style: Theme.of(context).textTheme.headlineLarge),
+                    const Gap(10),
+                    Icon(Icons.description,
+                        color: Theme.of(context).colorScheme.primary, size: 24),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text('8', style: Theme.of(context).textTheme.headlineLarge),
+                    const Gap(10),
+                    Icon(Icons.message_outlined,
+                        color: Theme.of(context).colorScheme.primary, size: 24),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text('8', style: Theme.of(context).textTheme.headlineLarge),
+                    const Gap(10),
+                    Icon(Icons.check_circle,
+                        color: Theme.of(context).colorScheme.primary, size: 24),
+                  ],
+                ),
+              ],
+            )
           ],
         ),
-        const Gap(10),
-        const Text(
-            'Students are looking for\n - Clear expectation about your project or deliverables'),
-        const Gap(30),
-        IntrinsicHeight(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Text('8', style: Theme.of(context).textTheme.displayLarge),
-                  const Gap(10),
-                  const Row(
-                    children: [
-                      Icon(Icons.description, color: primary_300, size: 24),
-                      Gap(5),
-                      Text('Proposals'),
-                    ],
-                  ),
-                ],
-              ),
-              const VerticalDivider(
-                thickness: .5,
-                color: text_400,
-              ),
-              Column(
-                children: [
-                  Text('8', style: Theme.of(context).textTheme.displayLarge),
-                  const Gap(10),
-                  const Row(
-                    children: [
-                      Icon(Icons.message_outlined,
-                          color: primary_300, size: 24),
-                      Gap(5),
-                      Text('Messages'),
-                    ],
-                  ),
-                ],
-              ),
-              const VerticalDivider(
-                thickness: .5,
-                color: text_400,
-              ),
-              Column(
-                children: [
-                  Text('8', style: Theme.of(context).textTheme.displayLarge),
-                  const Gap(10),
-                  const Row(
-                    children: [
-                      Icon(Icons.check_circle, color: primary_300, size: 24),
-                      Gap(5),
-                      Text('Hired'),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        )
-      ],
+      ),
     );
   }
 }
