@@ -28,7 +28,6 @@ class AppTheme {
     colorScheme: const ColorScheme.light(
       primary: primary_300,
       onPrimary: text_50,
-      background: text_50,
       primaryContainer: text_100,
       secondaryContainer: text_50,
       surface: primary_300,
@@ -83,7 +82,6 @@ class AppTheme {
     colorScheme: const ColorScheme.dark(
       primary: text_50,
       onPrimary: text_800,
-      background: text_800,
       primaryContainer: text_800,
       secondaryContainer: text_900,
       surface: text_800,

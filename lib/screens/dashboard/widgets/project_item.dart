@@ -52,7 +52,7 @@ class ProjectItem extends StatelessWidget {
                       showModalBottomSheet<void>(
                         context: context,
                         backgroundColor:
-                            Theme.of(context).colorScheme.background,
+                            Theme.of(context).colorScheme.onPrimary,
                         builder: (BuildContext context) {
                           return const BottomToolMenu();
                         },
