@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/layout/navigation.dart';
+import 'package:student_hub/screens/alerts/alerts.dart';
 import 'package:student_hub/screens/authentication/authentication.dart';
 import 'package:student_hub/screens/account/languages.dart';
 import 'package:student_hub/screens/authentication/reset_password.dart';
@@ -15,7 +16,6 @@ import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
 import 'package:student_hub/screens/chat/chat_room_screen.dart';
 import 'package:student_hub/screens/home/Home.dart';
 import 'package:student_hub/screens/post_job/post_job.dart';
-import 'package:student_hub/screens/profile/profile.dart';
 import 'package:student_hub/screens/projects/projects.dart';
 import 'package:student_hub/screens/projects/projects_saved.dart';
 import 'package:student_hub/screens/welcome/welcome.dart';
@@ -51,6 +51,9 @@ class AppRoutes {
   static const String dashboardStudent = '/student/dashboard';
   static const String languages = '/account/settings/languages';
   static const String postJob = '/post_job';
+  static const String messageList = '/chat/message-list';
+  static const String videoCall = '/chat/video-call';
+  static const String alerts = '/alerts';
 
   static const String chatScreen = '/chat-screen';
 
@@ -78,6 +81,12 @@ class AppRoutes {
     profileStudentStepTwo: (context) => const ProfileStudentStepTwo(),
     profileStudentStepThree: (context) => const ProfileStudentStepThree(),
     projects: (context) => const Projects(),
+    messageList: (context) =>
+        const AccountHeader(title: 'Student Hub', body: MessageListScreen()),
+    videoCall: (context) =>
+        const AccountHeader(title: 'Video Call', body: VideoCallScreen()),
+    alerts: (context) =>
+        const AccountHeader(title: 'Student Hub', body: AlertScreen()),
     projectsSaved: (context) => const ProjectsSaved(),
     chatScreen: (context) => const ChatRoomScreen(),
     account: (context) =>
