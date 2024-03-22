@@ -58,12 +58,11 @@ class ThemeProvider with ChangeNotifier {
 
   String get getLanguage => _language;
 
-  ThemeProvider() {
-    loadData().then((data) async {
-      _theme = (data as Map)['theme'];
-      _language = (data)['language'];
-      notifyListeners();
-    });
+  Future<void> initializeProvider() async {
+    final data = await loadData();
+    _theme = (data as Map)['theme'];
+    _language = (data)['language'];
+    notifyListeners();
   }
 
   Future<void> setThemeMode(ThemeMode theme) async {
