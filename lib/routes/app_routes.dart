@@ -14,7 +14,6 @@ import 'package:student_hub/screens/authentication/verify_code.dart';
 import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
 import 'package:student_hub/screens/home/Home.dart';
 import 'package:student_hub/screens/post_job/post_job.dart';
-import 'package:student_hub/screens/profile/profile.dart';
 import 'package:student_hub/screens/projects/projects.dart';
 import 'package:student_hub/screens/projects/projects_saved.dart';
 import 'package:student_hub/screens/welcome/welcome.dart';
@@ -50,6 +49,7 @@ class AppRoutes {
   static const String dashboardStudent = '/student/dashboard';
   static const String languages = '/account/settings/languages';
   static const String postJob = '/post_job';
+  static const String messageList = '/message-list';
 
   static Map<String, WidgetBuilder> routes = {
     nav: (context) => const AccountHeader(
@@ -75,6 +75,7 @@ class AppRoutes {
     profileStudentStepTwo: (context) => const ProfileStudentStepTwo(),
     profileStudentStepThree: (context) => const ProfileStudentStepThree(),
     projects: (context) => const Projects(),
+    messageList: (context) => const MessageListScreen(),
     projectsSaved: (context) => const ProjectsSaved(),
     account: (context) =>
         const AccountHeader(title: 'Account', body: Account()),
