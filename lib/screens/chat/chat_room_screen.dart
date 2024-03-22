@@ -113,18 +113,6 @@ List<Message> sampleMessages = [
     endTime: DateTime.now().add(const Duration(minutes: 15)),
     meeting: true,
   ),
-  Message(
-    id: const Uuid().v4(),
-    chatRoomId: 'chatRoomId1',
-    senderUserId: 'userId1',
-    receiverUserId: 'userId2',
-    title: 'Catch up meeting',
-    createdAt: DateTime.now().add(const Duration(minutes: 70)),
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(const Duration(minutes: 15)),
-    meeting: true,
-    canceled: true,
-  ),
 ];
 
 class ChatRoomScreen extends StatefulWidget {

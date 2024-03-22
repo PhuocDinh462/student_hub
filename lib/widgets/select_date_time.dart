@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/utils/helpers.dart';
 import 'package:student_hub/widgets/text_field_title.dart';
 
@@ -63,6 +64,17 @@ class _SelectDateTimeState extends State<SelectDateTime> {
       initialDate: _pickedDate,
       firstDate: DateTime.now(),
       lastDate: DateTime(2100),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            textTheme: const TextTheme(
+              bodyLarge: TextStyle(color: text_900),
+              // bodyMedium: TextStyle(color: Colors.blue),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (pickedDate != null) {
       setState(() {
@@ -75,6 +87,28 @@ class _SelectDateTimeState extends State<SelectDateTime> {
     final pickedTime = await showTimePicker(
       context: context,
       initialTime: _pickedTime,
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            textTheme: TextTheme(
+              bodyLarge: const TextStyle(color: text_900),
+              bodyMedium: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: primary_300,
+                    fontWeight: FontWeight.bold,
+                  ),
+              bodySmall: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: primary_200,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            colorScheme: const ColorScheme.light(
+                // background: Colors.white,
+                // brightness: Brightness.light,
+                ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (pickedTime != null) {
       setState(() {
