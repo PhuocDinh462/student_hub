@@ -52,8 +52,6 @@ class HomeState extends State<Home> {
         ),
         PageViewModel(
           title: 'Unlock Opportunities',
-          // body:
-          //     'StudentHub is university market place to connect high-skilled student and company on a real-world project',
           image: _buildImage('Business-merger.png'),
           bodyWidget: Column(
             children: [
