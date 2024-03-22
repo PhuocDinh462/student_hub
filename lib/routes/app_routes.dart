@@ -49,7 +49,8 @@ class AppRoutes {
   static const String dashboardStudent = '/student/dashboard';
   static const String languages = '/account/settings/languages';
   static const String postJob = '/post_job';
-  static const String messageList = '/message-list';
+  static const String messageList = '/chat/message-list';
+  static const String videoCall = '/chat/video-call';
 
   static Map<String, WidgetBuilder> routes = {
     nav: (context) => const AccountHeader(
@@ -75,7 +76,10 @@ class AppRoutes {
     profileStudentStepTwo: (context) => const ProfileStudentStepTwo(),
     profileStudentStepThree: (context) => const ProfileStudentStepThree(),
     projects: (context) => const Projects(),
-    messageList: (context) => const MessageListScreen(),
+    messageList: (context) =>
+        const AccountHeader(title: 'Video Call', body: MessageListScreen()),
+    videoCall: (context) =>
+        const AccountHeader(title: 'Video Call', body: VideoCallScreen()),
     projectsSaved: (context) => const ProjectsSaved(),
     account: (context) =>
         const AccountHeader(title: 'Account', body: Account()),

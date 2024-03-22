@@ -47,6 +47,7 @@ dependencies:
   step_progress_indicator: ^1.0.2
   flutter_svg: ^2.0.10+1
   numberpicker: ^2.1.2
+  snippet_coder_utils: ^1.0.15
 
 dev_dependencies:
   flutter_test:

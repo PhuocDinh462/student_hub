@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/screens/chat/widgets/chat.widgets.dart';
-import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/search_field.dart';
 
 class MessageListScreen extends StatefulWidget {
@@ -27,13 +26,11 @@ class _MessageListScreenState extends State<MessageListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
-    final deviceSize = context.deviceSize;
 
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 0),
         child: Column(children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10),
