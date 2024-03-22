@@ -1,25 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:provider/provider.dart';
-import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/utils/extensions.dart';
 
-class Step4 extends StatelessWidget {
-  const Step4({super.key, required this.back});
-  final VoidCallback back;
+class ProjectInfo extends StatelessWidget {
+  const ProjectInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final PostJobProvider postJobProvider =
-        Provider.of<PostJobProvider>(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text('4/4\t\t\t\t\tProject details',
-            style: Theme.of(context).textTheme.titleLarge),
-        const Gap(30),
+      children: [
         // Title
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +31,7 @@ class Step4 extends StatelessWidget {
                 const Gap(5),
                 SizedBox(
                   width: context.deviceSize.width - 100,
-                  child: Text(postJobProvider.getTitle),
+                  child: const Text('Senior frontend developer (Fintech)'),
                 ),
               ],
             ),
@@ -73,7 +64,10 @@ class Step4 extends StatelessWidget {
                 const Gap(5),
                 SizedBox(
                   width: context.deviceSize.width - 100,
-                  child: Text(postJobProvider.getDescription),
+                  child: const Text('Students are looking for\n'
+                      '- Clear expectation about your project or deliverables\n'
+                      '- The skills required for your project\n'
+                      '- Detail about your project'),
                 ),
               ],
             ),
@@ -104,11 +98,9 @@ class Step4 extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const Gap(5),
-                Text(
-                  postJobProvider.getTimeLine == TimeLine.oneToThreeMonths
-                      ? '1 to 3 months'
-                      : '3 to 6 months',
-                  style: const TextStyle(fontStyle: FontStyle.italic),
+                const Text(
+                  '1 to 3 months',
+                  style: TextStyle(fontStyle: FontStyle.italic),
                 ),
               ],
             ),
@@ -133,72 +125,15 @@ class Step4 extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const Gap(5),
-                Text(
-                  '${postJobProvider.getNumOfStudents.toString()} students',
-                  style: const TextStyle(fontStyle: FontStyle.italic),
+                const Text(
+                  '4 students',
+                  style: TextStyle(fontStyle: FontStyle.italic),
                 ),
               ],
             ),
           ],
         ),
         const Gap(40),
-        // Buttons
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            SizedBox(
-              width: 100,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Theme.of(context).brightness == Brightness.dark
-                          ? text_800
-                          : text_300,
-                ),
-                onPressed: () => back(),
-                child: const Text(
-                  'Back',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ),
-            const Gap(15),
-            SizedBox(
-              width: 100,
-              child: ElevatedButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Processing Data',
-                        style: TextStyle(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? text_700
-                              : text_200,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  );
-                  Navigator.of(context).pop();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primary_300,
-                ),
-                child: const Text(
-                  'Post',
-                  style: TextStyle(
-                    color: text_50,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
       ],
     );
   }

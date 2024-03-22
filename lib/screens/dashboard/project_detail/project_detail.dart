@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/screens/dashboard/project_detail/widget/project_info.dart';
 import 'package:student_hub/screens/dashboard/project_detail/widget/proposal_item.dart';
 
 class ProjectDetail extends StatelessWidget {
@@ -20,14 +21,14 @@ class ProjectDetail extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 2.0),
                 child: Tab(
-                  child: Icon(Icons.description,
+                  child: Icon(Icons.info,
                       color: Theme.of(context).colorScheme.primary, size: 24),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 2.0),
                 child: Tab(
-                  child: Icon(Icons.info,
+                  child: Icon(Icons.description,
                       color: Theme.of(context).colorScheme.primary, size: 24),
                 ),
               ),
@@ -48,13 +49,18 @@ class ProjectDetail extends StatelessWidget {
             ],
           ),
           const Expanded(
-            child: TabBarView(
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                // Proposals
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: TabBarView(
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  // Info
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+                    child: ProjectInfo(),
+                  ),
+                  // Proposals
+                  SingleChildScrollView(
                     child: Column(
                       children: [
                         Gap(10),
@@ -73,17 +79,16 @@ class ProjectDetail extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
-                Center(
-                  child: Text('Detail'),
-                ),
-                Center(
-                  child: Text('Message'),
-                ),
-                Center(
-                  child: Text('Hired'),
-                ),
-              ],
+                  // Message
+                  Center(
+                    child: Text('Message'),
+                  ),
+                  // Hired
+                  Center(
+                    child: Text('Hired'),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
