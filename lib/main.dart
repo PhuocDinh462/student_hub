@@ -42,8 +42,8 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale(themeProvider.getLanguage),
-      routes: AppRoutes.routes,
-      initialRoute: AppRoutes.alerts,
+      routes: AppRoutes.nav,
+      initialRoute: '/chat-screen',
       debugShowCheckedModeBanner: false,
       theme:
           themeProvider.getThemeMode ? AppTheme.darkTheme : AppTheme.lightTheme,

@@ -8,6 +8,8 @@ class Button extends StatefulWidget {
     required this.colorButton,
     required this.colorText,
     this.width,
+    this.height,
+    this.padding,
   });
 
   final Function()? onTap;
@@ -15,6 +17,8 @@ class Button extends StatefulWidget {
   final Color colorButton;
   final Color colorText;
   final double? width;
+  final double? height;
+  final double? padding;
 
   @override
   State<Button> createState() => _ButtonState();
@@ -46,7 +50,10 @@ class _ButtonState extends State<Button> {
         opacity: _opacity,
         child: Container(
           width: widget.width,
-          padding: const EdgeInsets.all(15),
+          height: widget.height,
+          padding: widget.padding != null
+              ? EdgeInsets.all(widget.padding!)
+              : const EdgeInsets.all(15),
           margin: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
             color: widget.colorButton,
