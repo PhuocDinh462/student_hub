@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/layout/navigation.dart';
+import 'package:student_hub/screens/alerts/alerts.dart';
 import 'package:student_hub/screens/authentication/authentication.dart';
 import 'package:student_hub/screens/account/languages.dart';
 import 'package:student_hub/screens/authentication/reset_password.dart';
@@ -51,6 +52,7 @@ class AppRoutes {
   static const String postJob = '/post_job';
   static const String messageList = '/chat/message-list';
   static const String videoCall = '/chat/video-call';
+  static const String alerts = '/alerts';
 
   static Map<String, WidgetBuilder> routes = {
     nav: (context) => const AccountHeader(
@@ -77,9 +79,11 @@ class AppRoutes {
     profileStudentStepThree: (context) => const ProfileStudentStepThree(),
     projects: (context) => const Projects(),
     messageList: (context) =>
-        const AccountHeader(title: 'Video Call', body: MessageListScreen()),
+        const AccountHeader(title: 'Student Hub', body: MessageListScreen()),
     videoCall: (context) =>
         const AccountHeader(title: 'Video Call', body: VideoCallScreen()),
+    alerts: (context) =>
+        const AccountHeader(title: 'Student Hub', body: AlertScreen()),
     projectsSaved: (context) => const ProjectsSaved(),
     account: (context) =>
         const AccountHeader(title: 'Account', body: Account()),
