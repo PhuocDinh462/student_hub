@@ -12,6 +12,7 @@ import 'package:student_hub/screens/authentication/forgot_password.dart';
 import 'package:student_hub/screens/authentication/login.dart';
 import 'package:student_hub/screens/authentication/sign_up_option.dart';
 import 'package:student_hub/screens/authentication/verify_code.dart';
+import 'package:student_hub/screens/dashboard/project_detail/project_detail.dart';
 import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
 import 'package:student_hub/screens/chat/chat_room_screen.dart';
 import 'package:student_hub/screens/home/Home.dart';
@@ -50,11 +51,12 @@ class AppRoutes {
   static const String settings = '/account/settings';
   static const String dashboardStudent = '/student/dashboard';
   static const String languages = '/account/settings/languages';
+  static const String postJob = '/post-job';
+  static const String projectDetail = 'nav/project-detail';
   static const String postJob = '/post_job';
   static const String messageList = '/chat/message-list';
   static const String videoCall = '/chat/video-call';
   static const String alerts = '/alerts';
-
   static const String chatScreen = '/chat-screen';
 
   static Map<String, WidgetBuilder> routes = {
@@ -97,5 +99,7 @@ class AppRoutes {
         const AccountHeader(title: 'Languages', body: Languages()),
     postJob: (context) =>
         const AccountHeader(title: 'Post Job', body: PostJob()),
+    projectDetail: (context) =>
+        const AccountHeader(title: 'Project Detail', body: ProjectDetail()),
   };
 }
