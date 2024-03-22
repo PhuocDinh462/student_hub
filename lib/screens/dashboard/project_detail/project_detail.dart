@@ -53,12 +53,23 @@ class ProjectDetail extends StatelessWidget {
               children: [
                 // Proposals
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 10),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
                         Gap(10),
                         ProposalItem(),
+                        Gap(10),
+                        ProposalItem(),
+                        Gap(10),
+                        ProposalItem(),
+                        Gap(10),
+                        ProposalItem(),
+                        Gap(10),
+                        ProposalItem(),
+                        Gap(10),
+                        ProposalItem(),
+                        Gap(10),
                       ],
                     ),
                   ),
