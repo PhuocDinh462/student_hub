@@ -53,7 +53,6 @@ class AppRoutes {
   static const String languages = '/account/settings/languages';
   static const String postJob = '/post-job';
   static const String projectDetail = 'nav/project-detail';
-  static const String postJob = '/post_job';
   static const String messageList = '/chat/message-list';
   static const String videoCall = '/chat/video-call';
   static const String alerts = '/alerts';
