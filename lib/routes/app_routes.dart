@@ -64,7 +64,7 @@ class AppRoutes {
           body: Navigation(),
           resizeToAvoidBottomInset: false,
         ),
-    home: (context) => const AccountHeader(title: 'Home', body: Home()),
+    home: (context) => const Home(),
     auth: (context) => const Authentication(),
     login: (context) => Login(),
     forgotPassword: (context) => const ForgotPassword(),
