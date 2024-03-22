@@ -70,6 +70,7 @@ class ProposalItem extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {},
+                  style: ElevatedButton.styleFrom(backgroundColor: primary_300),
                   child: const SizedBox(
                     width: 100,
                     child: Row(
@@ -89,6 +90,7 @@ class ProposalItem extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {},
+                  style: ElevatedButton.styleFrom(backgroundColor: primary_300),
                   child: const SizedBox(
                     width: 100,
                     child: Row(
@@ -98,7 +100,7 @@ class ProposalItem extends StatelessWidget {
                         Icon(Icons.check_box_outlined,
                             color: text_50, size: 20),
                         Gap(10),
-                        Text('Hired',
+                        Text('Hire',
                             style: TextStyle(
                               color: text_50,
                               fontSize: 16,
