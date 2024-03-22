@@ -47,6 +47,9 @@ dependencies:
   step_progress_indicator: ^1.0.2
   flutter_svg: ^2.0.10+1
   numberpicker: ^2.1.2
+  equatable: ^2.0.5
+  uuid: ^4.3.3
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
@@ -71,7 +74,6 @@ flutter:
    
   generate: true
   assets:
-    - assets/svg/
     - assets/images/
     - assets/images/upload.jpg
 

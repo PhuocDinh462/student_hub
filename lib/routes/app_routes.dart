@@ -12,6 +12,7 @@ import 'package:student_hub/screens/authentication/login.dart';
 import 'package:student_hub/screens/authentication/sign_up_option.dart';
 import 'package:student_hub/screens/authentication/verify_code.dart';
 import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
+import 'package:student_hub/screens/chat/chat_room_screen.dart';
 import 'package:student_hub/screens/home/Home.dart';
 import 'package:student_hub/screens/post_job/post_job.dart';
 import 'package:student_hub/screens/profile/profile.dart';
@@ -51,6 +52,8 @@ class AppRoutes {
   static const String languages = '/account/settings/languages';
   static const String postJob = '/post_job';
 
+  static const String chatScreen = '/chat-screen';
+
   static Map<String, WidgetBuilder> routes = {
     nav: (context) => const AccountHeader(
           title: 'Student Hub',
@@ -76,6 +79,7 @@ class AppRoutes {
     profileStudentStepThree: (context) => const ProfileStudentStepThree(),
     projects: (context) => const Projects(),
     projectsSaved: (context) => const ProjectsSaved(),
+    chatScreen: (context) => const ChatRoomScreen(),
     account: (context) =>
         const AccountHeader(title: 'Account', body: Account()),
     settings: (context) =>
