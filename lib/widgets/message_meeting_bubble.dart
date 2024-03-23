@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:student_hub/models/chat/message.dart';
+import 'package:student_hub/routes/app_routes.dart';
 import 'package:student_hub/widgets/button.dart';
 
 class MessageMeetingBubble extends StatelessWidget {
@@ -10,11 +11,14 @@ class MessageMeetingBubble extends StatelessWidget {
     required this.message,
     required this.userId1,
     required this.userId2,
+    this.onCancelMeeting,
   });
   final String userId1;
   final String userId2;
 
   final Message message;
+
+  final VoidCallback? onCancelMeeting;
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +118,9 @@ class MessageMeetingBubble extends StatelessWidget {
               children: [
                 if (!message.canceled)
                   Button(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.videoCall);
+                    },
                     text: 'Join',
                     colorButton: colorBtn,
                     colorText: textColor,
@@ -165,6 +171,7 @@ class MessageMeetingBubble extends StatelessWidget {
                         height: 60,
                         onTap: () {
                           // Xử lý khi chọn "Cancel"
+                          onCancelMeeting!();
                         },
                         child: Row(
                           children: [

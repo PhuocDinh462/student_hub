@@ -12,9 +12,9 @@ class Message extends Equatable {
   final DateTime? endTime;
   final String? title;
   final bool meeting;
-  final bool canceled;
+  bool canceled;
 
-  const Message({
+  Message({
     this.id,
     required this.chatRoomId,
     required this.senderUserId,

@@ -61,7 +61,7 @@ class MessageItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DisplayText(
-                text: 'Luis Pham',
+                text: 'User 2',
                 style: textTheme.labelMedium!,
               ),
               DisplayText(

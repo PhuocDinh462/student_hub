@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/routes/app_routes.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:pinput/pinput.dart';
 
@@ -29,6 +30,7 @@ class _VerifyCodeState extends State<VerifyCode> {
       print('PIN must be 4 characters long');
       // Display error message if PIN is not 4 characters long
     }
+    Navigator.pushNamed(context, AppRoutes.resetPassword);
   }
 
   void resendCode() async {

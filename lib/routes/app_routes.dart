@@ -66,14 +66,21 @@ class AppRoutes {
         ),
     home: (context) => const Home(),
     auth: (context) => const Authentication(),
-    login: (context) => Login(),
-    forgotPassword: (context) => const ForgotPassword(),
-    verifyCode: (context) => const VerifyCode(),
-    createAccountCompany: (context) => const CreateAccountCompany(),
-    createAccountStudent: (context) => const CreateAccountStudent(),
-    signUpOption: (context) => const SignUpOption(),
-    resetPassword: (context) => const ResetPassword(),
-    changePassword: (context) => const ChangePassword(),
+    login: (context) => AccountHeader(title: 'Student Hub', body: Login()),
+    forgotPassword: (context) =>
+        const AccountHeader(title: 'Student Hub', body: ForgotPassword()),
+    verifyCode: (context) =>
+        const AccountHeader(title: 'Student Hub', body: VerifyCode()),
+    createAccountCompany: (context) =>
+        const AccountHeader(title: 'Student Hub', body: CreateAccountCompany()),
+    createAccountStudent: (context) =>
+        const AccountHeader(title: 'Student Hub', body: CreateAccountStudent()),
+    signUpOption: (context) =>
+        const AccountHeader(title: 'Student Hub', body: SignUpOption()),
+    resetPassword: (context) =>
+        const AccountHeader(title: 'Student Hub', body: ResetPassword()),
+    changePassword: (context) =>
+        const AccountHeader(title: 'Student Hub', body: ChangePassword()),
     welcome: (context) => const Welcome(),
     welcomeCompany: (context) => const WelcomeCompany(),
     dashboardStudent: (context) => const DashboardStudent(),
@@ -81,14 +88,16 @@ class AppRoutes {
     profileStudentStepOne: (context) => const ProfileStudentStepOne(),
     profileStudentStepTwo: (context) => const ProfileStudentStepTwo(),
     profileStudentStepThree: (context) => const ProfileStudentStepThree(),
-    projects: (context) => const Projects(),
+    projects: (context) =>
+        const AccountHeader(title: 'Student Hub', body: Projects()),
     messageList: (context) =>
         const AccountHeader(title: 'Student Hub', body: MessageListScreen()),
     videoCall: (context) =>
         const AccountHeader(title: 'Video Call', body: VideoCallScreen()),
     alerts: (context) =>
         const AccountHeader(title: 'Student Hub', body: AlertScreen()),
-    projectsSaved: (context) => const ProjectsSaved(),
+    projectsSaved: (context) =>
+        const AccountHeader(title: 'Saved Projects', body: ProjectsSaved()),
     chatScreen: (context) => const ChatRoomScreen(),
     account: (context) =>
         const AccountHeader(title: 'Account', body: Account()),

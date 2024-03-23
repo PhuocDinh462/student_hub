@@ -100,7 +100,6 @@ List<Message> sampleMessages = [
     startTime: DateTime.now(),
     endTime: DateTime.now().add(const Duration(minutes: 15)),
     meeting: true,
-    canceled: true,
   ),
   Message(
     id: const Uuid().v4(),
@@ -112,6 +111,7 @@ List<Message> sampleMessages = [
     startTime: DateTime.now(),
     endTime: DateTime.now().add(const Duration(minutes: 15)),
     meeting: true,
+    canceled: true,
   ),
 ];
 
@@ -323,6 +323,12 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                 userId1: 'userId1',
                                 userId2: 'userId2',
                                 message: message,
+                                onCancelMeeting: () {
+                                  setState(() {
+                                    // Cập nhật trạng thái của cuộc họp
+                                    message.canceled = true;
+                                  });
+                                },
                               )
                             else
                               MessageChatBubble(
