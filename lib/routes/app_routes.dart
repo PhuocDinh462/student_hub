@@ -46,10 +46,10 @@ class AppRoutes {
   static const String projects = '/projects';
   static const String projectsSaved = '/projects/saved';
   static const String welcome = '/welcome';
-  static const String welcomeCompany = '/welcome/company';
+  static const String welcomeCompany = '/welcome-company';
   static const String account = '/account';
   static const String settings = '/account/settings';
-  static const String dashboardStudent = '/student/dashboard';
+  static const String dashboardStudent = '/dashboard-student';
   static const String languages = '/account/settings/languages';
   static const String postJob = '/post-job';
   static const String projectDetail = 'nav/project-detail';
@@ -82,12 +82,18 @@ class AppRoutes {
     changePassword: (context) =>
         const AccountHeader(title: 'Student Hub', body: ChangePassword()),
     welcome: (context) => const Welcome(),
-    welcomeCompany: (context) => const WelcomeCompany(),
-    dashboardStudent: (context) => const DashboardStudent(),
-    profileCompany: (context) => const ProfileCompanyInput(),
-    profileStudentStepOne: (context) => const ProfileStudentStepOne(),
-    profileStudentStepTwo: (context) => const ProfileStudentStepTwo(),
-    profileStudentStepThree: (context) => const ProfileStudentStepThree(),
+    welcomeCompany: (context) =>
+        const AccountHeader(title: 'Student Hub', body: WelcomeCompany()),
+    dashboardStudent: (context) =>
+        const AccountHeader(title: 'Student Hub', body: DashboardStudent()),
+    profileCompany: (context) =>
+        const AccountHeader(title: 'Student Hub', body: ProfileCompanyInput()),
+    profileStudentStepOne: (context) => const AccountHeader(
+        title: 'Student Hub', body: ProfileStudentStepOne()),
+    profileStudentStepTwo: (context) => const AccountHeader(
+        title: 'Student Hub', body: ProfileStudentStepTwo()),
+    profileStudentStepThree: (context) => const AccountHeader(
+        title: 'Student Hub', body: ProfileStudentStepThree()),
     projects: (context) =>
         const AccountHeader(title: 'Student Hub', body: Projects()),
     messageList: (context) =>
