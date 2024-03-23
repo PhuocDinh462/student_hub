@@ -107,6 +107,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                         'Tell us about your self and you will be on your way connect with real-world projects.',
                     style: textTheme.bodySmall!,
                     textAlign: TextAlign.center,
+                    overflow: TextOverflow.visible,
                   ),
                   const Gap(20),
                   CommonDropdownText(

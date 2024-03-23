@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/routes/app_routes.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({super.key});
@@ -23,7 +24,8 @@ class Welcome extends StatelessWidget {
             ),
             const SizedBox(height: 50),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () =>
+                  Navigator.pushNamed(context, AppRoutes.dashboardStudent),
               style: ElevatedButton.styleFrom(
                 backgroundColor: primary_300,
                 foregroundColor: text_50,

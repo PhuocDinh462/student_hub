@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/routes/app_routes.dart';
 import 'package:student_hub/screens/profile/student/components/components.dart';
 import 'package:student_hub/styles/button_style.dart';
 import 'package:student_hub/utils/utils.dart';
@@ -39,6 +40,7 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
                       'Tell us about your self and you will be on your way connect with real-world projects.',
                   style: textTheme.bodySmall!,
                   textAlign: TextAlign.center,
+                  overflow: TextOverflow.visible,
                 ),
                 const Gap(20),
                 Row(
@@ -76,7 +78,8 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
             ]),
             child: ElevatedButton(
                 style: buttonPrimary,
-                onPressed: () {},
+                onPressed: () => Navigator.pushNamed(
+                    context, AppRoutes.profileStudentStepThree),
                 child: DisplayText(
                   text: 'Next',
                   style: textTheme.labelLarge!.copyWith(
