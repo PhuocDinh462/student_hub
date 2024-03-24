@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/providers.dart';
-import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/routes/auth_route.dart';
+import 'package:student_hub/routes/company_route.dart';
+import 'package:student_hub/routes/student_routes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:student_hub/utils/image_list.dart';
 
@@ -57,8 +59,8 @@ class MyApp extends StatelessWidget {
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
               locale: Locale(themeProvider.getLanguage),
-              routes: AppRoutes.routes,
-              initialRoute: AppRoutes.profileStudentStepOne,
+              routes: CompanyRoutes.routes,
+              initialRoute: CompanyRoutes.nav,
               debugShowCheckedModeBanner: false,
               theme: themeProvider.getThemeMode
                   ? AppTheme.darkTheme

@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
-import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/screens/dashboard/widgets/project_item.dart';
 
 class Dashboard extends StatelessWidget {
@@ -18,7 +18,7 @@ class Dashboard extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           postJobProvider.clear();
-          Navigator.pushNamed(context, AppRoutes.postJob);
+          Navigator.pushNamed(context, CompanyRoutes.postJob);
         },
         foregroundColor: Theme.of(context).colorScheme.secondaryContainer,
         backgroundColor: Theme.of(context).brightness == Brightness.dark

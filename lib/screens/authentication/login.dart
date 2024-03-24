@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/routes/auth_route.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
 
@@ -55,7 +55,7 @@ class Login extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(
-                                context, AppRoutes.forgotPassword);
+                                context, AuthRoutes.forgotPassword);
                           },
                           child: const Text(
                             'Forgot Password?',
@@ -90,7 +90,7 @@ class Login extends StatelessWidget {
                       const SizedBox(width: 4),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, AppRoutes.signUpOption);
+                          Navigator.pushNamed(context, AuthRoutes.signUpOption);
                         },
                         child: const Text(
                           'Sign up here',

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
@@ -14,7 +14,7 @@ class MessageItem extends StatelessWidget {
     final deviceSize = context.deviceSize;
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(AppRoutes.chatScreen);
+        Navigator.of(context).pushNamed(CompanyRoutes.chatScreen);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),

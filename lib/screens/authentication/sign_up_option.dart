@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/routes/auth_route.dart';
 import 'package:student_hub/widgets/button.dart';
 
 class SignUpOption extends StatefulWidget {
@@ -22,9 +22,9 @@ class _SignUpOptionState extends State<SignUpOption> {
   //sign in
   void signIn() async {
     if (_selectedOption == 0) {
-      Navigator.pushNamed(context, AppRoutes.createAccountCompany);
+      Navigator.pushNamed(context, AuthRoutes.createAccountCompany);
     } else if (_selectedOption == 1) {
-      Navigator.pushNamed(context, AppRoutes.createAccountStudent);
+      Navigator.pushNamed(context, AuthRoutes.createAccountStudent);
     }
   }
 
@@ -135,7 +135,7 @@ class _SignUpOptionState extends State<SignUpOption> {
                   const SizedBox(width: 4),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.login);
+                      Navigator.pushNamed(context, AuthRoutes.login);
                     },
                     child: Text(
                       'Login',

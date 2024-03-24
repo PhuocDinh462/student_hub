@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/routes/student_routes.dart';
 import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/utils/extensions.dart';
 import 'package:student_hub/widgets/picked_image.dart';
@@ -65,7 +65,7 @@ class _ProfileStudentStepThreeState extends State<ProfileStudentStepThree> {
             child: ElevatedButton(
                 style: buttonPrimary,
                 onPressed: () =>
-                    Navigator.pushNamed(context, AppRoutes.projects),
+                    Navigator.pushNamed(context, StudentRoutes.nav),
                 child: DisplayText(
                   text: 'Continue',
                   style: textTheme.labelLarge!.copyWith(
