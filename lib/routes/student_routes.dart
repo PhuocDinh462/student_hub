@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/layout/navigation.dart';
-import 'package:student_hub/screens/account/account.dart';
-import 'package:student_hub/screens/account/change_password.dart';
-import 'package:student_hub/screens/account/languages.dart';
-import 'package:student_hub/screens/account/settings.dart';
 import 'package:student_hub/screens/alerts/alert.screen.dart';
 import 'package:student_hub/screens/chat/chat_room_screen.dart';
 import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/screens/post_job/widgets/widgets.dart';
+import 'package:student_hub/screens/dashboard/post_job/widgets/widgets.dart';
 
 class PostJob extends StatefulWidget {
   const PostJob({super.key});

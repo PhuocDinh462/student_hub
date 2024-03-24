@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/layout/navigation.dart';
-import 'package:student_hub/screens/account/account.dart';
-import 'package:student_hub/screens/account/change_password.dart';
-import 'package:student_hub/screens/account/languages.dart';
-import 'package:student_hub/screens/account/settings.dart';
 import 'package:student_hub/screens/alerts/alert.screen.dart';
 import 'package:student_hub/screens/chat/chat_room_screen.dart';
-import 'package:student_hub/screens/chat/message_list.screen.dart';
-import 'package:student_hub/screens/chat/video_call.screen.dart';
-import 'package:student_hub/screens/dashboard/project_detail/project_detail.dart';
-import 'package:student_hub/screens/post_job/post_job.dart';
-import 'package:student_hub/screens/profile/company/profile.company.dart';
-import 'package:student_hub/screens/profile/company/welcome.company.dart';
+
+import 'package:student_hub/screens/screens.dart';
 
 class CompanyRoutes {
   static const String nav = '/';
