@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/screens/dashboard/widgets/bottom_tool_menu.dart';
 
 class ProjectItem extends StatelessWidget {
@@ -10,7 +10,7 @@ class ProjectItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, AppRoutes.projectDetail),
+      onTap: () => Navigator.pushNamed(context, CompanyRoutes.projectDetail),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 5, 5, 15),

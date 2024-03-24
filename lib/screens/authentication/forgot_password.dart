@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/routes/auth_route.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
 
@@ -19,7 +19,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   // Sign in
   void sendCode() async {
     // Your logic to send code
-    Navigator.pushNamed(context, AppRoutes.verifyCode);
+    Navigator.pushNamed(context, AuthRoutes.verifyCode);
   }
 
   @override

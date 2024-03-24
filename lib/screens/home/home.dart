@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/routes/auth_route.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -15,7 +15,7 @@ class HomeState extends State<Home> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd(context) {
-    Navigator.pushNamed(context, AppRoutes.login);
+    Navigator.pushNamed(context, AuthRoutes.login);
   }
 
   Widget _buildImage(String assetName, [double width = 350]) {

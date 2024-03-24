@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
 
@@ -21,7 +21,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   //sign in
   void changePassword() async {
-    Navigator.pushNamed(context, AppRoutes.profileCompany);
+    Navigator.pushNamed(context, CompanyRoutes.profileCompany);
   }
 
   @override

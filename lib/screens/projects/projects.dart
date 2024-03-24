@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/models/project.dart';
-import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/routes/student_routes.dart';
 import 'package:student_hub/widgets/project_filter.dart';
 import 'package:student_hub/widgets/project_card.dart';
 import 'package:student_hub/widgets/search_field.dart';
@@ -112,7 +112,8 @@ class _ProjectsState extends State<Projects> {
                         value: 'Saved',
                         height: 60,
                         onTap: () {
-                          Navigator.pushNamed(context, AppRoutes.projectsSaved);
+                          Navigator.pushNamed(
+                              context, StudentRoutes.projectsSaved);
                         },
                         child: Row(
                           children: [

@@ -5,7 +5,7 @@ import 'package:student_hub/providers/theme_provider.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/screens/account/widgets/theme_dialog.dart';
 
 class Settings extends StatelessWidget {
@@ -79,7 +79,8 @@ class Settings extends StatelessWidget {
 
             // Language
             GestureDetector(
-              onTap: () => Navigator.pushNamed(context, AppRoutes.languages),
+              onTap: () =>
+                  Navigator.pushNamed(context, CompanyRoutes.languages),
               child: Container(
                 color: Colors.transparent,
                 child: Row(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/routes/auth_route.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
 
@@ -117,7 +117,7 @@ class _CreateAccountCompanyState extends State<CreateAccountCompany> {
                       GestureDetector(
                         onTap: () {
                           Navigator.pushNamed(
-                              context, AppRoutes.createAccountStudent);
+                              context, AuthRoutes.createAccountStudent);
                         },
                         child: Text(
                           'Apply as student',

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:student_hub/models/chat/message.dart';
-import 'package:student_hub/routes/app_routes.dart';
+import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/widgets/button.dart';
 
 class MessageMeetingBubble extends StatelessWidget {
@@ -119,7 +119,7 @@ class MessageMeetingBubble extends StatelessWidget {
                 if (!message.canceled)
                   Button(
                     onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.videoCall);
+                      Navigator.pushNamed(context, CompanyRoutes.videoCall);
                     },
                     text: 'Join',
                     colorButton: colorBtn,
