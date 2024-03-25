@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:student_hub/screens/alerts/alert.screen.dart';
 import 'package:student_hub/screens/chat/chat.dart';
 import 'package:student_hub/screens/dashboard/dashboard.dart';
-import 'package:student_hub/screens/projects/projects.dart';
+import 'package:student_hub/screens/project/projects.dart';
 import 'package:student_hub/constants/theme.dart';
 
 class Navigation extends StatefulWidget {
