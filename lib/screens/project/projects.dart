@@ -6,73 +6,6 @@ import 'package:student_hub/widgets/project_filter.dart';
 import 'package:student_hub/widgets/project_card.dart';
 import 'package:student_hub/widgets/search_field.dart';
 
-final List<Project> data = [
-  Project(
-    createdAt: DateTime.now(),
-    name: 'Senior frontend developer(fintech)',
-    completionTime: '1-3 months',
-    requiredStudents: 5,
-    description:
-        'Description of Project 1. Description of Project 1. Description of Project 2. ',
-    proposals: ['a', 'b'],
-    favorite: true,
-  ),
-  Project(
-    createdAt: DateTime.now(),
-    name: 'Project 2',
-    completionTime: '1-3 months',
-    requiredStudents: 3,
-    description: 'Description of Project 2',
-    proposals: ['a', 'b', 'a', 'b'],
-    favorite: false,
-  ),
-  Project(
-    createdAt: DateTime.now(),
-    name: 'Senior frontend developer(fintech)',
-    completionTime: '1-3 months',
-    requiredStudents: 5,
-    description: 'Description of Project 1',
-    proposals: ['a', 'b'],
-    favorite: false,
-  ),
-  Project(
-    createdAt: DateTime.now(),
-    name: 'Senior frontend developer(fintech)',
-    completionTime: '1-3 months',
-    requiredStudents: 5,
-    description: 'Description of Project 1',
-    proposals: ['a', 'b'],
-    favorite: false,
-  ),
-  Project(
-    createdAt: DateTime.now(),
-    name: 'Senior frontend developer(fintech)',
-    completionTime: '1-3 months',
-    requiredStudents: 5,
-    description: 'Description of Project 1',
-    proposals: ['a', 'b'],
-    favorite: false,
-  ),
-  Project(
-    createdAt: DateTime.now(),
-    name: 'Senior frontend developer(fintech)',
-    completionTime: '1-3 months',
-    requiredStudents: 5,
-    description: 'Description of Project 1',
-    proposals: ['a', 'b'],
-    favorite: false,
-  ),
-  Project(
-    createdAt: DateTime.now(),
-    name: 'Senior frontend developer(fintech)',
-    completionTime: '1-3 months',
-    requiredStudents: 5,
-    description: 'Description of Project 1',
-    proposals: ['a', 'b'],
-    favorite: false,
-  ),
-];
-
 class Projects extends StatefulWidget {
   const Projects({super.key});
   @override
@@ -80,7 +13,72 @@ class Projects extends StatefulWidget {
 }
 
 class _ProjectsState extends State<Projects> {
-  final List<Project> projects = data;
+  final List<Project> projects = [
+    Project(
+      createdAt: DateTime.now(),
+      name: 'Senior frontend developer(fintech)',
+      completionTime: '1-3 months',
+      requiredStudents: 5,
+      description:
+          'Description of Project 1. Description of Project 1. Description of Project 2. ',
+      proposals: ['a', 'b'],
+      favorite: true,
+    ),
+    Project(
+      createdAt: DateTime.now(),
+      name: 'Project 2',
+      completionTime: '1-3 months',
+      requiredStudents: 3,
+      description: 'Description of Project 2',
+      proposals: ['a', 'b', 'a', 'b'],
+      favorite: false,
+    ),
+    Project(
+      createdAt: DateTime.now(),
+      name: 'Senior frontend developer(fintech)',
+      completionTime: '1-3 months',
+      requiredStudents: 5,
+      description: 'Description of Project 1',
+      proposals: ['a', 'b'],
+      favorite: false,
+    ),
+    Project(
+      createdAt: DateTime.now(),
+      name: 'Senior frontend developer(fintech)',
+      completionTime: '1-3 months',
+      requiredStudents: 5,
+      description: 'Description of Project 1',
+      proposals: ['a', 'b'],
+      favorite: false,
+    ),
+    Project(
+      createdAt: DateTime.now(),
+      name: 'Senior frontend developer(fintech)',
+      completionTime: '1-3 months',
+      requiredStudents: 5,
+      description: 'Description of Project 1',
+      proposals: ['a', 'b'],
+      favorite: false,
+    ),
+    Project(
+      createdAt: DateTime.now(),
+      name: 'Senior frontend developer(fintech)',
+      completionTime: '1-3 months',
+      requiredStudents: 5,
+      description: 'Description of Project 1',
+      proposals: ['a', 'b'],
+      favorite: false,
+    ),
+    Project(
+      createdAt: DateTime.now(),
+      name: 'Senior frontend developer(fintech)',
+      completionTime: '1-3 months',
+      requiredStudents: 5,
+      description: 'Description of Project 1',
+      proposals: ['a', 'b'],
+      favorite: false,
+    ),
+  ];
   final searchController = TextEditingController();
   // String _selectedMenu = '';
   @override

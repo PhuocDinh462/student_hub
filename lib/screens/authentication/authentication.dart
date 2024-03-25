@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
-
-class Authentication extends StatelessWidget {
-  const Authentication({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(body: Text('Authentication'));
-  }
-}
+export 'create_account_company.dart';
+export 'create_account_student.dart';
+export 'forgot_password.dart';
+export 'login.dart';
+export 'reset_password.dart';
+export 'sign_up_option.dart';
+export 'verify_code.dart';
