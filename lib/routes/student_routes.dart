@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/layout/navigation.dart';
 import 'package:student_hub/screens/alerts/alert.screen.dart';
-import 'package:student_hub/screens/chat/chat_room_screen.dart';
 import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
-import 'package:student_hub/screens/project/projects.dart';
-import 'package:student_hub/screens/project/projects_saved.dart';
 
 import 'package:student_hub/screens/screens.dart';
 
