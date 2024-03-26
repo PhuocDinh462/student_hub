@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/screens/projects/projects.dart';
+import 'package:student_hub/screens/alerts/alert.screen.dart';
+import 'package:student_hub/screens/chat/chat.dart';
+import 'package:student_hub/screens/dashboard/dashboard.dart';
+import 'package:student_hub/screens/project/projects.dart';
+import 'package:student_hub/constants/theme.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
@@ -17,7 +21,8 @@ class _NavigationState extends State<Navigation> {
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) =>
             setState(() => currentScreenIndex = index),
-        // indicatorColor: Colors.blue,
+        indicatorColor: primary_200,
+        backgroundColor: Colors.transparent,
         selectedIndex: currentScreenIndex,
         destinations: const <Widget>[
           NavigationDestination(
@@ -48,9 +53,9 @@ class _NavigationState extends State<Navigation> {
       ),
       body: <Widget>[
         const Projects(),
-        const Text('Dashboard'),
-        const Text('Message'),
-        const Text('Alerts'),
+        const Dashboard(),
+        const MessageListScreen(),
+        const AlertScreen(),
       ][currentScreenIndex],
     );
   }

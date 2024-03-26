@@ -1,31 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> saveMode(bool mode) async {
+Future<void> saveData({ThemeMode? theme, String? language}) async {
   final prefs = await SharedPreferences.getInstance();
-  await prefs.setBool('theme_mode', mode);
+  if (theme != null) await prefs.setString('theme', theme.toString());
+  if (language != null) await prefs.setString('language', language);
 }
 
-Future<bool> loadMode() async {
+Future<Object> loadData() async {
   final prefs = await SharedPreferences.getInstance();
-  return prefs.getBool('theme_mode') ?? false;
+  return {
+    'theme': themeModeFromString(prefs.getString('theme') ?? ''),
+    'language': prefs.getString('language') ?? 'en',
+  };
+}
+
+ThemeMode themeModeFromString(String theme) {
+  switch (theme) {
+    case 'ThemeMode.system':
+      return ThemeMode.system;
+    case 'ThemeMode.light':
+      return ThemeMode.light;
+    case 'ThemeMode.dark':
+      return ThemeMode.dark;
+    default:
+      return ThemeMode.system;
+  }
 }
 
 class ThemeProvider with ChangeNotifier {
-  bool _isDarkMode = false;
+  late String _language;
+  late ThemeMode _theme;
 
-  bool get getThemeMode => _isDarkMode;
+  ThemeMode get getTheme => _theme;
 
-  ThemeProvider() {
-    loadMode().then((mode) async {
-      _isDarkMode = mode;
-      notifyListeners();
-    });
+  String get getThemeName {
+    if (_theme == ThemeMode.light) {
+      return 'light';
+    } else if (_theme == ThemeMode.dark) {
+      return 'dark';
+    } else {
+      return 'system';
+    }
   }
 
-  Future<void> setThemeMode(bool mode) async {
-    _isDarkMode = mode;
+  bool get getThemeMode {
+    if (_theme == ThemeMode.light) {
+      return false;
+    } else if (_theme == ThemeMode.dark) {
+      return true;
+    } else {
+      return SchedulerBinding.instance.platformDispatcher.platformBrightness ==
+          Brightness.dark;
+    }
+  }
+
+  String get getLanguage => _language;
+
+  Future<void> initializeProvider() async {
+    final data = await loadData();
+    _theme = (data as Map)['theme'];
+    _language = (data)['language'];
     notifyListeners();
-    await saveMode(mode);
+  }
+
+  Future<void> setThemeMode(ThemeMode theme) async {
+    _theme = theme;
+    notifyListeners();
+    await saveData(theme: theme);
+  }
+
+  Future<void> setLanguage(String language) async {
+    _language = language;
+    notifyListeners();
+    await saveData(language: language);
   }
 }
