@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
               supportedLocales: AppLocalizations.supportedLocales,
               locale: Locale(themeProvider.getLanguage),
               routes: AuthRoutes.routes,
-              initialRoute: AuthRoutes.createAccountStudent,
+              initialRoute: AuthRoutes.login,
               debugShowCheckedModeBanner: false,
               theme: themeProvider.getThemeMode
                   ? AppTheme.darkTheme

@@ -13,7 +13,8 @@ class AuthRoutes {
   static const String resetPassword = '/auth/reset_password';
 
   static Map<String, WidgetBuilder> routes = {
-    login: (context) => AccountHeader(title: 'Student Hub', body: Login()),
+    login: (context) =>
+        const AccountHeader(title: 'Student Hub', body: Login()),
     forgotPassword: (context) =>
         const AccountHeader(title: 'Student Hub', body: ForgotPassword()),
     verifyCode: (context) =>

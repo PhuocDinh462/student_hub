@@ -4,11 +4,9 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/routes/auth_route.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:flutter/services.dart';
+import 'package:dio/dio.dart';
 
 class CreateAccountStudent extends StatefulWidget {
   const CreateAccountStudent({super.key});
@@ -42,28 +40,26 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
       return;
     }
 
-    final Map<String, dynamic> data = {
-      'email': email,
-      'password': password,
-      'fullName': fullName,
-      'role': 0
-    };
+    try {
+      final dio = Dio();
+      final response = await dio.post(
+        '$apiServer/auth/sign-up',
+        data: {
+          'email': email,
+          'password': password,
+          'fullName': fullName,
+          'role': 0,
+        },
+      );
 
-    final String requestBody = json.encode(data);
-    final Uri uri = Uri.parse('$apiServer/auth/sign-up');
-    final response = await http.post(
-      uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: requestBody,
-    );
-
-    if (response.statusCode == 201) {
-      navigateToLogin();
-      showSnackBar('Create account successfully', true);
-    } else {
-      showSnackBar('Failed to create account', false);
+      if (response.statusCode == 201) {
+        navigateToLogin();
+        showSnackBar('Create account successfully', true);
+      } else {
+        showSnackBar('Failed to create account', false);
+      }
+    } catch (e) {
+      showSnackBar('An error occurred during sign up', false);
     }
   }
 
