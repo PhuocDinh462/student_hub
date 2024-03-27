@@ -1,8 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/user.dart';
+import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/auth_route.dart';
 import 'package:student_hub/routes/company_route.dart';
+import 'package:student_hub/routes/student_routes.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -51,6 +57,43 @@ class _LoginState extends State<Login> {
 
       if (response.statusCode == 201) {
         // navigateToProfile();
+        Map<String, dynamic> headers = {
+          "Authorization": "Bearer $token",
+        };
+
+        try {
+          final responseInfo = await dio.get(
+            '$apiServer/auth/me',
+            options: Options(headers: headers),
+          );
+          final userInfo = responseInfo.data['result'];
+
+          if (userInfo['student'] != null) {
+            final student = userInfo['student'];
+            User currentUser = User(
+                userId: student['userId'],
+                fullName: student['fullname'],
+                role: Role.student,
+                token: token);
+            print(currentUser);
+            Provider.of<UserProvider>(context).setCurrentUser(currentUser);
+            Provider.of<UserProvider>(context).addUser(currentUser);
+            print(Provider.of<UserProvider>(context).currentUser);
+            studentNavigate();
+          } else if (userInfo['company'] != null) {
+            final company = userInfo['company'];
+            User currentUser = User(
+                userId: company['userId'],
+                fullName: company['fullname'],
+                role: Role.company,
+                token: token);
+            Provider.of<UserProvider>(context).setCurrentUser(currentUser);
+            Provider.of<UserProvider>(context).addUser(currentUser);
+            companyNavigate();
+          }
+        } catch (error) {
+          // Xử lý các trường hợp lỗi
+        }
         showSnackBar('Login Successfully', true);
       } else if (response.statusCode == 422) {
         showSnackBar('Invalid Credentials', false);
@@ -62,8 +105,12 @@ class _LoginState extends State<Login> {
     }
   }
 
-  void navigateToProfile() async {
-    await Navigator.pushNamed(context, CompanyRoutes.account);
+  void companyNavigate() async {
+    await Navigator.pushNamed(context, CompanyRoutes.nav);
+  }
+
+  void studentNavigate() async {
+    await Navigator.pushNamed(context, StudentRoutes.nav);
   }
 
   void saveToken(String token) async {

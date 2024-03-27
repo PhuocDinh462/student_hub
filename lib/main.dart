@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/user.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/auth_route.dart';
 import 'package:student_hub/routes/company_route.dart';
@@ -21,6 +22,7 @@ Future main() async {
         ChangeNotifierProvider(create: (_) => OpenIdProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => PostJobProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: const MyApp(),
     ),
@@ -32,6 +34,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
     return FutureBuilder(
       future: Provider.of<ThemeProvider>(context, listen: false)
           .initializeProvider(),
@@ -62,8 +65,16 @@ class MyApp extends StatelessWidget {
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
               locale: Locale(themeProvider.getLanguage),
-              routes: AuthRoutes.routes,
-              initialRoute: AuthRoutes.login,
+              routes: userProvider.currentUser != null
+                  ? (userProvider.currentUser!.role == Role.student
+                      ? StudentRoutes.routes
+                      : CompanyRoutes.routes)
+                  : AuthRoutes.routes,
+              initialRoute: userProvider.currentUser != null
+                  ? (userProvider.currentUser!.role == Role.student
+                      ? StudentRoutes.nav
+                      : CompanyRoutes.nav)
+                  : AuthRoutes.login,
               debugShowCheckedModeBanner: false,
               theme: themeProvider.getThemeMode
                   ? AppTheme.darkTheme
