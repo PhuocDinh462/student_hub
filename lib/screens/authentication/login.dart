@@ -31,80 +31,6 @@ class _LoginState extends State<Login> {
   final TextEditingController passwordController = TextEditingController();
   final String? apiServer = dotenv.env['API_SERVER'];
 
-  //sign in
-  void signIn() async {
-    final String email = emailController.text;
-    final String password = passwordController.text;
-    FocusScope.of(context).unfocus();
-
-    if (email.isEmpty || password.isEmpty) {
-      showSnackBar('Please fill in all fields', false);
-      return;
-    }
-
-    try {
-      final dio = Dio();
-      final response = await dio.post(
-        '$apiServer/auth/sign-in',
-        data: {
-          'email': email,
-          'password': password,
-        },
-      );
-
-      final String token = response.data['result']['token'];
-      saveToken(token);
-
-      if (response.statusCode == 201) {
-        // navigateToProfile();
-        Map<String, dynamic> headers = {
-          "Authorization": "Bearer $token",
-        };
-
-        try {
-          final responseInfo = await dio.get(
-            '$apiServer/auth/me',
-            options: Options(headers: headers),
-          );
-          final userInfo = responseInfo.data['result'];
-
-          if (userInfo['student'] != null) {
-            final student = userInfo['student'];
-            User currentUser = User(
-                userId: student['userId'],
-                fullName: student['fullname'],
-                role: Role.student,
-                token: token);
-            print(currentUser);
-            Provider.of<UserProvider>(context).setCurrentUser(currentUser);
-            Provider.of<UserProvider>(context).addUser(currentUser);
-            print(Provider.of<UserProvider>(context).currentUser);
-            studentNavigate();
-          } else if (userInfo['company'] != null) {
-            final company = userInfo['company'];
-            User currentUser = User(
-                userId: company['userId'],
-                fullName: company['fullname'],
-                role: Role.company,
-                token: token);
-            Provider.of<UserProvider>(context).setCurrentUser(currentUser);
-            Provider.of<UserProvider>(context).addUser(currentUser);
-            companyNavigate();
-          }
-        } catch (error) {
-          // Xử lý các trường hợp lỗi
-        }
-        showSnackBar('Login Successfully', true);
-      } else if (response.statusCode == 422) {
-        showSnackBar('Invalid Credentials', false);
-      } else {
-        showSnackBar('Invalid Credentials', false);
-      }
-    } catch (e) {
-      showSnackBar('Invalid Credentials', false);
-    }
-  }
-
   void companyNavigate() async {
     await Navigator.pushNamed(context, CompanyRoutes.nav);
   }
@@ -135,29 +61,80 @@ class _LoginState extends State<Login> {
       ),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-    // final materialBanner = MaterialBanner(
-    //   /// need to set following properties for best effect of awesome_snackbar_content
-    //   elevation: 0,
-    //   backgroundColor: Colors.transparent,
-    //   forceActionsBelow: true,
-    //   content: AwesomeSnackbarContent(
-    //     title: success ? 'Congrats!!' : 'On Hey!!',
-    //     message:
-    //         'This is an example error message that will be shown in the body of materialBanner!',
-
-    //     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-    //     contentType: success ? ContentType.success : ContentType.failure,
-    //     // to configure for material banner
-    //     inMaterialBanner: true,
-    //   ),
-    //   actions: const [SizedBox.shrink()],
-    // );
-    // ScaffoldMessenger.of(context).showMaterialBanner(materialBanner);
   }
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
+    //sign in
+    void signIn() async {
+      final String email = emailController.text;
+      final String password = passwordController.text;
+      FocusScope.of(context).unfocus();
+
+      if (email.isEmpty || password.isEmpty) {
+        showSnackBar('Please fill in all fields', false);
+        return;
+      }
+      try {
+        final dio = Dio();
+        final response = await dio.post(
+          '$apiServer/auth/sign-in',
+          data: {
+            'email': email,
+            'password': password,
+          },
+        );
+
+        final String token = response.data['result']['token'];
+        saveToken(token);
+        if (response.statusCode == 201) {
+          Map<String, dynamic> headers = {
+            'Authorization': 'Bearer $token',
+          };
+
+          try {
+            final responseInfo = await dio.get(
+              '$apiServer/auth/me',
+              options: Options(headers: headers),
+            );
+            final userInfo = responseInfo.data['result'];
+
+            if (userInfo['student'] != null) {
+              final student = userInfo['student'];
+              User currentUser = User(
+                  userId: student['userId'],
+                  fullName: student['fullname'],
+                  role: Role.student,
+                  token: token);
+              userProvider.setCurrentUser(currentUser);
+              userProvider.addUser(currentUser);
+              studentNavigate();
+            } else if (userInfo['company'] != null) {
+              final company = userInfo['company'];
+              User currentUser = User(
+                  userId: company['userId'],
+                  fullName: company['fullname'],
+                  role: Role.company,
+                  token: token);
+              userProvider.setCurrentUser(currentUser);
+              userProvider.addUser(currentUser);
+              companyNavigate();
+            }
+          } catch (error) {
+            // Xử lý các trường hợp lỗi
+          }
+          showSnackBar('Login Successfully', true);
+        } else if (response.statusCode == 422) {
+          showSnackBar('Invalid Credentials', false);
+        } else {
+          showSnackBar('Invalid Credentials', false);
+        }
+      } catch (e) {
+        showSnackBar('Invalid Credentials', false);
+      }
+    }
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(

@@ -25,44 +25,6 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
 
   final String? apiServer = dotenv.env['API_SERVER'];
 
-  //sign up
-  void signUp() async {
-    final String email = emailController.text;
-    final String password = passwordController.text;
-    final String fullName = nameController.text;
-    FocusScope.of(context).unfocus();
-
-    if (email.isEmpty ||
-        password.isEmpty ||
-        fullName.isEmpty ||
-        !agreePersonalData) {
-      showSnackBar('Please fill in all fields', false);
-      return;
-    }
-
-    try {
-      final dio = Dio();
-      final response = await dio.post(
-        '$apiServer/auth/sign-up',
-        data: {
-          'email': email,
-          'password': password,
-          'fullName': fullName,
-          'role': 0,
-        },
-      );
-
-      if (response.statusCode == 201) {
-        navigateToLogin();
-        showSnackBar('Create account successfully', true);
-      } else {
-        showSnackBar('Failed to create account', false);
-      }
-    } catch (e) {
-      showSnackBar('An error occurred during sign up', false);
-    }
-  }
-
   void navigateToLogin() async {
     await Navigator.pushNamed(context, AuthRoutes.login);
   }
@@ -100,6 +62,44 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
 
   @override
   Widget build(BuildContext context) {
+    //sign up
+    void signUp() async {
+      final String email = emailController.text;
+      final String password = passwordController.text;
+      final String fullName = nameController.text;
+      FocusScope.of(context).unfocus();
+
+      if (email.isEmpty ||
+          password.isEmpty ||
+          fullName.isEmpty ||
+          !agreePersonalData) {
+        showSnackBar('Please fill in all fields', false);
+        return;
+      }
+
+      try {
+        final dio = Dio();
+        final response = await dio.post(
+          '$apiServer/auth/sign-up',
+          data: {
+            'email': email,
+            'password': password,
+            'fullName': fullName,
+            'role': 0,
+          },
+        );
+
+        if (response.statusCode == 201) {
+          navigateToLogin();
+          showSnackBar('Create account successfully', true);
+        } else {
+          showSnackBar('Failed to create account', false);
+        }
+      } catch (e) {
+        showSnackBar('An error occurred during sign up', false);
+      }
+    }
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(

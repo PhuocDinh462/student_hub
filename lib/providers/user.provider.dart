@@ -19,7 +19,7 @@ class UserProvider with ChangeNotifier {
   }
 
   // Setter cho currentUser
-  void setCurrentUser(User? user) {
+  void setCurrentUser(User user) {
     _currentUser = user;
     notifyListeners();
   }
