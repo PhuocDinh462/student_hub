@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:uuid/uuid.dart';
 
 enum UserType {
   student,
@@ -50,6 +51,14 @@ class User extends Equatable {
       // email: map['email'],
       role: Role.values[map['role']],
       token: map['token'],
+    );
+  }
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      userId: json['userId'] ?? const Uuid().v4(),
+      fullName: json['fullName'] ?? '',
+      role: Role.values[json['role']],
+      token: json['token'],
     );
   }
 

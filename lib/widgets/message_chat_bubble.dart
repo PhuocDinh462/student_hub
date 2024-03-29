@@ -8,8 +8,8 @@ class MessageChatBubble extends StatelessWidget {
     required this.userId1,
     required this.userId2,
   });
-  final String userId1;
-  final String userId2;
+  final int userId1;
+  final int userId2;
 
   final Message message;
 
