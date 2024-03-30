@@ -66,12 +66,12 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
     void signUp() async {
       final String email = emailController.text;
       final String password = passwordController.text;
-      final String fullName = nameController.text;
+      final String fullname = nameController.text;
       FocusScope.of(context).unfocus();
 
       if (email.isEmpty ||
           password.isEmpty ||
-          fullName.isEmpty ||
+          fullname.isEmpty ||
           !agreePersonalData) {
         showSnackBar('Please fill in all fields', false);
         return;
@@ -84,7 +84,7 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
           data: {
             'email': email,
             'password': password,
-            'fullName': fullName,
+            'fullname': fullname,
             'role': 0,
           },
         );

@@ -11,7 +11,7 @@ enum Role { student, company }
 
 class User extends Equatable {
   final int userId;
-  final String fullName;
+  final String fullname;
   // final String email;
   final Role role;
   final String token;
@@ -19,25 +19,25 @@ class User extends Equatable {
   // Constructor
   const User({
     required this.userId,
-    required this.fullName,
+    required this.fullname,
     // required this.email,
     required this.role,
     required this.token,
   });
 
   @override
-  List<Object?> get props => [userId, fullName, role, token];
+  List<Object?> get props => [userId, fullname, role, token];
 
   User copyWith({
     int? userId,
-    String? fullName,
+    String? fullname,
     // String? email,
     Role? role,
     String? token,
   }) {
     return User(
       userId: userId ?? this.userId,
-      fullName: fullName ?? this.fullName,
+      fullname: fullname ?? this.fullname,
       // email: email ?? this.email,
       role: role ?? this.role,
       token: token ?? this.token,
@@ -47,7 +47,7 @@ class User extends Equatable {
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
       userId: map['userId'],
-      fullName: map['fullName'],
+      fullname: map['fullname'],
       // email: map['email'],
       role: Role.values[map['role']],
       token: map['token'],
@@ -56,7 +56,7 @@ class User extends Equatable {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       userId: json['userId'] ?? const Uuid().v4(),
-      fullName: json['fullName'] ?? '',
+      fullname: json['fullname'] ?? '',
       role: Role.values[json['role']],
       token: json['token'],
     );
@@ -65,7 +65,7 @@ class User extends Equatable {
   Map<String, dynamic> toMap() {
     return {
       'userId': userId,
-      'fullName': fullName,
+      'fullname': fullname,
       // 'email': email,
       'role': role.index,
       'token': token,

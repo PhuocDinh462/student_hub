@@ -104,7 +104,7 @@ class _LoginState extends State<Login> {
               final student = userInfo['student'];
               User currentUser = User(
                   userId: student['userId'],
-                  fullName: student['fullname'],
+                  fullname: student['fullname'],
                   role: Role.student,
                   token: token);
               userProvider.setCurrentUser(currentUser);
@@ -114,7 +114,7 @@ class _LoginState extends State<Login> {
               final company = userInfo['company'];
               User currentUser = User(
                   userId: company['userId'],
-                  fullName: company['fullname'],
+                  fullname: company['fullname'],
                   role: Role.company,
                   token: token);
               userProvider.setCurrentUser(currentUser);
