@@ -3,8 +3,7 @@ import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/screens/authentication/authentication.dart';
 
 class AuthRoutes {
-  static const String auth = '/';
-  static const String login = '/login';
+  static const String login = '/';
   static const String forgotPassword = '/forgot_password';
   static const String verifyCode = '/verify_code';
   static const String createAccountCompany = '/create_account_company';
