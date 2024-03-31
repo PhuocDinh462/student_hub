@@ -16,8 +16,6 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 
-//tien01@gmail.com Tien123@@
-
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -85,7 +83,6 @@ class _LoginState extends State<Login> {
             'password': password,
           },
         );
-
         final String token = response.data['result']['token'];
         saveToken(token);
         if (response.statusCode == 201) {
