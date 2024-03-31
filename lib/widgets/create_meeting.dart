@@ -49,7 +49,7 @@ class _CreateMeetingState extends State<CreateMeeting> {
                 children: [
                   TextFieldTitle(
                     title: 'Title',
-                    hintText: 'Catch up meeting',
+                    hintText: 'Enter meeting\'s title',
                     controller: titleController,
                   ),
                   const Gap(30),

@@ -3,17 +3,18 @@ import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/screens/authentication/authentication.dart';
 
 class AuthRoutes {
-  static const String auth = '/auth';
-  static const String login = '/auth/login';
-  static const String forgotPassword = '/auth/forgot_password';
-  static const String verifyCode = '/auth/verify_code';
-  static const String createAccountCompany = '/auth/create_account_company';
-  static const String createAccountStudent = '/auth/create_account_student';
-  static const String signUpOption = '/auth/sign_up';
-  static const String resetPassword = '/auth/reset_password';
+  static const String auth = '/';
+  static const String login = '/login';
+  static const String forgotPassword = '/forgot_password';
+  static const String verifyCode = '/verify_code';
+  static const String createAccountCompany = '/create_account_company';
+  static const String createAccountStudent = '/create_account_student';
+  static const String signUpOption = '/sign_up';
+  static const String resetPassword = '/reset_password';
 
   static Map<String, WidgetBuilder> routes = {
-    login: (context) => AccountHeader(title: 'Student Hub', body: Login()),
+    login: (context) =>
+        const AccountHeader(title: 'Student Hub', body: Login()),
     forgotPassword: (context) =>
         const AccountHeader(title: 'Student Hub', body: ForgotPassword()),
     verifyCode: (context) =>

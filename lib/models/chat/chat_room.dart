@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:student_hub/models/chat/message.dart';
-import 'package:student_hub/models/chat/user.dart';
+import 'package:student_hub/models/user.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatRoom extends Equatable {

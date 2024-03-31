@@ -13,88 +13,88 @@ List<Message> sampleMessages = [
   Message(
     id: const Uuid().v4(),
     chatRoomId: 'chatRoomId1',
-    senderUserId: 'userId1',
-    receiverUserId: 'userId2',
+    senderUserId: 1,
+    receiverUserId: 2,
     content: 'Hello, how are you?',
     createdAt: DateTime.now(),
   ),
   Message(
     id: const Uuid().v4(),
     chatRoomId: 'chatRoomId1',
-    senderUserId: 'userId2',
-    receiverUserId: 'userId1',
+    senderUserId: 2,
+    receiverUserId: 1,
     content: 'Hi, I am doing fine. How about you?',
     createdAt: DateTime.now().add(const Duration(minutes: 5)),
   ),
   Message(
     id: const Uuid().v4(),
     chatRoomId: 'chatRoomId1',
-    senderUserId: 'userId1',
-    receiverUserId: 'userId2',
+    senderUserId: 1,
+    receiverUserId: 2,
     content: 'I am good too. Thanks for asking.',
     createdAt: DateTime.now().add(const Duration(minutes: 10)),
   ),
   Message(
     id: const Uuid().v4(),
     chatRoomId: 'chatRoomId1',
-    senderUserId: 'userId2',
-    receiverUserId: 'userId1',
+    senderUserId: 2,
+    receiverUserId: 1,
     content: 'What have you been up to lately?',
     createdAt: DateTime.now().add(const Duration(minutes: 15)),
   ),
   Message(
     id: const Uuid().v4(),
     chatRoomId: 'chatRoomId1',
-    senderUserId: 'userId1',
-    receiverUserId: 'userId2',
+    senderUserId: 1,
+    receiverUserId: 2,
     content: 'I have been busy with work. How about you?',
     createdAt: DateTime.now().add(const Duration(minutes: 20)),
   ),
   Message(
     id: const Uuid().v4(),
     chatRoomId: 'chatRoomId1',
-    senderUserId: 'userId2',
-    receiverUserId: 'userId1',
+    senderUserId: 2,
+    receiverUserId: 1,
     content: 'I have been studying for my exams.',
     createdAt: DateTime.now().add(const Duration(minutes: 25)),
   ),
   Message(
     id: const Uuid().v4(),
     chatRoomId: 'chatRoomId1',
-    senderUserId: 'userId1',
-    receiverUserId: 'userId2',
+    senderUserId: 1,
+    receiverUserId: 2,
     content: 'Good luck with your exams!',
     createdAt: DateTime.now().add(const Duration(minutes: 30)),
   ),
   Message(
     id: const Uuid().v4(),
     chatRoomId: 'chatRoomId1',
-    senderUserId: 'userId2',
-    receiverUserId: 'userId1',
+    senderUserId: 2,
+    receiverUserId: 1,
     content: 'Thank you!',
     createdAt: DateTime.now().add(const Duration(minutes: 35)),
   ),
   Message(
     id: const Uuid().v4(),
     chatRoomId: 'chatRoomId1',
-    senderUserId: 'userId1',
-    receiverUserId: 'userId2',
+    senderUserId: 1,
+    receiverUserId: 2,
     content: 'You\'re welcome. Let me know if you need any help.',
     createdAt: DateTime.now().add(const Duration(minutes: 40)),
   ),
   Message(
     id: const Uuid().v4(),
     chatRoomId: 'chatRoomId1',
-    senderUserId: 'userId2',
-    receiverUserId: 'userId1',
+    senderUserId: 2,
+    receiverUserId: 1,
     content: 'Sure, I will. Thanks again!',
     createdAt: DateTime.now().add(const Duration(minutes: 45)),
   ),
   Message(
     id: const Uuid().v4(),
     chatRoomId: 'chatRoomId1',
-    senderUserId: 'userId2',
-    receiverUserId: 'userId1',
+    senderUserId: 2,
+    receiverUserId: 1,
     title: 'Catch up meeting',
     createdAt: DateTime.now().add(const Duration(minutes: 60)),
     startTime: DateTime.now(),
@@ -104,8 +104,8 @@ List<Message> sampleMessages = [
   Message(
     id: const Uuid().v4(),
     chatRoomId: 'chatRoomId1',
-    senderUserId: 'userId1',
-    receiverUserId: 'userId2',
+    senderUserId: 1,
+    receiverUserId: 2,
     title: 'Catch up meeting',
     createdAt: DateTime.now().add(const Duration(minutes: 70)),
     startTime: DateTime.now(),
@@ -153,8 +153,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   void _sendMessage() async {
     final message = Message(
       chatRoomId: 'chatRoomId1',
-      senderUserId: 'userId1',
-      receiverUserId: 'userId2',
+      senderUserId: 1,
+      receiverUserId: 2,
       content: messageController.text,
       createdAt: DateTime.now(),
     );
@@ -177,11 +177,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   Widget build(BuildContext context) {
     final viewInsets = MediaQuery.viewInsetsOf(context);
     final currentParticipant = widget.chatRoom?.participants.firstWhere(
-      (user) => user.id == 'userId1',
+      (user) => user.userId == 1,
     );
 
     final otherParticipant = widget.chatRoom?.participants.firstWhere(
-      (user) => user.id != currentParticipant?.id,
+      (user) => user.userId != currentParticipant?.userId,
     );
 
     return Scaffold(
@@ -303,11 +303,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       children: [
                         const Gap(6),
                         Row(
-                          mainAxisAlignment: (message.senderUserId != 'userId1')
+                          mainAxisAlignment: (message.senderUserId != 1)
                               ? MainAxisAlignment.end
                               : MainAxisAlignment.start,
                           children: [
-                            if (showImage && message.senderUserId == 'userId1')
+                            if (showImage && message.senderUserId == 1)
                               const Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -320,8 +320,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                               ),
                             if (message.meeting)
                               MessageMeetingBubble(
-                                userId1: 'userId1',
-                                userId2: 'userId2',
+                                userId1: 1,
+                                userId2: 2,
                                 message: message,
                                 onCancelMeeting: () {
                                   setState(() {
@@ -332,11 +332,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                               )
                             else
                               MessageChatBubble(
-                                userId1: 'userId1',
-                                userId2: 'userId2',
+                                userId1: 1,
+                                userId2: 2,
                                 message: message,
                               ),
-                            if (showImage && message.senderUserId != 'userId1')
+                            if (showImage && message.senderUserId != 1)
                               const Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -350,7 +350,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                           ],
                         ),
                         Row(
-                          mainAxisAlignment: (message.senderUserId != 'userId1')
+                          mainAxisAlignment: (message.senderUserId != 1)
                               ? MainAxisAlignment.end
                               : MainAxisAlignment.start,
                           children: [
