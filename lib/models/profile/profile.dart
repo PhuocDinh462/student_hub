@@ -1,15 +1,15 @@
 import 'dart:convert';
 
 class ProfileCompany {
-  String? id;
-  String? userId;
+  int? id;
+  int? userId;
   String? companyName;
   int size;
   String? website;
   String? description;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  DateTime? deleteAt;
+  String? createdAt;
+  String? updatedAt;
+  String? deleteAt;
 
   ProfileCompany({
     this.id,
@@ -25,32 +25,51 @@ class ProfileCompany {
 
   ProfileCompany.empty() : size = 0;
 
-  void setCompanyName(String companyName) {
-    this.companyName = companyName;
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'userId': userId,
+      'companyName': companyName,
+      'size': size,
+      'website': website,
+      'description': description,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+      'deleteAt': deleteAt,
+    };
   }
 
-  void setSize(int size) {
-    this.size = size;
+  factory ProfileCompany.fromMap(Map<String, dynamic> map) {
+    return ProfileCompany(
+      id: map['id'] != null ? map['id'] as int : null,
+      userId: map['userId'] != null ? map['userId'] as int : null,
+      companyName:
+          map['companyName'] != null ? map['companyName'] as String : null,
+      size: map['size'] as int,
+      website: map['website'] != null ? map['website'] as String : null,
+      description:
+          map['description'] != null ? map['description'] as String : null,
+      createdAt: map['createdAt'] != null ? map['createdAt'] as String : null,
+      updatedAt: map['updatedAt'] != null ? map['updatedAt'] as String : null,
+      deleteAt: map['deleteAt'] != null ? map['deleteAt'] as String : null,
+    );
   }
 
-  void setWebsite(String website) {
-    this.website = website;
-  }
+  String toJson() => json.encode(toMap());
 
-  void setDescription(String description) {
-    this.description = description;
-  }
+  factory ProfileCompany.fromJson(String source) =>
+      ProfileCompany.fromMap(json.decode(source) as Map<String, dynamic>);
 
   ProfileCompany copyWith({
-    String? id,
-    String? userId,
+    int? id,
+    int? userId,
     String? companyName,
     int? size,
     String? website,
     String? description,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    DateTime? deleteAt,
+    String? createdAt,
+    String? updatedAt,
+    String? deleteAt,
   }) {
     return ProfileCompany(
       id: id ?? this.id,
@@ -64,45 +83,4 @@ class ProfileCompany {
       deleteAt: deleteAt ?? this.deleteAt,
     );
   }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'userId': userId,
-      'companyName': companyName,
-      'size': size,
-      'website': website,
-      'description': description,
-      'createdAt': createdAt?.millisecondsSinceEpoch,
-      'updatedAt': updatedAt?.millisecondsSinceEpoch,
-      'deleteAt': deleteAt?.millisecondsSinceEpoch,
-    };
-  }
-
-  factory ProfileCompany.fromMap(Map<String, dynamic> map) {
-    return ProfileCompany(
-      id: map['id'] != null ? map['id'] as String : null,
-      userId: map['userId'] != null ? map['userId'] as String : null,
-      companyName:
-          map['companyName'] != null ? map['companyName'] as String : null,
-      size: map['size'],
-      website: map['website'] != null ? map['website'] as String : null,
-      description:
-          map['description'] != null ? map['description'] as String : null,
-      createdAt: map['createdAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int)
-          : null,
-      updatedAt: map['updatedAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int)
-          : null,
-      deleteAt: map['deleteAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['deleteAt'] as int)
-          : null,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory ProfileCompany.fromJson(String source) =>
-      ProfileCompany.fromMap(json.decode(source) as Map<String, dynamic>);
 }

@@ -17,7 +17,8 @@ class ProfileCompanyInput extends StatefulWidget {
 }
 
 class ProfileCompanyInputState extends State<ProfileCompanyInput> {
-  bool isHaveInfo = true;
+  bool isHaveInfo = false;
+  bool isCallAPi = false;
   final TextEditingController _companyName = TextEditingController();
   final TextEditingController _website = TextEditingController();
   final TextEditingController _description = TextEditingController();
@@ -30,14 +31,19 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
     'More than 1000 employees',
   ];
 
+  late List<String> optionsSelected;
+
   void _onTapSelection(BuildContext context, int index) {
     final profileCompanyViewModel =
         Provider.of<ProfileCompanyViewModel>(context, listen: false);
-    profileCompanyViewModel.company.setSize(index);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
+    profileCompanyViewModel.company.size = index;
+    // Your state change goes here
     profileCompanyViewModel.notiListener();
   }
 
-  void _onTapSubmit(BuildContext context) {
+  void _onTapCreateProfile(BuildContext context) {
     final profileCompanyViewModel =
         Provider.of<ProfileCompanyViewModel>(context, listen: false);
     profileCompanyViewModel.createProfileCompany(ProfileCompany(
@@ -48,13 +54,29 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
     ));
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
+  void _onTapUpdateProfile(BuildContext context) {
+    final profileCompanyViewModel =
+        Provider.of<ProfileCompanyViewModel>(context, listen: false);
+    profileCompanyViewModel.updateProfileCompany(ProfileCompany(
+      id: profileCompanyViewModel.company.id,
+      companyName: _companyName.text,
+      website: _website.text,
+      description: _description.text,
+    ));
+  }
 
-  //   final profileCompanyViewModel =
-  //       Provider.of<ProfileCompanyViewModel>(context, listen: false);
-  // }
+  @override
+  void initState() {
+    super.initState();
+
+    optionsSelected = options;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final profileCompanyViewModel =
+          Provider.of<ProfileCompanyViewModel>(context, listen: false);
+      profileCompanyViewModel.fetchProfileCompany();
+    });
+  }
 
   @override
   void dispose() {
@@ -79,8 +101,17 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
           builder: (context, profileCompanyViewModel, child) {
         if (profileCompanyViewModel.loading) {
           context.loaderOverlay.show();
-        } else {
+          isCallAPi = true;
+        } else if (isCallAPi) {
           context.loaderOverlay.hide();
+          _companyName.text = profileCompanyViewModel.company.companyName ?? '';
+          _website.text = profileCompanyViewModel.company.website ?? '';
+          _description.text = profileCompanyViewModel.company.description ?? '';
+          optionsSelected = profileCompanyViewModel.company.id != null
+              ? [options[profileCompanyViewModel.company.size]]
+              : options;
+          isHaveInfo = profileCompanyViewModel.company.id != null;
+          isCallAPi = false;
 
           if (profileCompanyViewModel.errorMessage == 'empty') {
             Navigator.pushReplacementNamed(
@@ -110,6 +141,7 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
                             'Tell us about your company and you will be on your way connect with high-skilled students.',
                         style: textTheme.bodySmall!,
                         textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
                       )),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Column(
@@ -127,9 +159,8 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
                                   style: textTheme.bodyLarge!,
                                 )),
                             DisplayRadioList(
-                              items: options,
-                              numSelected:
-                                  profileCompanyViewModel.company.size ?? 0,
+                              items: optionsSelected,
+                              numSelected: profileCompanyViewModel.company.size,
                               onChange: isHaveInfo ? null : _onTapSelection,
                             ),
                           ],
@@ -168,7 +199,7 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
                         children: [
                           ElevatedButton(
                               style: buttonPrimary,
-                              onPressed: () => _onTapSubmit(context),
+                              onPressed: () => _onTapCreateProfile(context),
                               child: DisplayText(
                                 text: 'Continue',
                                 style: textTheme.labelLarge!.copyWith(
@@ -186,7 +217,7 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
                         children: [
                           ElevatedButton(
                               style: buttonPrimary,
-                              onPressed: () {},
+                              onPressed: () => _onTapUpdateProfile(context),
                               child: DisplayText(
                                 text: 'Edit',
                                 style: textTheme.labelLarge!.copyWith(
@@ -196,7 +227,7 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
                           const Gap(15),
                           ElevatedButton(
                               style: buttonSecondary,
-                              onPressed: () {},
+                              onPressed: () => Navigator.pop(context),
                               child: DisplayText(
                                 text: 'Cancel',
                                 style: textTheme.labelLarge!.copyWith(

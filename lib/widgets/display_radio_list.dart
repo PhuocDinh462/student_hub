@@ -25,29 +25,27 @@ class _DisplayRadioListState extends State<DisplayRadioList> {
       padding: EdgeInsets.zero,
       itemExtent: 40,
       itemBuilder: (ctx, index) {
-        if (widget.onChange == null && index == widget.numSelected) {
-          return GestureDetector(
-              onTap: () {
-                widget.onChange!(context, index);
-              },
-              child: Row(
-                children: [
-                  Radio(
-                    value: index,
-                    groupValue: widget.numSelected,
-                    onChanged: widget.onChange == null
-                        ? null
-                        : (value) {
-                            widget.onChange!(context, index);
-                          },
-                  ),
-                  DisplayText(
-                    text: widget.items[index],
-                    style: textTheme.bodySmall!,
-                  )
-                ],
-              ));
-        }
+        return GestureDetector(
+            onTap: () {
+              widget.onChange!(context, index);
+            },
+            child: Row(
+              children: [
+                Radio(
+                  value: index,
+                  groupValue: widget.onChange == null ? 0 : widget.numSelected,
+                  onChanged: widget.onChange == null
+                      ? null
+                      : (value) {
+                          widget.onChange!(context, index);
+                        },
+                ),
+                DisplayText(
+                  text: widget.items[index],
+                  style: textTheme.bodySmall!,
+                )
+              ],
+            ));
       },
     );
   }

@@ -15,6 +15,7 @@ import 'package:student_hub/view-models/view_models.dart';
 void main() async {
   await dotenv.load(fileName: '.env');
   final ProfileService profileService = ProfileService();
+  final AuthService authService = AuthService();
 
   runApp(
     MultiProvider(
@@ -25,8 +26,8 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => PostJobProvider()),
         ChangeNotifierProvider(
-            create: (_) =>
-                ProfileCompanyViewModel(profileService: profileService)),
+            create: (_) => ProfileCompanyViewModel(
+                profileService: profileService, authService: authService)),
       ],
       child: const MyApp(),
     ),
