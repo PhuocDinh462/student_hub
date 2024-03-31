@@ -2,56 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
 class DisplayRadioList extends StatefulWidget {
-  const DisplayRadioList({super.key});
-
+  const DisplayRadioList(
+      {super.key,
+      required this.items,
+      required this.numSelected,
+      this.onChange});
+  final List<String> items;
+  final int numSelected;
+  final void Function(BuildContext, int)? onChange;
   @override
   State<DisplayRadioList> createState() => _DisplayRadioListState();
 }
 
-List<String> options = [
-  'It\'s just me',
-  '2-9 employees',
-  '10-99 employees',
-  '100-1000 employees',
-  'More than 1000 employees',
-];
-
-List<String> options2 = [
-  'It\'s just me',
-];
-
 class _DisplayRadioListState extends State<DisplayRadioList> {
-  int curOption = 0;
-
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
     return ListView.builder(
-      itemCount: options.length,
+      itemCount: widget.items.length,
       shrinkWrap: true,
       padding: EdgeInsets.zero,
       itemExtent: 40,
       itemBuilder: (ctx, index) {
         return GestureDetector(
             onTap: () {
-              setState(() {
-                curOption = index;
-              });
+              widget.onChange!(context, index);
             },
             child: Row(
               children: [
                 Radio(
-                  value: index, groupValue: curOption,
-                  // onChanged: null,
-                  onChanged: (value) {
-                    setState(() {
-                      curOption = value!;
-                    });
-                  },
+                  value: index,
+                  groupValue: widget.onChange == null ? 0 : widget.numSelected,
+                  onChanged: widget.onChange == null
+                      ? null
+                      : (value) {
+                          widget.onChange!(context, index);
+                        },
                 ),
                 DisplayText(
-                  text: options[index],
+                  text: widget.items[index],
                   style: textTheme.bodySmall!,
                 )
               ],
