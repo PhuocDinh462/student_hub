@@ -6,7 +6,7 @@ class AuthService extends BaseApi {
 
   Future<dynamic> getMe() async {
     try {
-      Response response = await dio.get('/api/auth/me');
+      Response response = await dio.get('/auth/me');
 
       return response.data['result'];
     } catch (e) {
