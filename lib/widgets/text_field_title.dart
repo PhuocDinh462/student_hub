@@ -47,7 +47,7 @@ class TextFieldTitle extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 hintText: hintText,
                 suffixIcon: suffixIcon,
-                hintStyle: Theme.of(context).textTheme.bodyLarge,
+                hintStyle: Theme.of(context).textTheme.bodySmall,
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
                     color: text_400,

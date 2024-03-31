@@ -4,6 +4,9 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/routes/auth_route.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:dio/dio.dart';
 
 class CreateAccountCompany extends StatefulWidget {
   const CreateAccountCompany({super.key});
@@ -17,14 +20,86 @@ class _CreateAccountCompanyState extends State<CreateAccountCompany> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
   bool agreePersonalData = false;
+  final String? apiServer = dotenv.env['API_SERVER'];
 
-  //sign in
-  void signIn() async {}
+  void navigateToLogin() async {
+    await Navigator.pushNamed(context, AuthRoutes.login);
+  }
+
+  void showSnackBar(String message, bool success) {
+    final snackBar = SnackBar(
+      elevation: 0,
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      content: AwesomeSnackbarContent(
+        title: success ? 'Congrats!!' : 'On Hey!!',
+        message: message,
+        contentType: success ? ContentType.success : ContentType.failure,
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    // final materialBanner = MaterialBanner(
+    //   /// need to set following properties for best effect of awesome_snackbar_content
+    //   elevation: 0,
+    //   backgroundColor: Colors.transparent,
+    //   forceActionsBelow: true,
+    //   content: AwesomeSnackbarContent(
+    //     title: success ? 'Congrats!!' : 'On Hey!!',
+    //     message:
+    //         'This is an example error message that will be shown in the body of materialBanner!',
+
+    //     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+    //     contentType: success ? ContentType.success : ContentType.failure,
+    //     // to configure for material banner
+    //     inMaterialBanner: true,
+    //   ),
+    //   actions: const [SizedBox.shrink()],
+    // );
+    // ScaffoldMessenger.of(context).showMaterialBanner(materialBanner);
+  }
 
   @override
   Widget build(BuildContext context) {
+    //sign up
+    void signUp() async {
+      final String email = emailController.text;
+      final String password = passwordController.text;
+      final String fullname = nameController.text;
+      FocusScope.of(context).unfocus();
+
+      if (email.isEmpty ||
+          password.isEmpty ||
+          fullname.isEmpty ||
+          !agreePersonalData) {
+        showSnackBar('Please fill in all fields', false);
+        return;
+      }
+
+      try {
+        final dio = Dio();
+        final response = await dio.post(
+          '$apiServer/auth/sign-up',
+          data: {
+            'email': email,
+            'password': password,
+            'fullname': fullname,
+            'role': 1,
+          },
+        );
+
+        if (response.statusCode == 201) {
+          navigateToLogin();
+          showSnackBar('Create account successfully', true);
+        } else {
+          showSnackBar('Failed to create account', false);
+        }
+      } catch (e) {
+        showSnackBar('An error occurred during sign up', false);
+      }
+    }
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -95,7 +170,7 @@ class _CreateAccountCompanyState extends State<CreateAccountCompany> {
                   const Gap(10),
                   //sign in button
                   Button(
-                    onTap: signIn,
+                    onTap: signUp,
                     colorButton: primary_300,
                     colorText: text_50,
                     text: 'Create My Account',
