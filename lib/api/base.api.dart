@@ -10,6 +10,6 @@ class BaseApi {
       receiveTimeout: const Duration(milliseconds: 3000),
       headers: {
         'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzcsImZ1bGxuYW1lIjoidGJsb25nIiwiZW1haWwiOiJsQGdtYWlsLmNvbSIsInJvbGVzIjpbIjEiLCIxIl0sImlhdCI6MTcxMTg1ODU3OSwiZXhwIjoxNzEzMDY4MTc5fQ.fvQ2S4sblBKoTBDDJJvdGvGqzWSt4vl4C7hdg_uWGe4',
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjAsImZ1bGxuYW1lIjoic3RyaW5nIiwiZW1haWwiOiJsbGxAbWFpbC5jb20iLCJyb2xlcyI6WyIxIl0sImlhdCI6MTcxMTg5MDAxMiwiZXhwIjoxNzEzMDk5NjEyfQ.eqAqSTo-GoMRX5uaee82er_8X7QLh9MnaxeiWKAbRCo',
       });
 }

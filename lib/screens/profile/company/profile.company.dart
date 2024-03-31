@@ -18,7 +18,7 @@ class ProfileCompanyInput extends StatefulWidget {
 
 class ProfileCompanyInputState extends State<ProfileCompanyInput> {
   bool isHaveInfo = false;
-  bool isCallAPi = false;
+  bool isCallApi = false;
   final TextEditingController _companyName = TextEditingController();
   final TextEditingController _website = TextEditingController();
   final TextEditingController _description = TextEditingController();
@@ -39,7 +39,6 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {});
     profileCompanyViewModel.company.size = index;
-    // Your state change goes here
     profileCompanyViewModel.notiListener();
   }
 
@@ -100,10 +99,11 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
       body: Consumer<ProfileCompanyViewModel>(
           builder: (context, profileCompanyViewModel, child) {
         if (profileCompanyViewModel.loading) {
-          context.loaderOverlay.show();
-          isCallAPi = true;
-        } else if (isCallAPi) {
-          context.loaderOverlay.hide();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.loaderOverlay.show();
+          });
+          isCallApi = true;
+        } else if (isCallApi) {
           _companyName.text = profileCompanyViewModel.company.companyName ?? '';
           _website.text = profileCompanyViewModel.company.website ?? '';
           _description.text = profileCompanyViewModel.company.description ?? '';
@@ -111,19 +111,20 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
               ? [options[profileCompanyViewModel.company.size]]
               : options;
           isHaveInfo = profileCompanyViewModel.company.id != null;
-          isCallAPi = false;
-
-          if (profileCompanyViewModel.errorMessage == 'empty') {
-            Navigator.pushReplacementNamed(
-                context, CompanyRoutes.welcomeCompany);
-          }
+          isCallApi = false;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.loaderOverlay.hide();
+            if (profileCompanyViewModel.errorMessage == 'empty') {
+              Navigator.pushNamed(context, CompanyRoutes.welcomeCompany);
+            }
+          });
         }
 
         return SingleChildScrollView(
           child: Container(
             width: deviceSize.width,
             padding:
-                const EdgeInsets.only(top: 30, left: 10, right: 10, bottom: 0),
+                const EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 0),
             child: Column(
               children: [
                 Container(
