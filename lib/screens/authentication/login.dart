@@ -89,33 +89,21 @@ class _LoginState extends State<Login> {
           Map<String, dynamic> headers = {
             'Authorization': 'Bearer $token',
           };
-
           try {
             final responseInfo = await dio.get(
               '$apiServer/auth/me',
               options: Options(headers: headers),
             );
             final userInfo = responseInfo.data['result'];
-
-            if (userInfo['student'] != null) {
-              final student = userInfo['student'];
-              User currentUser = User(
-                  userId: student['userId'],
-                  fullname: student['fullname'],
-                  role: Role.student,
-                  token: token);
-              userProvider.setCurrentUser(currentUser);
-              userProvider.addUser(currentUser);
+            User currentUser = User(
+                userId: userInfo['id'],
+                fullname: userInfo['fullname'],
+                role: userInfo['roles'][0] == '0' ? Role.student : Role.company,
+                token: token);
+            userProvider.setCurrentUser(currentUser);
+            if (currentUser.role == Role.student) {
               studentNavigate();
-            } else if (userInfo['company'] != null) {
-              final company = userInfo['company'];
-              User currentUser = User(
-                  userId: company['userId'],
-                  fullname: company['fullname'],
-                  role: Role.company,
-                  token: token);
-              userProvider.setCurrentUser(currentUser);
-              userProvider.addUser(currentUser);
+            } else if (currentUser.role == Role.company) {
               companyNavigate();
             }
           } catch (error) {

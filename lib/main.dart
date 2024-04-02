@@ -19,7 +19,6 @@ void main() async {
   await dotenv.load(fileName: '.env');
   final ProfileService profileService = ProfileService();
   final AuthService authService = AuthService();
-
   runApp(
     MultiProvider(
       providers: [
@@ -31,7 +30,7 @@ void main() async {
         ChangeNotifierProvider(
             create: (_) => ProfileCompanyViewModel(
                 profileService: profileService, authService: authService)),
-        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider(null)),
       ],
       child: const MyApp(),
     ),
