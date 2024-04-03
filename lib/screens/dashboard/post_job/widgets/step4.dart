@@ -6,6 +6,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/utils/custom_dio.dart';
 import 'package:student_hub/utils/extensions.dart';
 import 'package:dio/dio.dart';
 
@@ -23,8 +24,8 @@ class Step4 extends StatelessWidget {
 
     void postJob() async {
       context.loaderOverlay.show();
-      await dio.post(
-        'http://34.16.137.128/api/project',
+      await publicDio.post(
+        '/project',
         data: {
           'companyId': 36,
           'projectScopeFlag':
