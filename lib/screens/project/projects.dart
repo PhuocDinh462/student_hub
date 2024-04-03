@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/models/project.dart';
+import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/student_routes.dart';
 import 'package:student_hub/widgets/project_filter.dart';
 import 'package:student_hub/widgets/project_card.dart';
 import 'package:student_hub/widgets/search_field.dart';
+import 'package:dio/dio.dart';
 
 class Projects extends StatefulWidget {
   const Projects({super.key});
@@ -13,76 +19,50 @@ class Projects extends StatefulWidget {
 }
 
 class _ProjectsState extends State<Projects> {
-  final List<Project> projects = [
-    Project(
-      createdAt: DateTime.now(),
-      name: 'Senior frontend developer(fintech)',
-      completionTime: '1-3 months',
-      requiredStudents: 5,
-      description:
-          'Description of Project 1. Description of Project 1. Description of Project 2. ',
-      proposals: ['a', 'b'],
-      favorite: true,
-    ),
-    Project(
-      createdAt: DateTime.now(),
-      name: 'Project 2',
-      completionTime: '1-3 months',
-      requiredStudents: 3,
-      description: 'Description of Project 2',
-      proposals: ['a', 'b', 'a', 'b'],
-      favorite: false,
-    ),
-    Project(
-      createdAt: DateTime.now(),
-      name: 'Senior frontend developer(fintech)',
-      completionTime: '1-3 months',
-      requiredStudents: 5,
-      description: 'Description of Project 1',
-      proposals: ['a', 'b'],
-      favorite: false,
-    ),
-    Project(
-      createdAt: DateTime.now(),
-      name: 'Senior frontend developer(fintech)',
-      completionTime: '1-3 months',
-      requiredStudents: 5,
-      description: 'Description of Project 1',
-      proposals: ['a', 'b'],
-      favorite: false,
-    ),
-    Project(
-      createdAt: DateTime.now(),
-      name: 'Senior frontend developer(fintech)',
-      completionTime: '1-3 months',
-      requiredStudents: 5,
-      description: 'Description of Project 1',
-      proposals: ['a', 'b'],
-      favorite: false,
-    ),
-    Project(
-      createdAt: DateTime.now(),
-      name: 'Senior frontend developer(fintech)',
-      completionTime: '1-3 months',
-      requiredStudents: 5,
-      description: 'Description of Project 1',
-      proposals: ['a', 'b'],
-      favorite: false,
-    ),
-    Project(
-      createdAt: DateTime.now(),
-      name: 'Senior frontend developer(fintech)',
-      completionTime: '1-3 months',
-      requiredStudents: 5,
-      description: 'Description of Project 1',
-      proposals: ['a', 'b'],
-      favorite: false,
-    ),
-  ];
+  final List<Project> projects = [];
   final searchController = TextEditingController();
+  final String? apiServer = dotenv.env['API_SERVER'];
+  Future<void> fetchProject() async {
+    final dio = Dio();
+    final response = await dio.get(
+      '$apiServer/project',
+    );
+    final listResponse = response.data['result'];
+    final List<Project> fetchProjects = listResponse
+        .cast<Map<String, dynamic>>()
+        .where((projectData) => projectData['deletedAt'] == null)
+        .map<Project>((projectData) {
+      return Project(
+        id: projectData['id'],
+        createdAt: DateTime.parse(projectData['createdAt']),
+        deletedAt: projectData['deletedAt'] != null
+            ? DateTime.parse(projectData['deletedAt'])
+            : null,
+        title: projectData['title'],
+        completionTime: ProjectScopeFlag.oneToThreeMonth,
+        requiredStudents: projectData['numberOfStudents'] ?? 0,
+        description: projectData['description'],
+        proposals: [],
+        favorite: false,
+      );
+    }).toList();
+    setState(() {
+      projects.addAll(fetchProjects);
+    });
+  }
+
   // String _selectedMenu = '';
   @override
+  void initState() {
+    super.initState();
+    fetchProject();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
+    // final token = userProvider.currentUser?.token;
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -211,14 +191,32 @@ class _ProjectsState extends State<Projects> {
                 ],
               ),
               const Gap(10),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: projects.length,
-                  itemBuilder: (context, index) {
-                    return ProjectCard(project: projects[index]);
-                  },
-                ),
-              ),
+              projects.isEmpty
+                  ? Column(
+                      children: [
+                        const Gap(50),
+                        Text(
+                          "There's no projects available",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .primary, // Customize the color as per your preference
+                          ),
+                          textAlign: TextAlign
+                              .center, // Align text center horizontally
+                        ),
+                      ],
+                    )
+                  : Expanded(
+                      child: ListView.builder(
+                        itemCount: projects.length,
+                        itemBuilder: (context, index) {
+                          return ProjectCard(project: projects[index]);
+                        },
+                      ),
+                    ),
             ],
           ),
         ),
