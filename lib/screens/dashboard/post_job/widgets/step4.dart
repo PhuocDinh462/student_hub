@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gap/gap.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
@@ -8,10 +7,6 @@ import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/utils/custom_dio.dart';
 import 'package:student_hub/utils/extensions.dart';
-import 'package:dio/dio.dart';
-
-final String? apiServer = dotenv.env['API_SERVER'];
-final dio = Dio();
 
 class Step4 extends StatelessWidget {
   const Step4({super.key, required this.back});

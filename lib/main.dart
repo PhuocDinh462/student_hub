@@ -14,6 +14,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:student_hub/routes/student_routes.dart';
 import 'package:student_hub/utils/image_list.dart';
 import 'package:student_hub/view-models/view_models.dart';
+import 'package:get/get.dart';
 
 void main() async {
   await dotenv.load(fileName: '.env');
@@ -78,7 +79,7 @@ class MyApp extends StatelessWidget {
                       color: primary_300, size: 40),
                 );
               },
-              child: MaterialApp(
+              child: GetMaterialApp(
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
                 locale: Locale(themeProvider.getLanguage),
