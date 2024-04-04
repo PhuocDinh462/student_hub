@@ -30,7 +30,7 @@ Dio privateDio = Dio(
             content: const Column(
               children: [
                 Text('Please login again.'),
-                Gap(25),
+                Gap(15),
                 Divider(
                   thickness: .5,
                   color: text_400,
@@ -38,6 +38,7 @@ Dio privateDio = Dio(
                 ),
               ],
             ),
+            contentPadding: const EdgeInsets.only(bottom: 15),
             buttonColor: Colors.transparent,
             confirm: TextButton(
               onPressed: () {
@@ -46,7 +47,7 @@ Dio privateDio = Dio(
               },
               style: TextButton.styleFrom(
                 padding: EdgeInsets.zero,
-                minimumSize: const Size(50, 35),
+                minimumSize: const Size(40, 25),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
               child: Text(
