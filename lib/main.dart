@@ -68,7 +68,6 @@ class MyApp extends StatelessWidget {
                 systemNavigationBarColor: Colors.black,
               ),
             );
-
             return GlobalLoaderOverlay(
               useDefaultLoading: false,
               overlayWidgetBuilder: (_) {

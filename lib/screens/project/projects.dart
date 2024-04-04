@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/student_routes.dart';
+import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/project_filter.dart';
 import 'package:student_hub/widgets/project_card.dart';
 import 'package:student_hub/widgets/search_field.dart';
@@ -20,6 +21,8 @@ class Projects extends StatefulWidget {
 
 class _ProjectsState extends State<Projects> {
   final List<Project> projects = [];
+  List<Project> filteredProjects = [];
+  final _debouncer = Debouncer(milliseconds: 500);
   final searchController = TextEditingController();
   final String? apiServer = dotenv.env['API_SERVER'];
   Future<void> fetchProject() async {
@@ -48,7 +51,17 @@ class _ProjectsState extends State<Projects> {
     }).toList();
     setState(() {
       projects.addAll(fetchProjects);
+      filteredProjects = projects;
     });
+  }
+
+  void filterProjects(String query) {
+    _debouncer.run(() => setState(() {
+          filteredProjects = projects
+              .where((project) =>
+                  project.title.toLowerCase().contains(query.toLowerCase()))
+              .toList();
+        }));
   }
 
   // String _selectedMenu = '';
@@ -72,7 +85,10 @@ class _ProjectsState extends State<Projects> {
               Row(
                 children: [
                   Expanded(
-                    child: SearchBox(controller: searchController),
+                    child: SearchBox(
+                      controller: searchController,
+                      onChanged: filterProjects,
+                    ),
                   ),
                   PopupMenuButton<String>(
                     icon: const Icon(Icons.more_vert),
@@ -211,9 +227,9 @@ class _ProjectsState extends State<Projects> {
                     )
                   : Expanded(
                       child: ListView.builder(
-                        itemCount: projects.length,
+                        itemCount: filteredProjects.length,
                         itemBuilder: (context, index) {
-                          return ProjectCard(project: projects[index]);
+                          return ProjectCard(project: filteredProjects[index]);
                         },
                       ),
                     ),
