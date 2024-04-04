@@ -1,81 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/models/project.dart';
+import 'package:student_hub/providers/user.provider.dart';
 import 'package:student_hub/widgets/project_card.dart';
-
-final List<Project> data = [
-  Project(
-    id: 1,
-    createdAt: DateTime.now(),
-    title: 'Senior frontend developer(fintech)',
-    completionTime: ProjectScopeFlag.oneToThreeMonth,
-    requiredStudents: 5,
-    description:
-        'Description of Project 1. Description of Project 1. Description of Project 2. ',
-    proposals: ['a', 'b'],
-    favorite: true,
-  ),
-  Project(
-    id: 1,
-    createdAt: DateTime.now(),
-    title: 'Project 2',
-    completionTime: ProjectScopeFlag.oneToThreeMonth,
-    requiredStudents: 3,
-    description: 'Description of Project 2',
-    proposals: ['a', 'b', 'a', 'b'],
-    favorite: true,
-  ),
-  Project(
-    id: 1,
-    createdAt: DateTime.now(),
-    title: 'Senior frontend developer(fintech)',
-    completionTime: ProjectScopeFlag.oneToThreeMonth,
-    requiredStudents: 5,
-    description: 'Description of Project 1',
-    proposals: ['a', 'b'],
-    favorite: true,
-  ),
-  Project(
-    id: 1,
-    createdAt: DateTime.now(),
-    title: 'Senior frontend developer(fintech)',
-    completionTime: ProjectScopeFlag.oneToThreeMonth,
-    requiredStudents: 5,
-    description: 'Description of Project 1',
-    proposals: ['a', 'b'],
-    favorite: true,
-  ),
-  Project(
-    id: 1,
-    createdAt: DateTime.now(),
-    title: 'Senior frontend developer(fintech)',
-    completionTime: ProjectScopeFlag.oneToThreeMonth,
-    requiredStudents: 5,
-    description: 'Description of Project 1',
-    proposals: ['a', 'b'],
-    favorite: true,
-  ),
-  Project(
-    id: 1,
-    createdAt: DateTime.now(),
-    title: 'Senior frontend developer(fintech)',
-    completionTime: ProjectScopeFlag.oneToThreeMonth,
-    requiredStudents: 5,
-    description: 'Description of Project 1',
-    proposals: ['a', 'b'],
-    favorite: true,
-  ),
-  Project(
-    id: 1,
-    createdAt: DateTime.now(),
-    title: 'Senior frontend developer(fintech)',
-    completionTime: ProjectScopeFlag.oneToThreeMonth,
-    requiredStudents: 5,
-    description: 'Description of Project 1',
-    proposals: ['a', 'b'],
-    favorite: true,
-  ),
-];
 
 class ProjectsSaved extends StatefulWidget {
   const ProjectsSaved({super.key});
@@ -84,8 +14,50 @@ class ProjectsSaved extends StatefulWidget {
 }
 
 class _ProjectsSavedState extends State<ProjectsSaved> {
-  final List<Project> projects = data;
+  final List<Project> projects = [];
   final searchController = TextEditingController();
+  final String? apiServer = dotenv.env['API_SERVER'];
+  Future<void> fetchProject(UserProvider userProvider) async {
+    final dio = Dio();
+    Map<String, dynamic> headers = {
+      'Authorization': 'Bearer ${userProvider.currentUser?.token}',
+    };
+    final response = await dio.get(
+      '$apiServer/favoriteProject/${userProvider.currentUser?.userId}',
+      options: Options(headers: headers),
+    );
+    final listResponse = response.data['result'];
+    final List<Project> fetchProjects = listResponse
+        .cast<Map<String, dynamic>>()
+        .where((projectData) => projectData['deletedAt'] == null)
+        .map<Project>((projectData) {
+      return Project(
+        id: projectData['id'],
+        createdAt: DateTime.parse(projectData['createdAt']),
+        deletedAt: projectData['deletedAt'] != null
+            ? DateTime.parse(projectData['deletedAt'])
+            : null,
+        title: projectData['title'],
+        completionTime: ProjectScopeFlag.oneToThreeMonth,
+        requiredStudents: projectData['numberOfStudents'] ?? 0,
+        description: projectData['description'],
+        proposals: [],
+        favorite: true,
+      );
+    }).toList();
+    setState(() {
+      projects.addAll(fetchProjects);
+    });
+  }
+
+  // String _selectedMenu = '';
+  @override
+  void initState() {
+    super.initState();
+    final UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    fetchProject(userProvider);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,14 +67,29 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
           child: Column(
             children: [
               const Gap(30),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: projects.length,
-                  itemBuilder: (context, index) {
-                    return ProjectCard(project: projects[index]);
-                  },
-                ),
-              ),
+              projects.isEmpty
+                  ? Column(
+                      children: [
+                        const Gap(50),
+                        Text(
+                          "There's no saved projects available",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )
+                  : Expanded(
+                      child: ListView.builder(
+                        itemCount: projects.length,
+                        itemBuilder: (context, index) {
+                          return ProjectCard(project: projects[index]);
+                        },
+                      ),
+                    ),
             ],
           ),
         ),
