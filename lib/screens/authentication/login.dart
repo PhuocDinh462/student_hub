@@ -88,16 +88,24 @@ class _LoginState extends State<Login> {
                 userInfo['company'] != null ? userInfo['company']['id'] : null;
             final studentId =
                 userInfo['student'] != null ? userInfo['student']['id'] : null;
-            User currentUser = User(
-                userId: userInfo['id'],
-                fullname: userInfo['fullname'],
-                roles: userInfo['roles'],
-                currentRole:
-                    userInfo['roles'][0] == '0' ? Role.student : Role.company,
-                companyId: companyId,
-                studentId: studentId,
-                token: token);
+            List<Role> roles = [];
 
+            for (var role in userInfo['roles']) {
+              roles.add(role == '0' ? Role.student : Role.company);
+            }
+
+            Role currentRole =
+                userInfo['roles'][0] == '0' ? Role.student : Role.company;
+
+            User currentUser = User(
+              userId: userInfo['id'],
+              fullname: userInfo['fullname'],
+              roles: roles,
+              currentRole: currentRole,
+              companyId: companyId,
+              studentId: studentId,
+              token: token,
+            );
             userProvider.setCurrentUser(currentUser);
             if (currentUser.currentRole == Role.student) {
               studentNavigate();
