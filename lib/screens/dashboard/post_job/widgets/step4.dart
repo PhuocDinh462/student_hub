@@ -1,8 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/utils/custom_dio.dart';
 import 'package:student_hub/utils/extensions.dart';
 
 class Step4 extends StatelessWidget {
@@ -13,6 +16,33 @@ class Step4 extends StatelessWidget {
   Widget build(BuildContext context) {
     final PostJobProvider postJobProvider =
         Provider.of<PostJobProvider>(context);
+
+    void postJob() async {
+      context.loaderOverlay.show();
+      await publicDio.post(
+        '/project',
+        data: {
+          'companyId': 36,
+          'projectScopeFlag':
+              postJobProvider.getTimeLine == TimeLine.oneToThreeMonths ? 0 : 1,
+          'title': postJobProvider.getTitle,
+          'description': postJobProvider.getDescription,
+          'typeFlag': 0,
+          'numberOfStudents': postJobProvider.getNumOfStudents,
+        },
+      ).then((value) {
+        if (kDebugMode) {
+          print(value.data);
+        }
+      }).catchError((error) {
+        if (kDebugMode) {
+          print('Post job error: ${error.response.data}');
+        }
+      }).whenComplete(() {
+        context.loaderOverlay.hide();
+        Navigator.of(context).pop();
+      });
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,22 +199,7 @@ class Step4 extends StatelessWidget {
             SizedBox(
               width: 100,
               child: ElevatedButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Processing Data',
-                        style: TextStyle(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? text_700
-                              : text_200,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  );
-                  Navigator.of(context).pop();
-                },
+                onPressed: () => postJob(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primary_300,
                 ),
