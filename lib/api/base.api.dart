@@ -8,9 +8,9 @@ Future<String?> getToken() async {
 }
 
 class BaseApi {
-  late Dio dio;
+  Dio dio;
 
-  BaseApi() {
+  BaseApi() : dio = Dio() {
     getToken().then((token) {
       BaseOptions options = BaseOptions(
         baseUrl: dotenv.get('API_SERVER'),
