@@ -37,9 +37,10 @@ class _LoginState extends State<Login> {
     await Navigator.pushNamed(context, StudentRoutes.nav);
   }
 
-  void saveToken(String token) async {
+  void saveTokenAndRole(String token, Role role) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('token', token);
+    prefs.setInt('role', role.index);
     // sau này lấy token bằng cách
     // Future<String?> getToken() async {
     //       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -84,38 +85,33 @@ class _LoginState extends State<Login> {
           },
         );
         final String token = response.data['result']['token'];
-        saveToken(token);
         if (response.statusCode == 201) {
           Map<String, dynamic> headers = {
             'Authorization': 'Bearer $token',
           };
-
           try {
             final responseInfo = await dio.get(
               '$apiServer/auth/me',
               options: Options(headers: headers),
             );
             final userInfo = responseInfo.data['result'];
+            final companyId =
+                userInfo['company'] != null ? userInfo['company']['id'] : null;
+            final studentId =
+                userInfo['student'] != null ? userInfo['student']['id'] : null;
+            User currentUser = User(
+                userId: userInfo['id'],
+                fullname: userInfo['fullname'],
+                role: userInfo['roles'][0] == '0' ? Role.student : Role.company,
+                companyId: companyId,
+                studentId: studentId,
+                token: token);
+            saveTokenAndRole(token, currentUser.role);
 
-            if (userInfo['student'] != null) {
-              final student = userInfo['student'];
-              User currentUser = User(
-                  userId: student['userId'],
-                  fullname: student['fullname'],
-                  role: Role.student,
-                  token: token);
-              userProvider.setCurrentUser(currentUser);
-              userProvider.addUser(currentUser);
+            userProvider.setCurrentUser(currentUser);
+            if (currentUser.role == Role.student) {
               studentNavigate();
-            } else if (userInfo['company'] != null) {
-              final company = userInfo['company'];
-              User currentUser = User(
-                  userId: company['userId'],
-                  fullname: company['fullname'],
-                  role: Role.company,
-                  token: token);
-              userProvider.setCurrentUser(currentUser);
-              userProvider.addUser(currentUser);
+            } else if (currentUser.role == Role.company) {
               companyNavigate();
             }
           } catch (error) {

@@ -3,8 +3,8 @@ import 'package:student_hub/constants/theme.dart';
 
 class SearchBox extends StatefulWidget {
   final TextEditingController controller;
-
-  const SearchBox({super.key, required this.controller});
+  final Function(String)? onChanged;
+  const SearchBox({super.key, required this.controller, this.onChanged});
 
   @override
   State<SearchBox> createState() => _SearchBoxState();
@@ -42,9 +42,7 @@ class _SearchBoxState extends State<SearchBox> {
                   color: text_500,
                 ),
               ),
-              onChanged: (value) {
-                // Add your logic here if needed
-              },
+              onChanged: widget.onChanged,
             ),
           ),
         ],

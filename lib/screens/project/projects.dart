@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/models/project.dart';
+import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/student_routes.dart';
+import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/project_filter.dart';
 import 'package:student_hub/widgets/project_card.dart';
 import 'package:student_hub/widgets/search_field.dart';
+import 'package:dio/dio.dart';
 
 class Projects extends StatefulWidget {
   const Projects({super.key});
@@ -13,74 +18,102 @@ class Projects extends StatefulWidget {
 }
 
 class _ProjectsState extends State<Projects> {
-  final List<Project> projects = [
-    Project(
-      createdAt: DateTime.now(),
-      name: 'Senior frontend developer(fintech)',
-      completionTime: '1-3 months',
-      requiredStudents: 5,
-      description:
-          'Description of Project 1. Description of Project 1. Description of Project 2. ',
-      proposals: ['a', 'b'],
-      favorite: true,
-    ),
-    Project(
-      createdAt: DateTime.now(),
-      name: 'Project 2',
-      completionTime: '1-3 months',
-      requiredStudents: 3,
-      description: 'Description of Project 2',
-      proposals: ['a', 'b', 'a', 'b'],
-      favorite: false,
-    ),
-    Project(
-      createdAt: DateTime.now(),
-      name: 'Senior frontend developer(fintech)',
-      completionTime: '1-3 months',
-      requiredStudents: 5,
-      description: 'Description of Project 1',
-      proposals: ['a', 'b'],
-      favorite: false,
-    ),
-    Project(
-      createdAt: DateTime.now(),
-      name: 'Senior frontend developer(fintech)',
-      completionTime: '1-3 months',
-      requiredStudents: 5,
-      description: 'Description of Project 1',
-      proposals: ['a', 'b'],
-      favorite: false,
-    ),
-    Project(
-      createdAt: DateTime.now(),
-      name: 'Senior frontend developer(fintech)',
-      completionTime: '1-3 months',
-      requiredStudents: 5,
-      description: 'Description of Project 1',
-      proposals: ['a', 'b'],
-      favorite: false,
-    ),
-    Project(
-      createdAt: DateTime.now(),
-      name: 'Senior frontend developer(fintech)',
-      completionTime: '1-3 months',
-      requiredStudents: 5,
-      description: 'Description of Project 1',
-      proposals: ['a', 'b'],
-      favorite: false,
-    ),
-    Project(
-      createdAt: DateTime.now(),
-      name: 'Senior frontend developer(fintech)',
-      completionTime: '1-3 months',
-      requiredStudents: 5,
-      description: 'Description of Project 1',
-      proposals: ['a', 'b'],
-      favorite: false,
-    ),
-  ];
+  final List<Project> projects = [];
+  final List<Project> savedProjects = [];
+  List<Project> filteredProjects = [];
+  final _debouncer = Debouncer(milliseconds: 500);
   final searchController = TextEditingController();
+  final String? apiServer = dotenv.env['API_SERVER'];
+  Future<void> fetchSavedProject(UserProvider userProvider) async {
+    final dio = Dio();
+    Map<String, dynamic> headers = {
+      'Authorization': 'Bearer ${userProvider.currentUser?.token}',
+    };
+    if (userProvider.currentUser?.studentId != null) {
+      final response = await dio.get(
+        '$apiServer/favoriteProject/${userProvider.currentUser?.studentId}',
+        options: Options(headers: headers),
+      );
+
+      final listResponse = response.data['result'];
+      final List<Project> fetchProjects = listResponse
+          .cast<Map<String, dynamic>>()
+          .where((projectData) => projectData['deletedAt'] == null)
+          .map<Project>((projectData) {
+        return Project(
+          id: projectData['id'],
+          createdAt: DateTime.parse(projectData['createdAt']),
+          deletedAt: projectData['deletedAt'] != null
+              ? DateTime.parse(projectData['deletedAt'])
+              : null,
+          title: projectData['title'],
+          completionTime: ProjectScopeFlag.oneToThreeMonth,
+          requiredStudents: projectData['numberOfStudents'] ?? 0,
+          description: projectData['description'],
+          proposals: [],
+          favorite: true,
+        );
+      }).toList();
+      setState(() {
+        savedProjects.addAll(fetchProjects);
+      });
+    }
+  }
+
+  Future<void> fetchProject() async {
+    final dio = Dio();
+    final response = await dio.get(
+      '$apiServer/project',
+    );
+    final listResponse = response.data['result'];
+    final List<Project> fetchProjects = listResponse
+        .cast<Map<String, dynamic>>()
+        .where((projectData) => projectData['deletedAt'] == null)
+        .map<Project>((projectData) {
+      return Project(
+        id: projectData['id'],
+        createdAt: DateTime.parse(projectData['createdAt']),
+        deletedAt: projectData['deletedAt'] != null
+            ? DateTime.parse(projectData['deletedAt'])
+            : null,
+        title: projectData['title'],
+        completionTime: ProjectScopeFlag.oneToThreeMonth,
+        requiredStudents: projectData['numberOfStudents'] ?? 0,
+        description: projectData['description'],
+        proposals: [],
+        favorite:
+            savedProjects.map((e) => e.id).toList().contains(projectData['id']),
+      );
+    }).toList();
+    setState(() {
+      projects.addAll(fetchProjects);
+      filteredProjects = projects;
+    });
+  }
+
+  void filterProjects(String query) {
+    _debouncer.run(() => setState(() {
+          filteredProjects = projects
+              .where((project) =>
+                  project.title.toLowerCase().contains(query.toLowerCase()))
+              .toList();
+        }));
+  }
+
+  Future<void> _fetchData(UserProvider userProvider) async {
+    await fetchSavedProject(userProvider);
+    await fetchProject();
+  }
+
   // String _selectedMenu = '';
+  @override
+  void initState() {
+    super.initState();
+    final UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    _fetchData(userProvider);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +125,10 @@ class _ProjectsState extends State<Projects> {
               Row(
                 children: [
                   Expanded(
-                    child: SearchBox(controller: searchController),
+                    child: SearchBox(
+                      controller: searchController,
+                      onChanged: filterProjects,
+                    ),
                   ),
                   PopupMenuButton<String>(
                     icon: const Icon(Icons.more_vert),
@@ -211,14 +247,29 @@ class _ProjectsState extends State<Projects> {
                 ],
               ),
               const Gap(10),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: projects.length,
-                  itemBuilder: (context, index) {
-                    return ProjectCard(project: projects[index]);
-                  },
-                ),
-              ),
+              filteredProjects.isEmpty
+                  ? Column(
+                      children: [
+                        const Gap(50),
+                        Text(
+                          "There's no projects available",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )
+                  : Expanded(
+                      child: ListView.builder(
+                        itemCount: filteredProjects.length,
+                        itemBuilder: (context, index) {
+                          return ProjectCard(project: filteredProjects[index]);
+                        },
+                      ),
+                    ),
             ],
           ),
         ),

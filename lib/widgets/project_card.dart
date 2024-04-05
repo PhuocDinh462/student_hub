@@ -31,7 +31,9 @@ class _ProjectCardState extends State<ProjectCard> {
     daysAgo = DateTime.now().difference(project.createdAt).inDays > 0
         ? DateTime.now().difference(project.createdAt).inDays
         : 1;
-    timeDuration = project.completionTime;
+    timeDuration = project.completionTime == ProjectScopeFlag.oneToThreeMonth
+        ? '1-3 months'
+        : '3-6 months';
     studentsNeeded = project.requiredStudents;
     projectDescription = project.description;
     proposalsCount = project.proposals.length;
@@ -61,7 +63,7 @@ class _ProjectCardState extends State<ProjectCard> {
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  widget.project.name,
+                  widget.project.title,
                   style: const TextStyle(
                     color: primary_300,
                     fontWeight: FontWeight.bold,
