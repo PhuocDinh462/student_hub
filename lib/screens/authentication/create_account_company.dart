@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/routes/auth_route.dart';
 import 'package:student_hub/widgets/button.dart';
@@ -67,6 +68,7 @@ class _CreateAccountCompanyState extends State<CreateAccountCompany> {
       final String email = emailController.text;
       final String password = passwordController.text;
       final String fullname = nameController.text;
+      final AuthService authService = AuthService();
       FocusScope.of(context).unfocus();
 
       if (email.isEmpty ||
@@ -78,16 +80,8 @@ class _CreateAccountCompanyState extends State<CreateAccountCompany> {
       }
 
       try {
-        final dio = Dio();
-        final response = await dio.post(
-          '$apiServer/auth/sign-up',
-          data: {
-            'email': email,
-            'password': password,
-            'fullname': fullname,
-            'role': 1,
-          },
-        );
+        final Response response =
+            await authService.signUp(email, password, fullname, 1);
 
         if (response.statusCode == 201) {
           navigateToLogin();

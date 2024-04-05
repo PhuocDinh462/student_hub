@@ -1,8 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/user.provider.dart';
 import 'package:student_hub/widgets/project_card.dart';
@@ -17,16 +17,10 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
   final List<Project> projects = [];
   final searchController = TextEditingController();
   final String? apiServer = dotenv.env['API_SERVER'];
+  final ProjectService projectService = ProjectService();
   Future<void> fetchProject(UserProvider userProvider) async {
-    final dio = Dio();
-    Map<String, dynamic> headers = {
-      'Authorization': 'Bearer ${userProvider.currentUser?.token}',
-    };
-    final response = await dio.get(
-      '$apiServer/favoriteProject/${userProvider.currentUser?.userId}',
-      options: Options(headers: headers),
-    );
-    final listResponse = response.data['result'];
+    final listResponse = await projectService
+        .getFavoriteProjects(userProvider.currentUser!.studentId!);
     final List<Project> fetchProjects = listResponse
         .cast<Map<String, dynamic>>()
         .where((projectData) => projectData['deletedAt'] == null)

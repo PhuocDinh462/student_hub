@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gap/gap.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/student_routes.dart';
@@ -24,6 +28,8 @@ class _ProjectsState extends State<Projects> {
   final _debouncer = Debouncer(milliseconds: 500);
   final searchController = TextEditingController();
   final String? apiServer = dotenv.env['API_SERVER'];
+  final ProjectService projectService = ProjectService();
+
   Future<void> fetchSavedProject(UserProvider userProvider) async {
     final dio = Dio();
     Map<String, dynamic> headers = {
@@ -101,8 +107,10 @@ class _ProjectsState extends State<Projects> {
   }
 
   Future<void> _fetchData(UserProvider userProvider) async {
+    context.loaderOverlay.show();
     await fetchSavedProject(userProvider);
     await fetchProject();
+    context.loaderOverlay.hide();
   }
 
   // String _selectedMenu = '';

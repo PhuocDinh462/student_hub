@@ -1,13 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/routes/auth_route.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -21,6 +22,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   // Text editing controller
   final TextEditingController emailController = TextEditingController();
   final String? apiServer = dotenv.env['API_SERVER'];
+  final UserService userService = UserService();
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +32,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       FocusScope.of(context).unfocus();
       if (email.isEmpty) {
         MySnackBar.showSnackBar(context, 'Please fill in all fields', false);
-
         return;
       }
       try {
-        final dio = Dio();
-        final response = await dio.post(
-          '$apiServer/user/forgotPassword',
-          data: {
-            'email': email,
-          },
-        );
+        final Response response = await userService.forgotPassword(email);
 
         if (response.statusCode == 201) {
           MySnackBar.showSnackBar(
