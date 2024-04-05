@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/providers/providers.dart';
 
 Dio publicDio = Dio(
   BaseOptions(
@@ -14,10 +15,10 @@ Dio publicDio = Dio(
 Dio privateDio = Dio(
   BaseOptions(
     baseUrl: dotenv.env['API_SERVER']!,
-    headers: {
-      'Authorization':
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEwLCJmdWxsbmFtZSI6InBodW9jIiwiZW1haWwiOiJkY2hwaHVvYzIwQGNsYy5maXR1cy5lZHUudm4iLCJyb2xlcyI6WyIxIiwiMSJdLCJpYXQiOjE3MTIxNzU1NjcsImV4cCI6MTcxMzM4NTE2N30.f77th-9ibu_jZEaJdBCf10zBaWmb3PP74erhy8xjGJA',
-    },
+    // headers: {
+    //   'Authorization':
+    //       'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEwLCJmdWxsbmFtZSI6InBodW9jIiwiZW1haWwiOiJkY2hwaHVvYzIwQGNsYy5maXR1cy5lZHUudm4iLCJyb2xlcyI6WyIxIiwiMSJdLCJpYXQiOjE3MTIxNzU1NjcsImV4cCI6MTcxMzM4NTE2N30.f77th-9ibu_jZEaJdBCf10zBaWmb3PP74erhy8xjGJA',
+    // },
   ),
 )..interceptors.add(
     InterceptorsWrapper(
@@ -42,6 +43,8 @@ Dio privateDio = Dio(
             buttonColor: Colors.transparent,
             confirm: TextButton(
               onPressed: () {
+                ThemeProvider themeProvider = Get.find();
+                print('theme: ${themeProvider.getTheme.toString()}');
                 print('login');
                 Get.back();
               },
