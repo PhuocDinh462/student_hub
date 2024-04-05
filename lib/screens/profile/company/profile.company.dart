@@ -38,14 +38,16 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
         Provider.of<ProfileCompanyViewModel>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {});
-    profileCompanyViewModel.company.size = index;
+    profileCompanyViewModel.company = profileCompanyViewModel.company.copyWith(
+      size: index,
+    );
     profileCompanyViewModel.notiListener();
   }
 
   void _onTapCreateProfile(BuildContext context) {
     final profileCompanyViewModel =
         Provider.of<ProfileCompanyViewModel>(context, listen: false);
-    profileCompanyViewModel.createProfileCompany(ProfileCompany(
+    profileCompanyViewModel.createProfileCompany(ProfileCompanyModel(
       size: profileCompanyViewModel.company.size,
       companyName: _companyName.text,
       website: _website.text,
@@ -56,7 +58,7 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
   void _onTapUpdateProfile(BuildContext context) {
     final profileCompanyViewModel =
         Provider.of<ProfileCompanyViewModel>(context, listen: false);
-    profileCompanyViewModel.updateProfileCompany(ProfileCompany(
+    profileCompanyViewModel.updateProfileCompany(ProfileCompanyModel(
       id: profileCompanyViewModel.company.id,
       companyName: _companyName.text,
       website: _website.text,
@@ -104,13 +106,13 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
           });
           isCallApi = true;
         } else if (isCallApi) {
-          _companyName.text = profileCompanyViewModel.company.companyName ?? '';
-          _website.text = profileCompanyViewModel.company.website ?? '';
-          _description.text = profileCompanyViewModel.company.description ?? '';
-          optionsSelected = profileCompanyViewModel.company.id != null
+          _companyName.text = profileCompanyViewModel.company.companyName;
+          _website.text = profileCompanyViewModel.company.website;
+          _description.text = profileCompanyViewModel.company.description;
+          optionsSelected = profileCompanyViewModel.company.id != -1
               ? [options[profileCompanyViewModel.company.size]]
               : options;
-          isHaveInfo = profileCompanyViewModel.company.id != null;
+          isHaveInfo = profileCompanyViewModel.company.id != -1;
           isCallApi = false;
           WidgetsBinding.instance.addPostFrameCallback((_) {
             context.loaderOverlay.hide();

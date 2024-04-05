@@ -35,7 +35,7 @@ class TextFieldTitle extends StatelessWidget {
         ),
         const Gap(10),
         TextField(
-            autofocus: true,
+            // autofocus: true,
             readOnly: readOnly,
             controller: controller,
             maxLines: maxLines,

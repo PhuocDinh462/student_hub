@@ -13,17 +13,22 @@ class ProfileCompanyViewModel extends ChangeNotifier {
 
   bool _loading = false;
   String _errorMessage = '';
-  ProfileCompany _company = ProfileCompany();
+  ProfileCompanyModel _company = const ProfileCompanyModel();
 
-  ProfileCompany get company => _company;
+  ProfileCompanyModel get company => _company;
   bool get loading => _loading;
   String get errorMessage => _errorMessage;
+
+  set company(ProfileCompanyModel value) {
+    _company = value;
+    notifyListeners();
+  }
 
   void notiListener() {
     notifyListeners();
   }
 
-  Future<void> createProfileCompany(ProfileCompany body) async {
+  Future<void> createProfileCompany(ProfileCompanyModel body) async {
     _loading = true;
     _errorMessage = '';
     notifyListeners();
@@ -32,7 +37,7 @@ class ProfileCompanyViewModel extends ChangeNotifier {
       Map<String, dynamic> data =
           await profileService.createProfileCompany(body);
       String companyJson = jsonEncode(data);
-      _company = ProfileCompany.fromJson(companyJson);
+      _company = ProfileCompanyModel.fromJson(companyJson);
 
       _errorMessage = 'empty';
     } catch (e) {
@@ -43,7 +48,7 @@ class ProfileCompanyViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> updateProfileCompany(ProfileCompany body) async {
+  Future<void> updateProfileCompany(ProfileCompanyModel body) async {
     _loading = true;
     _errorMessage = '';
     notifyListeners();
@@ -52,7 +57,7 @@ class ProfileCompanyViewModel extends ChangeNotifier {
       Map<String, dynamic> data =
           await profileService.updateProfileCompany(body);
       String companyJson = jsonEncode(data);
-      _company = ProfileCompany.fromJson(companyJson);
+      _company = ProfileCompanyModel.fromJson(companyJson);
 
       _errorMessage = 'empty-3';
     } catch (e) {
@@ -72,7 +77,8 @@ class ProfileCompanyViewModel extends ChangeNotifier {
       Map<String, dynamic> data = await authService.getMe();
       String companyJson = jsonEncode(data['company']);
 
-      _company = ProfileCompany.fromJson(companyJson);
+      _company = ProfileCompanyModel.fromJson(companyJson);
+
       _errorMessage = 'empty-1';
     } catch (e) {
       _errorMessage = 'Failed to fetch company profile';
