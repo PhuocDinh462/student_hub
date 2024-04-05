@@ -37,9 +37,10 @@ class _LoginState extends State<Login> {
     await Navigator.pushNamed(context, StudentRoutes.nav);
   }
 
-  void saveToken(String token) async {
+  void saveTokenAndRole(String token, Role role) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('token', token);
+    prefs.setInt('role', role.index);
     // sau này lấy token bằng cách
     // Future<String?> getToken() async {
     //       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -84,7 +85,6 @@ class _LoginState extends State<Login> {
           },
         );
         final String token = response.data['result']['token'];
-        saveToken(token);
         if (response.statusCode == 201) {
           Map<String, dynamic> headers = {
             'Authorization': 'Bearer $token',
@@ -106,6 +106,8 @@ class _LoginState extends State<Login> {
                 companyId: companyId,
                 studentId: studentId,
                 token: token);
+            saveTokenAndRole(token, currentUser.role);
+
             userProvider.setCurrentUser(currentUser);
             if (currentUser.role == Role.student) {
               studentNavigate();
