@@ -82,12 +82,12 @@ class MyApp extends StatelessWidget {
                 supportedLocales: AppLocalizations.supportedLocales,
                 locale: Locale(themeProvider.getLanguage),
                 routes: userProvider.currentUser != null
-                    ? (userProvider.currentUser!.role == Role.student
+                    ? (userProvider.currentUser!.currentRole == Role.student
                         ? StudentRoutes.routes
                         : CompanyRoutes.routes)
                     : AuthRoutes.routes,
                 initialRoute: userProvider.currentUser != null
-                    ? (userProvider.currentUser!.role == Role.student
+                    ? (userProvider.currentUser!.currentRole == Role.student
                         ? StudentRoutes.nav
                         : CompanyRoutes.nav)
                     : AuthRoutes.login,

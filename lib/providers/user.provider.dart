@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_hub/models/user.dart';
 
 class UserProvider with ChangeNotifier {
@@ -13,7 +14,10 @@ class UserProvider with ChangeNotifier {
   User? get currentUser => _currentUser;
 
   // Setter cho currentUser
-  void setCurrentUser(User user) {
+  void setCurrentUser(User user) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', user.token);
+    await prefs.setInt('role', user.currentRole.index);
     _currentUser = user;
     notifyListeners();
   }
