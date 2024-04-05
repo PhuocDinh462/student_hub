@@ -37,17 +37,6 @@ class _LoginState extends State<Login> {
     await Navigator.pushNamed(context, StudentRoutes.nav);
   }
 
-  void saveTokenAndRole(String token, Role role) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('token', token);
-    prefs.setInt('role', role.index);
-    // sau này lấy token bằng cách
-    // Future<String?> getToken() async {
-    //       SharedPreferences prefs = await SharedPreferences.getInstance();
-    //       return prefs.getString('token');
-    //     }
-  }
-
   void showSnackBar(String message, bool success) {
     final snackBar = SnackBar(
       elevation: 0,
@@ -99,19 +88,28 @@ class _LoginState extends State<Login> {
                 userInfo['company'] != null ? userInfo['company']['id'] : null;
             final studentId =
                 userInfo['student'] != null ? userInfo['student']['id'] : null;
-            User currentUser = User(
-                userId: userInfo['id'],
-                fullname: userInfo['fullname'],
-                role: userInfo['roles'][0] == '0' ? Role.student : Role.company,
-                companyId: companyId,
-                studentId: studentId,
-                token: token);
-            saveTokenAndRole(token, currentUser.role);
+            List<Role> roles = [];
 
+            for (var role in userInfo['roles']) {
+              roles.add(role == '0' ? Role.student : Role.company);
+            }
+
+            Role currentRole =
+                userInfo['roles'][0] == '0' ? Role.student : Role.company;
+
+            User currentUser = User(
+              userId: userInfo['id'],
+              fullname: userInfo['fullname'],
+              roles: roles,
+              currentRole: currentRole,
+              companyId: companyId,
+              studentId: studentId,
+              token: token,
+            );
             userProvider.setCurrentUser(currentUser);
-            if (currentUser.role == Role.student) {
+            if (currentUser.currentRole == Role.student) {
               studentNavigate();
-            } else if (currentUser.role == Role.company) {
+            } else if (currentUser.currentRole == Role.company) {
               companyNavigate();
             }
           } catch (error) {

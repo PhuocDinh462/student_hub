@@ -13,7 +13,8 @@ class User extends Equatable {
   final int userId;
   final String fullname;
   // final String email;
-  final Role role;
+  final List<Role> roles;
+  final Role currentRole;
   final String token;
   final int? companyId;
   final int? studentId;
@@ -23,20 +24,22 @@ class User extends Equatable {
     required this.userId,
     required this.fullname,
     // required this.email,
-    required this.role,
+    required this.roles,
+    required this.currentRole,
     required this.token,
     this.companyId,
     this.studentId,
   });
 
   @override
-  List<Object?> get props => [userId, fullname, role, token];
+  List<Object?> get props => [userId, fullname, roles, currentRole, token];
 
   User copyWith({
     int? userId,
     String? fullname,
     // String? email,
-    Role? role,
+    List<Role>? roles,
+    Role? currentRole,
     String? token,
     int? companyId,
     int? studentId,
@@ -45,7 +48,8 @@ class User extends Equatable {
       userId: userId ?? this.userId,
       fullname: fullname ?? this.fullname,
       // email: email ?? this.email,
-      role: role ?? this.role,
+      roles: roles ?? this.roles,
+      currentRole: currentRole ?? this.currentRole,
       token: token ?? this.token,
       companyId: companyId ?? this.companyId,
       studentId: studentId ?? this.studentId,
@@ -57,7 +61,8 @@ class User extends Equatable {
       userId: map['userId'],
       fullname: map['fullname'],
       // email: map['email'],
-      role: Role.values[map['role']],
+      roles: map['roles'],
+      currentRole: Role.values[map['currentRole']],
       token: map['token'],
       companyId: map['companyId'],
       studentId: map['studentId'],
@@ -67,7 +72,8 @@ class User extends Equatable {
     return User(
       userId: json['userId'] ?? const Uuid().v4(),
       fullname: json['fullname'] ?? '',
-      role: Role.values[json['role']],
+      roles: json['roles'],
+      currentRole: Role.values[json['currentRole']],
       token: json['token'],
       companyId: json['companyId'],
       studentId: json['studentId'],
@@ -79,7 +85,8 @@ class User extends Equatable {
       'userId': userId,
       'fullname': fullname,
       // 'email': email,
-      'role': role.index,
+      'roles': roles,
+      'currentRole': currentRole.index,
       'token': token,
       'companyId': companyId,
       'studentId': studentId,
