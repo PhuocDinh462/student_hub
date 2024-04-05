@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/routes/student_routes.dart';
+import 'package:student_hub/routes/company_route.dart';
 
 class WelcomeCompany extends StatelessWidget {
   const WelcomeCompany({super.key});
@@ -24,8 +24,7 @@ class WelcomeCompany extends StatelessWidget {
             ),
             const SizedBox(height: 50),
             ElevatedButton(
-              onPressed: () =>
-                  Navigator.pushNamed(context, StudentRoutes.dashboardStudent),
+              onPressed: () => Navigator.pushNamed(context, CompanyRoutes.nav),
               style: ElevatedButton.styleFrom(
                 backgroundColor: primary_300,
                 foregroundColor: text_50,

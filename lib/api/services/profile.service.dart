@@ -5,13 +5,13 @@ import 'package:student_hub/models/models.dart';
 class ProfileService extends BaseApi {
   ProfileService();
 
-  Future<dynamic> createProfileCompany(ProfileCompany body) async {
+  Future<dynamic> createProfileCompany(ProfileCompanyModel body) async {
     try {
       Response response = await dio.post('/profile/company', data: {
-        'companyName': '${body.companyName}',
+        'companyName': body.companyName,
         'size': body.size,
-        'website': '${body.website}',
-        'description': '${body.description}'
+        'website': body.website,
+        'description': body.description
       });
 
       if (response.data.containsKey('result')) {
@@ -24,12 +24,12 @@ class ProfileService extends BaseApi {
     }
   }
 
-  Future<dynamic> updateProfileCompany(ProfileCompany body) async {
+  Future<dynamic> updateProfileCompany(ProfileCompanyModel body) async {
     try {
       Response response = await dio.put('/profile/company/${body.id}', data: {
-        'companyName': '${body.companyName}',
-        'website': '${body.website}',
-        'description': '${body.description}'
+        'companyName': body.companyName,
+        'website': body.website,
+        'description': body.description
       });
 
       if (response.data.containsKey('result')) {
