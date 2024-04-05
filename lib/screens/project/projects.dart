@@ -29,33 +29,35 @@ class _ProjectsState extends State<Projects> {
     Map<String, dynamic> headers = {
       'Authorization': 'Bearer ${userProvider.currentUser?.token}',
     };
-    final response = await dio.get(
-      '$apiServer/favoriteProject/${userProvider.currentUser?.userId}',
-      options: Options(headers: headers),
-    );
-
-    final listResponse = response.data['result'];
-    final List<Project> fetchProjects = listResponse
-        .cast<Map<String, dynamic>>()
-        .where((projectData) => projectData['deletedAt'] == null)
-        .map<Project>((projectData) {
-      return Project(
-        id: projectData['id'],
-        createdAt: DateTime.parse(projectData['createdAt']),
-        deletedAt: projectData['deletedAt'] != null
-            ? DateTime.parse(projectData['deletedAt'])
-            : null,
-        title: projectData['title'],
-        completionTime: ProjectScopeFlag.oneToThreeMonth,
-        requiredStudents: projectData['numberOfStudents'] ?? 0,
-        description: projectData['description'],
-        proposals: [],
-        favorite: true,
+    if (userProvider.currentUser?.studentId != null) {
+      final response = await dio.get(
+        '$apiServer/favoriteProject/${userProvider.currentUser?.studentId}',
+        options: Options(headers: headers),
       );
-    }).toList();
-    setState(() {
-      savedProjects.addAll(fetchProjects);
-    });
+
+      final listResponse = response.data['result'];
+      final List<Project> fetchProjects = listResponse
+          .cast<Map<String, dynamic>>()
+          .where((projectData) => projectData['deletedAt'] == null)
+          .map<Project>((projectData) {
+        return Project(
+          id: projectData['id'],
+          createdAt: DateTime.parse(projectData['createdAt']),
+          deletedAt: projectData['deletedAt'] != null
+              ? DateTime.parse(projectData['deletedAt'])
+              : null,
+          title: projectData['title'],
+          completionTime: ProjectScopeFlag.oneToThreeMonth,
+          requiredStudents: projectData['numberOfStudents'] ?? 0,
+          description: projectData['description'],
+          proposals: [],
+          favorite: true,
+        );
+      }).toList();
+      setState(() {
+        savedProjects.addAll(fetchProjects);
+      });
+    }
   }
 
   Future<void> fetchProject() async {
@@ -100,7 +102,7 @@ class _ProjectsState extends State<Projects> {
 
   Future<void> _fetchData(UserProvider userProvider) async {
     await fetchSavedProject(userProvider);
-    fetchProject();
+    await fetchProject();
   }
 
   // String _selectedMenu = '';

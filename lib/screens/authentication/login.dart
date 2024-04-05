@@ -95,10 +95,16 @@ class _LoginState extends State<Login> {
               options: Options(headers: headers),
             );
             final userInfo = responseInfo.data['result'];
+            final companyId =
+                userInfo['company'] != null ? userInfo['company']['id'] : null;
+            final studentId =
+                userInfo['student'] != null ? userInfo['student']['id'] : null;
             User currentUser = User(
                 userId: userInfo['id'],
                 fullname: userInfo['fullname'],
                 role: userInfo['roles'][0] == '0' ? Role.student : Role.company,
+                companyId: companyId,
+                studentId: studentId,
                 token: token);
             userProvider.setCurrentUser(currentUser);
             if (currentUser.role == Role.student) {

@@ -15,6 +15,8 @@ class User extends Equatable {
   // final String email;
   final Role role;
   final String token;
+  final int? companyId;
+  final int? studentId;
 
   // Constructor
   const User({
@@ -23,6 +25,8 @@ class User extends Equatable {
     // required this.email,
     required this.role,
     required this.token,
+    this.companyId,
+    this.studentId,
   });
 
   @override
@@ -34,6 +38,8 @@ class User extends Equatable {
     // String? email,
     Role? role,
     String? token,
+    int? companyId,
+    int? studentId,
   }) {
     return User(
       userId: userId ?? this.userId,
@@ -41,6 +47,8 @@ class User extends Equatable {
       // email: email ?? this.email,
       role: role ?? this.role,
       token: token ?? this.token,
+      companyId: companyId ?? this.companyId,
+      studentId: studentId ?? this.studentId,
     );
   }
 
@@ -51,6 +59,8 @@ class User extends Equatable {
       // email: map['email'],
       role: Role.values[map['role']],
       token: map['token'],
+      companyId: map['companyId'],
+      studentId: map['studentId'],
     );
   }
   factory User.fromJson(Map<String, dynamic> json) {
@@ -59,6 +69,8 @@ class User extends Equatable {
       fullname: json['fullname'] ?? '',
       role: Role.values[json['role']],
       token: json['token'],
+      companyId: json['companyId'],
+      studentId: json['studentId'],
     );
   }
 
@@ -69,6 +81,8 @@ class User extends Equatable {
       // 'email': email,
       'role': role.index,
       'token': token,
+      'companyId': companyId,
+      'studentId': studentId,
     };
   }
 }
