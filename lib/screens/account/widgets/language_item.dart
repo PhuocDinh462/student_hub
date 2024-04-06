@@ -1,5 +1,6 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/providers/theme_provider.dart';
 import 'package:gap/gap.dart';
@@ -22,7 +23,10 @@ class LanguageItem extends StatelessWidget {
     final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
     return GestureDetector(
-      onTap: () => themeProvider.setLanguage(languageCode),
+      onTap: () {
+        themeProvider.setLanguage(languageCode);
+        Get.updateLocale(Locale(languageCode));
+      },
       child: Material(
         color: Theme.of(context).colorScheme.onPrimary,
         elevation: 3,
