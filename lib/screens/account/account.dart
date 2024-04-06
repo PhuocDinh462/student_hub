@@ -48,6 +48,20 @@ class Account extends StatelessWidget {
                             username: 'Hai Pham', userType: UserType.company),
                       ],
                     ),
+                    // GestureDetector(
+                    //   onTap: () {},
+                    //   child: Container(
+                    //     color: Colors.transparent,
+                    //     child: const Row(
+                    //       children: [
+                    //         Gap(30),
+                    //         Icon(Icons.add_circle_outline_outlined, size: 28),
+                    //         Gap(8),
+                    //         Text('Add profile'),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
