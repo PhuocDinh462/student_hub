@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/models/user.dart';
 import 'package:student_hub/routes/company_route.dart';
-import 'package:student_hub/routes/student_routes.dart';
 import 'package:student_hub/screens/account/widgets/user_item.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';

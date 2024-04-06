@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:student_hub/api/services/job.services.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/utils/custom_dio.dart';
@@ -16,12 +17,12 @@ class Step4 extends StatelessWidget {
   Widget build(BuildContext context) {
     final PostJobProvider postJobProvider =
         Provider.of<PostJobProvider>(context);
+    JobService jobService = JobService();
 
     void postJob() async {
       context.loaderOverlay.show();
-      await publicDio.post(
-        '/project',
-        data: {
+      try {
+        await jobService.postJob({
           'companyId': 36,
           'projectScopeFlag':
               postJobProvider.getTimeLine == TimeLine.oneToThreeMonths ? 0 : 1,
@@ -29,19 +30,15 @@ class Step4 extends StatelessWidget {
           'description': postJobProvider.getDescription,
           'typeFlag': 0,
           'numberOfStudents': postJobProvider.getNumOfStudents,
-        },
-      ).then((value) {
-        if (kDebugMode) {
-          print(value.data);
+        });
+      } catch (e) {
+        throw Exception(e);
+      } finally {
+        if (context.mounted) {
+          context.loaderOverlay.hide();
+          Navigator.of(context).pop();
         }
-      }).catchError((error) {
-        if (kDebugMode) {
-          print('Post job error: ${error.response.data}');
-        }
-      }).whenComplete(() {
-        context.loaderOverlay.hide();
-        Navigator.of(context).pop();
-      });
+      }
     }
 
     return Column(
