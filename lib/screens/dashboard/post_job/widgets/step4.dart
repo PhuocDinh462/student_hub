@@ -20,14 +20,11 @@ class Step4 extends StatelessWidget {
     JobService jobService = JobService();
 
     void postJob() async {
-      context.loaderOverlay.show();
+      // context.loaderOverlay.show();
       await jobService
           .postJob({
             'companyId': userProvider.currentUser!.companyId,
-            'projectScopeFlag':
-                postJobProvider.getTimeLine == TimeLine.oneToThreeMonths
-                    ? 0
-                    : 1,
+            'projectScopeFlag': postJobProvider.getTimeLine.index,
             'title': postJobProvider.getTitle,
             'description': postJobProvider.getDescription,
             'typeFlag': 0,

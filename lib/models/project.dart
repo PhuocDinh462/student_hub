@@ -33,4 +33,22 @@ class Project {
     this.countMessages = 0,
     this.countHired = 0,
   });
+
+  static Project fromMap(Map<String, dynamic> map) {
+    return Project(
+      id: map['id'],
+      createdAt: DateTime.parse(map['createdAt']),
+      deletedAt:
+          map['deletedAt'] == null ? null : DateTime.parse(map['deletedAt']),
+      title: map['title'],
+      completionTime: ProjectScopeFlag.values[map['projectScopeFlag']],
+      requiredStudents: map['numberOfStudents'],
+      description: map['description'],
+      proposals: [],
+      favorite: false,
+      countProposals: map['countProposals'],
+      countMessages: map['countMessages'],
+      countHired: map['countHired'],
+    );
+  }
 }

@@ -7,6 +7,7 @@ import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/screens/dashboard/widgets/project_item.dart';
+import 'package:student_hub/utils/custom_dio.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -20,18 +21,19 @@ class _DashboardState extends State<Dashboard> {
   List<Project> projectList = [];
 
   Future<void> _fetchData() async {
-    await jobService.getJob(15).then((value) {
-      setState(() => projectList = value);
-    }).catchError((e) {
-      throw Exception(e);
-    });
-
-    // await privateDio.get('/project/company/15').then((value) {
-    //   // setState(() => projectList = value);
-    //   print('project: $value');
+    // await jobService.getJob(15).then((value) {
+    //   setState(() => projectList = value);
     // }).catchError((e) {
     //   throw Exception(e);
     // });
+
+    await privateDio.get('/project/company/15').then((value) {
+      setState(() => projectList = value.data['result']
+          .map<Project>((item) => Project.fromMap(item))
+          .toList());
+    }).catchError((e) {
+      throw Exception(e);
+    });
   }
 
   @override
@@ -95,27 +97,37 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ],
             ),
-            const Expanded(
+            Expanded(
               child: TabBarView(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 children: [
                   // All projects
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          Gap(10),
-                          ProjectItem(),
-                          Gap(85),
+                          Column(
+                            children: projectList
+                                .map((item) => Column(
+                                      children: [
+                                        ProjectItem(
+                                          project: item,
+                                        ),
+                                        const Gap(10),
+                                      ],
+                                    ))
+                                .toList(),
+                          ),
+                          const Gap(85),
                         ],
                       ),
                     ),
                   ),
-                  Center(
+                  const Center(
                     child: Text('Working'),
                   ),
-                  Center(
+                  const Center(
                     child: Text('Archived'),
                   ),
                 ],

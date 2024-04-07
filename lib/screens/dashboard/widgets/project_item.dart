@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/models.dart';
 import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/screens/dashboard/widgets/bottom_tool_menu.dart';
 
 class ProjectItem extends StatelessWidget {
-  const ProjectItem({super.key});
+  ProjectItem({super.key, required this.project});
+  final Project project;
+
+  final f = DateFormat('dd/MM/yyyy hh:mm');
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,7 @@ class ProjectItem extends StatelessWidget {
                       children: [
                         const Gap(10),
                         Text(
-                          'Senior frontend developer (Fintech)',
+                          project.title,
                           style: Theme.of(context)
                               .textTheme
                               .titleLarge
@@ -36,7 +41,7 @@ class ProjectItem extends StatelessWidget {
                         ),
                         const Gap(3),
                         Text(
-                          'Created 3 days ago',
+                          f.format(project.createdAt),
                           style:
                               Theme.of(context).textTheme.labelSmall?.copyWith(
                                     fontStyle: FontStyle.italic,
@@ -67,15 +72,14 @@ class ProjectItem extends StatelessWidget {
                 ],
               ),
               const Gap(10),
-              const Text(
-                  'Students are looking for\n - Clear expectation about your project or deliverables'),
+              Text(project.description),
               const Gap(20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Row(
                     children: [
-                      Text('8',
+                      Text(project.countProposals.toString(),
                           style: Theme.of(context).textTheme.headlineLarge),
                       const Gap(10),
                       Icon(Icons.description,
@@ -85,7 +89,7 @@ class ProjectItem extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Text('8',
+                      Text(project.countMessages.toString(),
                           style: Theme.of(context).textTheme.headlineLarge),
                       const Gap(10),
                       Icon(Icons.message_outlined,
@@ -95,7 +99,7 @@ class ProjectItem extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Text('8',
+                      Text(project.countHired.toString(),
                           style: Theme.of(context).textTheme.headlineLarge),
                       const Gap(10),
                       Icon(Icons.check_circle,
