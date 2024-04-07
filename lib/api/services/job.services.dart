@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:student_hub/api/base.api.dart';
 
 class JobService extends BaseApi {
@@ -12,7 +13,21 @@ class JobService extends BaseApi {
         .then((value) {
       return value.data;
     }).catchError((e) {
-      throw Exception('Post job error: ${e.response.data}');
+      printError(info: 'Post job error: $e');
+      throw Exception(e);
+    });
+  }
+
+  Future<dynamic> getJob(companyId) async {
+    await dio
+        .get(
+      '/project/company/$companyId',
+    )
+        .then((value) {
+      return value.data;
+    }).catchError((e) {
+      printError(info: 'Get job error: $e');
+      throw Exception(e);
     });
   }
 }

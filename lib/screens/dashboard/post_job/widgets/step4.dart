@@ -3,8 +3,8 @@ import 'package:gap/gap.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/services/job.services.dart';
-import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/utils/extensions.dart';
 
 class Step4 extends StatelessWidget {
@@ -15,13 +15,15 @@ class Step4 extends StatelessWidget {
   Widget build(BuildContext context) {
     final PostJobProvider postJobProvider =
         Provider.of<PostJobProvider>(context);
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
+
     JobService jobService = JobService();
 
     void postJob() async {
       context.loaderOverlay.show();
       await jobService
           .postJob({
-            'companyId': 36,
+            'companyId': userProvider.currentUser!.companyId,
             'projectScopeFlag':
                 postJobProvider.getTimeLine == TimeLine.oneToThreeMonths
                     ? 0

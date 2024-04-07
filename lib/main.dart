@@ -60,6 +60,7 @@ class MyApp extends StatelessWidget {
           } else {
             final ThemeProvider themeProvider =
                 Provider.of<ThemeProvider>(context);
+            Get.put(themeProvider);
 
             ImageList.loadImage(context);
 
@@ -96,6 +97,7 @@ class MyApp extends StatelessWidget {
                     ? AppTheme.darkTheme
                     : AppTheme.lightTheme,
               ),
+
             );
           }
         }

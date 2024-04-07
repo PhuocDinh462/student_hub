@@ -15,10 +15,10 @@ Dio publicDio = Dio(
 Dio privateDio = Dio(
   BaseOptions(
     baseUrl: dotenv.env['API_SERVER']!,
-    // headers: {
-    //   'Authorization':
-    //       'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEwLCJmdWxsbmFtZSI6InBodW9jIiwiZW1haWwiOiJkY2hwaHVvYzIwQGNsYy5maXR1cy5lZHUudm4iLCJyb2xlcyI6WyIxIiwiMSJdLCJpYXQiOjE3MTIxNzU1NjcsImV4cCI6MTcxMzM4NTE2N30.f77th-9ibu_jZEaJdBCf10zBaWmb3PP74erhy8xjGJA',
-    // },
+    headers: {
+      'Authorization':
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsImZ1bGxuYW1lIjoicGh1b2MiLCJlbWFpbCI6InBodW9jZGluaDQ2MkBnbWFpbC5jb20iLCJyb2xlcyI6WzFdLCJpYXQiOjE3MTI0NzYwMTYsImV4cCI6MTcxMzY4NTYxNn0.x2Umz26p5rqVVqVSZF2L5tntGheEuPIEjGrUYhairpg',
+    },
   ),
 )..interceptors.add(
     InterceptorsWrapper(

@@ -15,6 +15,9 @@ class Project {
   final String description;
   final List<String> proposals;
   bool favorite;
+  final int countProposals;
+  final int countMessages;
+  final int countHired;
 
   Project({
     required this.id,
@@ -26,5 +29,8 @@ class Project {
     required this.description,
     required this.proposals,
     required this.favorite,
+    this.countProposals = 0,
+    this.countMessages = 0,
+    this.countHired = 0,
   });
 }

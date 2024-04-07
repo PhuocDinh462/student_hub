@@ -1,13 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:student_hub/api/services/job.services.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/screens/dashboard/widgets/project_item.dart';
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
+
+  @override
+  createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  JobService jobService = JobService();
+  List<Project> projectList = [];
+
+  Future<void> _fetchData() async {
+    await jobService.getJob(15).then((value) {
+      setState(() => projectList = value);
+    }).catchError((e) {
+      throw Exception(e);
+    });
+
+    // await privateDio.get('/project/company/15').then((value) {
+    //   // setState(() => projectList = value);
+    //   print('project: $value');
+    // }).catchError((e) {
+    //   throw Exception(e);
+    // });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,16 +105,6 @@ class Dashboard extends StatelessWidget {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          Gap(10),
-                          ProjectItem(),
-                          Gap(10),
-                          ProjectItem(),
-                          Gap(10),
-                          ProjectItem(),
-                          Gap(10),
-                          ProjectItem(),
-                          Gap(10),
-                          ProjectItem(),
                           Gap(10),
                           ProjectItem(),
                           Gap(85),
