@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:student_hub/api/services/job.services.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/routes/company_route.dart';
@@ -13,6 +15,21 @@ class BottomToolMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final PostJobProvider postJobProvider =
         Provider.of<PostJobProvider>(context);
+
+    final JobService jobService = JobService();
+
+    void removeJob() async {
+      // context.loaderOverlay.show();
+      await jobService
+          .removeJob(postJobProvider.getCurrentProject!.id)
+          .then((value) {
+        postJobProvider.removeProject(postJobProvider.getCurrentProject!);
+      }).catchError((e) {
+        throw Exception(e);
+      }).whenComplete(() {
+        context.loaderOverlay.hide();
+      });
+    }
 
     return Container(
       height: 275,
@@ -110,17 +127,16 @@ class BottomToolMenu extends StatelessWidget {
                     actions: [
                       TextButton(
                         onPressed: () {
-                          // Perform the remove action
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Yes'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          // Cancel the remove action
                           Navigator.pop(context);
                         },
                         child: const Text('No'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          removeJob();
+                        },
+                        child: const Text('Yes'),
                       ),
                     ],
                   );

@@ -62,6 +62,11 @@ class PostJobProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void removeProject(Project project) {
+    _projectList.remove(project);
+    notifyListeners();
+  }
+
   Project? get getCurrentProject => _currentProject;
   set setCurrentProject(Project project) {
     _currentProject = project;

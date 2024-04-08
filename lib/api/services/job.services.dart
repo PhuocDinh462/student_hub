@@ -30,4 +30,17 @@ class JobService extends BaseApi {
       throw Exception(e);
     });
   }
+
+  Future<dynamic> removeJob(projectId) async {
+    await dio
+        .delete(
+      '/project/$projectId',
+    )
+        .then((value) {
+      return value.data;
+    }).catchError((e) {
+      printError(info: 'Remove job error: $e');
+      throw Exception(e);
+    });
+  }
 }

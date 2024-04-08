@@ -19,7 +19,7 @@ class Dashboard extends StatelessWidget {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
     // final JobService jobService = JobService();
 
-    Future<void> fetchData(PostJobProvider postJobProvider) async {
+    void fetchData(PostJobProvider postJobProvider) async {
       // await jobService.getJob(userProvider.currentUser?.companyId).then((value) {
       //   postJobProvider.setProjectList = value.data['result']
       //       .map<Project>((item) => Project.fromMap(item))
