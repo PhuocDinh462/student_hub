@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
-class CommonDropdownText extends StatelessWidget {
-  const CommonDropdownText(
+class CommonDropdown extends StatelessWidget {
+  const CommonDropdown(
       {super.key,
       required this.listItem,
       required this.title,
-      this.maxHeight = 300});
-  final List<String> listItem;
+      this.maxHeight = 300,
+      required this.keyValue,
+      required this.value,
+      required this.onChange});
+  final List<dynamic> listItem;
   final String title;
   final double maxHeight;
+  final String keyValue;
+  final int value;
+  final void Function(int) onChange;
 
   @override
   Widget build(BuildContext context) {
-    int value = Provider.of<ProfileProvider>(context).curTechStackValue;
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -28,7 +31,8 @@ class CommonDropdownText extends StatelessWidget {
           child: DropdownButtonFormField<int>(
         value: value,
         icon: const Icon(Icons.arrow_drop_down),
-        style: textTheme.bodySmall,
+        style: textTheme.bodySmall!.copyWith(
+            color: value == -1 ? text_400 : textTheme.bodySmall!.color),
         menuMaxHeight: maxHeight,
         decoration: InputDecoration(
           contentPadding:
@@ -41,20 +45,26 @@ class CommonDropdownText extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(10))),
         ),
         onChanged: (int? value) {
-          Provider.of<ProfileProvider>(context).setCurTechStackValue(value!);
+          onChange(value!);
         },
         items: listItem
             .map((e) => DropdownMenuItem<int>(
-                  value: listItem.indexOf(e),
+                  value: e.id,
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(e),
+                        DisplayText(
+                          text: e.name,
+                          style: textTheme.bodySmall!.copyWith(
+                              color: e.id == -1
+                                  ? text_400
+                                  : textTheme.bodySmall!.color),
+                        ),
                         const Gap(10),
                         const Divider(
                           color: text_300,
-                          height: 2,
+                          height: 1,
                         ),
                       ],
                     ),

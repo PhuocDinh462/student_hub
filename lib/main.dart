@@ -26,11 +26,14 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => IndexPageProvider()),
         ChangeNotifierProvider(create: (_) => OpenIdProvider()),
-        ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => GlobalProvider()),
         ChangeNotifierProvider(create: (_) => PostJobProvider()),
         ChangeNotifierProvider(
             create: (_) => ProfileCompanyViewModel(
                 profileService: profileService, authService: authService)),
+        ChangeNotifierProvider(
+            create: (_) =>
+                ProfileStudentViewModel(profileService: profileService)),
         ChangeNotifierProvider(create: (_) => UserProvider(null)),
       ],
       child: const MyApp(),
@@ -81,16 +84,18 @@ class MyApp extends StatelessWidget {
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
                 locale: Locale(themeProvider.getLanguage),
-                routes: userProvider.currentUser != null
-                    ? (userProvider.currentUser!.currentRole == Role.student
-                        ? StudentRoutes.routes
-                        : CompanyRoutes.routes)
-                    : AuthRoutes.routes,
-                initialRoute: userProvider.currentUser != null
-                    ? (userProvider.currentUser!.currentRole == Role.student
-                        ? StudentRoutes.nav
-                        : CompanyRoutes.nav)
-                    : AuthRoutes.login,
+                routes: StudentRoutes.routes,
+                //  userProvider.currentUser != null
+                //     ? (userProvider.currentUser!.currentRole == Role.student
+                //         ? StudentRoutes.routes
+                //         : CompanyRoutes.routes)
+                //     : AuthRoutes.routes,
+                initialRoute: StudentRoutes.profileStudentStepOne,
+                //  userProvider.currentUser != null
+                //     ? (userProvider.currentUser!.currentRole == Role.student
+                //         ? StudentRoutes.nav
+                //         : CompanyRoutes.nav)
+                //     : AuthRoutes.login,
                 debugShowCheckedModeBanner: false,
                 theme: themeProvider.getThemeMode
                     ? AppTheme.darkTheme

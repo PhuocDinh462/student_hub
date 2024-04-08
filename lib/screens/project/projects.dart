@@ -102,7 +102,7 @@ class _ProjectsState extends State<Projects> {
 
   Future<void> _fetchData(UserProvider userProvider) async {
     await fetchSavedProject(userProvider);
-    await fetchProject();
+    // await fetchProject();
   }
 
   // String _selectedMenu = '';

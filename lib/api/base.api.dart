@@ -21,11 +21,14 @@ class BaseApi {
         connectTimeout: const Duration(milliseconds: 5000),
         receiveTimeout: const Duration(milliseconds: 3000),
       );
+
       dio = Dio(options);
+      String tk =
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZnVsbG5hbWUiOiJUQkwiLCJlbWFpbCI6InRibG9uZ2E2bmQyMDIwKzFAZ21haWwuY29tIiwicm9sZXMiOlswXSwiaWF0IjoxNzEyNDExOTUyLCJleHAiOjE3MTM2MjE1NTJ9.M12OWDGVnBBJsXKY2KOK6x8xO-ZTO4NetPUJAtk_Olk';
       dio.interceptors.add(
         InterceptorsWrapper(
           onRequest: (options, handler) {
-            options.headers['Authorization'] = 'Bearer $token';
+            options.headers['Authorization'] = 'Bearer $tk';
             return handler.next(options);
           },
           onError: (DioException error, ErrorInterceptorHandler handler) {
