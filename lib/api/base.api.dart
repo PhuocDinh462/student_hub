@@ -24,7 +24,7 @@ class BaseApi {
 
       dio = Dio(options);
       String tk =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZnVsbG5hbWUiOiJUQkwiLCJlbWFpbCI6InRibG9uZ2E2bmQyMDIwKzFAZ21haWwuY29tIiwicm9sZXMiOlswXSwiaWF0IjoxNzEyNDExOTUyLCJleHAiOjE3MTM2MjE1NTJ9.M12OWDGVnBBJsXKY2KOK6x8xO-ZTO4NetPUJAtk_Olk';
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZnVsbG5hbWUiOiJzdHJpbmciLCJlbWFpbCI6InRibG9uZ2E2bmQyMDIwQGdtYWlsLmNvbSIsInJvbGVzIjpbMF0sImlhdCI6MTcxMjU5Mjc5NSwiZXhwIjoxNzEzODAyMzk1fQ.yEPWzsX-4kU7QaEGvPf31bl4udHGEH-NS0EwjwmDHx0';
       dio.interceptors.add(
         InterceptorsWrapper(
           onRequest: (options, handler) {

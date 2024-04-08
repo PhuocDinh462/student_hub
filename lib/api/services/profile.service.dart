@@ -232,17 +232,26 @@ class ProfileService extends BaseApi {
   Future<dynamic> updateLanguageStudent(
       int studentId, List<LanguageModel> languages) async {
     try {
+      List<Map<String, dynamic>> lag = languages.map((e) {
+        var map = e.toMap();
+        map.remove('studentId');
+        map.remove('createdAt');
+        map.remove('updatedAt');
+        map.remove('deleteAt');
+        map['id'] = null;
+        return map;
+      }).toList();
+
       Response response = await dio.put(
           '/language/updateByStudentId/$studentId',
-          data: {'languages': languages.map((e) => e.toMap()).toList()});
-      print(response.data);
+          data: {'languages': lag});
+
       if (response.data.containsKey('result')) {
         return response.data['result'];
       } else {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      print(e);
       throw Exception('Failed to update language');
     }
   }

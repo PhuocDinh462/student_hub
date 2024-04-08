@@ -63,15 +63,45 @@ class ProfileStudentViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setLanguageById(int idLang, LanguageModel value) {
+    _student = _student.copyWith(
+        languages:
+            _student.languages.map((e) => e.id == idLang ? value : e).toList());
+    notifyListeners();
+  }
+
   void addLanguage(LanguageModel value) {
     _student = _student.copyWith(languages: [value, ..._student.languages]);
     notifyListeners();
   }
 
-  void removeLanguage(LanguageModel value) {
+  void removeLanguage(int id) {
     _student = _student.copyWith(languages: [
-      ..._student.languages.where((element) => element.id != value.id)
+      ..._student.languages.where((element) => element.id != id)
     ]);
+    notifyListeners();
+  }
+
+  void setOnEditLanguage(int idLang) {
+    _student = _student.copyWith(
+        languages: _student.languages
+            .map((e) => e.copyWith(isEdit: e.id == idLang))
+            .toList());
+    notifyListeners();
+  }
+
+  void setEditLanguageById(int idLang, bool value) {
+    _student = _student.copyWith(
+        languages: _student.languages
+            .map((e) => e.copyWith(isEdit: e.id == idLang ? value : false))
+            .toList());
+    notifyListeners();
+  }
+
+  void setEditLanguage(bool value) {
+    _student = _student.copyWith(
+        languages:
+            _student.languages.map((e) => e.copyWith(isEdit: value)).toList());
     notifyListeners();
   }
 
@@ -151,14 +181,12 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
       _listSkillset =
           skillSetData.map((item) => TechnicalModel.fromMap(item)).toList();
-
-      TechnicalModel defaultTechModel =
-          const TechnicalModel(name: 'Select Tech Stack');
-
-      _listTechStack.insert(0, defaultTechModel);
     } catch (e) {
       _errorMessage = 'Failed to fetch student profile';
     } finally {
+      TechnicalModel defaultTechModel =
+          const TechnicalModel(id: -1, name: 'Select Tech Stack');
+      _listTechStack.insert(0, defaultTechModel);
       _loading = false;
       notifyListeners();
     }
@@ -219,19 +247,9 @@ class ProfileStudentViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      List<dynamic> data = await profileService.updateLanguageStudent(
-          studentId, student.languages);
-      String languageJson = jsonEncode(data);
-
-      List<LanguageModel> languages = (jsonDecode(languageJson) as List)
-          .map((item) => LanguageModel.fromJson(item))
-          .toList();
-      setLanguage(languages);
-      print(languageJson);
+      await profileService.updateLanguageStudent(studentId, student.languages);
     } catch (e) {
-      print(e);
-
-      _errorMessage = 'Failed to fetch company profile';
+      _errorMessage = 'Update language failed';
     } finally {
       _loading = false;
       notifyListeners();

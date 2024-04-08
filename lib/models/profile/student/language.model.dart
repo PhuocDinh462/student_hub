@@ -6,11 +6,13 @@ class LanguageModel extends BaseModel {
   final int studentId;
   final String languageName;
   final String level;
+  final bool isEdit;
 
   const LanguageModel({
     this.studentId = -1,
     this.languageName = '',
     this.level = '',
+    this.isEdit = false,
     super.id,
     super.createdAt,
     super.updatedAt,
@@ -21,6 +23,7 @@ class LanguageModel extends BaseModel {
     int? studentId,
     String? languageName,
     String? level,
+    bool? isEdit,
     int? id,
     String? createdAt,
     String? updatedAt,
@@ -30,6 +33,7 @@ class LanguageModel extends BaseModel {
       studentId: studentId ?? this.studentId,
       languageName: languageName ?? this.languageName,
       level: level ?? this.level,
+      isEdit: isEdit ?? this.isEdit,
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/utils/extensions.dart';
@@ -10,11 +11,13 @@ class LanguageItem extends StatelessWidget {
       required this.isEdit,
       required this.onEdit,
       required this.language,
-      required this.onDelete});
+      required this.itemsChecked,
+      required this.onChangeCheck});
   final LanguageModel language;
   final bool isEdit;
+  final List<int> itemsChecked;
   final Function() onEdit;
-  final Function(LanguageModel) onDelete;
+  final Function(int, bool?) onChangeCheck;
 
   @override
   Widget build(BuildContext context) {
@@ -50,24 +53,44 @@ class LanguageItem extends StatelessWidget {
               if (isEdit)
                 Row(
                   children: [
-                    IconButton(
-                        iconSize: 23,
-                        onPressed: () {
-                          onEdit();
-                        },
-                        icon: const Icon(
-                          Icons.edit,
-                          color: primary_300,
-                        )),
-                    IconButton(
-                        iconSize: 25,
-                        onPressed: () {
-                          onDelete(language);
-                        },
-                        color: color_1,
-                        icon: const Icon(
-                          Icons.delete,
-                        )),
+                    SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: IconButton(
+                          iconSize: 20,
+                          padding: const EdgeInsets.all(0.0),
+                          onPressed: () {
+                            onEdit();
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: primary_300,
+                          )),
+                    ),
+                    const Gap(25),
+                    SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: Checkbox(
+                          checkColor: Colors.white,
+                          fillColor: MaterialStateProperty.resolveWith<Color?>(
+                              (states) {
+                            if (states.contains(MaterialState.selected)) {
+                              return primary_300;
+                            }
+                            return Colors.white;
+                          }),
+                          value: itemsChecked.contains(-1)
+                              ? true
+                              : itemsChecked.contains(language.id),
+                          onChanged: (bool? value) {
+                            onChangeCheck(
+                              language.id,
+                              value,
+                            );
+                          }),
+                    ),
+                    const Gap(9),
                   ],
                 )
             ],

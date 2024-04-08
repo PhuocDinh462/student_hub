@@ -12,9 +12,11 @@ class FormLanguage extends StatelessWidget {
       required this.controller,
       required this.keyValidation,
       required this.actionCancel,
-      required this.actionSave});
+      required this.actionSave,
+      this.value = 'Native'});
   final TextEditingController controller;
   final GlobalKey<DropdownSearchState<String>> keyValidation;
+  final String value;
   final Function() actionCancel;
   final Function() actionSave;
 
@@ -38,7 +40,7 @@ class FormLanguage extends StatelessWidget {
           DropdownSearch<String>(
               key: keyValidation,
               items: const ['Native', 'Billingual'],
-              selectedItem: 'Native',
+              selectedItem: value,
               dropdownBuilder: (context, selectedItem) {
                 return DisplayText(
                   text: selectedItem!,
@@ -50,12 +52,12 @@ class FormLanguage extends StatelessWidget {
                         width: deviceSize.width,
                         height: 120,
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: colorScheme.onSecondary),
+                        decoration:
+                            BoxDecoration(color: colorScheme.onSecondary),
                         child: popupWidget,
                       ),
                   itemBuilder: (context, item, isSelected) {
+                    // print();
                     return Container(
                       decoration: !isSelected
                           ? null
@@ -63,7 +65,7 @@ class FormLanguage extends StatelessWidget {
                               border: Border.all(
                                   color: Theme.of(context).primaryColor),
                               borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
+                              color: Colors.amber,
                             ),
                       child: ListTile(
                         selected: isSelected,
