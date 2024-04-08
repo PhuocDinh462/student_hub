@@ -12,12 +12,13 @@ Dio publicDio = Dio(
   ),
 );
 
+UserProvider userProvider = Get.find();
+
 Dio privateDio = Dio(
   BaseOptions(
     baseUrl: dotenv.env['API_SERVER']!,
     headers: {
-      'Authorization':
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjUsImZ1bGxuYW1lIjoicGh1b2MiLCJlbWFpbCI6InBodW9jZGluaDQ2MkBnbWFpbC5jb20iLCJyb2xlcyI6WzFdLCJpYXQiOjE3MTI0NzYwMTYsImV4cCI6MTcxMzY4NTYxNn0.x2Umz26p5rqVVqVSZF2L5tntGheEuPIEjGrUYhairpg',
+      'Authorization': 'Bearer ${userProvider.currentUser?.token}',
     },
   ),
 )..interceptors.add(

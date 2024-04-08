@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
+    Get.put(userProvider);
     return FutureBuilder(
       future: Provider.of<ThemeProvider>(context, listen: false)
           .initializeProvider(),
@@ -97,7 +98,6 @@ class MyApp extends StatelessWidget {
                     ? AppTheme.darkTheme
                     : AppTheme.lightTheme,
               ),
-
             );
           }
         }

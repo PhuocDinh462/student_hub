@@ -1,51 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:student_hub/api/services/job.services.dart';
+// import 'package:student_hub/api/services/job.services.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
-import 'package:student_hub/providers/post_job_provider.dart';
+import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/screens/dashboard/widgets/project_item.dart';
 import 'package:student_hub/utils/custom_dio.dart';
 
-class Dashboard extends StatefulWidget {
+class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
-
-  @override
-  createState() => _DashboardState();
-}
-
-class _DashboardState extends State<Dashboard> {
-  JobService jobService = JobService();
-  List<Project> projectList = [];
-
-  Future<void> _fetchData() async {
-    // await jobService.getJob(15).then((value) {
-    //   setState(() => projectList = value);
-    // }).catchError((e) {
-    //   throw Exception(e);
-    // });
-
-    await privateDio.get('/project/company/15').then((value) {
-      setState(() => projectList = value.data['result']
-          .map<Project>((item) => Project.fromMap(item))
-          .toList());
-    }).catchError((e) {
-      throw Exception(e);
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchData();
-  }
 
   @override
   Widget build(BuildContext context) {
     final PostJobProvider postJobProvider =
         Provider.of<PostJobProvider>(context);
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
+    // final JobService jobService = JobService();
+
+    Future<void> fetchData(PostJobProvider postJobProvider) async {
+      // await jobService.getJob(5).then((value) {
+      //   postJobProvider.setProjectList = value.data['result']
+      //       .map<Project>((item) => Project.fromMap(item))
+      //       .toList();
+      // }).catchError((e) {
+      //   throw Exception(e);
+      // });
+
+      await privateDio
+          .get('/project/company/${userProvider.currentUser?.companyId}')
+          .then((value) {
+        postJobProvider.setProjectList = value.data['result']
+            .map<Project>((item) => Project.fromMap(item))
+            .toList();
+      }).catchError((e) {
+        throw Exception(e);
+      });
+    }
+
+    fetchData(postJobProvider);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -107,8 +101,9 @@ class _DashboardState extends State<Dashboard> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
+                          const Gap(10),
                           Column(
-                            children: projectList
+                            children: postJobProvider.getProjectList
                                 .map((item) => Column(
                                       children: [
                                         ProjectItem(
@@ -139,3 +134,23 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 }
+
+// class _DashboardState extends State<Dashboard> {
+//   JobService jobService = JobService();
+//   List<Project> projectList = [];
+
+//   Future<void> _fetchData() async {
+//     // await jobService.getJob(15).then((value) {
+//     //   setState(() => projectList = value);
+//     // }).catchError((e) {
+//     //   throw Exception(e);
+//     // });
+
+//     await privateDio.get('/project/company/5').then((value) {
+//       setState(() => projectList = value.data['result']
+//           .map<Project>((item) => Project.fromMap(item))
+//           .toList());
+//     }).catchError((e) {
+//       throw Exception(e);
+//     });
+//   }

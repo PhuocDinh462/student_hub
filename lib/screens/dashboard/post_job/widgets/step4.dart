@@ -4,6 +4,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/services/job.services.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/utils/extensions.dart';
 
@@ -20,24 +21,23 @@ class Step4 extends StatelessWidget {
     JobService jobService = JobService();
 
     void postJob() async {
-      // context.loaderOverlay.show();
-      await jobService
-          .postJob({
-            'companyId': userProvider.currentUser!.companyId,
-            'projectScopeFlag': postJobProvider.getTimeLine.index,
-            'title': postJobProvider.getTitle,
-            'description': postJobProvider.getDescription,
-            'typeFlag': 0,
-            'numberOfStudents': postJobProvider.getNumOfStudents,
-          })
-          .then((value) => null)
-          .catchError((e) {
-            throw Exception(e);
-          })
-          .whenComplete(() {
-            context.loaderOverlay.hide();
-            Navigator.of(context).pop();
-          });
+      context.loaderOverlay.show();
+      await jobService.postJob({
+        'companyId': userProvider.currentUser!.companyId,
+        'projectScopeFlag': postJobProvider.getTimeLine.index,
+        'title': postJobProvider.getTitle,
+        'description': postJobProvider.getDescription,
+        'typeFlag': 0,
+        'numberOfStudents': postJobProvider.getNumOfStudents,
+      }).then((value) {
+        Project project = Project.fromMap(value.data['result']);
+        postJobProvider.addProject(project);
+      }).catchError((e) {
+        throw Exception(e);
+      }).whenComplete(() {
+        context.loaderOverlay.hide();
+        Navigator.of(context).pop();
+      });
     }
 
     return Column(
