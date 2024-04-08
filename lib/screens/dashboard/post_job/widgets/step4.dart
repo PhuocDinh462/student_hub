@@ -24,7 +24,7 @@ class Step4 extends StatelessWidget {
       context.loaderOverlay.show();
       await jobService.postJob({
         'companyId': userProvider.currentUser!.companyId,
-        'projectScopeFlag': postJobProvider.getTimeLine.index,
+        'projectScopeFlag': postJobProvider.getProjectScope.index,
         'title': postJobProvider.getTitle,
         'description': postJobProvider.getDescription,
         'typeFlag': 0,
@@ -131,7 +131,8 @@ class Step4 extends StatelessWidget {
                 ),
                 const Gap(5),
                 Text(
-                  postJobProvider.getTimeLine == TimeLine.oneToThreeMonths
+                  postJobProvider.getProjectScope ==
+                          ProjectScopeFlag.oneToThreeMonth
                       ? '1 to 3 months'
                       : '3 to 6 months',
                   style: const TextStyle(fontStyle: FontStyle.italic),

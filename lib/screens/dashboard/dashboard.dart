@@ -20,7 +20,7 @@ class Dashboard extends StatelessWidget {
     // final JobService jobService = JobService();
 
     Future<void> fetchData(PostJobProvider postJobProvider) async {
-      // await jobService.getJob(5).then((value) {
+      // await jobService.getJob(userProvider.currentUser?.companyId).then((value) {
       //   postJobProvider.setProjectList = value.data['result']
       //       .map<Project>((item) => Project.fromMap(item))
       //       .toList();
@@ -134,23 +134,3 @@ class Dashboard extends StatelessWidget {
     );
   }
 }
-
-// class _DashboardState extends State<Dashboard> {
-//   JobService jobService = JobService();
-//   List<Project> projectList = [];
-
-//   Future<void> _fetchData() async {
-//     // await jobService.getJob(15).then((value) {
-//     //   setState(() => projectList = value);
-//     // }).catchError((e) {
-//     //   throw Exception(e);
-//     // });
-
-//     await privateDio.get('/project/company/5').then((value) {
-//       setState(() => projectList = value.data['result']
-//           .map<Project>((item) => Project.fromMap(item))
-//           .toList());
-//     }).catchError((e) {
-//       throw Exception(e);
-//     });
-//   }

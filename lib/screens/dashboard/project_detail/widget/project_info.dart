@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/project.dart';
+import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/utils/extensions.dart';
 
 class ProjectInfo extends StatelessWidget {
@@ -8,6 +11,9 @@ class ProjectInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PostJobProvider postJobProvider =
+        Provider.of<PostJobProvider>(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -31,7 +37,7 @@ class ProjectInfo extends StatelessWidget {
                 const Gap(5),
                 SizedBox(
                   width: context.deviceSize.width - 100,
-                  child: const Text('Senior frontend developer (Fintech)'),
+                  child: Text(postJobProvider.getCurrentProject!.title),
                 ),
               ],
             ),
@@ -64,10 +70,7 @@ class ProjectInfo extends StatelessWidget {
                 const Gap(5),
                 SizedBox(
                   width: context.deviceSize.width - 100,
-                  child: const Text('Students are looking for\n'
-                      '- Clear expectation about your project or deliverables\n'
-                      '- The skills required for your project\n'
-                      '- Detail about your project'),
+                  child: Text(postJobProvider.getCurrentProject!.description),
                 ),
               ],
             ),
@@ -98,9 +101,12 @@ class ProjectInfo extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const Gap(5),
-                const Text(
-                  '1 to 3 months',
-                  style: TextStyle(fontStyle: FontStyle.italic),
+                Text(
+                  postJobProvider.getCurrentProject!.completionTime ==
+                          ProjectScopeFlag.oneToThreeMonth
+                      ? '1-3 months'
+                      : '3-6 months',
+                  style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
               ],
             ),
@@ -125,9 +131,9 @@ class ProjectInfo extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const Gap(5),
-                const Text(
-                  '4 students',
-                  style: TextStyle(fontStyle: FontStyle.italic),
+                Text(
+                  '${postJobProvider.getCurrentProject!.requiredStudents} students',
+                  style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
               ],
             ),

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/models/project.dart';
 
-enum TimeLine { oneToThreeMonths, threeToSixMonths }
-
 class PostJobProvider with ChangeNotifier {
   late String _title;
-  late TimeLine _timeLine;
+  late ProjectScopeFlag _projectScope;
   late int _numOfStudents;
   late String _description;
   late List<Project> _projectList;
+  Project? _currentProject;
 
   PostJobProvider() {
     _title = '';
-    _timeLine = TimeLine.oneToThreeMonths;
+    _projectScope = ProjectScopeFlag.oneToThreeMonth;
     _numOfStudents = 1;
     _description = '';
     _projectList = [];
@@ -24,9 +23,9 @@ class PostJobProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  TimeLine get getTimeLine => _timeLine;
-  set setTimeLine(TimeLine timeLine) {
-    _timeLine = timeLine;
+  ProjectScopeFlag get getProjectScope => _projectScope;
+  set setProjectScope(ProjectScopeFlag projectScope) {
+    _projectScope = projectScope;
     notifyListeners();
   }
 
@@ -63,9 +62,15 @@ class PostJobProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Project? get getCurrentProject => _currentProject;
+  set setCurrentProject(Project project) {
+    _currentProject = project;
+    notifyListeners();
+  }
+
   void clear() {
     _title = '';
-    _timeLine = TimeLine.oneToThreeMonths;
+    _projectScope = ProjectScopeFlag.oneToThreeMonth;
     _numOfStudents = 1;
     _description = '';
     notifyListeners();

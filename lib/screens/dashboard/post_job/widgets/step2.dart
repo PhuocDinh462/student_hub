@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/post_job_provider.dart';
 import 'package:student_hub/utils/extensions.dart';
 
@@ -44,9 +45,10 @@ class Step2 extends StatelessWidget {
               Row(
                 children: [
                   Radio(
-                    value: TimeLine.oneToThreeMonths,
-                    groupValue: postJobProvider.getTimeLine,
-                    onChanged: (value) => postJobProvider.setTimeLine = value!,
+                    value: ProjectScopeFlag.oneToThreeMonth,
+                    groupValue: postJobProvider.getProjectScope,
+                    onChanged: (value) =>
+                        postJobProvider.setProjectScope = value!,
                   ),
                   const Text('1 to 3 months'),
                 ],
@@ -54,9 +56,10 @@ class Step2 extends StatelessWidget {
               Row(
                 children: [
                   Radio(
-                    value: TimeLine.threeToSixMonths,
-                    groupValue: postJobProvider.getTimeLine,
-                    onChanged: (value) => postJobProvider.setTimeLine = value!,
+                    value: ProjectScopeFlag.threeToSixMonth,
+                    groupValue: postJobProvider.getProjectScope,
+                    onChanged: (value) =>
+                        postJobProvider.setProjectScope = value!,
                   ),
                   const Text('3 to 6 months'),
                 ],
