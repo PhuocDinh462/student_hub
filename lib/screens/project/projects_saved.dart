@@ -81,7 +81,9 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
                       child: ListView.builder(
                         itemCount: projects.length,
                         itemBuilder: (context, index) {
-                          return ProjectCard(project: projects[index]);
+                          return ProjectCard(
+                              project: projects[index],
+                              projectService: projectService);
                         },
                       ),
                     ),

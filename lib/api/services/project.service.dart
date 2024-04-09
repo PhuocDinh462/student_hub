@@ -14,6 +14,25 @@ class ProjectService extends BaseApi {
     }
   }
 
+  Future<dynamic> updateFavoriteProject(
+      int studentId, int projectId, int disableFlag) async {
+    print(studentId);
+    print(projectId);
+    print(disableFlag);
+    try {
+      Response response = await dio.patch(
+        '/favoriteProject/$studentId',
+        data: {
+          'projectId': projectId,
+          'disableFlag': disableFlag,
+        },
+      );
+      return response;
+    } catch (e) {
+      throw Exception('Failed to update favorite project');
+    }
+  }
+
   Future<dynamic> getProjects() async {
     try {
       Response response = await dio.get(

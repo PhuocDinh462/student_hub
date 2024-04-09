@@ -241,7 +241,9 @@ class _ProjectsState extends State<Projects> {
                       child: ListView.builder(
                         itemCount: filteredProjects.length,
                         itemBuilder: (context, index) {
-                          return ProjectCard(project: filteredProjects[index]);
+                          return ProjectCard(
+                              project: filteredProjects[index],
+                              projectService: projectService);
                         },
                       ),
                     ),
