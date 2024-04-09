@@ -1,4 +1,9 @@
-enum ProjectScopeFlag { oneToThreeMonth, threeToSixMonth }
+enum ProjectScopeFlag {
+  lessThanOneMonth,
+  oneToThreeMonth,
+  threeToSixMonth,
+  moreThanSixMonth
+}
 
 enum TypeFlag {
   working,
@@ -13,7 +18,7 @@ class Project {
   final ProjectScopeFlag completionTime;
   final int requiredStudents;
   final String description;
-  final List<String> proposals;
+  final int proposals;
   bool favorite;
 
   Project({

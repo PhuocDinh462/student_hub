@@ -29,47 +29,15 @@ class _ProjectsState extends State<Projects> {
   final searchController = TextEditingController();
   final String? apiServer = dotenv.env['API_SERVER'];
   final ProjectService projectService = ProjectService();
+  final dio = Dio();
 
-  Future<void> fetchSavedProject(UserProvider userProvider) async {
-    final dio = Dio();
+  Future<void> fetchProject(UserProvider userProvider) async {
     Map<String, dynamic> headers = {
       'Authorization': 'Bearer ${userProvider.currentUser?.token}',
     };
-    if (userProvider.currentUser?.studentId != null) {
-      final response = await dio.get(
-        '$apiServer/favoriteProject/${userProvider.currentUser?.studentId}',
-        options: Options(headers: headers),
-      );
-
-      final listResponse = response.data['result'];
-      final List<Project> fetchProjects = listResponse
-          .cast<Map<String, dynamic>>()
-          .where((projectData) => projectData['deletedAt'] == null)
-          .map<Project>((projectData) {
-        return Project(
-          id: projectData['id'],
-          createdAt: DateTime.parse(projectData['createdAt']),
-          deletedAt: projectData['deletedAt'] != null
-              ? DateTime.parse(projectData['deletedAt'])
-              : null,
-          title: projectData['title'],
-          completionTime: ProjectScopeFlag.oneToThreeMonth,
-          requiredStudents: projectData['numberOfStudents'] ?? 0,
-          description: projectData['description'],
-          proposals: [],
-          favorite: true,
-        );
-      }).toList();
-      setState(() {
-        savedProjects.addAll(fetchProjects);
-      });
-    }
-  }
-
-  Future<void> fetchProject() async {
-    final dio = Dio();
     final response = await dio.get(
       '$apiServer/project',
+      options: Options(headers: headers),
     );
     final listResponse = response.data['result'];
     final List<Project> fetchProjects = listResponse
@@ -77,18 +45,18 @@ class _ProjectsState extends State<Projects> {
         .where((projectData) => projectData['deletedAt'] == null)
         .map<Project>((projectData) {
       return Project(
-        id: projectData['id'],
+        id: projectData['projectId'],
         createdAt: DateTime.parse(projectData['createdAt']),
         deletedAt: projectData['deletedAt'] != null
             ? DateTime.parse(projectData['deletedAt'])
             : null,
         title: projectData['title'],
-        completionTime: ProjectScopeFlag.oneToThreeMonth,
+        completionTime:
+            ProjectScopeFlag.values[projectData['projectScopeFlag']],
         requiredStudents: projectData['numberOfStudents'] ?? 0,
         description: projectData['description'],
-        proposals: [],
-        favorite:
-            savedProjects.map((e) => e.id).toList().contains(projectData['id']),
+        proposals: projectData['countProposals'] ?? 0,
+        favorite: projectData['isFavorite'] ?? false,
       );
     }).toList();
     setState(() {
@@ -108,8 +76,7 @@ class _ProjectsState extends State<Projects> {
 
   Future<void> _fetchData(UserProvider userProvider) async {
     context.loaderOverlay.show();
-    await fetchSavedProject(userProvider);
-    await fetchProject();
+    await fetchProject(userProvider);
     context.loaderOverlay.hide();
   }
 

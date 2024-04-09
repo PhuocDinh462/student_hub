@@ -78,11 +78,11 @@ class _LoginState extends State<Login> {
             List<Role> roles = [];
 
             for (var role in userInfo['roles']) {
-              roles.add(role == '0' ? Role.student : Role.company);
+              roles.add(role == 0 ? Role.student : Role.company);
             }
 
             Role currentRole =
-                userInfo['roles'][0] == '0' ? Role.student : Role.company;
+                userInfo['roles'][0] == 0 ? Role.student : Role.company;
 
             User currentUser = User(
               userId: userInfo['id'],
@@ -94,6 +94,7 @@ class _LoginState extends State<Login> {
               token: token,
             );
             userProvider.setCurrentUser(currentUser);
+            print(currentUser.currentRole);
             if (currentUser.currentRole == Role.student) {
               studentNavigate();
             } else if (currentUser.currentRole == Role.company) {

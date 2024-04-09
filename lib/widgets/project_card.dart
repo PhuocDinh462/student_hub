@@ -36,7 +36,7 @@ class _ProjectCardState extends State<ProjectCard> {
         : '3-6 months';
     studentsNeeded = project.requiredStudents;
     projectDescription = project.description;
-    proposalsCount = project.proposals.length;
+    proposalsCount = project.proposals;
     isFavorite = project.favorite;
   }
 

@@ -26,17 +26,18 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
         .where((projectData) => projectData['deletedAt'] == null)
         .map<Project>((projectData) {
       return Project(
-        id: projectData['id'],
+        id: projectData['projectId'],
         createdAt: DateTime.parse(projectData['createdAt']),
         deletedAt: projectData['deletedAt'] != null
             ? DateTime.parse(projectData['deletedAt'])
             : null,
         title: projectData['title'],
-        completionTime: ProjectScopeFlag.oneToThreeMonth,
+        completionTime:
+            ProjectScopeFlag.values[projectData['projectScopeFlag']],
         requiredStudents: projectData['numberOfStudents'] ?? 0,
         description: projectData['description'],
-        proposals: [],
-        favorite: true,
+        proposals: projectData['countProposals'] ?? 0,
+        favorite: projectData['isFavorite'] ?? false,
       );
     }).toList();
     setState(() {
