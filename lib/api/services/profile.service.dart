@@ -3,7 +3,7 @@ import 'package:student_hub/api/base.api.dart';
 import 'package:student_hub/models/models.dart';
 
 class ProfileService extends BaseApi {
-  ProfileService();
+  ProfileService() : super();
 
   Future<dynamic> createProfileCompany(ProfileCompanyModel body) async {
     try {
@@ -39,6 +39,294 @@ class ProfileService extends BaseApi {
       }
     } catch (e) {
       throw Exception('Failed to update profile company');
+    }
+  }
+
+  Future<dynamic> getProfileCompany(String id) async {
+    try {
+      Response response = await dio.get('/profile/company/$id');
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to get profile company');
+    }
+  }
+
+  Future<dynamic> createProfileStudent(
+      TechnicalModel techStack, List<TechnicalModel> skillSet) async {
+    try {
+      Response response = await dio.post('/profile/student', data: {
+        'techStackId': techStack.id,
+        'skillSets': skillSet.map((e) => e.id).toList()
+      });
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create profile student');
+    }
+  }
+
+  Future<dynamic> updateProfileStudent(int studentId, TechnicalModel techStack,
+      List<TechnicalModel> skillSet) async {
+    try {
+      Response response = await dio.put('/profile/student/$studentId', data: {
+        'techStackId': techStack.id,
+        'skillSets': skillSet.map((e) => e.id).toList()
+      });
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create profile student');
+    }
+  }
+
+  Future<dynamic> getProfileStudent(int studentId) async {
+    try {
+      Response response = await dio.get(
+        '/profile/student/$studentId',
+      );
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to get profile student');
+    }
+  }
+
+  Future<dynamic> getTechStackStudent(String studentId) async {
+    try {
+      Response response = await dio.get(
+        '/profile/student/$studentId/techStack',
+      );
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create profile student');
+    }
+  }
+
+  Future<dynamic> getAllTechStack() async {
+    try {
+      Response response = await dio.get(
+        '/techstack/getAllTechStack',
+      );
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to get all techstack');
+    }
+  }
+
+  Future<dynamic> getTechStackById(String techStackId) async {
+    try {
+      Response response = await dio.get(
+        '/techstack/$techStackId',
+      );
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create profile student');
+    }
+  }
+
+  Future<dynamic> createTechStack(String name) async {
+    try {
+      Response response = await dio.post(
+        '/techstack/createTechStack',
+        data: {'name': name},
+      );
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create profile student');
+    }
+  }
+
+  Future<dynamic> getAllSkillSet() async {
+    try {
+      Response response = await dio.get('/skillset/getAllSkillSet');
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      print(e);
+      throw Exception('Failed to create profile student');
+    }
+  }
+
+  Future<dynamic> createSkillSet(String name) async {
+    try {
+      Response response =
+          await dio.post('/skillset/createSkillSet', data: {name: name});
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create profile student');
+    }
+  }
+
+  Future<dynamic> getSkillSetById(String id) async {
+    try {
+      Response response = await dio.get('/skillset/$id');
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create profile student');
+    }
+  }
+
+  Future<dynamic> getLanguageStudent(String studentId) async {
+    try {
+      Response response = await dio.get('/language/getByStudentId/$studentId');
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create profile student');
+    }
+  }
+
+  Future<dynamic> updateLanguageStudent(
+      int studentId, List<LanguageModel> languages) async {
+    try {
+      List<Map<String, dynamic>> lag = languages.map((e) {
+        var map = e.toMap();
+        map.remove('studentId');
+        map.remove('createdAt');
+        map.remove('updatedAt');
+        map.remove('deleteAt');
+        map['id'] = null;
+        return map;
+      }).toList();
+
+      Response response = await dio.put(
+          '/language/updateByStudentId/$studentId',
+          data: {'languages': lag});
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to update language');
+    }
+  }
+
+  Future<dynamic> getEducationStudent(String studentId) async {
+    try {
+      Response response = await dio.get('/education/getByStudentId/$studentId');
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create profile student');
+    }
+  }
+
+  Future<dynamic> updateEducationStudent(
+      int studentId, List<EducationModel> education) async {
+    try {
+      List<Map<String, dynamic>> edu = education.map((e) {
+        var map = e.toMap();
+        map.remove('studentId');
+        map.remove('createdAt');
+        map.remove('updatedAt');
+        map.remove('deleteAt');
+        map.remove('id');
+        return map;
+      }).toList();
+
+      Response response = await dio.put(
+          '/education/updateByStudentId/$studentId',
+          data: {'education': edu});
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create profile student');
+    }
+  }
+
+  Future<dynamic> getExperienceStudent(String studentId) async {
+    try {
+      Response response =
+          await dio.get('/experience/getByStudentId/$studentId');
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create profile student');
+    }
+  }
+
+  Future<dynamic> updateExperienceStudent(
+      String studentId, List<ExperienceModel> experience) async {
+    try {
+      Response response = await dio.post(
+          '/experience/updateByStudentId/$studentId',
+          data: {experience: experience.toList()});
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create profile student');
     }
   }
 }

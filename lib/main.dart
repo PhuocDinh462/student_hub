@@ -3,15 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/user.dart';
 import 'package:student_hub/providers/providers.dart';
-import 'package:student_hub/routes/auth_route.dart';
-import 'package:student_hub/routes/company_route.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:student_hub/routes/student_routes.dart';
+import 'package:student_hub/routes/routes.dart';
 import 'package:student_hub/utils/image_list.dart';
 import 'package:student_hub/view-models/view_models.dart';
 import 'package:get/get.dart';
@@ -26,11 +25,14 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => IndexPageProvider()),
         ChangeNotifierProvider(create: (_) => OpenIdProvider()),
-        ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => GlobalProvider()),
         ChangeNotifierProvider(create: (_) => ProjectProvider()),
         ChangeNotifierProvider(
             create: (_) => ProfileCompanyViewModel(
                 profileService: profileService, authService: authService)),
+        ChangeNotifierProvider(
+            create: (_) =>
+                ProfileStudentViewModel(profileService: profileService)),
         ChangeNotifierProvider(create: (_) => UserProvider(null)),
       ],
       child: const MyApp(),
@@ -80,19 +82,26 @@ class MyApp extends StatelessWidget {
                 );
               },
               child: GetMaterialApp(
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                localizationsDelegates: const [
+                  ...AppLocalizations.localizationsDelegates,
+                  MonthYearPickerLocalizations.delegate,
+                ],
                 supportedLocales: AppLocalizations.supportedLocales,
                 locale: Locale(themeProvider.getLanguage),
-                routes: userProvider.currentUser != null
-                    ? (userProvider.currentUser!.currentRole == Role.student
-                        ? StudentRoutes.routes
-                        : CompanyRoutes.routes)
-                    : AuthRoutes.routes,
-                initialRoute: userProvider.currentUser != null
-                    ? (userProvider.currentUser!.currentRole == Role.student
-                        ? StudentRoutes.nav
-                        : CompanyRoutes.nav)
-                    : AuthRoutes.login,
+                routes:
+                    //  StudentRoutes.routes,
+                    userProvider.currentUser != null
+                        ? (userProvider.currentUser!.currentRole == Role.student
+                            ? StudentRoutes.routes
+                            : CompanyRoutes.routes)
+                        : AuthRoutes.routes,
+                initialRoute:
+                    // StudentRoutes.profileStudentStepTwo,
+                    userProvider.currentUser != null
+                        ? (userProvider.currentUser!.currentRole == Role.student
+                            ? StudentRoutes.nav
+                            : CompanyRoutes.nav)
+                        : AuthRoutes.login,
                 debugShowCheckedModeBanner: false,
                 theme: themeProvider.getThemeMode
                     ? AppTheme.darkTheme

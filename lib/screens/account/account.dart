@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:student_hub/models/user.dart';
-import 'package:student_hub/routes/company_route.dart';
+import 'package:student_hub/routes/routes.dart';
 import 'package:student_hub/screens/account/widgets/user_item.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
@@ -71,8 +72,7 @@ class Account extends StatelessWidget {
 
             // Others setting
             GestureDetector(
-              onTap: () =>
-                  Navigator.pushNamed(context, CompanyRoutes.profileCompany),
+              onTap: () => Get.toNamed(StudentRoutes.profileStudentStepOne),
               child: Container(
                 color: Colors.transparent,
                 child: Row(

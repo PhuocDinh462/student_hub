@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/models/profile/profile.dart';
 import 'package:student_hub/routes/company_route.dart';
+import 'package:student_hub/routes/student_routes.dart';
 import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/view-models/view_models.dart';
@@ -41,6 +43,7 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
     profileCompanyViewModel.company = profileCompanyViewModel.company.copyWith(
       size: index,
     );
+
     profileCompanyViewModel.notiListener();
   }
 
@@ -230,7 +233,8 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
                           const Gap(15),
                           ElevatedButton(
                               style: buttonSecondary,
-                              onPressed: () => Navigator.pop(context),
+                              onPressed: () =>
+                                  Get.toNamed(StudentRoutes.account),
                               child: DisplayText(
                                 text: 'Cancel',
                                 style: textTheme.labelLarge!.copyWith(
