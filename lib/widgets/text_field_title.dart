@@ -4,14 +4,16 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/widgets/display_text.dart';
 
 class TextFieldTitle extends StatelessWidget {
-  const TextFieldTitle(
-      {super.key,
-      required this.title,
-      required this.hintText,
-      this.controller,
-      this.maxLines,
-      this.suffixIcon,
-      this.readOnly = false});
+  const TextFieldTitle({
+    super.key,
+    required this.title,
+    required this.hintText,
+    this.controller,
+    this.maxLines,
+    this.suffixIcon,
+    this.readOnly = false,
+    this.isNumber = false,
+  });
 
   final String title;
   final String hintText;
@@ -19,6 +21,7 @@ class TextFieldTitle extends StatelessWidget {
   final int? maxLines;
   final Widget? suffixIcon;
   final bool readOnly;
+  final bool isNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +42,17 @@ class TextFieldTitle extends StatelessWidget {
             readOnly: readOnly,
             controller: controller,
             maxLines: maxLines,
+            onChanged: (value) async {
+              if (isNumber) {
+                if (double.tryParse(value) == null && value.isNotEmpty) {
+                  final newValue = value.substring(0, value.length - 1);
+                  controller?.text = newValue;
+                  controller?.selection = TextSelection.fromPosition(
+                    TextPosition(offset: newValue.length),
+                  );
+                }
+              }
+            },
             onTapOutside: (event) {
               FocusManager.instance.primaryFocus?.unfocus();
             },

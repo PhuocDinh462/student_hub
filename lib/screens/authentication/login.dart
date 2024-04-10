@@ -1,8 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/user.dart';
 import 'package:student_hub/providers/providers.dart';
@@ -13,8 +15,6 @@ import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:dio/dio.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -28,6 +28,7 @@ class _LoginState extends State<Login> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final String? apiServer = dotenv.env['API_SERVER'];
+  final AuthService authService = AuthService();
 
   void companyNavigate() async {
     await Navigator.pushNamed(context, CompanyRoutes.nav);
@@ -65,25 +66,11 @@ class _LoginState extends State<Login> {
         return;
       }
       try {
-        final dio = Dio();
-        final response = await dio.post(
-          '$apiServer/auth/sign-in',
-          data: {
-            'email': email,
-            'password': password,
-          },
-        );
+        final Response response = await authService.signIn(email, password);
         final String token = response.data['result']['token'];
         if (response.statusCode == 201) {
-          Map<String, dynamic> headers = {
-            'Authorization': 'Bearer $token',
-          };
           try {
-            final responseInfo = await dio.get(
-              '$apiServer/auth/me',
-              options: Options(headers: headers),
-            );
-            final userInfo = responseInfo.data['result'];
+            final userInfo = await authService.getMe();
             final companyId =
                 userInfo['company'] != null ? userInfo['company']['id'] : null;
             final studentId =
@@ -91,11 +78,11 @@ class _LoginState extends State<Login> {
             List<Role> roles = [];
 
             for (var role in userInfo['roles']) {
-              roles.add(role == '0' ? Role.student : Role.company);
+              roles.add(role == 0 ? Role.student : Role.company);
             }
 
             Role currentRole =
-                userInfo['roles'][0] == '0' ? Role.student : Role.company;
+                userInfo['roles'][0] == 0 ? Role.student : Role.company;
 
             User currentUser = User(
               userId: userInfo['id'],
@@ -107,6 +94,7 @@ class _LoginState extends State<Login> {
               token: token,
             );
             userProvider.setCurrentUser(currentUser);
+            print(currentUser.currentRole);
             if (currentUser.currentRole == Role.student) {
               studentNavigate();
             } else if (currentUser.currentRole == Role.company) {

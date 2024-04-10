@@ -1,8 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gap/gap.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/user.provider.dart';
 import 'package:student_hub/widgets/project_card.dart';
@@ -17,13 +21,18 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
   final List<Project> projects = [];
   final searchController = TextEditingController();
   final String? apiServer = dotenv.env['API_SERVER'];
-  Future<void> fetchProject(UserProvider userProvider) async {
+  final ProjectService projectService = ProjectService();
+  Future<void> fetchFavoriteProject(UserProvider userProvider) async {
+    context.loaderOverlay.show();
+
+    // final listResponse = await projectService
+    //     .getFavoriteProjects(userProvider.currentUser!.studentId!);
     final dio = Dio();
     Map<String, dynamic> headers = {
       'Authorization': 'Bearer ${userProvider.currentUser?.token}',
     };
     final response = await dio.get(
-      '$apiServer/favoriteProject/${userProvider.currentUser?.userId}',
+      '$apiServer/favoriteProject/${userProvider.currentUser?.studentId}',
       options: Options(headers: headers),
     );
     final listResponse = response.data['result'];
@@ -32,22 +41,24 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
         .where((projectData) => projectData['deletedAt'] == null)
         .map<Project>((projectData) {
       return Project(
-        id: projectData['id'],
-        createdAt: DateTime.parse(projectData['createdAt']),
-        deletedAt: projectData['deletedAt'] != null
-            ? DateTime.parse(projectData['deletedAt'])
+        id: projectData['project']['id'],
+        createdAt: DateTime.parse(projectData['project']['createdAt']),
+        deletedAt: projectData['project']['deletedAt'] != null
+            ? DateTime.parse(projectData['project']['deletedAt'])
             : null,
-        title: projectData['title'],
-        completionTime: ProjectScopeFlag.oneToThreeMonth,
-        requiredStudents: projectData['numberOfStudents'] ?? 0,
-        description: projectData['description'],
-        proposals: [],
+        title: projectData['project']['title'],
+        completionTime:
+            ProjectScopeFlag.values[projectData['project']['projectScopeFlag']],
+        requiredStudents: projectData['project']['numberOfStudents'] ?? 0,
+        description: projectData['project']['description'],
+        proposals: projectData['project']['countProposals'] ?? 0,
         favorite: true,
       );
     }).toList();
     setState(() {
       projects.addAll(fetchProjects);
     });
+    context.loaderOverlay.hide();
   }
 
   // String _selectedMenu = '';
@@ -56,7 +67,7 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
     super.initState();
     final UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
-    fetchProject(userProvider);
+    fetchFavoriteProject(userProvider);
   }
 
   @override
@@ -86,7 +97,9 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
                       child: ListView.builder(
                         itemCount: projects.length,
                         itemBuilder: (context, index) {
-                          return ProjectCard(project: projects[index]);
+                          return ProjectCard(
+                              project: projects[index],
+                              projectService: projectService);
                         },
                       ),
                     ),

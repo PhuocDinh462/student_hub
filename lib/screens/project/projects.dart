@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gap/gap.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/student_routes.dart';
@@ -18,52 +22,21 @@ class Projects extends StatefulWidget {
 }
 
 class _ProjectsState extends State<Projects> {
-  final List<Project> projects = [];
-  final List<Project> savedProjects = [];
+  List<Project> projects = [];
   List<Project> filteredProjects = [];
   final _debouncer = Debouncer(milliseconds: 500);
   final searchController = TextEditingController();
   final String? apiServer = dotenv.env['API_SERVER'];
-  Future<void> fetchSavedProject(UserProvider userProvider) async {
-    final dio = Dio();
+  final ProjectService projectService = ProjectService();
+  final dio = Dio();
+
+  Future<void> fetchProject(UserProvider userProvider) async {
     Map<String, dynamic> headers = {
       'Authorization': 'Bearer ${userProvider.currentUser?.token}',
     };
-    if (userProvider.currentUser?.studentId != null) {
-      final response = await dio.get(
-        '$apiServer/favoriteProject/${userProvider.currentUser?.studentId}',
-        options: Options(headers: headers),
-      );
-
-      final listResponse = response.data['result'];
-      final List<Project> fetchProjects = listResponse
-          .cast<Map<String, dynamic>>()
-          .where((projectData) => projectData['deletedAt'] == null)
-          .map<Project>((projectData) {
-        return Project(
-          id: projectData['id'],
-          createdAt: DateTime.parse(projectData['createdAt']),
-          deletedAt: projectData['deletedAt'] != null
-              ? DateTime.parse(projectData['deletedAt'])
-              : null,
-          title: projectData['title'],
-          completionTime: ProjectScopeFlag.oneToThreeMonth,
-          requiredStudents: projectData['numberOfStudents'] ?? 0,
-          description: projectData['description'],
-          proposals: [],
-          favorite: true,
-        );
-      }).toList();
-      setState(() {
-        savedProjects.addAll(fetchProjects);
-      });
-    }
-  }
-
-  Future<void> fetchProject() async {
-    final dio = Dio();
     final response = await dio.get(
       '$apiServer/project',
+      options: Options(headers: headers),
     );
     final listResponse = response.data['result'];
     final List<Project> fetchProjects = listResponse
@@ -71,24 +44,89 @@ class _ProjectsState extends State<Projects> {
         .where((projectData) => projectData['deletedAt'] == null)
         .map<Project>((projectData) {
       return Project(
-        id: projectData['id'],
+        id: projectData['projectId'],
         createdAt: DateTime.parse(projectData['createdAt']),
         deletedAt: projectData['deletedAt'] != null
             ? DateTime.parse(projectData['deletedAt'])
             : null,
         title: projectData['title'],
-        completionTime: ProjectScopeFlag.oneToThreeMonth,
+        completionTime:
+            ProjectScopeFlag.values[projectData['projectScopeFlag']],
         requiredStudents: projectData['numberOfStudents'] ?? 0,
         description: projectData['description'],
-        proposals: [],
-        favorite:
-            savedProjects.map((e) => e.id).toList().contains(projectData['id']),
+        proposals: projectData['countProposals'] ?? 0,
+        favorite: projectData['isFavorite'] ?? false,
       );
     }).toList();
     setState(() {
+      projects.clear();
       projects.addAll(fetchProjects);
       filteredProjects = projects;
     });
+  }
+
+  Future<void> resetProjects() async {
+    setState(() {
+      searchController.clear();
+      filteredProjects = [];
+      projects = [];
+    });
+  }
+
+  Future<void> updateFilteredProjects(int? studentsNeeded, int? proposalsCount,
+      int? projectScopeFlag, UserProvider provider) async {
+    await resetProjects();
+    context.loaderOverlay.show();
+    try {
+      final queries = {
+        if (studentsNeeded != null &&
+            studentsNeeded != 0 &&
+            studentsNeeded.isNaN == false)
+          'numberOfStudents': studentsNeeded,
+        if (proposalsCount != null &&
+            proposalsCount != 0 &&
+            proposalsCount.isNaN == false)
+          'proposalsLessThan': proposalsCount,
+        if ((projectScopeFlag != -1 && projectScopeFlag?.isNaN == false) ||
+            (projectScopeFlag == 0))
+          'projectScopeFlag': projectScopeFlag,
+      };
+      Map<String, dynamic> headers = {
+        'Authorization': 'Bearer ${provider.currentUser?.token}',
+      };
+      final response = await dio.get(
+        '$apiServer/project',
+        queryParameters: queries,
+        options: Options(headers: headers),
+      );
+      final listResponse = response.data['result'];
+      List<Project> fetchProjects = listResponse
+          .cast<Map<String, dynamic>>()
+          .where((projectData) => projectData['deletedAt'] == null)
+          .map<Project>((projectData) {
+        return Project(
+          id: projectData['projectId'],
+          createdAt: DateTime.parse(projectData['createdAt']),
+          deletedAt: projectData['deletedAt'] != null
+              ? DateTime.parse(projectData['deletedAt'])
+              : null,
+          title: projectData['title'],
+          completionTime:
+              ProjectScopeFlag.values[projectData['projectScopeFlag']],
+          requiredStudents: projectData['numberOfStudents'] ?? 0,
+          description: projectData['description'],
+          proposals: projectData['countProposals'] ?? 0,
+          favorite: projectData['isFavorite'] ?? false,
+        );
+      }).toList();
+      setState(() {
+        filteredProjects = fetchProjects;
+        projects = fetchProjects;
+      });
+    } catch (e) {
+      print(e);
+    }
+    context.loaderOverlay.hide();
   }
 
   void filterProjects(String query) {
@@ -101,8 +139,9 @@ class _ProjectsState extends State<Projects> {
   }
 
   Future<void> _fetchData(UserProvider userProvider) async {
-    await fetchSavedProject(userProvider);
-    await fetchProject();
+    context.loaderOverlay.show();
+    await fetchProject(userProvider);
+    context.loaderOverlay.hide();
   }
 
   // String _selectedMenu = '';
@@ -184,7 +223,9 @@ class _ProjectsState extends State<Projects> {
                                 return SizedBox(
                                   height:
                                       MediaQuery.of(context).size.height * 0.8,
-                                  child: const ProjectFilter(),
+                                  child: ProjectFilter(
+                                      apiServer: apiServer,
+                                      onFilterApplied: updateFilteredProjects),
                                 );
                               });
                         },
@@ -266,7 +307,10 @@ class _ProjectsState extends State<Projects> {
                       child: ListView.builder(
                         itemCount: filteredProjects.length,
                         itemBuilder: (context, index) {
-                          return ProjectCard(project: filteredProjects[index]);
+                          return ProjectCard(
+                            project: filteredProjects[index],
+                            projectService: projectService,
+                          );
                         },
                       ),
                     ),
