@@ -1,5 +1,5 @@
-export 'theme_provider.dart';
+export 'theme.provider.dart';
 export 'dashboard.provider.dart';
 export 'profile.provider.dart';
-export 'post_job_provider.dart';
+export 'project.provider.dart';
 export 'user.provider.dart';

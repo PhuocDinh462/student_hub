@@ -27,7 +27,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => IndexPageProvider()),
         ChangeNotifierProvider(create: (_) => OpenIdProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
-        ChangeNotifierProvider(create: (_) => PostJobProvider()),
+        ChangeNotifierProvider(create: (_) => ProjectProvider()),
         ChangeNotifierProvider(
             create: (_) => ProfileCompanyViewModel(
                 profileService: profileService, authService: authService)),
@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
+    Get.put(userProvider);
     return FutureBuilder(
       future: Provider.of<ThemeProvider>(context, listen: false)
           .initializeProvider(),
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
           } else {
             final ThemeProvider themeProvider =
                 Provider.of<ThemeProvider>(context);
+            Get.put(themeProvider);
 
             ImageList.loadImage(context);
 

@@ -18,6 +18,7 @@ class AccountHeader extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surfaceTint,
         leading: ModalRoute.of(context)!.settings.name != '/'
             ? IconButton(
                 icon: const Icon(Icons.chevron_left, size: 36, color: text_50),
@@ -41,12 +42,7 @@ class AccountHeader extends StatelessWidget {
                 size: 32,
                 color: text_50,
               ),
-              onPressed: () {
-                if (ModalRoute.of(context)!.settings.name != '/account') {
-                  Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false);
-                  Navigator.pushNamed(context, '/account');
-                }
-              },
+              onPressed: () => Navigator.pushNamed(context, '/account'),
             ),
           ],
         ),

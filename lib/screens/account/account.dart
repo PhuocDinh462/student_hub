@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/models/user.dart';
 import 'package:student_hub/routes/company_route.dart';
-import 'package:student_hub/routes/student_routes.dart';
 import 'package:student_hub/screens/account/widgets/user_item.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
@@ -49,6 +48,20 @@ class Account extends StatelessWidget {
                             username: 'Hai Pham', userType: UserType.company),
                       ],
                     ),
+                    // GestureDetector(
+                    //   onTap: () {},
+                    //   child: Container(
+                    //     color: Colors.transparent,
+                    //     child: const Row(
+                    //       children: [
+                    //         Gap(30),
+                    //         Icon(Icons.add_circle_outline_outlined, size: 28),
+                    //         Gap(8),
+                    //         Text('Add profile'),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
