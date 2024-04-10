@@ -22,8 +22,7 @@ class Projects extends StatefulWidget {
 }
 
 class _ProjectsState extends State<Projects> {
-  final List<Project> projects = [];
-  final List<Project> savedProjects = [];
+  List<Project> projects = [];
   List<Project> filteredProjects = [];
   final _debouncer = Debouncer(milliseconds: 500);
   final searchController = TextEditingController();
@@ -60,9 +59,74 @@ class _ProjectsState extends State<Projects> {
       );
     }).toList();
     setState(() {
+      projects.clear();
       projects.addAll(fetchProjects);
       filteredProjects = projects;
     });
+  }
+
+  Future<void> resetProjects() async {
+    setState(() {
+      searchController.clear();
+      filteredProjects = [];
+      projects = [];
+    });
+  }
+
+  Future<void> updateFilteredProjects(int? studentsNeeded, int? proposalsCount,
+      int? projectScopeFlag, UserProvider provider) async {
+    await resetProjects();
+    context.loaderOverlay.show();
+    try {
+      final queries = {
+        if (studentsNeeded != null &&
+            studentsNeeded != 0 &&
+            studentsNeeded.isNaN == false)
+          'numberOfStudents': studentsNeeded,
+        if (proposalsCount != null &&
+            proposalsCount != 0 &&
+            proposalsCount.isNaN == false)
+          'proposalsLessThan': proposalsCount,
+        if ((projectScopeFlag != -1 && projectScopeFlag?.isNaN == false) ||
+            (projectScopeFlag == 0))
+          'projectScopeFlag': projectScopeFlag,
+      };
+      Map<String, dynamic> headers = {
+        'Authorization': 'Bearer ${provider.currentUser?.token}',
+      };
+      final response = await dio.get(
+        '$apiServer/project',
+        queryParameters: queries,
+        options: Options(headers: headers),
+      );
+      final listResponse = response.data['result'];
+      List<Project> fetchProjects = listResponse
+          .cast<Map<String, dynamic>>()
+          .where((projectData) => projectData['deletedAt'] == null)
+          .map<Project>((projectData) {
+        return Project(
+          id: projectData['projectId'],
+          createdAt: DateTime.parse(projectData['createdAt']),
+          deletedAt: projectData['deletedAt'] != null
+              ? DateTime.parse(projectData['deletedAt'])
+              : null,
+          title: projectData['title'],
+          completionTime:
+              ProjectScopeFlag.values[projectData['projectScopeFlag']],
+          requiredStudents: projectData['numberOfStudents'] ?? 0,
+          description: projectData['description'],
+          proposals: projectData['countProposals'] ?? 0,
+          favorite: projectData['isFavorite'] ?? false,
+        );
+      }).toList();
+      setState(() {
+        filteredProjects = fetchProjects;
+        projects = fetchProjects;
+      });
+    } catch (e) {
+      print(e);
+    }
+    context.loaderOverlay.hide();
   }
 
   void filterProjects(String query) {
@@ -159,7 +223,9 @@ class _ProjectsState extends State<Projects> {
                                 return SizedBox(
                                   height:
                                       MediaQuery.of(context).size.height * 0.8,
-                                  child: const ProjectFilter(),
+                                  child: ProjectFilter(
+                                      apiServer: apiServer,
+                                      onFilterApplied: updateFilteredProjects),
                                 );
                               });
                         },
@@ -242,8 +308,9 @@ class _ProjectsState extends State<Projects> {
                         itemCount: filteredProjects.length,
                         itemBuilder: (context, index) {
                           return ProjectCard(
-                              project: filteredProjects[index],
-                              projectService: projectService);
+                            project: filteredProjects[index],
+                            projectService: projectService,
+                          );
                         },
                       ),
                     ),

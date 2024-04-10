@@ -3,8 +3,13 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
 class ProjectLengthOptions extends StatefulWidget {
-  const ProjectLengthOptions({super.key, required this.options});
+  const ProjectLengthOptions({
+    super.key,
+    required this.options,
+    required this.onOptionSelected,
+  });
   final List<String> options;
+  final void Function(int selectedOption) onOptionSelected;
 
   @override
   State<ProjectLengthOptions> createState() => _ProjectLengthOptionsState();
@@ -12,6 +17,12 @@ class ProjectLengthOptions extends StatefulWidget {
 
 class _ProjectLengthOptionsState extends State<ProjectLengthOptions> {
   int curOption = 0;
+  @override
+  void initState() {
+    super.initState();
+    // Set initial selected option to the first one
+    curOption = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +36,7 @@ class _ProjectLengthOptionsState extends State<ProjectLengthOptions> {
             onTap: () {
               setState(() {
                 curOption = index;
+                widget.onOptionSelected(curOption);
               });
             },
             child: Row(
@@ -35,6 +47,7 @@ class _ProjectLengthOptionsState extends State<ProjectLengthOptions> {
                   onChanged: (value) {
                     setState(() {
                       curOption = value!;
+                      widget.onOptionSelected(curOption);
                     });
                   },
                 ),

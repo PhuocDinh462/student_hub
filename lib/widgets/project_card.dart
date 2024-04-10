@@ -193,14 +193,11 @@ class _ProjectCardState extends State<ProjectCard> {
               onPressed: () {
                 setState(() {
                   isFavorite = !isFavorite;
-                  // final handleUpdate = widget.projectService
-                  //     .updateFavoriteProject(
-                  //         widget.project.id,
-                  //         isFavorite ? 0 : 1,
-                  //         userProvider.currentUser!.studentId!);
-                  // print(handleUpdate);
                   updateProjectState(
-                      userProvider, widget.project.id, isFavorite ? 0 : 1);
+                    userProvider,
+                    widget.project.id,
+                    isFavorite ? 0 : 1,
+                  );
                 });
               },
             ),
