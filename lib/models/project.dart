@@ -18,7 +18,7 @@ class Project {
   final ProjectScopeFlag completionTime;
   final int requiredStudents;
   final String description;
-  final int proposals;
+  final dynamic proposals;
   bool favorite;
   final int countProposals;
   final int countMessages;
@@ -51,7 +51,7 @@ class Project {
       completionTime: ProjectScopeFlag.values[map['projectScopeFlag']],
       requiredStudents: map['numberOfStudents'],
       description: map['description'],
-      proposals: map['proposals'],
+      proposals: [],
       favorite: false,
       countProposals: map['countProposals'],
       countMessages: map['countMessages'],

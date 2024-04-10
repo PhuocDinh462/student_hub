@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
-import 'package:student_hub/api/services/project.services.dart';
+import 'package:student_hub/api/services/project.company.service.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/routes/company_route.dart';

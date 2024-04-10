@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-// import 'package:student_hub/api/services/project.services.dart';
+import 'package:student_hub/api/services/project.company.service.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/screens/dashboard/company/widgets/project_item.dart';
-import 'package:student_hub/utils/custom_dio.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
@@ -17,23 +16,13 @@ class Dashboard extends StatelessWidget {
     final ProjectProvider projectProvider =
         Provider.of<ProjectProvider>(context);
     final UserProvider userProvider = Provider.of<UserProvider>(context);
-    // final ProjectService projectService = ProjectService();
+    final ProjectService projectService = ProjectService();
 
     void fetchData(ProjectProvider projectProvider) async {
-      //   await projectService.getProject(userProvider.currentUser?.companyId).then((value) {
-      //     projectProvider.setProjectList = value.data['result']
-      //         .map<Project>((item) => Project.fromMap(item))
-      //         .toList();
-      //   }).catchError((e) {
-      //     throw Exception(e);
-      //   });
-
-      await privateDio
-          .get('/project/company/${userProvider.currentUser?.companyId}')
+      await projectService
+          .getProject(userProvider.currentUser?.companyId)
           .then((value) {
-        projectProvider.setProjectList = value.data['result']
-            .map<Project>((item) => Project.fromMap(item))
-            .toList();
+        projectProvider.setProjectList = value;
       }).catchError((e) {
         throw Exception(e);
       });
