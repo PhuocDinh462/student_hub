@@ -7,10 +7,7 @@ import 'package:month_year_picker/month_year_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/models/user.dart';
 import 'package:student_hub/providers/providers.dart';
-import 'package:student_hub/routes/auth_route.dart';
-import 'package:student_hub/routes/company_route.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:student_hub/routes/student_routes.dart';
 import 'package:student_hub/utils/image_list.dart';
@@ -28,7 +25,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => IndexPageProvider()),
         ChangeNotifierProvider(create: (_) => OpenIdProvider()),
         ChangeNotifierProvider(create: (_) => GlobalProvider()),
-        ChangeNotifierProvider(create: (_) => PostJobProvider()),
+        ChangeNotifierProvider(create: (_) => ProjectProvider()),
         ChangeNotifierProvider(
             create: (_) => ProfileCompanyViewModel(
                 profileService: profileService, authService: authService)),
@@ -48,6 +45,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
+    Get.put(userProvider);
     return FutureBuilder(
       future: Provider.of<ThemeProvider>(context, listen: false)
           .initializeProvider(),
@@ -64,6 +62,7 @@ class MyApp extends StatelessWidget {
           } else {
             final ThemeProvider themeProvider =
                 Provider.of<ThemeProvider>(context);
+            Get.put(themeProvider);
 
             ImageList.loadImage(context);
 

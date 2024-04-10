@@ -1,4 +1,9 @@
-enum ProjectScopeFlag { oneToThreeMonth, threeToSixMonth }
+enum ProjectScopeFlag {
+  lessThanOneMonth,
+  oneToThreeMonth,
+  threeToSixMonth,
+  moreThanSixMonth
+}
 
 enum TypeFlag {
   working,
@@ -13,8 +18,12 @@ class Project {
   final ProjectScopeFlag completionTime;
   final int requiredStudents;
   final String description;
-  final List<String> proposals;
+  final int proposals;
   bool favorite;
+  final int countProposals;
+  final int countMessages;
+  final int countHired;
+  final TypeFlag typeFlag;
 
   Project({
     required this.id,
@@ -26,5 +35,28 @@ class Project {
     required this.description,
     required this.proposals,
     required this.favorite,
+    this.countProposals = 0,
+    this.countMessages = 0,
+    this.countHired = 0,
+    this.typeFlag = TypeFlag.working,
   });
+
+  static Project fromMap(Map<String, dynamic> map) {
+    return Project(
+      id: map['id'],
+      createdAt: DateTime.parse(map['createdAt']),
+      deletedAt:
+          map['deletedAt'] == null ? null : DateTime.parse(map['deletedAt']),
+      title: map['title'],
+      completionTime: ProjectScopeFlag.values[map['projectScopeFlag']],
+      requiredStudents: map['numberOfStudents'],
+      description: map['description'],
+      proposals: [],
+      favorite: false,
+      countProposals: map['countProposals'],
+      countMessages: map['countMessages'],
+      countHired: map['countHired'],
+      typeFlag: TypeFlag.values[map['typeFlag']],
+    );
+  }
 }

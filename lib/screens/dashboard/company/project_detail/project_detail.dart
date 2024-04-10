@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/screens/dashboard/project_detail/widget/project_info.dart';
-import 'package:student_hub/screens/dashboard/project_detail/widget/proposal_item.dart';
+import 'package:student_hub/screens/dashboard/company/project_detail/widget/project_info.dart';
+import 'package:student_hub/screens/dashboard/company/project_detail/widget/proposal_item.dart';
 
 class ProjectDetail extends StatelessWidget {
   const ProjectDetail({super.key});

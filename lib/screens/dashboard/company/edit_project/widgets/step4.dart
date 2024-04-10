@@ -1,16 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:provider/provider.dart';
+import 'package:student_hub/api/services/project.services.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/project.dart';
+import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/utils/extensions.dart';
 
-class ProjectInfo extends StatelessWidget {
-  const ProjectInfo({super.key});
+class Step4 extends StatelessWidget {
+  const Step4({super.key, required this.back});
+  final VoidCallback back;
 
   @override
   Widget build(BuildContext context) {
+    final ProjectProvider projectProvider =
+        Provider.of<ProjectProvider>(context);
+
+    ProjectService projectService = ProjectService();
+
+    void editProject() async {
+      context.loaderOverlay.show();
+      await projectService.editProject(projectProvider.getCurrentProject!.id, {
+        'projectScopeFlag': projectProvider.getProjectScope.index,
+        'title': projectProvider.getTitle,
+        'description': projectProvider.getDescription,
+        'typeFlag': 0,
+        'numberOfStudents': projectProvider.getNumOfStudents,
+      }).then((value) {
+        Project project = Project.fromMap(value.data['result']);
+        projectProvider.addProject(project);
+      }).catchError((e) {
+        throw Exception(e);
+      }).whenComplete(() {
+        context.loaderOverlay.hide();
+        Navigator.of(context).pop();
+      });
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
+        Text('4/4\t\t\t\t\tProject details',
+            style: Theme.of(context).textTheme.titleLarge),
+        const Gap(30),
         // Title
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +64,7 @@ class ProjectInfo extends StatelessWidget {
                 const Gap(5),
                 SizedBox(
                   width: context.deviceSize.width - 100,
-                  child: const Text('Senior frontend developer (Fintech)'),
+                  child: Text(projectProvider.getTitle),
                 ),
               ],
             ),
@@ -64,10 +97,7 @@ class ProjectInfo extends StatelessWidget {
                 const Gap(5),
                 SizedBox(
                   width: context.deviceSize.width - 100,
-                  child: const Text('Students are looking for\n'
-                      '- Clear expectation about your project or deliverables\n'
-                      '- The skills required for your project\n'
-                      '- Detail about your project'),
+                  child: Text(projectProvider.getDescription),
                 ),
               ],
             ),
@@ -98,9 +128,12 @@ class ProjectInfo extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const Gap(5),
-                const Text(
-                  '1 to 3 months',
-                  style: TextStyle(fontStyle: FontStyle.italic),
+                Text(
+                  projectProvider.getProjectScope ==
+                          ProjectScopeFlag.oneToThreeMonth
+                      ? '1 to 3 months'
+                      : '3 to 6 months',
+                  style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
               ],
             ),
@@ -125,15 +158,57 @@ class ProjectInfo extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const Gap(5),
-                const Text(
-                  '4 students',
-                  style: TextStyle(fontStyle: FontStyle.italic),
+                Text(
+                  '${projectProvider.getNumOfStudents.toString()} students',
+                  style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
               ],
             ),
           ],
         ),
         const Gap(40),
+        // Buttons
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            SizedBox(
+              width: 100,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      Theme.of(context).brightness == Brightness.dark
+                          ? text_800
+                          : text_300,
+                ),
+                onPressed: () => back(),
+                child: const Text(
+                  'Back',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+            const Gap(15),
+            SizedBox(
+              width: 100,
+              child: ElevatedButton(
+                onPressed: () => editProject(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: primary_300,
+                ),
+                child: const Text(
+                  'Edit',
+                  style: TextStyle(
+                    color: text_50,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }

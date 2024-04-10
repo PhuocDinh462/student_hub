@@ -3,7 +3,8 @@ import 'package:gap/gap.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/providers/post_job_provider.dart';
+import 'package:student_hub/models/models.dart';
+import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/utils/extensions.dart';
 
 class Step2 extends StatelessWidget {
@@ -18,15 +19,15 @@ class Step2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostJobProvider postJobProvider =
-        Provider.of<PostJobProvider>(context);
+    final ProjectProvider projectProvider =
+        Provider.of<ProjectProvider>(context);
 
     return Form(
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('2/4\t\t\t\t\tNext, estimate the scope of your job',
+          Text('2/4\t\t\t\t\tNext, estimate the scope of your project',
               style: Theme.of(context).textTheme.titleLarge),
           const Gap(5),
           Center(
@@ -44,9 +45,10 @@ class Step2 extends StatelessWidget {
               Row(
                 children: [
                   Radio(
-                    value: TimeLine.oneToThreeMonths,
-                    groupValue: postJobProvider.getTimeLine,
-                    onChanged: (value) => postJobProvider.setTimeLine = value!,
+                    value: ProjectScopeFlag.oneToThreeMonth,
+                    groupValue: projectProvider.getProjectScope,
+                    onChanged: (value) =>
+                        projectProvider.setProjectScope = value!,
                   ),
                   const Text('1 to 3 months'),
                 ],
@@ -54,9 +56,10 @@ class Step2 extends StatelessWidget {
               Row(
                 children: [
                   Radio(
-                    value: TimeLine.threeToSixMonths,
-                    groupValue: postJobProvider.getTimeLine,
-                    onChanged: (value) => postJobProvider.setTimeLine = value!,
+                    value: ProjectScopeFlag.threeToSixMonth,
+                    groupValue: projectProvider.getProjectScope,
+                    onChanged: (value) =>
+                        projectProvider.setProjectScope = value!,
                   ),
                   const Text('3 to 6 months'),
                 ],
@@ -71,13 +74,13 @@ class Step2 extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                  onPressed: () => postJobProvider.getNumOfStudents > 1
-                      ? postJobProvider.removeStudents()
+                  onPressed: () => projectProvider.getNumOfStudents > 1
+                      ? projectProvider.removeStudents()
                       : null,
                   icon: const Icon(Icons.remove)),
               const Gap(20),
               NumberPicker(
-                value: postJobProvider.getNumOfStudents,
+                value: projectProvider.getNumOfStudents,
                 selectedTextStyle: TextStyle(
                   color: Theme.of(context).brightness == Brightness.dark
                       ? Colors.white
@@ -90,7 +93,7 @@ class Step2 extends StatelessWidget {
                 itemHeight: 60,
                 itemWidth: 60,
                 axis: Axis.horizontal,
-                onChanged: (value) => postJobProvider.setNumOfStudents = value,
+                onChanged: (value) => projectProvider.setNumOfStudents = value,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
@@ -102,8 +105,8 @@ class Step2 extends StatelessWidget {
               ),
               const Gap(20),
               IconButton(
-                  onPressed: () => postJobProvider.getNumOfStudents < 100
-                      ? postJobProvider.addStudents()
+                  onPressed: () => projectProvider.getNumOfStudents < 100
+                      ? projectProvider.addStudents()
                       : null,
                   icon: const Icon(Icons.add)),
             ],

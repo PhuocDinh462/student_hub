@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/routes/auth_route.dart';
 import 'package:student_hub/widgets/button.dart';
@@ -20,6 +21,7 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final AuthService authService = AuthService();
 
   bool agreePersonalData = false;
 
@@ -78,17 +80,8 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
       }
 
       try {
-        final dio = Dio();
-        final response = await dio.post(
-          '$apiServer/auth/sign-up',
-          data: {
-            'email': email,
-            'password': password,
-            'fullname': fullname,
-            'role': 0,
-          },
-        );
-
+        final Response response =
+            await authService.signUp(email, password, fullname, 0);
         if (response.statusCode == 201) {
           navigateToLogin();
           showSnackBar('Create account successfully', true);
