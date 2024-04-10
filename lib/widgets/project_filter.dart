@@ -105,12 +105,14 @@ class _ProjectFilterState extends State<ProjectFilter> {
                       title: 'Students Needed',
                       hintText: 'Enter Number of Students',
                       controller: studentsController,
+                      isNumber: true,
                     ),
                     const Gap(16),
                     TextFieldTitle(
                       title: 'Proposals less than',
                       hintText: 'Enter Number of Proposals',
                       controller: proposalsController,
+                      isNumber: true,
                     ),
                     const Gap(50),
                     Row(
