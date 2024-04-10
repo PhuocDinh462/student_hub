@@ -43,4 +43,18 @@ class ProjectService extends BaseApi {
       throw Exception(e);
     });
   }
+
+  Future<dynamic> editProject(id, body) async {
+    await dio
+        .patch(
+      '/project/$id',
+      data: body,
+    )
+        .then((value) {
+      return value.data;
+    }).catchError((e) {
+      printError(info: 'Edit project error: $e');
+      throw Exception(e);
+    });
+  }
 }

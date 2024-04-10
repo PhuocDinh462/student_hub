@@ -16,12 +16,12 @@ class ProjectItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProjectProvider postJobProvider =
+    final ProjectProvider projectProvider =
         Provider.of<ProjectProvider>(context);
 
     return GestureDetector(
       onTap: () {
-        postJobProvider.setCurrentProject = project;
+        projectProvider.setCurrentProject = project;
         Navigator.pushNamed(context, CompanyRoutes.projectDetail);
       },
       child: Card(
@@ -66,7 +66,7 @@ class ProjectItem extends StatelessWidget {
                         size: 32,
                       ),
                       onPressed: () {
-                        postJobProvider.setCurrentProject = project;
+                        projectProvider.setCurrentProject = project;
                         showModalBottomSheet<void>(
                           context: context,
                           backgroundColor:

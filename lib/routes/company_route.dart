@@ -19,6 +19,7 @@ class CompanyRoutes {
   static const String languages = '/account/settings/languages';
   static const String postProject = '/post-project';
   static const String projectDetail = 'nav/project-detail';
+  static const String editProject = '/edit-project';
 
   static Map<String, WidgetBuilder> routes = {
     nav: (context) => const AccountHeader(
@@ -49,5 +50,7 @@ class CompanyRoutes {
         const AccountHeader(title: 'Post Project', body: PostProject()),
     projectDetail: (context) =>
         const AccountHeader(title: 'Project Detail', body: ProjectDetail()),
+    editProject: (context) =>
+        const AccountHeader(title: 'Edit Project', body: EditProject()),
   };
 }

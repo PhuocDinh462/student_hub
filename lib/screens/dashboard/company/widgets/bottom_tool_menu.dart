@@ -13,17 +13,17 @@ class BottomToolMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProjectProvider postJobProvider =
+    final ProjectProvider projectProvider =
         Provider.of<ProjectProvider>(context);
 
-    final ProjectService jobService = ProjectService();
+    final ProjectService projectService = ProjectService();
 
     void removeJob() async {
       // context.loaderOverlay.show();
-      await jobService
-          .removeProject(postJobProvider.getCurrentProject!.id)
+      await projectService
+          .removeProject(projectProvider.getCurrentProject!.id)
           .then((value) {
-        postJobProvider.removeProject(postJobProvider.getCurrentProject!);
+        projectProvider.removeProject(projectProvider.getCurrentProject!);
       }).catchError((e) {
         throw Exception(e);
       }).whenComplete(() {
@@ -80,6 +80,8 @@ class BottomToolMenu extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.pop(context);
+              projectProvider.selectCurrentProject();
+              Navigator.pushNamed(context, CompanyRoutes.editProject);
             },
             child: Container(
               color: Colors.transparent,

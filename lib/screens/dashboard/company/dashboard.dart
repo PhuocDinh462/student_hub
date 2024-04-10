@@ -14,14 +14,14 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProjectProvider postJobProvider =
+    final ProjectProvider projectProvider =
         Provider.of<ProjectProvider>(context);
     final UserProvider userProvider = Provider.of<UserProvider>(context);
     // final ProjectService projectService = ProjectService();
 
-    void fetchData(ProjectProvider postJobProvider) async {
+    void fetchData(ProjectProvider projectProvider) async {
       //   await projectService.getProject(userProvider.currentUser?.companyId).then((value) {
-      //     postJobProvider.setProjectList = value.data['result']
+      //     projectProvider.setProjectList = value.data['result']
       //         .map<Project>((item) => Project.fromMap(item))
       //         .toList();
       //   }).catchError((e) {
@@ -31,7 +31,7 @@ class Dashboard extends StatelessWidget {
       await privateDio
           .get('/project/company/${userProvider.currentUser?.companyId}')
           .then((value) {
-        postJobProvider.setProjectList = value.data['result']
+        projectProvider.setProjectList = value.data['result']
             .map<Project>((item) => Project.fromMap(item))
             .toList();
       }).catchError((e) {
@@ -39,12 +39,12 @@ class Dashboard extends StatelessWidget {
       });
     }
 
-    fetchData(postJobProvider);
+    fetchData(projectProvider);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          postJobProvider.clear();
+          projectProvider.clear();
           Navigator.pushNamed(context, CompanyRoutes.postProject);
         },
         foregroundColor: Theme.of(context).colorScheme.secondaryContainer,
@@ -103,7 +103,7 @@ class Dashboard extends StatelessWidget {
                         children: [
                           const Gap(10),
                           Column(
-                            children: postJobProvider.getProjectList
+                            children: projectProvider.getProjectList
                                 .map((item) => Column(
                                       children: [
                                         ProjectItem(

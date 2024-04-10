@@ -80,4 +80,12 @@ class ProjectProvider with ChangeNotifier {
     _description = '';
     notifyListeners();
   }
+
+  void selectCurrentProject() {
+    _title = _currentProject!.title;
+    _projectScope = _currentProject!.completionTime;
+    _numOfStudents = _currentProject!.requiredStudents;
+    _description = _currentProject!.description;
+    notifyListeners();
+  }
 }

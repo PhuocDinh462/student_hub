@@ -14,24 +14,24 @@ class Step4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProjectProvider postJobProvider =
+    final ProjectProvider projectProvider =
         Provider.of<ProjectProvider>(context);
     final UserProvider userProvider = Provider.of<UserProvider>(context);
 
-    ProjectService jobService = ProjectService();
+    ProjectService projectService = ProjectService();
 
-    void postJob() async {
+    void postProject() async {
       context.loaderOverlay.show();
-      await jobService.postProject({
+      await projectService.postProject({
         'companyId': userProvider.currentUser!.companyId,
-        'projectScopeFlag': postJobProvider.getProjectScope.index,
-        'title': postJobProvider.getTitle,
-        'description': postJobProvider.getDescription,
+        'projectScopeFlag': projectProvider.getProjectScope.index,
+        'title': projectProvider.getTitle,
+        'description': projectProvider.getDescription,
         'typeFlag': 0,
-        'numberOfStudents': postJobProvider.getNumOfStudents,
+        'numberOfStudents': projectProvider.getNumOfStudents,
       }).then((value) {
         Project project = Project.fromMap(value.data['result']);
-        postJobProvider.addProject(project);
+        projectProvider.addProject(project);
       }).catchError((e) {
         throw Exception(e);
       }).whenComplete(() {
@@ -66,7 +66,7 @@ class Step4 extends StatelessWidget {
                 const Gap(5),
                 SizedBox(
                   width: context.deviceSize.width - 100,
-                  child: Text(postJobProvider.getTitle),
+                  child: Text(projectProvider.getTitle),
                 ),
               ],
             ),
@@ -99,7 +99,7 @@ class Step4 extends StatelessWidget {
                 const Gap(5),
                 SizedBox(
                   width: context.deviceSize.width - 100,
-                  child: Text(postJobProvider.getDescription),
+                  child: Text(projectProvider.getDescription),
                 ),
               ],
             ),
@@ -131,7 +131,7 @@ class Step4 extends StatelessWidget {
                 ),
                 const Gap(5),
                 Text(
-                  postJobProvider.getProjectScope ==
+                  projectProvider.getProjectScope ==
                           ProjectScopeFlag.oneToThreeMonth
                       ? '1 to 3 months'
                       : '3 to 6 months',
@@ -161,7 +161,7 @@ class Step4 extends StatelessWidget {
                 ),
                 const Gap(5),
                 Text(
-                  '${postJobProvider.getNumOfStudents.toString()} students',
+                  '${projectProvider.getNumOfStudents.toString()} students',
                   style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
               ],
@@ -196,7 +196,7 @@ class Step4 extends StatelessWidget {
             SizedBox(
               width: 100,
               child: ElevatedButton(
-                onPressed: () => postJob(),
+                onPressed: () => postProject(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primary_300,
                 ),
