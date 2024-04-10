@@ -1,12 +1,21 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
+import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/circle_container.dart';
 import 'package:gap/gap.dart';
 
 class ProjectDetails extends StatefulWidget {
-  const ProjectDetails({super.key, required this.project});
+  const ProjectDetails(
+      {super.key, required this.project, this.updateProjectState});
+  final Future<void> Function(UserProvider, int, int)? updateProjectState;
+
   final Project project;
 
   @override
@@ -20,6 +29,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
   late String projectDescription;
   late int proposalsCount;
   late bool isFavorite;
+  final dio = Dio();
+  final String? apiServer = dotenv.env['API_SERVER'];
 
   @override
   void initState() {
@@ -43,6 +54,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(10),
       child: SizedBox(
@@ -164,7 +176,9 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   width: MediaQuery.of(context).size.width * 0.4,
                 ),
                 Button(
-                  onTap: () {
+                  onTap: () async {
+                    await widget.updateProjectState!(
+                        userProvider, widget.project.id, 0);
                     Navigator.pop(context);
                   },
                   text: 'Saved',
