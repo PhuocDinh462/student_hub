@@ -11,6 +11,7 @@ import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/auth_route.dart';
 import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/routes/student_routes.dart';
+import 'package:student_hub/utils/snack_bar.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -38,20 +39,6 @@ class _LoginState extends State<Login> {
     await Navigator.pushNamed(context, StudentRoutes.nav);
   }
 
-  void showSnackBar(String message, bool success) {
-    final snackBar = SnackBar(
-      elevation: 0,
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.transparent,
-      content: AwesomeSnackbarContent(
-        title: success ? 'Congrats!!' : 'On Hey!!',
-        message: message,
-        contentType: success ? ContentType.success : ContentType.failure,
-      ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
@@ -62,7 +49,12 @@ class _LoginState extends State<Login> {
       FocusScope.of(context).unfocus();
 
       if (email.isEmpty || password.isEmpty) {
-        showSnackBar('Please fill in all fields', false);
+        MySnackBar.showSnackBar(
+          context,
+          'Please fill in all fields',
+          'Oh Hey!',
+          ContentType.failure,
+        );
         return;
       }
       try {
@@ -103,14 +95,34 @@ class _LoginState extends State<Login> {
           } catch (error) {
             // Xử lý các trường hợp lỗi
           }
-          showSnackBar('Login Successfully', true);
+          MySnackBar.showSnackBar(
+            context,
+            'Sign in successfully',
+            'Success',
+            ContentType.success,
+          );
         } else if (response.statusCode == 422) {
-          showSnackBar('Invalid Credentials', false);
+          MySnackBar.showSnackBar(
+            context,
+            'Invalid Credentials',
+            'Oh Hey!',
+            ContentType.failure,
+          );
         } else {
-          showSnackBar('Invalid Credentials', false);
+          MySnackBar.showSnackBar(
+            context,
+            'Invalid Credentials',
+            'Oh Hey!',
+            ContentType.failure,
+          );
         }
       } catch (e) {
-        showSnackBar('Invalid Credentials', false);
+        MySnackBar.showSnackBar(
+          context,
+          'Something went wrongs!',
+          'Oh Hey!',
+          ContentType.warning,
+        );
       }
     }
 
