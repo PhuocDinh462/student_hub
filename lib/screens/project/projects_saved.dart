@@ -1,6 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gap/gap.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/models/project.dart';
@@ -18,31 +22,43 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
   final searchController = TextEditingController();
   final String? apiServer = dotenv.env['API_SERVER'];
   final ProjectService projectService = ProjectService();
-  Future<void> fetchProject(UserProvider userProvider) async {
-    final listResponse = await projectService
-        .getFavoriteProjects(userProvider.currentUser!.studentId!);
+  Future<void> fetchFavoriteProject(UserProvider userProvider) async {
+    context.loaderOverlay.show();
+
+    // final listResponse = await projectService
+    //     .getFavoriteProjects(userProvider.currentUser!.studentId!);
+    final dio = Dio();
+    Map<String, dynamic> headers = {
+      'Authorization': 'Bearer ${userProvider.currentUser?.token}',
+    };
+    final response = await dio.get(
+      '$apiServer/favoriteProject/${userProvider.currentUser?.studentId}',
+      options: Options(headers: headers),
+    );
+    final listResponse = response.data['result'];
     final List<Project> fetchProjects = listResponse
         .cast<Map<String, dynamic>>()
         .where((projectData) => projectData['deletedAt'] == null)
         .map<Project>((projectData) {
       return Project(
-        id: projectData['projectId'],
-        createdAt: DateTime.parse(projectData['createdAt']),
-        deletedAt: projectData['deletedAt'] != null
-            ? DateTime.parse(projectData['deletedAt'])
+        id: projectData['project']['id'],
+        createdAt: DateTime.parse(projectData['project']['createdAt']),
+        deletedAt: projectData['project']['deletedAt'] != null
+            ? DateTime.parse(projectData['project']['deletedAt'])
             : null,
-        title: projectData['title'],
+        title: projectData['project']['title'],
         completionTime:
-            ProjectScopeFlag.values[projectData['projectScopeFlag']],
-        requiredStudents: projectData['numberOfStudents'] ?? 0,
-        description: projectData['description'],
-        proposals: projectData['countProposals'] ?? 0,
-        favorite: projectData['isFavorite'] ?? false,
+            ProjectScopeFlag.values[projectData['project']['projectScopeFlag']],
+        requiredStudents: projectData['project']['numberOfStudents'] ?? 0,
+        description: projectData['project']['description'],
+        proposals: projectData['project']['countProposals'] ?? 0,
+        favorite: true,
       );
     }).toList();
     setState(() {
       projects.addAll(fetchProjects);
     });
+    context.loaderOverlay.hide();
   }
 
   // String _selectedMenu = '';
@@ -51,7 +67,7 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
     super.initState();
     final UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
-    fetchProject(userProvider);
+    fetchFavoriteProject(userProvider);
   }
 
   @override
