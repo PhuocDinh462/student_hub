@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
@@ -81,7 +82,10 @@ class MyApp extends StatelessWidget {
                 );
               },
               child: GetMaterialApp(
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                localizationsDelegates: const [
+                  ...AppLocalizations.localizationsDelegates,
+                  MonthYearPickerLocalizations.delegate,
+                ],
                 supportedLocales: AppLocalizations.supportedLocales,
                 locale: Locale(themeProvider.getLanguage),
                 routes: StudentRoutes.routes,
@@ -90,7 +94,7 @@ class MyApp extends StatelessWidget {
                 //         ? StudentRoutes.routes
                 //         : CompanyRoutes.routes)
                 //     : AuthRoutes.routes,
-                initialRoute: StudentRoutes.profileStudentStepOne,
+                initialRoute: StudentRoutes.profileStudentStepTwo,
                 //  userProvider.currentUser != null
                 //     ? (userProvider.currentUser!.currentRole == Role.student
                 //         ? StudentRoutes.nav

@@ -110,8 +110,15 @@ class ProfileStudentViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setEduById(int idEdu, EducationModel value) {
+    _student = _student.copyWith(
+        educations:
+            _student.educations.map((e) => e.id == idEdu ? value : e).toList());
+    notifyListeners();
+  }
+
   void addEducation(EducationModel value) {
-    _student = _student.copyWith(educations: [..._student.educations, value]);
+    _student = _student.copyWith(educations: [value, ..._student.educations]);
     notifyListeners();
   }
 
@@ -119,6 +126,21 @@ class ProfileStudentViewModel extends ChangeNotifier {
     _student = _student.copyWith(educations: [
       ..._student.educations.where((element) => element.id != value.id)
     ]);
+    notifyListeners();
+  }
+
+  void setEditEduById(int idEdu, bool value) {
+    _student = _student.copyWith(
+        educations: _student.educations
+            .map((e) => e.copyWith(isEdit: e.id == idEdu ? value : false))
+            .toList());
+    notifyListeners();
+  }
+
+  void setEditEdu(bool value) {
+    _student = _student.copyWith(
+        educations:
+            _student.educations.map((e) => e.copyWith(isEdit: value)).toList());
     notifyListeners();
   }
 
@@ -262,14 +284,8 @@ class ProfileStudentViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      Map<String, dynamic> data = await profileService.updateEducationStudent(
+      await profileService.updateEducationStudent(
           studentId, student.educations);
-      String educationJson = jsonEncode(data);
-
-      List<EducationModel> education = (jsonDecode(educationJson) as List)
-          .map((item) => EducationModel.fromJson(item))
-          .toList();
-      setEducation(education);
     } catch (e) {
       _errorMessage = 'Failed to fetch company profile';
     } finally {

@@ -5,14 +5,16 @@ import 'package:student_hub/models/models.dart';
 class EducationModel extends BaseModel {
   final int studentId;
   final String schoolName;
-  final String startYear;
-  final String endYear;
+  final int startYear;
+  final int endYear;
+  final bool isEdit;
 
   const EducationModel({
     this.studentId = -1,
     this.schoolName = '',
-    this.startYear = '',
-    this.endYear = '',
+    this.startYear = 2024,
+    this.endYear = 2024,
+    this.isEdit = false,
     super.id,
     super.createdAt,
     super.updatedAt,
@@ -22,8 +24,9 @@ class EducationModel extends BaseModel {
   EducationModel copyWith({
     int? studentId,
     String? schoolName,
-    String? startYear,
-    String? endYear,
+    int? startYear,
+    int? endYear,
+    bool? isEdit,
     int? id,
     String? createdAt,
     String? updatedAt,
@@ -34,6 +37,7 @@ class EducationModel extends BaseModel {
       schoolName: schoolName ?? this.schoolName,
       startYear: startYear ?? this.startYear,
       endYear: endYear ?? this.endYear,
+      isEdit: isEdit ?? this.isEdit,
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -58,8 +62,8 @@ class EducationModel extends BaseModel {
     return EducationModel(
       studentId: map['studentId'] as int,
       schoolName: map['schoolName'] as String,
-      startYear: map['startYear'] as String,
-      endYear: map['endYear'] as String,
+      startYear: map['startYear'] as int,
+      endYear: map['endYear'] as int,
       id: map['id'] as int,
       createdAt: map['createdAt'] as String,
       updatedAt: map['updatedAt'] ?? map['updatedAt'] as String,

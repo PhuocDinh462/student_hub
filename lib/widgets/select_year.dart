@@ -6,10 +6,14 @@ import 'package:student_hub/widgets/text_field_title.dart';
 
 class SelectYear extends StatelessWidget {
   const SelectYear(
-      {super.key, required this.title, required this.selectedYear});
+      {super.key,
+      required this.title,
+      required this.selectedYear,
+      required this.actionSelectYear});
 
   final String title;
   final DateTime selectedYear;
+  final Function(DateTime) actionSelectYear;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,7 @@ class SelectYear extends StatelessWidget {
             ),
           ),
         ),
-        const Gap(10),
+        const Gap(5),
       ],
     );
   }
@@ -45,7 +49,7 @@ class SelectYear extends StatelessWidget {
               lastDate: DateTime.now(),
               selectedDate: selectedYear,
               onChanged: (DateTime dateTime) {
-                // selectedYear = dateTime;
+                actionSelectYear(dateTime);
                 Navigator.pop(context);
               },
             ),

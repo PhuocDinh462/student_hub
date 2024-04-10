@@ -60,6 +60,7 @@ dependencies:
   awesome_snackbar_content: ^0.1.3
   get: ^4.6.6
   dropdown_search: ^5.0.6
+  month_year_picker: ^0.3.0+1
 
 dev_dependencies:
   flutter_test:

@@ -28,6 +28,7 @@ class _ProjectItemState extends State<ProjectItem> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final deviceSize = context.deviceSize;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -45,8 +46,10 @@ class _ProjectItemState extends State<ProjectItem> {
               SizedBox(
                 width: deviceSize.width * 0.6,
                 child: DisplayText(
-                    text: 'Intelligent Taxi Dispatching system',
-                    style: textTheme.bodySmall!),
+                  text: 'Intelligent Taxi Dispatching system',
+                  style: textTheme.bodySmall!,
+                  overflow: TextOverflow.visible,
+                ),
               ),
               Row(
                 children: [
@@ -68,12 +71,16 @@ class _ProjectItemState extends State<ProjectItem> {
             ],
           ),
           DisplayText(
-              text: '9/2020 - 12/2020, 4 months', style: textTheme.labelSmall!),
+              text: '9/2020 - 12/2020, 4 months',
+              style: textTheme.labelSmall!.copyWith(
+                  color: colorScheme.onSurface.withOpacity(0.8), fontSize: 12)),
           const Gap(10),
           DisplayText(
-              text:
-                  'It is the developer of a super-app for ride-hailing, food delivery, and digital payments services on mobile devices that operates in Singapore, Malaysia, ..',
-              style: textTheme.bodySmall!),
+            text:
+                'It is the developer of a super-app for ride-hailing, food delivery, and digital payments services on mobile devices that operates in Singapore, Malaysia, ..',
+            style: textTheme.bodySmall!,
+            overflow: TextOverflow.visible,
+          ),
           const Gap(10),
           DisplayText(text: 'Skillset', style: textTheme.bodyLarge!),
           const Gap(5),

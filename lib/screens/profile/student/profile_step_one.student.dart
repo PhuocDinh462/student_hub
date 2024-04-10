@@ -25,29 +25,32 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
   bool langAdd = false;
   bool eduEdit = false;
   bool eduAdd = false;
+
   List<int> itemsLangChecked = [];
   List<int> itemsEduChecked = [];
+
+  DateTime yearStart = DateTime.now();
+  DateTime yearEnd = DateTime.now();
+
   final TextEditingController _titleController = TextEditingController();
   final _popupSkillSetKey = GlobalKey<DropdownSearchState<TechnicalModel>>();
 
   final TextEditingController _languageController = TextEditingController();
   final _popupLanguageKey = GlobalKey<DropdownSearchState<String>>();
 
+  final TextEditingController _eduController = TextEditingController();
+
   @override
   void dispose() {
     _titleController.dispose();
+    _languageController.dispose();
+    _eduController.dispose();
+    _popupSkillSetKey.currentState?.dispose();
+    _popupLanguageKey.currentState?.dispose();
     super.dispose();
   }
 
-  List<String> educations = [
-    'Le Hong Phong Hight School',
-    'Le Hong Phong Hight School',
-    'Le Hong Phong Hight School'
-  ];
-
   final int idStudent = 2;
-
-  List<TechnicalModel> lstTechStack = [];
 
   void onSelectTechStack(int value) {
     final profileStudentViewModel =
@@ -108,7 +111,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
     ps.updateLanguageStudent(idStudent);
   }
 
-  void eventUpdateItemsChecked(int id, bool value) {
+  void eventUpdateItemsLangChecked(int id, bool value) {
     setState(() {
       if (value) {
         itemsLangChecked.add(id);
@@ -118,17 +121,97 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
     });
   }
 
-  void handleEditLanguage(ProfileStudentViewModel ps, int index) {
-    LanguageModel lag = ps.student.languages[index];
+  void handleEditLanguage(ProfileStudentViewModel ps, LanguageModel lag) {
     _languageController.text = lag.languageName;
 
     ps.setEditLanguageById(lag.id, true);
   }
 
-  void eventCheckBoxAll(bool value) {
+  void eventCheckBoxAllLang(bool value) {
     setState(() {
       itemsLangChecked = value ? [-1] : [];
     });
+  }
+
+  void handleAddEdu(ProfileStudentViewModel ps) {
+    EducationModel newEdu = EducationModel(
+      schoolName: _eduController.text,
+      startYear: yearStart.year,
+      endYear: yearEnd.year,
+    );
+
+    ps.addEducation(newEdu);
+    ps.updateEducationStudent(idStudent);
+
+    setState(() {
+      eduAdd = false;
+    });
+  }
+
+  void handleSaveEdu(
+    int id,
+    ProfileStudentViewModel ps,
+  ) {
+    EducationModel newEdu = EducationModel(
+      schoolName: _eduController.text,
+      startYear: yearStart.year,
+      endYear: yearEnd.year,
+    );
+
+    ps.setEduById(id, newEdu);
+    ps.updateEducationStudent(idStudent);
+    ps.setEditLanguageById(id, false);
+  }
+
+  void handleEditEdu(ProfileStudentViewModel ps, EducationModel edu) {
+    _eduController.text = edu.schoolName;
+
+    handleChangeYear(DateTime(edu.startYear), 1);
+    handleChangeYear(DateTime(edu.endYear), 2);
+
+    ps.setEditEduById(edu.id, true);
+  }
+
+  void handleChangeYear(DateTime dateTime, int whatChange) {
+    setState(() {
+      if (whatChange == 1) {
+        yearStart = dateTime;
+      } else {
+        yearEnd = dateTime;
+      }
+    });
+  }
+
+  void eventCheckBoxAllEdu(bool value) {
+    setState(() {
+      itemsEduChecked = value ? [-1] : [];
+    });
+  }
+
+  void eventUpdateItemsEduChecked(int id, bool value) {
+    setState(() {
+      if (value) {
+        itemsEduChecked.add(id);
+      } else {
+        itemsEduChecked.remove(id);
+      }
+    });
+  }
+
+  void handleDeleteEdu(
+    ProfileStudentViewModel ps,
+  ) {
+    if (itemsEduChecked.contains(-1)) {
+      ps.setEducation([]);
+      setState(() {
+        eduEdit = !itemsEduChecked.contains(-1);
+      });
+    } else {
+      ps.setEducation(ps.student.educations
+          .where((element) => !itemsEduChecked.contains(element.id))
+          .toList());
+    }
+    ps.updateEducationStudent(idStudent);
   }
 
   @override
@@ -192,24 +275,6 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                           const Gap(20),
                           widgetEducation(
                               textTheme, profileStudentModel, deviceSize),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                DisplayText(
-                                    text: 'Education',
-                                    style: textTheme.bodyLarge!),
-                                IconButton(
-                                    iconSize: 30,
-                                    onPressed: () {},
-                                    icon: const Icon(
-                                      Icons.add,
-                                    ))
-                              ]),
-                          Column(
-                            children: educations
-                                .map((e) => const EducationItem())
-                                .toList(),
-                          )
                         ]),
                   ),
                 );
@@ -296,7 +361,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                             }),
                             value: itemsLangChecked.contains(-1),
                             onChanged: (bool? value) {
-                              eventCheckBoxAll(value!);
+                              eventCheckBoxAllLang(value!);
                             }),
                       ],
                     )
@@ -379,10 +444,10 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                               language: tmp,
                               itemsChecked: itemsLangChecked,
                               onChangeCheck: (p0, p1) {
-                                eventUpdateItemsChecked(p0, p1!);
+                                eventUpdateItemsLangChecked(p0, p1!);
                               },
                               onEdit: () {
-                                handleEditLanguage(profileStudentModel, index);
+                                handleEditLanguage(profileStudentModel, tmp);
                               },
                             );
                     },
@@ -412,7 +477,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                           IconButton(
                               iconSize: 30,
                               onPressed: () {
-                                /////////////////////////////////////////////////////   // handleDeleteLanguage(profileStudentModel);
+                                handleDeleteEdu(profileStudentModel);
                               },
                               icon: const Icon(
                                 Icons.delete,
@@ -424,7 +489,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                               setState(() {
                                 eduEdit = false;
                                 itemsEduChecked = [];
-                                /////////////////////////////////////////////////////   // profileStudentModel.setEditLanguage(false);
+                                profileStudentModel.setEditEdu(false);
                               });
                             },
                             icon: const Icon(
@@ -443,7 +508,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                             }),
                             value: itemsEduChecked.contains(-1),
                             onChanged: (bool? value) {
-                              /////////////////////////////////////////////////////   // eventCheckBoxAll(value!);
+                              eventCheckBoxAllEdu(value!);
                             }),
                       ],
                     )
@@ -453,88 +518,94 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                           onPressed: () {
                             setState(() {
                               eduAdd = true;
-                              /////////////////////////////////////////////////////    // _languageController.text = '';
+                              _eduController.text = '';
                             });
                           },
                           icon: const Icon(
                             Icons.add,
                           )),
-                      // if (profileStudentModel.student.languages.isNotEmpty)
-                      IconButton(
-                          iconSize: 25,
-                          onPressed: () {
-                            setState(() {
-                              eduEdit = true;
-                              eduAdd = false;
-                            });
-                          },
-                          icon: const Icon(Icons.edit)),
+                      if (profileStudentModel.student.educations.isNotEmpty)
+                        IconButton(
+                            iconSize: 25,
+                            onPressed: () {
+                              setState(() {
+                                eduEdit = true;
+                                eduAdd = false;
+                              });
+                            },
+                            icon: const Icon(Icons.edit)),
                     ])
             ],
           ),
           if (eduAdd)
-            FormLanguage(
-              controller: _languageController,
-              keyValidation: _popupLanguageKey,
-              actionCancel: () => {
-                setState(() {
-                  eduAdd = false;
-                })
-              },
+            FormEdu(
+              controller: _eduController,
+              yearEnd: yearEnd,
+              yearStart: yearStart,
               actionSave: () {
-                // ///////////////////////////////////////////////////// handleAddLanguage(profileStudentModel);
+                handleAddEdu(profileStudentModel);
+              },
+              actionCancel: () {
                 setState(() {
                   eduAdd = false;
                 });
               },
+              actionChangeStartYear: (DateTime time) {
+                handleChangeYear(time, 1);
+              },
+              actionChangeEndYear: (DateTime time) {
+                handleChangeYear(time, 2);
+              },
             ),
-          ///////////////////////////////////////////////////// // if (profileStudentModel.student.languages.isNotEmpty)
-          ConstrainedBox(
-            constraints: BoxConstraints(
-                minHeight: 0,
-                maxHeight: deviceSize.height * 0.6,
-                minWidth: double.infinity),
-            child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                child: ListView.builder(
-                  itemCount: profileStudentModel.student.languages.length,
-                  shrinkWrap: true,
-                  itemBuilder: (ctx, index) {
-                    LanguageModel tmp =
-                        profileStudentModel.student.languages[index];
-                    return tmp.isEdit
-                        ? FormLanguage(
-                            controller: _languageController,
-                            keyValidation: _popupLanguageKey,
-                            value: tmp.level,
-                            actionCancel: () => {
-                              profileStudentModel.setEditLanguageById(
-                                  tmp.id, false)
-                            },
-                            actionSave: () {
-                              handleSaveLanguage(
-                                tmp.id,
-                                profileStudentModel,
-                              );
-                              profileStudentModel.setEditLanguageById(
-                                  tmp.id, false);
-                            },
-                          )
-                        : LanguageItem(
-                            isEdit: eduEdit,
-                            language: tmp,
-                            itemsChecked: itemsEduChecked,
-                            onChangeCheck: (p0, p1) {
-                              eventUpdateItemsChecked(p0, p1!);
-                            },
-                            onEdit: () {
-                              handleEditLanguage(profileStudentModel, index);
-                            },
-                          );
-                  },
-                )),
-          ),
+          if (profileStudentModel.student.educations.isNotEmpty)
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                  minHeight: 0,
+                  maxHeight: deviceSize.height * 0.6,
+                  minWidth: double.infinity),
+              child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                  child: ListView.builder(
+                    itemCount: profileStudentModel.student.educations.length,
+                    shrinkWrap: true,
+                    itemBuilder: (ctx, index) {
+                      EducationModel tmp =
+                          profileStudentModel.student.educations[index];
+
+                      return tmp.isEdit
+                          ? FormEdu(
+                              controller: _eduController,
+                              yearStart: yearStart,
+                              yearEnd: yearEnd,
+                              actionSave: () {
+                                handleSaveEdu(tmp.id, profileStudentModel);
+                              },
+                              actionCancel: () {
+                                profileStudentModel.setEditEduById(
+                                    tmp.id, false);
+                              },
+                              actionChangeStartYear: (DateTime time) {
+                                handleChangeYear(time, 1);
+                              },
+                              actionChangeEndYear: (DateTime time) {
+                                handleChangeYear(time, 2);
+                              },
+                            )
+                          : EducationItem(
+                              edu: tmp,
+                              isEdit: eduEdit,
+                              itemsChecked: itemsEduChecked,
+                              onEdit: () {
+                                handleEditEdu(profileStudentModel, tmp);
+                              },
+                              onChangeCheck: (p0, p1) {
+                                eventUpdateItemsEduChecked(p0, p1!);
+                              },
+                            );
+                    },
+                  )),
+            ),
         ],
       ),
     );

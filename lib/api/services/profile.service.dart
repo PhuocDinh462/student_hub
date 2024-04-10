@@ -273,9 +273,19 @@ class ProfileService extends BaseApi {
   Future<dynamic> updateEducationStudent(
       int studentId, List<EducationModel> education) async {
     try {
-      Response response = await dio.post(
+      List<Map<String, dynamic>> edu = education.map((e) {
+        var map = e.toMap();
+        map.remove('studentId');
+        map.remove('createdAt');
+        map.remove('updatedAt');
+        map.remove('deleteAt');
+        map.remove('id');
+        return map;
+      }).toList();
+
+      Response response = await dio.put(
           '/education/updateByStudentId/$studentId',
-          data: {education: education.toList()});
+          data: {'education': edu});
 
       if (response.data.containsKey('result')) {
         return response.data['result'];

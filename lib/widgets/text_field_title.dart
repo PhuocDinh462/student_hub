@@ -22,6 +22,8 @@ class TextFieldTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -43,20 +45,27 @@ class TextFieldTitle extends StatelessWidget {
               FocusManager.instance.primaryFocus?.unfocus();
             },
             decoration: InputDecoration(
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                hintText: hintText,
-                suffixIcon: suffixIcon,
-                hintStyle: Theme.of(context).textTheme.bodySmall,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: text_400,
-                    width: 2.0,
-                  ),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))))),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              hintText: hintText,
+              suffixIcon: suffixIcon,
+              hintStyle: Theme.of(context).textTheme.bodySmall,
+              // enabledBorder: OutlineInputBorder(
+              //   borderSide: const BorderSide(
+              //     color: text_400,
+              //     width: 2.0,
+              //   ),
+              //   borderRadius: BorderRadius.circular(10.0),
+              // ),
+              // border: const OutlineInputBorder(
+              //     borderRadius: BorderRadius.all(Radius.circular(10)))
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: colorScheme.onSurface),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: colorScheme.onSurface),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+            )),
       ],
     );
   }
