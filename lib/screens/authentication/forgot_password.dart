@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -31,7 +32,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       final String email = emailController.text;
       FocusScope.of(context).unfocus();
       if (email.isEmpty) {
-        MySnackBar.showSnackBar(context, 'Please fill in all fields', false);
+        MySnackBar.showSnackBar(context, 'Please fill in all fields', 'Oh Hey!',
+            ContentType.failure);
         return;
       }
       try {
@@ -39,15 +41,21 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
         if (response.statusCode == 201) {
           MySnackBar.showSnackBar(
-              context, 'New Password has sent to your email', true);
+              context,
+              'New Password has sent to your email',
+              'Success',
+              ContentType.success);
           await Navigator.pushNamed(context, AuthRoutes.login);
         } else if (response.statusCode == 404) {
-          MySnackBar.showSnackBar(context, 'Not Found User', false);
+          MySnackBar.showSnackBar(
+              context, 'Not Found User', 'Oh Hey!', ContentType.failure);
         } else {
-          MySnackBar.showSnackBar(context, 'Invalid Credentials', false);
+          MySnackBar.showSnackBar(
+              context, 'Invalid Credentials', 'Oh Hey!', ContentType.failure);
         }
       } catch (e) {
-        MySnackBar.showSnackBar(context, 'Something went wrongs!', false);
+        MySnackBar.showSnackBar(
+            context, 'Something went wrongs!', 'Oh Hey!', ContentType.failure);
       }
     }
 

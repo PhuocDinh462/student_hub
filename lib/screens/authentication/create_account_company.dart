@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/routes/auth_route.dart';
+import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -28,39 +31,6 @@ class _CreateAccountCompanyState extends State<CreateAccountCompany> {
     await Navigator.pushNamed(context, AuthRoutes.login);
   }
 
-  void showSnackBar(String message, bool success) {
-    final snackBar = SnackBar(
-      elevation: 0,
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.transparent,
-      content: AwesomeSnackbarContent(
-        title: success ? 'Congrats!!' : 'On Hey!!',
-        message: message,
-        contentType: success ? ContentType.success : ContentType.failure,
-      ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-    // final materialBanner = MaterialBanner(
-    //   /// need to set following properties for best effect of awesome_snackbar_content
-    //   elevation: 0,
-    //   backgroundColor: Colors.transparent,
-    //   forceActionsBelow: true,
-    //   content: AwesomeSnackbarContent(
-    //     title: success ? 'Congrats!!' : 'On Hey!!',
-    //     message:
-    //         'This is an example error message that will be shown in the body of materialBanner!',
-
-    //     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-    //     contentType: success ? ContentType.success : ContentType.failure,
-    //     // to configure for material banner
-    //     inMaterialBanner: true,
-    //   ),
-    //   actions: const [SizedBox.shrink()],
-    // );
-    // ScaffoldMessenger.of(context).showMaterialBanner(materialBanner);
-  }
-
   @override
   Widget build(BuildContext context) {
     //sign up
@@ -75,7 +45,13 @@ class _CreateAccountCompanyState extends State<CreateAccountCompany> {
           password.isEmpty ||
           fullname.isEmpty ||
           !agreePersonalData) {
-        showSnackBar('Please fill in all fields', false);
+        MySnackBar.showSnackBar(
+          context,
+          'Please fill in all fields',
+          'Oh Hey!',
+          ContentType.warning,
+        );
+
         return;
       }
 
@@ -85,12 +61,27 @@ class _CreateAccountCompanyState extends State<CreateAccountCompany> {
 
         if (response.statusCode == 201) {
           navigateToLogin();
-          showSnackBar('Create account successfully', true);
+          MySnackBar.showSnackBar(
+            context,
+            'Create account successfully',
+            'Success',
+            ContentType.success,
+          );
         } else {
-          showSnackBar('Failed to create account', false);
+          MySnackBar.showSnackBar(
+            context,
+            'Failed to create account',
+            'Oh Hey!',
+            ContentType.failure,
+          );
         }
       } catch (e) {
-        showSnackBar('An error occurred during sign up', false);
+        MySnackBar.showSnackBar(
+          context,
+          'An error occurred during sign up',
+          'Oh Hey!',
+          ContentType.failure,
+        );
       }
     }
 
