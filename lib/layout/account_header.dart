@@ -42,12 +42,7 @@ class AccountHeader extends StatelessWidget {
                 size: 32,
                 color: text_50,
               ),
-              onPressed: () {
-                if (ModalRoute.of(context)!.settings.name != '/account') {
-                  Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false);
-                  Navigator.pushNamed(context, '/account');
-                }
-              },
+              onPressed: () => Navigator.pushNamed(context, '/account'),
             ),
           ],
         ),

@@ -18,7 +18,7 @@ class CompanyRoutes {
   static const String settings = '/account/settings';
   static const String languages = '/account/settings/languages';
   static const String postProject = '/post-project';
-  static const String projectDetail = 'nav/project-detail';
+  static const String projectDetail = '/project-detail';
   static const String editProject = '/edit-project';
 
   static Map<String, WidgetBuilder> routes = {
