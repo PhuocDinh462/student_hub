@@ -51,7 +51,7 @@ class Project {
       completionTime: ProjectScopeFlag.values[map['projectScopeFlag']],
       requiredStudents: map['numberOfStudents'],
       description: map['description'],
-      proposals: [],
+      proposals: map['proposals'],
       favorite: false,
       countProposals: map['countProposals'],
       countMessages: map['countMessages'],

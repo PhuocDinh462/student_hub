@@ -9,8 +9,9 @@ import 'package:student_hub/view-models/view_models.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
 class FormExpericence extends StatefulWidget {
-  const FormExpericence({super.key, required this.ps});
+  const FormExpericence({super.key, required this.ps, this.value});
   final ProfileStudentViewModel ps;
+  final ExperienceModel? value;
 
   @override
   State<FormExpericence> createState() => _FormExpericenceState();
@@ -26,6 +27,18 @@ class _FormExpericenceState extends State<FormExpericence> {
   final _popupSkillSetKey = GlobalKey<DropdownSearchState<TechnicalModel>>();
 
   final List<TechnicalModel> skillSets = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.value != null) {
+      _titleController.text = widget.value!.title;
+      _desctiptionController.text = widget.value!.description;
+      // yearStart = DateTime(widget.value.endMonth);
+      // yearEnd = widget.value.endDate;
+      skillSets.addAll(widget.value!.skillSets);
+    }
+  }
 
   @override
   void dispose() {

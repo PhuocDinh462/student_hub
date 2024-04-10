@@ -182,6 +182,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
+      print(e);
       throw Exception('Failed to create profile student');
     }
   }

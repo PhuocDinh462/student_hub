@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/routes/student_routes.dart';
@@ -39,6 +40,13 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
   final _popupLanguageKey = GlobalKey<DropdownSearchState<String>>();
 
   final TextEditingController _eduController = TextEditingController();
+
+  // ProfileService pser = ProfileService();
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
   @override
   void dispose() {

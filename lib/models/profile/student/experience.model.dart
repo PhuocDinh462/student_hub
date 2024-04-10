@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:student_hub/models/models.dart';
 
 class ExperienceModel extends BaseModel {
@@ -8,6 +9,7 @@ class ExperienceModel extends BaseModel {
   final String startMonth;
   final String endMonth;
   final String description;
+  final List<TechnicalModel> skillSets;
 
   const ExperienceModel({
     this.studentId = -1,
@@ -15,6 +17,7 @@ class ExperienceModel extends BaseModel {
     this.startMonth = '',
     this.endMonth = '',
     this.description = '',
+    this.skillSets = const [],
     super.id,
     super.createdAt,
     super.updatedAt,
@@ -27,6 +30,7 @@ class ExperienceModel extends BaseModel {
     String? startMonth,
     String? endMonth,
     String? description,
+    List<TechnicalModel>? skillSets,
     int? id,
     String? createdAt,
     String? updatedAt,
@@ -38,6 +42,7 @@ class ExperienceModel extends BaseModel {
       startMonth: startMonth ?? this.startMonth,
       endMonth: endMonth ?? this.endMonth,
       description: description ?? this.description,
+      skillSets: skillSets ?? this.skillSets,
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -52,6 +57,7 @@ class ExperienceModel extends BaseModel {
       'startMonth': startMonth,
       'endMonth': endMonth,
       'description': description,
+      'skillSets': skillSets.map((x) => x.toMap()).toList(),
       'id': id,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
@@ -66,6 +72,11 @@ class ExperienceModel extends BaseModel {
       startMonth: map['startMonth'] as String,
       endMonth: map['endMonth'] as String,
       description: map['description'] as String,
+      skillSets: List<TechnicalModel>.from(
+        (map['skillSets'] as List).map<TechnicalModel>(
+          (x) => TechnicalModel.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
       id: map['id'] as int,
       createdAt: map['createdAt'] as String,
       updatedAt: map['updatedAt'] ?? map['updatedAt'] as String,
@@ -95,7 +106,8 @@ class ExperienceModel extends BaseModel {
         other.title == title &&
         other.startMonth == startMonth &&
         other.endMonth == endMonth &&
-        other.description == description;
+        other.description == description &&
+        listEquals(other.skillSets, skillSets);
   }
 
   @override
@@ -108,6 +120,7 @@ class ExperienceModel extends BaseModel {
         title.hashCode ^
         startMonth.hashCode ^
         endMonth.hashCode ^
+        skillSets.hashCode ^
         description.hashCode;
   }
 }

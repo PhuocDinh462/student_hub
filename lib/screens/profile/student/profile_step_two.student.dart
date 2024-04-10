@@ -75,7 +75,8 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
                           ]),
                       FormExpericence(ps: profileStudentModel),
                       Column(
-                        children: test.map((e) => const ProjectItem()).toList(),
+                        children:
+                            test.map((e) => const ExperienceItem()).toList(),
                       )
                     ],
                   ),

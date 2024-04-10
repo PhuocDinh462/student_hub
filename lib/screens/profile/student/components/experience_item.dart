@@ -4,14 +4,14 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
-class ProjectItem extends StatefulWidget {
-  const ProjectItem({super.key});
+class ExperienceItem extends StatefulWidget {
+  const ExperienceItem({super.key});
 
   @override
-  State<ProjectItem> createState() => _ProjectItemState();
+  State<ExperienceItem> createState() => _ExperienceItemState();
 }
 
-class _ProjectItemState extends State<ProjectItem> {
+class _ExperienceItemState extends State<ExperienceItem> {
   bool isEdit = false;
 
   List<String> skills = [

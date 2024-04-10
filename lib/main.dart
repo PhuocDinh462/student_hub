@@ -7,9 +7,10 @@ import 'package:month_year_picker/month_year_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/user.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:student_hub/routes/student_routes.dart';
+import 'package:student_hub/routes/routes.dart';
 import 'package:student_hub/utils/image_list.dart';
 import 'package:student_hub/view-models/view_models.dart';
 import 'package:get/get.dart';
@@ -87,18 +88,20 @@ class MyApp extends StatelessWidget {
                 ],
                 supportedLocales: AppLocalizations.supportedLocales,
                 locale: Locale(themeProvider.getLanguage),
-                routes: StudentRoutes.routes,
-                //  userProvider.currentUser != null
-                //     ? (userProvider.currentUser!.currentRole == Role.student
-                //         ? StudentRoutes.routes
-                //         : CompanyRoutes.routes)
-                //     : AuthRoutes.routes,
-                initialRoute: StudentRoutes.profileStudentStepTwo,
-                //  userProvider.currentUser != null
-                //     ? (userProvider.currentUser!.currentRole == Role.student
-                //         ? StudentRoutes.nav
-                //         : CompanyRoutes.nav)
-                //     : AuthRoutes.login,
+                routes:
+                    //  StudentRoutes.routes,
+                    userProvider.currentUser != null
+                        ? (userProvider.currentUser!.currentRole == Role.student
+                            ? StudentRoutes.routes
+                            : CompanyRoutes.routes)
+                        : AuthRoutes.routes,
+                initialRoute:
+                    // StudentRoutes.profileStudentStepTwo,
+                    userProvider.currentUser != null
+                        ? (userProvider.currentUser!.currentRole == Role.student
+                            ? StudentRoutes.nav
+                            : CompanyRoutes.nav)
+                        : AuthRoutes.login,
                 debugShowCheckedModeBanner: false,
                 theme: themeProvider.getThemeMode
                     ? AppTheme.darkTheme
