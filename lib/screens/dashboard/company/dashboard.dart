@@ -104,14 +104,16 @@ class Dashboard extends StatelessWidget {
                           const Gap(10),
                           Column(
                             children: projectProvider.getProjectList
-                                .map((item) => Column(
-                                      children: [
-                                        ProjectItem(
-                                          project: item,
-                                        ),
-                                        const Gap(10),
-                                      ],
-                                    ))
+                                .map(
+                                  (item) => Column(
+                                    children: [
+                                      ProjectItem(
+                                        project: item,
+                                      ),
+                                      const Gap(10),
+                                    ],
+                                  ),
+                                )
                                 .toList(),
                           ),
                           const Gap(85),
@@ -119,11 +121,61 @@ class Dashboard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Center(
-                    child: Text('Working'),
+                  // Working
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const Gap(10),
+                          Column(
+                            children: projectProvider.getProjectList
+                                .where(
+                                    (item) => item.typeFlag == TypeFlag.working)
+                                .map(
+                                  (item) => Column(
+                                    children: [
+                                      ProjectItem(
+                                        project: item,
+                                      ),
+                                      const Gap(10),
+                                    ],
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                          const Gap(85),
+                        ],
+                      ),
+                    ),
                   ),
-                  const Center(
-                    child: Text('Archived'),
+                  // Archived
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const Gap(10),
+                          Column(
+                            children: projectProvider.getProjectList
+                                .where((item) =>
+                                    item.typeFlag == TypeFlag.archieved)
+                                .map(
+                                  (item) => Column(
+                                    children: [
+                                      ProjectItem(
+                                        project: item,
+                                      ),
+                                      const Gap(10),
+                                    ],
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                          const Gap(85),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

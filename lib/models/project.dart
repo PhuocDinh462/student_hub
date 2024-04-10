@@ -18,6 +18,7 @@ class Project {
   final int countProposals;
   final int countMessages;
   final int countHired;
+  final TypeFlag typeFlag;
 
   Project({
     required this.id,
@@ -32,6 +33,7 @@ class Project {
     this.countProposals = 0,
     this.countMessages = 0,
     this.countHired = 0,
+    this.typeFlag = TypeFlag.working,
   });
 
   static Project fromMap(Map<String, dynamic> map) {
@@ -49,6 +51,7 @@ class Project {
       countProposals: map['countProposals'],
       countMessages: map['countMessages'],
       countHired: map['countHired'],
+      typeFlag: TypeFlag.values[map['typeFlag']],
     );
   }
 }
