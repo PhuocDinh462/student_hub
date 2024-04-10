@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-// import 'package:student_hub/api/services/job.services.dart';
+// import 'package:student_hub/api/services/project.services.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/company_route.dart';
-import 'package:student_hub/screens/dashboard/widgets/project_item.dart';
+import 'package:student_hub/screens/dashboard/company/widgets/project_item.dart';
 import 'package:student_hub/utils/custom_dio.dart';
 
 class Dashboard extends StatelessWidget {
@@ -14,19 +14,19 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostJobProvider postJobProvider =
-        Provider.of<PostJobProvider>(context);
+    final ProjectProvider postJobProvider =
+        Provider.of<ProjectProvider>(context);
     final UserProvider userProvider = Provider.of<UserProvider>(context);
-    // final JobService jobService = JobService();
+    // final ProjectService projectService = ProjectService();
 
-    void fetchData(PostJobProvider postJobProvider) async {
-      // await jobService.getJob(userProvider.currentUser?.companyId).then((value) {
-      //   postJobProvider.setProjectList = value.data['result']
-      //       .map<Project>((item) => Project.fromMap(item))
-      //       .toList();
-      // }).catchError((e) {
-      //   throw Exception(e);
-      // });
+    void fetchData(ProjectProvider postJobProvider) async {
+      //   await projectService.getProject(userProvider.currentUser?.companyId).then((value) {
+      //     postJobProvider.setProjectList = value.data['result']
+      //         .map<Project>((item) => Project.fromMap(item))
+      //         .toList();
+      //   }).catchError((e) {
+      //     throw Exception(e);
+      //   });
 
       await privateDio
           .get('/project/company/${userProvider.currentUser?.companyId}')
@@ -45,7 +45,7 @@ class Dashboard extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           postJobProvider.clear();
-          Navigator.pushNamed(context, CompanyRoutes.postJob);
+          Navigator.pushNamed(context, CompanyRoutes.postProject);
         },
         foregroundColor: Theme.of(context).colorScheme.secondaryContainer,
         backgroundColor: Theme.of(context).brightness == Brightness.dark

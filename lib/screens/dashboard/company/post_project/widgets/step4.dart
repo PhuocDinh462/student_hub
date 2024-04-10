@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
-import 'package:student_hub/api/services/job.services.dart';
+import 'package:student_hub/api/services/project.services.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/providers.dart';
@@ -14,15 +14,15 @@ class Step4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostJobProvider postJobProvider =
-        Provider.of<PostJobProvider>(context);
+    final ProjectProvider postJobProvider =
+        Provider.of<ProjectProvider>(context);
     final UserProvider userProvider = Provider.of<UserProvider>(context);
 
-    JobService jobService = JobService();
+    ProjectService jobService = ProjectService();
 
     void postJob() async {
       context.loaderOverlay.show();
-      await jobService.postJob({
+      await jobService.postProject({
         'companyId': userProvider.currentUser!.companyId,
         'projectScopeFlag': postJobProvider.getProjectScope.index,
         'title': postJobProvider.getTitle,

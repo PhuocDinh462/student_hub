@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/providers/post_job_provider.dart';
+import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/utils/extensions.dart';
 
 class Step3 extends StatelessWidget {
@@ -13,8 +13,8 @@ class Step3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostJobProvider postJobProvider =
-        Provider.of<PostJobProvider>(context);
+    final ProjectProvider postJobProvider =
+        Provider.of<ProjectProvider>(context);
 
     return Form(
       key: _formKey,

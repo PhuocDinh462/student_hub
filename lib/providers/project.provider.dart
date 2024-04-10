@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/models/project.dart';
 
-class PostJobProvider with ChangeNotifier {
+class ProjectProvider with ChangeNotifier {
   late String _title;
   late ProjectScopeFlag _projectScope;
   late int _numOfStudents;
@@ -9,7 +9,7 @@ class PostJobProvider with ChangeNotifier {
   late List<Project> _projectList;
   Project? _currentProject;
 
-  PostJobProvider() {
+  ProjectProvider() {
     _title = '';
     _projectScope = ProjectScopeFlag.oneToThreeMonth;
     _numOfStudents = 1;

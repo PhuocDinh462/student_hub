@@ -1,3 +1,3 @@
-export 'dashboard.dart';
-export 'post_job/post_job.dart';
-export 'project_detail/project_detail.dart';
+export 'company/dashboard.dart';
+export 'company/post_project/post_project.dart';
+export 'company/project_detail/project_detail.dart';

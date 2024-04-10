@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
-import 'package:student_hub/providers/post_job_provider.dart';
+import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/utils/extensions.dart';
 
 class ProjectInfo extends StatelessWidget {
@@ -11,8 +11,8 @@ class ProjectInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostJobProvider postJobProvider =
-        Provider.of<PostJobProvider>(context);
+    final ProjectProvider postJobProvider =
+        Provider.of<ProjectProvider>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

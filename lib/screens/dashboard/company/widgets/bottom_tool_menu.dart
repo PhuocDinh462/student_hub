@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
-import 'package:student_hub/api/services/job.services.dart';
+import 'package:student_hub/api/services/project.services.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/providers/post_job_provider.dart';
+import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/routes/company_route.dart';
 
 class BottomToolMenu extends StatelessWidget {
@@ -13,15 +13,15 @@ class BottomToolMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostJobProvider postJobProvider =
-        Provider.of<PostJobProvider>(context);
+    final ProjectProvider postJobProvider =
+        Provider.of<ProjectProvider>(context);
 
-    final JobService jobService = JobService();
+    final ProjectService jobService = ProjectService();
 
     void removeJob() async {
       // context.loaderOverlay.show();
       await jobService
-          .removeJob(postJobProvider.getCurrentProject!.id)
+          .removeProject(postJobProvider.getCurrentProject!.id)
           .then((value) {
         postJobProvider.removeProject(postJobProvider.getCurrentProject!);
       }).catchError((e) {
@@ -63,7 +63,7 @@ class BottomToolMenu extends StatelessWidget {
                       ),
                       const Gap(3),
                       Text(
-                        'View job posting',
+                        'View project posting',
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               fontStyle: FontStyle.italic,
                             ),

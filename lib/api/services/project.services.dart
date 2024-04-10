@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 import 'package:student_hub/api/base.api.dart';
 
-class JobService extends BaseApi {
-  JobService();
+class ProjectService extends BaseApi {
+  ProjectService();
 
-  Future<dynamic> postJob(body) async {
+  Future<dynamic> postProject(body) async {
     await dio
         .post(
       '/project',
@@ -13,12 +13,12 @@ class JobService extends BaseApi {
         .then((value) {
       return value.data;
     }).catchError((e) {
-      printError(info: 'Post job error: $e');
+      printError(info: 'Post project error: $e');
       throw Exception(e);
     });
   }
 
-  Future<dynamic> getJob(companyId) async {
+  Future<dynamic> getProject(companyId) async {
     await dio
         .get(
       '/project/company/$companyId',
@@ -26,12 +26,12 @@ class JobService extends BaseApi {
         .then((value) {
       return value.data;
     }).catchError((e) {
-      printError(info: 'Get job error: $e');
+      printError(info: 'Get project error: $e');
       throw Exception(e);
     });
   }
 
-  Future<dynamic> removeJob(projectId) async {
+  Future<dynamic> removeProject(projectId) async {
     await dio
         .delete(
       '/project/$projectId',
@@ -39,7 +39,7 @@ class JobService extends BaseApi {
         .then((value) {
       return value.data;
     }).catchError((e) {
-      printError(info: 'Remove job error: $e');
+      printError(info: 'Remove project error: $e');
       throw Exception(e);
     });
   }

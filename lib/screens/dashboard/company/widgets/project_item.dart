@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
-import 'package:student_hub/providers/post_job_provider.dart';
+import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/routes/company_route.dart';
-import 'package:student_hub/screens/dashboard/widgets/bottom_tool_menu.dart';
+import 'package:student_hub/screens/dashboard/company/widgets/bottom_tool_menu.dart';
 
 class ProjectItem extends StatelessWidget {
   ProjectItem({super.key, required this.project});
@@ -16,8 +16,8 @@ class ProjectItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostJobProvider postJobProvider =
-        Provider.of<PostJobProvider>(context);
+    final ProjectProvider postJobProvider =
+        Provider.of<ProjectProvider>(context);
 
     return GestureDetector(
       onTap: () {

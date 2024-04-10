@@ -27,7 +27,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => IndexPageProvider()),
         ChangeNotifierProvider(create: (_) => OpenIdProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
-        ChangeNotifierProvider(create: (_) => PostJobProvider()),
+        ChangeNotifierProvider(create: (_) => ProjectProvider()),
         ChangeNotifierProvider(
             create: (_) => ProfileCompanyViewModel(
                 profileService: profileService, authService: authService)),
