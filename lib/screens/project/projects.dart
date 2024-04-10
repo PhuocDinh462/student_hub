@@ -43,20 +43,21 @@ class _ProjectsState extends State<Projects> {
         .cast<Map<String, dynamic>>()
         .where((projectData) => projectData['deletedAt'] == null)
         .map<Project>((projectData) {
-      return Project(
-        id: projectData['projectId'],
-        createdAt: DateTime.parse(projectData['createdAt']),
-        deletedAt: projectData['deletedAt'] != null
-            ? DateTime.parse(projectData['deletedAt'])
-            : null,
-        title: projectData['title'],
-        completionTime:
-            ProjectScopeFlag.values[projectData['projectScopeFlag']],
-        requiredStudents: projectData['numberOfStudents'] ?? 0,
-        description: projectData['description'],
-        proposals: projectData['countProposals'] ?? 0,
-        favorite: projectData['isFavorite'] ?? false,
-      );
+      // return Project(
+      //   id: projectData['projectId'],
+      //   createdAt: DateTime.parse(projectData['createdAt']),
+      //   deletedAt: projectData['deletedAt'] != null
+      //       ? DateTime.parse(projectData['deletedAt'])
+      //       : null,
+      //   title: projectData['title'],
+      //   completionTime:
+      //       ProjectScopeFlag.values[projectData['projectScopeFlag']],
+      //   requiredStudents: projectData['numberOfStudents'] ?? 0,
+      //   description: projectData['description'],
+      //   proposals: projectData['countProposals'] ?? 0,
+      //   favorite: projectData['isFavorite'] ?? false,
+      // );
+      return Project.fromMapInProjectsList(projectData);
     }).toList();
     setState(() {
       projects.clear();
@@ -104,20 +105,21 @@ class _ProjectsState extends State<Projects> {
           .cast<Map<String, dynamic>>()
           .where((projectData) => projectData['deletedAt'] == null)
           .map<Project>((projectData) {
-        return Project(
-          id: projectData['projectId'],
-          createdAt: DateTime.parse(projectData['createdAt']),
-          deletedAt: projectData['deletedAt'] != null
-              ? DateTime.parse(projectData['deletedAt'])
-              : null,
-          title: projectData['title'],
-          completionTime:
-              ProjectScopeFlag.values[projectData['projectScopeFlag']],
-          requiredStudents: projectData['numberOfStudents'] ?? 0,
-          description: projectData['description'],
-          proposals: projectData['countProposals'] ?? 0,
-          favorite: projectData['isFavorite'] ?? false,
-        );
+        // return Project(
+        //   id: projectData['projectId'],
+        //   createdAt: DateTime.parse(projectData['createdAt']),
+        //   deletedAt: projectData['deletedAt'] != null
+        //       ? DateTime.parse(projectData['deletedAt'])
+        //       : null,
+        //   title: projectData['title'],
+        //   completionTime:
+        //       ProjectScopeFlag.values[projectData['projectScopeFlag']],
+        //   requiredStudents: projectData['numberOfStudents'] ?? 0,
+        //   description: projectData['description'],
+        //   proposals: projectData['countProposals'] ?? 0,
+        //   favorite: projectData['isFavorite'] ?? false,
+        // );
+        return Project.fromMapInProjectsList(projectData);
       }).toList();
       setState(() {
         filteredProjects = fetchProjects;

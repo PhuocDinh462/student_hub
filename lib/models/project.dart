@@ -18,7 +18,7 @@ class Project {
   final ProjectScopeFlag completionTime;
   final int requiredStudents;
   final String description;
-  final int proposals;
+  final dynamic proposals;
   bool favorite;
   final int countProposals;
   final int countMessages;
@@ -43,7 +43,7 @@ class Project {
 
   static Project fromMap(Map<String, dynamic> map) {
     return Project(
-      id: map['id'],
+      id: map['id'] ?? map['projectId'],
       createdAt: DateTime.parse(map['createdAt']),
       deletedAt:
           map['deletedAt'] == null ? null : DateTime.parse(map['deletedAt']),
@@ -54,9 +54,51 @@ class Project {
       proposals: [],
       favorite: false,
       countProposals: map['countProposals'],
-      countMessages: map['countMessages'],
-      countHired: map['countHired'],
+      countMessages: map['countMessages'] ?? 0,
+      countHired: map['countHired'] ?? 0,
       typeFlag: TypeFlag.values[map['typeFlag']],
+    );
+  }
+
+  static Project fromMapInProjectsList(Map<String, dynamic> map) {
+    return Project(
+      id: map['id'] ?? map['projectId'],
+      createdAt: DateTime.parse(map['createdAt']),
+      deletedAt:
+          map['deletedAt'] != null ? DateTime.parse(map['deletedAt']) : null,
+      title: map['title'],
+      completionTime: ProjectScopeFlag.values[map['projectScopeFlag']],
+      requiredStudents: map['numberOfStudents'] ?? 0,
+      description: map['description'],
+      proposals: [],
+      favorite: map['isFavorite'] ?? false,
+      countProposals: map['countProposals'],
+      countMessages: 0,
+      countHired: 0,
+      typeFlag: map['typeFlag'] != null
+          ? TypeFlag.values[map['typeFlag']]
+          : TypeFlag.working,
+    );
+  }
+
+  static Project fromMapInProjectsSavedList(Map<String, dynamic> map) {
+    return Project(
+      id: map['id'] ?? map['projectId'],
+      createdAt: DateTime.parse(map['createdAt']),
+      deletedAt:
+          map['deletedAt'] != null ? DateTime.parse(map['deletedAt']) : null,
+      title: map['title'],
+      completionTime: ProjectScopeFlag.values[map['projectScopeFlag']],
+      requiredStudents: map['numberOfStudents'] ?? 0,
+      description: map['description'],
+      proposals: [],
+      favorite: true,
+      countProposals: map['countProposals'],
+      countMessages: 0,
+      countHired: 0,
+      typeFlag: map['typeFlag'] != null
+          ? TypeFlag.values[map['typeFlag']]
+          : TypeFlag.working,
     );
   }
 }

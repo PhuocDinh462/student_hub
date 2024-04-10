@@ -48,7 +48,7 @@ class _ProjectCardState extends State<ProjectCard> {
 
     studentsNeeded = project.requiredStudents;
     projectDescription = project.description;
-    proposalsCount = project.proposals;
+    proposalsCount = project.countProposals;
     isFavorite = project.favorite;
   }
 

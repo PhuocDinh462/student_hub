@@ -37,7 +37,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
         : '3-6 months';
     studentsNeeded = project.requiredStudents;
     projectDescription = project.description;
-    proposalsCount = project.proposals;
+    proposalsCount = project.countProposals;
     isFavorite = project.favorite;
   }
 

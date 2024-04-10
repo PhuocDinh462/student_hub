@@ -40,20 +40,21 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
         .cast<Map<String, dynamic>>()
         .where((projectData) => projectData['deletedAt'] == null)
         .map<Project>((projectData) {
-      return Project(
-        id: projectData['project']['id'],
-        createdAt: DateTime.parse(projectData['project']['createdAt']),
-        deletedAt: projectData['project']['deletedAt'] != null
-            ? DateTime.parse(projectData['project']['deletedAt'])
-            : null,
-        title: projectData['project']['title'],
-        completionTime:
-            ProjectScopeFlag.values[projectData['project']['projectScopeFlag']],
-        requiredStudents: projectData['project']['numberOfStudents'] ?? 0,
-        description: projectData['project']['description'],
-        proposals: projectData['project']['countProposals'] ?? 0,
-        favorite: true,
-      );
+      // return Project(
+      //   id: projectData['project']['id'],
+      //   createdAt: DateTime.parse(projectData['project']['createdAt']),
+      //   deletedAt: projectData['project']['deletedAt'] != null
+      //       ? DateTime.parse(projectData['project']['deletedAt'])
+      //       : null,
+      //   title: projectData['project']['title'],
+      //   completionTime:
+      //       ProjectScopeFlag.values[projectData['project']['projectScopeFlag']],
+      //   requiredStudents: projectData['project']['numberOfStudents'] ?? 0,
+      //   description: projectData['project']['description'],
+      //   proposals: projectData['project']['countProposals'] ?? 0,
+      //   favorite: true,
+      // );
+      return Project.fromMapInProjectsSavedList(projectData['project']);
     }).toList();
     setState(() {
       projects.addAll(fetchProjects);
