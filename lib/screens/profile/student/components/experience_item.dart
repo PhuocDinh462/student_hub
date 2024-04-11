@@ -1,28 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/models.dart';
+import 'package:student_hub/utils/helpers.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
-class ExperienceItem extends StatefulWidget {
-  const ExperienceItem({super.key});
+class ExperienceItem extends StatelessWidget {
+  const ExperienceItem(
+      {super.key,
+      required this.exp,
+      required this.actionDelete,
+      required this.actionEdit});
 
-  @override
-  State<ExperienceItem> createState() => _ExperienceItemState();
-}
-
-class _ExperienceItemState extends State<ExperienceItem> {
-  bool isEdit = false;
-
-  List<String> skills = [
-    'Reactjs',
-    'Nodejs',
-    'Flutter',
-    'Dart',
-    'Python',
-    'JavaScript',
-    'C/C++'
-  ];
+  final ExperienceModel exp;
+  final Function() actionDelete;
+  final Function() actionEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +23,19 @@ class _ExperienceItemState extends State<ExperienceItem> {
     final deviceSize = context.deviceSize;
     final colorScheme = Theme.of(context).colorScheme;
 
+    final String timeDuration =
+        '${Helpers.formatMMYYYTToString(exp.startMonth)} - ${Helpers.formatMMYYYTToString(exp.endMonth)}, ${Helpers.calculateMonthsBetween(exp.startMonth, exp.endMonth)} months';
+    final List<String> skills = exp.skillSets
+        .map(
+          (e) => e.name,
+        )
+        .toList();
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
+          color: Colors.white,
           border: Border.all(color: primary_200, width: 1),
           borderRadius: BorderRadius.circular(10)),
       child: Column(
@@ -46,7 +48,7 @@ class _ExperienceItemState extends State<ExperienceItem> {
               SizedBox(
                 width: deviceSize.width * 0.6,
                 child: DisplayText(
-                  text: 'Intelligent Taxi Dispatching system',
+                  text: exp.title,
                   style: textTheme.bodySmall!,
                   overflow: TextOverflow.visible,
                 ),
@@ -54,30 +56,37 @@ class _ExperienceItemState extends State<ExperienceItem> {
               Row(
                 children: [
                   IconButton(
-                      iconSize: 23,
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.edit,
-                      )),
+                    iconSize: 24,
+                    padding: const EdgeInsets.all(0.0),
+                    onPressed: () {
+                      actionEdit();
+                    },
+                    icon: const Icon(
+                      Icons.edit,
+                      color: primary_300,
+                    ),
+                  ),
                   IconButton(
                       iconSize: 25,
-                      onPressed: () {},
-                      color: color_1,
+                      padding: const EdgeInsets.all(0.0),
+                      onPressed: () {
+                        actionDelete();
+                      },
                       icon: const Icon(
                         Icons.delete,
-                      ))
+                        color: color_1,
+                      )),
                 ],
               )
             ],
           ),
           DisplayText(
-              text: '9/2020 - 12/2020, 4 months',
+              text: timeDuration,
               style: textTheme.labelSmall!.copyWith(
                   color: colorScheme.onSurface.withOpacity(0.8), fontSize: 12)),
           const Gap(10),
           DisplayText(
-            text:
-                'It is the developer of a super-app for ride-hailing, food delivery, and digital payments services on mobile devices that operates in Singapore, Malaysia, ..',
+            text: exp.description,
             style: textTheme.bodySmall!,
             overflow: TextOverflow.visible,
           ),

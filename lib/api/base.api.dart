@@ -34,6 +34,7 @@ class BaseApi {
           }
         },
         onError: (DioException error, ErrorInterceptorHandler handler) {
+          print(error.response!.statusCode);
           if (error.response?.statusCode == 401) {
             Get.defaultDialog(
               title: 'Session Expired',
@@ -54,7 +55,7 @@ class BaseApi {
               buttonColor: Colors.transparent,
               confirm: TextButton(
                 onPressed: () {
-                  print('login');
+                  // print('login');
                   Get.back();
                 },
                 style: TextButton.styleFrom(
@@ -69,7 +70,7 @@ class BaseApi {
                 ),
               ),
               onWillPop: () async {
-                print('login');
+                // print('login');
                 return true;
               },
             );

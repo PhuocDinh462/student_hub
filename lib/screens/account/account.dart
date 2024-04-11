@@ -72,7 +72,7 @@ class Account extends StatelessWidget {
 
             // Others setting
             GestureDetector(
-              onTap: () => Get.toNamed(StudentRoutes.profileStudentStepOne),
+              onTap: () => Get.toNamed(CompanyRoutes.profileCompany),
               child: Container(
                 color: Colors.transparent,
                 child: Row(

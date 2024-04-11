@@ -11,7 +11,7 @@ class CommonTextField extends StatelessWidget {
     required this.title,
     required this.hintText,
     this.controller,
-    this.maxLines,
+    this.maxLines = 1,
     this.suffixIcon,
     this.readOnly = false,
     this.focusNode,
@@ -21,7 +21,7 @@ class CommonTextField extends StatelessWidget {
   final String title;
   final String hintText;
   final TextEditingController? controller;
-  final int? maxLines;
+  final int maxLines;
   final Widget? suffixIcon;
   final bool readOnly;
   final FocusNode? focusNode;

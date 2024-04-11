@@ -10,6 +10,7 @@ class ExperienceModel extends BaseModel {
   final String endMonth;
   final String description;
   final List<TechnicalModel> skillSets;
+  final bool isEdit;
 
   const ExperienceModel({
     this.studentId = -1,
@@ -18,6 +19,7 @@ class ExperienceModel extends BaseModel {
     this.endMonth = '',
     this.description = '',
     this.skillSets = const [],
+    this.isEdit = false,
     super.id,
     super.createdAt,
     super.updatedAt,
@@ -31,6 +33,7 @@ class ExperienceModel extends BaseModel {
     String? endMonth,
     String? description,
     List<TechnicalModel>? skillSets,
+    bool? isEdit,
     int? id,
     String? createdAt,
     String? updatedAt,
@@ -43,6 +46,7 @@ class ExperienceModel extends BaseModel {
       endMonth: endMonth ?? this.endMonth,
       description: description ?? this.description,
       skillSets: skillSets ?? this.skillSets,
+      isEdit: isEdit ?? this.isEdit,
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -79,8 +83,8 @@ class ExperienceModel extends BaseModel {
       ),
       id: map['id'] as int,
       createdAt: map['createdAt'] as String,
-      updatedAt: map['updatedAt'] ?? map['updatedAt'] as String,
-      deleteAt: map['updatedAt'] ?? map['deleteAt'] as String,
+      updatedAt: map['updatedAt'] as String,
+      deleteAt: map['deleteAt'] as String?,
     );
   }
 
