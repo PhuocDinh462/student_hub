@@ -28,14 +28,14 @@ class ProjectDetail extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 2.0),
                 child: Tab(
-                  child: Icon(Icons.description,
+                  child: Icon(Icons.message,
                       color: Theme.of(context).colorScheme.primary, size: 24),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 2.0),
                 child: Tab(
-                  child: Icon(Icons.message,
+                  child: Icon(Icons.description,
                       color: Theme.of(context).colorScheme.primary, size: 24),
                 ),
               ),
@@ -59,6 +59,10 @@ class ProjectDetail extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
                     child: ProjectInfo(),
                   ),
+                  // Message
+                  Center(
+                    child: Text('Message'),
+                  ),
                   // Proposals
                   SingleChildScrollView(
                     child: Column(
@@ -78,10 +82,6 @@ class ProjectDetail extends StatelessWidget {
                         Gap(10),
                       ],
                     ),
-                  ),
-                  // Message
-                  Center(
-                    child: Text('Message'),
                   ),
                   // Hired
                   Center(

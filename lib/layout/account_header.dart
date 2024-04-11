@@ -36,7 +36,7 @@ class AccountHeader extends StatelessWidget {
                 fontSize: 24,
               ),
             ),
-            if (!ModalRoute.of(context)!.settings.name!.contains('account'))
+            if (!ModalRoute.of(context)!.settings.name!.contains('/account'))
               IconButton(
                 icon: const Icon(
                   Icons.person,
