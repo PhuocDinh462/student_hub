@@ -36,14 +36,15 @@ class AccountHeader extends StatelessWidget {
                 fontSize: 24,
               ),
             ),
-            IconButton(
-              icon: const Icon(
-                Icons.person,
-                size: 32,
-                color: text_50,
+            if (!ModalRoute.of(context)!.settings.name!.contains('account'))
+              IconButton(
+                icon: const Icon(
+                  Icons.person,
+                  size: 32,
+                  color: text_50,
+                ),
+                onPressed: () => Navigator.pushNamed(context, '/account'),
               ),
-              onPressed: () => Navigator.pushNamed(context, '/account'),
-            ),
           ],
         ),
       ),
