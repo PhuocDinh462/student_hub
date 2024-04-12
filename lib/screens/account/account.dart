@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/models/user.dart';
+import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/routes.dart';
 import 'package:student_hub/screens/account/widgets/user_item.dart';
 import 'package:gap/gap.dart';
@@ -12,6 +14,7 @@ class Account extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider user = Provider.of<UserProvider>(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -29,40 +32,55 @@ class Account extends StatelessWidget {
                 horizontalTitleGap: 10,
                 minLeadingWidth: 0,
                 child: ExpansionTile(
-                  leading: const Icon(Icons.school_outlined, size: 46),
+                  leading: Icon(
+                      user.currentUser!.currentRole == Role.student
+                          ? Icons.school_outlined
+                          : Icons.business,
+                      size: 46),
                   title: Text(
-                    'Hai Pham',
+                    user.currentUser?.fullname ?? '',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   subtitle: Text(
-                    AppLocalizations.of(context)!.user('student'),
+                    AppLocalizations.of(context)!.user(
+                        user.currentUser!.currentRole == Role.student
+                            ? 'student'
+                            : 'company'),
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                           fontStyle: FontStyle.italic,
                         ),
                   ),
-                  children: const <Widget>[
-                    Gap(5),
+                  children: <Widget>[
+                    const Gap(5),
                     Row(
                       children: [
-                        Gap(30),
+                        const Gap(30),
                         UserItem(
-                            username: 'Hai Pham', userType: UserType.company),
+                            username: user.currentUser?.fullname ?? '',
+                            userType: UserType.company),
                       ],
                     ),
-                    // GestureDetector(
-                    //   onTap: () {},
-                    //   child: Container(
-                    //     color: Colors.transparent,
-                    //     child: const Row(
-                    //       children: [
-                    //         Gap(30),
-                    //         Icon(Icons.add_circle_outline_outlined, size: 28),
-                    //         Gap(8),
-                    //         Text('Add profile'),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
+                    if (user.currentUser!.roles.length < 2)
+                      GestureDetector(
+                        onTap: () {
+                          if (user.currentUser!.currentRole == Role.student) {
+                            Get.toNamed(CompanyRoutes.profileCompany);
+                          } else {
+                            Get.toNamed(StudentRoutes.profileStudentStepOne);
+                          }
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          child: const Row(
+                            children: [
+                              Gap(30),
+                              Icon(Icons.add_circle_outline_outlined, size: 28),
+                              Gap(8),
+                              Text('Add profile'),
+                            ],
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -116,7 +134,9 @@ class Account extends StatelessWidget {
               color: text_400,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(StudentRoutes.changePassword);
+              },
               child: Container(
                 color: Colors.transparent,
                 child: Row(

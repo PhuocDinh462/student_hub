@@ -51,8 +51,6 @@ class _ProfileStudentStepThreeState extends State<ProfileStudentStepThree> {
                               textAlign: TextAlign.center,
                             ),
                             const Gap(10),
-                            // ButtonIconRetangle(
-                            //     icon: Icons.arrow_back_ios, onPressed: () {}),
                             DisplayText(
                               text:
                                   'Tell us about your self and you will be on your way connect with real-world project.',
