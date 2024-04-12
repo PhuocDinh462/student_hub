@@ -14,7 +14,7 @@ class Account extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserProvider user = Provider.of<UserProvider>(context);
+    final UserProvider user = Provider.of<UserProvider>(context, listen: true);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -52,14 +52,18 @@ class Account extends StatelessWidget {
                   ),
                   children: <Widget>[
                     const Gap(5),
-                    Row(
-                      children: [
-                        const Gap(30),
-                        UserItem(
-                            username: user.currentUser?.fullname ?? '',
-                            userType: UserType.company),
-                      ],
-                    ),
+                    if (user.currentUser!.roles.contains(
+                        user.currentUser!.currentRole == Role.student
+                            ? Role.company
+                            : Role.student))
+                      Row(
+                        children: [
+                          const Gap(30),
+                          UserItem(
+                              username: user.currentUser?.fullname ?? '',
+                              role: user.currentUser!.currentRole),
+                        ],
+                      ),
                     if (user.currentUser!.roles.length < 2)
                       GestureDetector(
                         onTap: () {
