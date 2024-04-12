@@ -25,17 +25,17 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
   Future<void> fetchFavoriteProject(UserProvider userProvider) async {
     context.loaderOverlay.show();
 
-    // final listResponse = await projectService
-    //     .getFavoriteProjects(userProvider.currentUser!.studentId!);
-    final dio = Dio();
-    Map<String, dynamic> headers = {
-      'Authorization': 'Bearer ${userProvider.currentUser?.token}',
-    };
-    final response = await dio.get(
-      '$apiServer/favoriteProject/${userProvider.currentUser?.studentId}',
-      options: Options(headers: headers),
-    );
-    final listResponse = response.data['result'];
+    final listResponse = await projectService
+        .getFavoriteProjects(userProvider.currentUser!.studentId!);
+    // final dio = Dio();
+    // Map<String, dynamic> headers = {
+    //   'Authorization': 'Bearer ${userProvider.currentUser?.token}',
+    // };
+    // final response = await dio.get(
+    //   '$apiServer/favoriteProject/${userProvider.currentUser?.studentId}',
+    //   options: Options(headers: headers),
+    // );
+    // final listResponse = response.data['result'];
     final List<Project> fetchProjects = listResponse
         .cast<Map<String, dynamic>>()
         .where((projectData) => projectData['deletedAt'] == null)

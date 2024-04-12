@@ -31,14 +31,15 @@ class _ProjectsState extends State<Projects> {
   final dio = Dio();
 
   Future<void> fetchProject(UserProvider userProvider) async {
-    Map<String, dynamic> headers = {
-      'Authorization': 'Bearer ${userProvider.currentUser?.token}',
-    };
-    final response = await dio.get(
-      '$apiServer/project',
-      options: Options(headers: headers),
-    );
-    final listResponse = response.data['result'];
+    // Map<String, dynamic> headers = {
+    //   'Authorization': 'Bearer ${userProvider.currentUser?.token}',
+    // };
+    // final response = await dio.get(
+    //   '$apiServer/project',
+    //   options: Options(headers: headers),
+    // );
+    // final listResponse = response.data['result'];
+    final listResponse = await projectService.getProjects();
     final List<Project> fetchProjects = listResponse
         .cast<Map<String, dynamic>>()
         .where((projectData) => projectData['deletedAt'] == null)
@@ -78,15 +79,16 @@ class _ProjectsState extends State<Projects> {
             (projectScopeFlag == 0))
           'projectScopeFlag': projectScopeFlag,
       };
-      Map<String, dynamic> headers = {
-        'Authorization': 'Bearer ${provider.currentUser?.token}',
-      };
-      final response = await dio.get(
-        '$apiServer/project',
-        queryParameters: queries,
-        options: Options(headers: headers),
-      );
-      final listResponse = response.data['result'];
+      // Map<String, dynamic> headers = {
+      //   'Authorization': 'Bearer ${provider.currentUser?.token}',
+      // };
+      // final response = await dio.get(
+      //   '$apiServer/project',
+      //   queryParameters: queries,
+      //   options: Options(headers: headers),
+      // );
+      // final listResponse = response.data['result'];
+      final listResponse = await projectService.filterProject(queries);
       List<Project> fetchProjects = listResponse
           .cast<Map<String, dynamic>>()
           .where((projectData) => projectData['deletedAt'] == null)

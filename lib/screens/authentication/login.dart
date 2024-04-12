@@ -86,7 +86,6 @@ class _LoginState extends State<Login> {
               token: token,
             );
             userProvider.setCurrentUser(currentUser);
-            print(currentUser.currentRole);
             if (currentUser.currentRole == Role.student) {
               studentNavigate();
             } else if (currentUser.currentRole == Role.company) {
