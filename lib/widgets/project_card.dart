@@ -48,13 +48,18 @@ class _ProjectCardState extends State<ProjectCard> {
 
     studentsNeeded = project.requiredStudents;
     projectDescription = project.description;
-    proposalsCount = project.proposals;
+    proposalsCount = project.countProposals;
     isFavorite = project.favorite;
   }
 
   Future<void> updateProjectState(
       UserProvider provider, int projectId, int disableFlag) async {
     try {
+      if (disableFlag == 0) {
+        setState(() {
+          isFavorite = true;
+        });
+      }
       Map<String, dynamic> headers = {
         'Authorization': 'Bearer ${provider.currentUser?.token}',
       };
@@ -67,8 +72,6 @@ class _ProjectCardState extends State<ProjectCard> {
         data: data,
         options: Options(headers: headers),
       );
-      // final response = widget.projectService.updateFavoriteProject(
-      //     projectId, disableFlag, provider.currentUser!.studentId!);
     } catch (e) {
       throw Exception('Failed to update favorite project');
     }
@@ -176,7 +179,10 @@ class _ProjectCardState extends State<ProjectCard> {
                   builder: (ctx) {
                     return SizedBox(
                       height: MediaQuery.of(context).size.height * 0.8,
-                      child: ProjectDetails(project: widget.project),
+                      child: ProjectDetails(
+                        project: widget.project,
+                        updateProjectState: updateProjectState,
+                      ),
                     );
                   });
             },
