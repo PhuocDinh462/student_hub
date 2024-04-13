@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +8,7 @@ import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/providers.dart';
+import 'package:student_hub/utils/snack_bar.dart';
 import 'package:student_hub/widgets/project_detail.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -75,6 +79,11 @@ class _ProjectCardState extends State<ProjectCard> {
       await widget.projectService.updateFavoriteProject(
           provider.currentUser!.studentId!, projectId, disableFlag);
     } catch (e) {
+      MySnackBar.showSnackBar(context, 'Please create your student\'s profile',
+          'Failed', ContentType.failure);
+      setState(() {
+        isFavorite = false;
+      });
       throw Exception('Failed to update favorite project');
     }
   }
