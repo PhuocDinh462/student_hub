@@ -59,9 +59,10 @@ class _LoginState extends State<Login> {
       }
       try {
         final Response response = await authService.signIn(email, password);
-        print(response.data);
+
         final String token = response.data['result']['token'];
         if (response.statusCode == 201) {
+          userProvider.setToken(token);
           try {
             final userInfo = await authService.getMe();
             final companyId =

@@ -30,10 +30,7 @@ class FormEdu extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           CommonTextField(
-            title: '',
-            hintText: 'Enter education',
-            controller: controller,
-          ),
+              title: '', hintText: 'Enter education', controller: controller),
           const Gap(5),
           Row(
             children: [

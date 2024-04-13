@@ -31,8 +31,8 @@ void main() async {
             create: (_) => ProfileCompanyViewModel(
                 profileService: profileService, authService: authService)),
         ChangeNotifierProvider(
-            create: (_) =>
-                ProfileStudentViewModel(profileService: profileService)),
+            create: (_) => ProfileStudentViewModel(
+                profileService: profileService, authService: authService)),
         ChangeNotifierProvider(create: (_) => UserProvider(null)),
       ],
       child: const MyApp(),

@@ -15,12 +15,12 @@ class PickedImage extends StatefulWidget {
       {super.key,
       required this.label,
       required this.ps,
-      this.urlFile,
+      required this.urlFile,
       required this.actionUpdate});
   final String label;
   final ProfileStudentViewModel ps;
   final String? urlFile;
-  final Function(int, File?) actionUpdate;
+  final Function(File?) actionUpdate;
 
   @override
   State<PickedImage> createState() => _PickedImageState();
@@ -36,8 +36,7 @@ class _PickedImageState extends State<PickedImage> {
   @override
   void initState() {
     super.initState();
-
-    if (widget.urlFile != null) {
+    if (widget.urlFile != null && widget.urlFile != '') {
       fileName = Helpers.getFileNameAndExtension(widget.urlFile!)[0];
       extension = Helpers.getFileNameAndExtension(widget.urlFile!)[1];
     }
@@ -51,20 +50,21 @@ class _PickedImageState extends State<PickedImage> {
       setState(() {
         isLoading = true;
       });
-      result = (await FilePicker.platform.pickFiles(
+      result = await FilePicker.platform.pickFiles(
           type: FileType.custom,
-          allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf']))!;
+          allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf']);
       if (result != null) {
         pickedfile = result!.files.first;
         fileToDisplay = File(pickedfile!.path.toString());
+        widget.actionUpdate(fileToDisplay);
 
-        fileName = Helpers.getFileNameAndExtension(widget.urlFile!)[0];
-        extension = Helpers.getFileNameAndExtension(widget.urlFile!)[1];
-
-        widget.actionUpdate(2, fileToDisplay!);
+        fileName =
+            Helpers.getFileNameAndExtension2(result!.files.first.name)[0];
+        extension =
+            Helpers.getFileNameAndExtension2(result!.files.first.name)[1];
       }
     } catch (e) {
-      // print(e);
+      print(e);
     } finally {
       setState(() {
         isLoading = false;
@@ -126,7 +126,7 @@ class _PickedImageState extends State<PickedImage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(
-                                width: deviceSize.width * 0.5,
+                                width: deviceSize.width * 0.6,
                                 child: DisplayText(
                                   text: fileName!,
                                   style: textTheme.labelMedium!,
@@ -139,19 +139,11 @@ class _PickedImageState extends State<PickedImage> {
                                   style: textTheme.labelMedium!,
                                 ),
                               ),
-                              Row(
-                                children: [
-                                  ButtonIconRetangle(
-                                      icon: Icons.change_circle,
-                                      onPressed: () {
-                                        pickFile();
-                                      }),
-                                  const Gap(10),
-                                  ButtonIconRetangle(
-                                      icon: Icons.remove_red_eye_rounded,
-                                      onPressed: () {})
-                                ],
-                              )
+                              ButtonIconRetangle(
+                                  icon: Icons.change_circle,
+                                  onPressed: () {
+                                    pickFile();
+                                  }),
                             ],
                           )),
             ),
