@@ -4,9 +4,10 @@ import 'package:flutter/foundation.dart';
 
 import 'package:student_hub/models/models.dart';
 
-class ProfileStudentModel extends BaseModel {
+class ProfileStudentModel {
   final int userId;
-
+  final String email;
+  final String fullname;
   final String? resume;
   final String? transcript;
   final TechnicalModel techStack;
@@ -17,6 +18,8 @@ class ProfileStudentModel extends BaseModel {
 
   const ProfileStudentModel({
     this.userId = -1,
+    this.email = '',
+    this.fullname = '',
     this.resume = '',
     this.transcript = '',
     this.techStack = const TechnicalModel(),
@@ -24,14 +27,12 @@ class ProfileStudentModel extends BaseModel {
     this.educations = const [],
     this.experiences = const [],
     this.languages = const [],
-    super.id,
-    super.createdAt,
-    super.updatedAt,
-    super.deleteAt,
   });
 
   ProfileStudentModel copyWith({
     int? userId,
+    String? email,
+    String? fullname,
     String? resume,
     String? transcript,
     TechnicalModel? techStack,
@@ -39,13 +40,11 @@ class ProfileStudentModel extends BaseModel {
     List<EducationModel>? educations,
     List<ExperienceModel>? experiences,
     List<LanguageModel>? languages,
-    int? id,
-    String? createdAt,
-    String? updatedAt,
-    String? deleteAt,
   }) {
     return ProfileStudentModel(
       userId: userId ?? this.userId,
+      email: email ?? this.email,
+      fullname: fullname ?? this.fullname,
       resume: resume ?? this.resume,
       transcript: transcript ?? this.transcript,
       techStack: techStack ?? this.techStack,
@@ -53,16 +52,14 @@ class ProfileStudentModel extends BaseModel {
       educations: educations ?? this.educations,
       experiences: experiences ?? this.experiences,
       languages: languages ?? this.languages,
-      id: id ?? this.id,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-      deleteAt: deleteAt ?? this.deleteAt,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'userId': userId,
+      'email': email,
+      'fullname': fullname,
       'resume': resume,
       'transcript': transcript,
       'techStack': techStack.toMap(),
@@ -70,18 +67,16 @@ class ProfileStudentModel extends BaseModel {
       'educations': educations.map((x) => x.toMap()).toList(),
       'experiences': experiences.map((x) => x.toMap()).toList(),
       'languages': languages.map((x) => x.toMap()).toList(),
-      'id': id,
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
-      'deleteAt': deleteAt,
     };
   }
 
   factory ProfileStudentModel.fromMap(Map<String, dynamic> map) {
     return ProfileStudentModel(
       userId: map['userId'] as int,
-      resume: map['resume'] ?? map['resume'] as String?,
-      transcript: map['transcript'] ?? map['transcript'] as String?,
+      email: map['email'] as String,
+      fullname: map['fullname'] as String,
+      resume: map['resume'] as String?,
+      transcript: map['transcript'] as String?,
       techStack:
           TechnicalModel.fromMap(map['techStack'] as Map<String, dynamic>),
       skillSets: List<TechnicalModel>.from(
@@ -104,10 +99,6 @@ class ProfileStudentModel extends BaseModel {
           (x) => LanguageModel.fromMap(x as Map<String, dynamic>),
         ),
       ),
-      id: map['id'] as int,
-      createdAt: map['createdAt'] as String,
-      updatedAt: map['updatedAt'] as String,
-      deleteAt: map['deleteAt'] ?? map['deleteAt'] as String?,
     );
   }
 
@@ -118,18 +109,16 @@ class ProfileStudentModel extends BaseModel {
 
   @override
   String toString() {
-    return 'ProfileStudentModel(userId: $userId, resume: $resume, transcript: $transcript, techStack: $techStack, skillSets: $skillSets, educations: $educations, experiences: $experiences, languages: $languages)';
+    return 'ProfileStudentModel(userId: $userId, email: $email, fullname: $fullname, resume: $resume, transcript: $transcript, techStack: $techStack, skillSets: $skillSets, educations: $educations, experiences: $experiences, languages: $languages)';
   }
 
   @override
   bool operator ==(covariant ProfileStudentModel other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
-        other.createdAt == createdAt &&
-        other.updatedAt == updatedAt &&
-        other.deleteAt == deleteAt &&
-        other.userId == userId &&
+    return other.userId == userId &&
+        other.email == email &&
+        other.fullname == fullname &&
         other.resume == resume &&
         other.transcript == transcript &&
         other.techStack == techStack &&
@@ -141,11 +130,9 @@ class ProfileStudentModel extends BaseModel {
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        createdAt.hashCode ^
-        updatedAt.hashCode ^
-        deleteAt.hashCode ^
-        userId.hashCode ^
+    return userId.hashCode ^
+        email.hashCode ^
+        fullname.hashCode ^
         resume.hashCode ^
         transcript.hashCode ^
         techStack.hashCode ^

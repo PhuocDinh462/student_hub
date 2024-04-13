@@ -15,8 +15,6 @@ class Account extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserProvider user = Provider.of<UserProvider>(context, listen: true);
-
-    print(user.currentUser);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -63,24 +61,16 @@ class Account extends StatelessWidget {
                           const Gap(30),
                           UserItem(
                               username: user.currentUser?.fullname ?? '',
-                              role:
-                                  user.currentUser!.currentRole == Role.student
-                                      ? Role.company
-                                      : Role.student,
-                              actionChangeRole: (role) {
-                                user.setCurrentUser(user.currentUser!.copyWith(
-                                  currentRole: role,
-                                ));
-                              })
+                              role: user.currentUser!.currentRole),
                         ],
                       ),
                     if (user.currentUser!.roles.length < 2)
                       GestureDetector(
                         onTap: () {
                           if (user.currentUser!.currentRole == Role.student) {
-                            Get.toNamed(StudentRoutes.profileCompany);
+                            Get.toNamed(CompanyRoutes.profileCompany);
                           } else {
-                            Get.toNamed(CompanyRoutes.profileStudentStepOne);
+                            Get.toNamed(StudentRoutes.profileStudentStepOne);
                           }
                         },
                         child: Container(
@@ -104,13 +94,7 @@ class Account extends StatelessWidget {
 
             // Others setting
             GestureDetector(
-              onTap: () {
-                if (user.currentUser!.currentRole == Role.company) {
-                  Get.toNamed(StudentRoutes.profileCompany);
-                } else {
-                  Get.toNamed(CompanyRoutes.profileStudentStepOne);
-                }
-              },
+              onTap: () => Get.toNamed(CompanyRoutes.profileCompany),
               child: Container(
                 color: Colors.transparent,
                 child: Row(

@@ -7,17 +7,14 @@ import 'package:student_hub/models/models.dart';
 
 class ProfileStudentViewModel extends ChangeNotifier {
   final ProfileService profileService;
-  final AuthService authService;
 
   ProfileStudentViewModel({
     required this.profileService,
-    required this.authService,
   });
 
   bool _loading = false;
   bool _isChange = false;
   String _errorMessage = '';
-
   ProfileStudentModel _student = const ProfileStudentModel();
   List<TechnicalModel> _listTechStack = [];
   List<TechnicalModel> _listSkillset = [];
@@ -204,22 +201,28 @@ class ProfileStudentViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchProfileStudent() async {
+  Future<void> fetchProfileStudent(int? studentId) async {
+    if (studentId == null) {
+      _student = const ProfileStudentModel();
+      _isChange = false;
+      notifyListeners();
+      return;
+    }
     _loading = true;
     _errorMessage = '';
     notifyListeners();
 
     try {
-      Map<String, dynamic> data = await authService.getMe();
+      Map<String, dynamic> data =
+          await profileService.getProfileStudent(studentId);
 
-      String? studentJson = jsonEncode(data['student']);
+      String studentJson = jsonEncode(data);
 
       _student = ProfileStudentModel.fromJson(studentJson);
     } catch (e) {
       _errorMessage = 'Failed to fetch student profile';
     } finally {
       _loading = false;
-      _isChange = false;
       notifyListeners();
     }
   }
@@ -270,11 +273,10 @@ class ProfileStudentViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> updateProfileStudent() async {
+  Future<void> updateProfileStudent(int? userId) async {
     _isChange = false;
-    if (_student.id == -1) {
+    if (userId == null) {
       createProfileStudent();
-      notifyListeners();
       return;
     }
     _loading = true;
@@ -283,7 +285,7 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
     try {
       Map<String, dynamic> data = await profileService.updateProfileStudent(
-          _student.id, student.techStack, student.skillSets);
+          userId, student.techStack, student.skillSets);
       String studentJson = jsonEncode(data);
 
       ProfileStudentModel res = ProfileStudentModel.fromJson(studentJson);
@@ -298,19 +300,13 @@ class ProfileStudentViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> updateLanguageStudent() async {
-    if (_student.id == -1) {
-      notifyListeners();
-      return;
-    }
-
+  Future<void> updateLanguageStudent(int studentId) async {
     _loading = true;
     _errorMessage = '';
     notifyListeners();
 
     try {
-      await profileService.updateLanguageStudent(
-          _student.id, student.languages);
+      await profileService.updateLanguageStudent(studentId, student.languages);
     } catch (e) {
       _errorMessage = 'Update language failed';
     } finally {
@@ -319,19 +315,14 @@ class ProfileStudentViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> updateEducationStudent() async {
-    if (_student.id == -1) {
-      notifyListeners();
-      return;
-    }
-
+  Future<void> updateEducationStudent(int studentId) async {
     _loading = true;
     _errorMessage = '';
     notifyListeners();
 
     try {
       await profileService.updateEducationStudent(
-          _student.id, student.educations);
+          studentId, student.educations);
     } catch (e) {
       _errorMessage = 'Failed to fetch company profile';
     } finally {
@@ -340,18 +331,14 @@ class ProfileStudentViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> updateExperienceStudent() async {
-    if (_student.id == -1) {
-      notifyListeners();
-      return;
-    }
+  Future<void> updateExperienceStudent(int studentId) async {
     _loading = true;
     _errorMessage = '';
     notifyListeners();
 
     try {
       await profileService.updateExperienceStudent(
-          _student.id, student.experiences);
+          studentId, student.experiences);
     } catch (e) {
       _errorMessage = 'Failed to fetch company profile';
     } finally {
@@ -360,17 +347,14 @@ class ProfileStudentViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> updateResumeStudent(File file) async {
-    if (_student.id == -1) {
-      notifyListeners();
-      return;
-    }
+  Future<void> updateResumeStudent(int studentId, File file) async {
     _loading = true;
     _errorMessage = '';
     notifyListeners();
+
     try {
       Map<String, dynamic> data =
-          await profileService.updateResumeStudent(_student.id, file);
+          await profileService.updateResumeStudent(studentId, file);
 
       String studentJson = jsonEncode(data);
       ProfileStudentModel res = ProfileStudentModel.fromJson(studentJson);
@@ -384,18 +368,14 @@ class ProfileStudentViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> updateTranscriptStudent(File file) async {
-    if (_student.id == -1) {
-      notifyListeners();
-      return;
-    }
+  Future<void> updateTranscriptStudent(int studentId, File file) async {
     _loading = true;
     _errorMessage = '';
     notifyListeners();
 
     try {
       Map<String, dynamic> data =
-          await profileService.updateTranscriptStudent(_student.id, file);
+          await profileService.updateTranscriptStudent(studentId, file);
 
       String studentJson = jsonEncode(data);
       ProfileStudentModel res = ProfileStudentModel.fromJson(studentJson);
