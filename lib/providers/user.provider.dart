@@ -22,10 +22,11 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setToken(String token) async {
+  void removeCurrentUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', token);
-
+    await prefs.remove('role');
+    await prefs.remove('token');
+    _currentUser = null;
     notifyListeners();
   }
 }

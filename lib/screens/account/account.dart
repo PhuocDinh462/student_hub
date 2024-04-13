@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -17,6 +19,11 @@ class Account extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserProvider user = Provider.of<UserProvider>(context, listen: true);
+    final AuthService authService = AuthService();
+
+    void logout() async {
+      await authService.logout(user.currentUser!.token, user);
+    }
 
     return Scaffold(
       body: Container(
@@ -179,7 +186,7 @@ class Account extends StatelessWidget {
               color: text_400,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: logout,
               child: Container(
                 color: Colors.transparent,
                 child: Row(
