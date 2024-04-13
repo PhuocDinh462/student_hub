@@ -18,6 +18,7 @@ class AccountHeader extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       appBar: AppBar(
+        automaticallyImplyLeading: ModalRoute.of(context)?.isFirst ?? true,
         backgroundColor: Theme.of(context).colorScheme.surfaceTint,
         leading: ModalRoute.of(context)!.settings.name != '/'
             ? IconButton(

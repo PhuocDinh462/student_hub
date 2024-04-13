@@ -10,6 +10,8 @@ class StudentRoutes {
   static const String nav = '/';
   static const String changePassword = '/profile/change_password';
   static const String dashboardStudent = '/dashboard-student';
+  static const String welcomeCompany = '/welcome-company';
+  static const String profileCompany = '/account-company/profile';
   static const String profileStudentStepOne = '/account-student/profile-1';
   static const String profileStudentStepTwo =
       '/account-student/profile-1/profile-2';
@@ -26,21 +28,31 @@ class StudentRoutes {
   static const String languages = '/account/settings/languages';
 
   static Map<String, WidgetBuilder> routes = {
-    nav: (context) => const AccountHeader(
-          title: 'Student Hub',
-          body: Navigation(),
-          resizeToAvoidBottomInset: false,
-        ),
+    nav: (context) {
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+      final index = int.parse(args?['index'] as String? ?? '0');
+
+      return AccountHeader(
+        title: 'Student Hub',
+        body: Navigation(currentScreenIndex: index),
+        resizeToAvoidBottomInset: false,
+      );
+    },
     changePassword: (context) =>
         const AccountHeader(title: 'Student Hub', body: ChangePassword()),
     dashboardStudent: (context) =>
         const AccountHeader(title: 'Student Hub', body: DashboardStudent()),
-    profileStudentStepOne: (context) => const AccountHeader(
-        title: 'Student Hub', body: ProfileStudentStepOne()),
-    profileStudentStepTwo: (context) => const AccountHeader(
-        title: 'Student Hub', body: ProfileStudentStepTwo()),
-    profileStudentStepThree: (context) => const AccountHeader(
-        title: 'Student Hub', body: ProfileStudentStepThree()),
+    welcomeCompany: (context) =>
+        const AccountHeader(title: 'Welcome', body: WelcomeCompany()),
+    profileCompany: (context) =>
+        const AccountHeader(title: 'Profile', body: ProfileCompanyInput()),
+    profileStudentStepOne: (context) =>
+        const AccountHeader(title: 'Profile', body: ProfileStudentStepOne()),
+    profileStudentStepTwo: (context) =>
+        const AccountHeader(title: 'Profile', body: ProfileStudentStepTwo()),
+    profileStudentStepThree: (context) =>
+        const AccountHeader(title: 'Profile', body: ProfileStudentStepThree()),
     projectsSaved: (context) =>
         const AccountHeader(title: 'Saved Projects', body: ProjectsSaved()),
     projects: (context) =>

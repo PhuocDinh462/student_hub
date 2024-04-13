@@ -1,11 +1,13 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
-import 'package:student_hub/routes/student_routes.dart';
+import 'package:student_hub/providers/providers.dart';
+import 'package:student_hub/routes/routes.dart';
 import 'package:student_hub/screens/profile/student/components/components.dart';
 import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/utils/extensions.dart';
@@ -41,6 +43,19 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
   final TextEditingController _eduController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final profileStudent =
+          Provider.of<ProfileStudentViewModel>(context, listen: false);
+
+      profileStudent.fetchProfileStudent();
+      profileStudent.fetchTechnicalData();
+    });
+  }
+
+  @override
   void dispose() {
     _titleController.dispose();
     _languageController.dispose();
@@ -49,8 +64,6 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
     _popupLanguageKey.currentState?.dispose();
     super.dispose();
   }
-
-  final int idStudent = 2;
 
   void onSelectTechStack(int value) {
     final profileStudentViewModel =
@@ -80,7 +93,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
         level: _popupLanguageKey.currentState!.getSelectedItem!);
 
     ps.addLanguage(newLang);
-    ps.updateLanguageStudent(idStudent);
+    ps.updateLanguageStudent();
   }
 
   void handleSaveLanguage(
@@ -92,7 +105,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
         level: _popupLanguageKey.currentState!.getSelectedItem!);
 
     ps.setLanguageById(id, newLang);
-    ps.updateLanguageStudent(idStudent);
+    ps.updateLanguageStudent();
   }
 
   void handleDeleteLanguage(
@@ -108,7 +121,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
           .where((element) => !itemsLangChecked.contains(element.id))
           .toList());
     }
-    ps.updateLanguageStudent(idStudent);
+    ps.updateLanguageStudent();
   }
 
   void eventUpdateItemsLangChecked(int id, bool value) {
@@ -141,7 +154,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
     );
 
     ps.addEducation(newEdu);
-    ps.updateEducationStudent(idStudent);
+    ps.updateEducationStudent();
 
     setState(() {
       eduAdd = false;
@@ -159,7 +172,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
     );
 
     ps.setEduById(id, newEdu);
-    ps.updateEducationStudent(idStudent);
+    ps.updateEducationStudent();
     ps.setEditLanguageById(id, false);
   }
 
@@ -211,19 +224,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
           .where((element) => !itemsEduChecked.contains(element.id))
           .toList());
     }
-    ps.updateEducationStudent(idStudent);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final profileStudent =
-          Provider.of<ProfileStudentViewModel>(context, listen: false);
-      profileStudent.fetchProfileStudent(idStudent);
-      profileStudent.fetchTechnicalData();
-    });
+    ps.updateEducationStudent();
   }
 
   @override
@@ -231,6 +232,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
     final textTheme = Theme.of(context).textTheme;
     final deviceSize = context.deviceSize;
     final colorScheme = Theme.of(context).colorScheme;
+    UserProvider user = Provider.of<UserProvider>(context, listen: false);
 
     return Scaffold(
         backgroundColor: colorScheme.onPrimary,
@@ -296,8 +298,13 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                   ]),
                   child: ElevatedButton(
                       style: buttonPrimary,
-                      onPressed: () => Navigator.pushNamed(
-                          context, StudentRoutes.profileStudentStepTwo),
+                      onPressed: () {
+                        if (user.currentUser!.currentRole == Role.student) {
+                          Get.toNamed(StudentRoutes.profileStudentStepTwo);
+                        } else {
+                          Get.toNamed(CompanyRoutes.profileStudentStepTwo);
+                        }
+                      },
                       child: DisplayText(
                         text: 'Next',
                         style: textTheme.labelLarge!.copyWith(
@@ -772,8 +779,9 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
               children: [
                 ElevatedButton(
                     style: buttonSecondary,
-                    onPressed: () =>
-                        {profileStudentModel.fetchProfileStudent(idStudent)},
+                    onPressed: () {
+                      profileStudentModel.fetchProfileStudent();
+                    },
                     child: DisplayText(
                       text: 'Cancel',
                       style: textTheme.labelLarge!.copyWith(
@@ -783,8 +791,9 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                 const Gap(15),
                 ElevatedButton(
                     style: buttonPrimary,
-                    onPressed: () =>
-                        {profileStudentModel.updateProfileStudent(idStudent)},
+                    onPressed: () {
+                      profileStudentModel.updateProfileStudent();
+                    },
                     child: DisplayText(
                       text: 'Save',
                       style: textTheme.labelLarge!.copyWith(
