@@ -79,7 +79,7 @@ class MessageItem extends StatelessWidget {
                 Row(
                   children: [
                     SizedBox(
-                      width: deviceSize.width * 0.6,
+                      width: deviceSize.width * 0.55,
                       child: DisplayText(
                         text:
                             'Clear expectation about your project or deliverables',
