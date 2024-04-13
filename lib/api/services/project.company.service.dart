@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:student_hub/api/base.api.dart';
+import 'package:student_hub/models/project.dart';
 
 class ProjectService extends BaseApi {
   ProjectService();
@@ -18,17 +19,16 @@ class ProjectService extends BaseApi {
     });
   }
 
-  Future<dynamic> getProject(companyId) async {
-    await dio
-        .get(
-      '/project/company/$companyId',
-    )
-        .then((value) {
-      return value.data;
-    }).catchError((e) {
+  Future<List<Project>> getProject(companyId) async {
+    try {
+      var response = await dio.get('/project/company/$companyId');
+      return (response.data['result'] as List)
+          .map<Project>((item) => Project.fromMap(item))
+          .toList();
+    } catch (e) {
       printError(info: 'Get project error: $e');
       throw Exception(e);
-    });
+    }
   }
 
   Future<dynamic> removeProject(projectId) async {

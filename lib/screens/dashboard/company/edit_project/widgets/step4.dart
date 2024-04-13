@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
-import 'package:student_hub/api/services/project.services.dart';
+import 'package:student_hub/api/services/project.company.service.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/providers.dart';
@@ -21,21 +21,22 @@ class Step4 extends StatelessWidget {
 
     void editProject() async {
       context.loaderOverlay.show();
-      await projectService.editProject(projectProvider.getCurrentProject!.id, {
-        'projectScopeFlag': projectProvider.getProjectScope.index,
-        'title': projectProvider.getTitle,
-        'description': projectProvider.getDescription,
-        'typeFlag': 0,
-        'numberOfStudents': projectProvider.getNumOfStudents,
-      }).then((value) {
-        Project project = Project.fromMap(value.data['result']);
-        projectProvider.addProject(project);
-      }).catchError((e) {
-        throw Exception(e);
-      }).whenComplete(() {
-        context.loaderOverlay.hide();
-        Navigator.of(context).pop();
-      });
+      await projectService
+          .editProject(projectProvider.getCurrentProject!.id, {
+            'projectScopeFlag': projectProvider.getProjectScope.index,
+            'title': projectProvider.getTitle,
+            'description': projectProvider.getDescription,
+            'typeFlag': 0,
+            'numberOfStudents': projectProvider.getNumOfStudents,
+          })
+          .then((value) {})
+          .catchError((e) {
+            throw Exception(e);
+          })
+          .whenComplete(() {
+            context.loaderOverlay.hide();
+            Navigator.of(context).pop();
+          });
     }
 
     return Column(

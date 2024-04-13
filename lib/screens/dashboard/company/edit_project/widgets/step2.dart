@@ -45,6 +45,17 @@ class Step2 extends StatelessWidget {
               Row(
                 children: [
                   Radio(
+                    value: ProjectScopeFlag.lessThanOneMonth,
+                    groupValue: projectProvider.getProjectScope,
+                    onChanged: (value) =>
+                        projectProvider.setProjectScope = value!,
+                  ),
+                  const Text('Less than 1 month'),
+                ],
+              ),
+              Row(
+                children: [
+                  Radio(
                     value: ProjectScopeFlag.oneToThreeMonth,
                     groupValue: projectProvider.getProjectScope,
                     onChanged: (value) =>
@@ -62,6 +73,17 @@ class Step2 extends StatelessWidget {
                         projectProvider.setProjectScope = value!,
                   ),
                   const Text('3 to 6 months'),
+                ],
+              ),
+              Row(
+                children: [
+                  Radio(
+                    value: ProjectScopeFlag.moreThanSixMonth,
+                    groupValue: projectProvider.getProjectScope,
+                    onChanged: (value) =>
+                        projectProvider.setProjectScope = value!,
+                  ),
+                  const Text('More than 6 months'),
                 ],
               ),
             ],

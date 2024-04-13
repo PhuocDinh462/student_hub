@@ -25,7 +25,7 @@ ThemeMode themeModeFromString(String theme) {
     case 'ThemeMode.dark':
       return ThemeMode.dark;
     default:
-      return ThemeMode.system;
+      return ThemeMode.light;
   }
 }
 

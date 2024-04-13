@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:student_hub/api/api.dart';
 
 class AuthService extends BaseApi {
@@ -46,5 +47,21 @@ class AuthService extends BaseApi {
       // print(e);
       throw Exception('Failed to fetch users');
     }
+  }
+
+  Future<dynamic> logout(String token) async {
+    await dio.post(
+      '/auth/logout',
+      queryParameters: {
+        'authorization': token,
+      },
+    ).then((value) {
+      return value.data;
+    }).catchError((e) {
+      if (kDebugMode) {
+        print('Logout error: $e');
+      }
+      throw Exception(e);
+    });
   }
 }

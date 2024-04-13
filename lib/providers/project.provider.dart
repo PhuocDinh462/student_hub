@@ -11,7 +11,7 @@ class ProjectProvider with ChangeNotifier {
 
   ProjectProvider() {
     _title = '';
-    _projectScope = ProjectScopeFlag.oneToThreeMonth;
+    _projectScope = ProjectScopeFlag.lessThanOneMonth;
     _numOfStudents = 1;
     _description = '';
     _projectList = [];

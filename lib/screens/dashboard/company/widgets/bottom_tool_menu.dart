@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
-import 'package:student_hub/api/services/project.services.dart';
+import 'package:student_hub/api/services/project.company.service.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/routes/company_route.dart';
 
@@ -18,7 +19,7 @@ class BottomToolMenu extends StatelessWidget {
 
     final ProjectService projectService = ProjectService();
 
-    void removeJob() async {
+    void removeProject() async {
       // context.loaderOverlay.show();
       await projectService
           .removeProject(projectProvider.getCurrentProject!.id)
@@ -29,6 +30,24 @@ class BottomToolMenu extends StatelessWidget {
       }).whenComplete(() {
         context.loaderOverlay.hide();
       });
+    }
+
+    void updateProjectTypeFlag(TypeFlag typeFlag) async {
+      // context.loaderOverlay.show();
+      await projectService
+          .editProject(projectProvider.getCurrentProject!.id, {
+            'title': projectProvider.getCurrentProject!.title,
+            'typeFlag': typeFlag.index,
+            'numberOfStudents':
+                projectProvider.getCurrentProject!.requiredStudents,
+          })
+          .then((value) {})
+          .catchError((e) {
+            throw Exception(e);
+          })
+          .whenComplete(() {
+            context.loaderOverlay.hide();
+          });
     }
 
     return Container(
@@ -136,7 +155,7 @@ class BottomToolMenu extends StatelessWidget {
                       TextButton(
                         onPressed: () {
                           Navigator.pop(context);
-                          removeJob();
+                          removeProject();
                         },
                         child: const Text('Yes'),
                       ),
@@ -178,40 +197,85 @@ class BottomToolMenu extends StatelessWidget {
           const Divider(height: 30, thickness: .5, color: text_600),
 
           // Start
-          GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Container(
-              color: Colors.transparent,
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.start_outlined,
-                    size: 32,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  const Gap(15),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Start',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const Gap(3),
-                      Text(
-                        'Start working this project',
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                              fontStyle: FontStyle.italic,
+          projectProvider.getCurrentProject!.typeFlag == TypeFlag.archieved
+              ? GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    updateProjectTypeFlag(TypeFlag.working);
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.start_outlined,
+                          size: 32,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        const Gap(15),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Start',
+                              style: Theme.of(context).textTheme.titleLarge,
                             ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
+                            const Gap(3),
+                            Text(
+                              'Start working this project',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall
+                                  ?.copyWith(
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                )
+
+              // Closed
+              : GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    updateProjectTypeFlag(TypeFlag.archieved);
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.close_rounded,
+                          size: 32,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        const Gap(15),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Close',
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            const Gap(3),
+                            Text(
+                              'Close this project',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall
+                                  ?.copyWith(
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
         ],
       ),
     );

@@ -51,7 +51,7 @@ class Project {
       completionTime: ProjectScopeFlag.values[map['projectScopeFlag']],
       requiredStudents: map['numberOfStudents'],
       description: map['description'],
-      proposals: map['proposals'],
+      proposals: [],
       favorite: false,
       countProposals: map['countProposals'],
       countMessages: map['countMessages'] ?? 0,
@@ -100,5 +100,18 @@ class Project {
           ? TypeFlag.values[map['typeFlag']]
           : TypeFlag.working,
     );
+  }
+
+  String completionTimeString() {
+    switch (completionTime) {
+      case ProjectScopeFlag.lessThanOneMonth:
+        return 'Less than 1 month';
+      case ProjectScopeFlag.oneToThreeMonth:
+        return '1 to 3 months';
+      case ProjectScopeFlag.threeToSixMonth:
+        return '3 to 6 months';
+      case ProjectScopeFlag.moreThanSixMonth:
+        return 'More than 6 months';
+    }
   }
 }

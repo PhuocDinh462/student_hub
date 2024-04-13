@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:student_hub/api/api.dart';
 import 'package:student_hub/models/user.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/routes.dart';
@@ -16,7 +18,6 @@ class Account extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserProvider user = Provider.of<UserProvider>(context, listen: true);
 
-    print(user.currentUser);
     return Scaffold(
       body: Container(
         width: double.infinity,

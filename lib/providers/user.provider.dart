@@ -16,7 +16,7 @@ class UserProvider with ChangeNotifier {
   // Setter cho currentUser
   void setCurrentUser(User user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', user.token);
+    // await prefs.setString('token', user.token);
     await prefs.setInt('role', user.currentRole.index);
     _currentUser = user;
     notifyListeners();
