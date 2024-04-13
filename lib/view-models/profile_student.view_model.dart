@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:student_hub/api/api.dart';
@@ -65,8 +66,12 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
   void setLanguageById(int idLang, LanguageModel value) {
     _student = _student.copyWith(
-        languages:
-            _student.languages.map((e) => e.id == idLang ? value : e).toList());
+        languages: _student.languages
+            .map((e) => e.id == idLang
+                ? e.copyWith(
+                    languageName: value.languageName, level: value.level)
+                : e)
+            .toList());
     notifyListeners();
   }
 
@@ -112,8 +117,15 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
   void setEduById(int idEdu, EducationModel value) {
     _student = _student.copyWith(
-        educations:
-            _student.educations.map((e) => e.id == idEdu ? value : e).toList());
+        educations: _student.educations
+            .map((e) => e.id == idEdu
+                ? e.copyWith(
+                    schoolName: value.schoolName,
+                    startYear: value.startYear,
+                    endYear: value.endYear,
+                  )
+                : e)
+            .toList());
     notifyListeners();
   }
 
@@ -150,7 +162,23 @@ class ProfileStudentViewModel extends ChangeNotifier {
   }
 
   void addExperience(ExperienceModel value) {
-    _student = _student.copyWith(experiences: [..._student.experiences, value]);
+    _student = _student.copyWith(experiences: [value, ..._student.experiences]);
+    notifyListeners();
+  }
+
+  void setExpById(int idExp, ExperienceModel value) {
+    _student = _student.copyWith(
+        experiences: _student.experiences
+            .map((e) => e.id == idExp
+                ? e.copyWith(
+                    title: value.title,
+                    startMonth: value.startMonth,
+                    endMonth: value.endMonth,
+                    description: value.description,
+                    skillSets: value.skillSets,
+                  )
+                : e)
+            .toList());
     notifyListeners();
   }
 
@@ -158,6 +186,14 @@ class ProfileStudentViewModel extends ChangeNotifier {
     _student = _student.copyWith(experiences: [
       ..._student.experiences.where((element) => element.id != value.id)
     ]);
+    notifyListeners();
+  }
+
+  void setEditExpById(int idExp, bool value) {
+    _student = _student.copyWith(
+        experiences: _student.experiences
+            .map((e) => e.copyWith(isEdit: e.id == idExp ? value : false))
+            .toList());
     notifyListeners();
   }
 
@@ -179,6 +215,7 @@ class ProfileStudentViewModel extends ChangeNotifier {
     try {
       Map<String, dynamic> data =
           await profileService.getProfileStudent(studentId);
+
       String studentJson = jsonEncode(data);
 
       _student = ProfileStudentModel.fromJson(studentJson);
@@ -294,20 +331,56 @@ class ProfileStudentViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> updateExperienceStudent(String studentId) async {
+  Future<void> updateExperienceStudent(int studentId) async {
     _loading = true;
     _errorMessage = '';
     notifyListeners();
 
     try {
-      Map<String, dynamic> data = await profileService.updateExperienceStudent(
+      await profileService.updateExperienceStudent(
           studentId, student.experiences);
-      String experienceJson = jsonEncode(data);
+    } catch (e) {
+      _errorMessage = 'Failed to fetch company profile';
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
 
-      List<ExperienceModel> experience = (jsonDecode(experienceJson) as List)
-          .map((item) => ExperienceModel.fromJson(item))
-          .toList();
-      setExperience(experience);
+  Future<void> updateResumeStudent(int studentId, File file) async {
+    _loading = true;
+    _errorMessage = '';
+    notifyListeners();
+
+    try {
+      Map<String, dynamic> data =
+          await profileService.updateResumeStudent(studentId, file);
+
+      String studentJson = jsonEncode(data);
+      ProfileStudentModel res = ProfileStudentModel.fromJson(studentJson);
+
+      _student = _student.copyWith(resume: res.resume);
+    } catch (e) {
+      _errorMessage = 'Failed to fetch company profile';
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> updateTranscriptStudent(int studentId, File file) async {
+    _loading = true;
+    _errorMessage = '';
+    notifyListeners();
+
+    try {
+      Map<String, dynamic> data =
+          await profileService.updateTranscriptStudent(studentId, file);
+
+      String studentJson = jsonEncode(data);
+      ProfileStudentModel res = ProfileStudentModel.fromJson(studentJson);
+
+      _student = _student.copyWith(transcript: res.transcript);
     } catch (e) {
       _errorMessage = 'Failed to fetch company profile';
     } finally {

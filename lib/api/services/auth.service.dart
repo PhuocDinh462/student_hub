@@ -9,7 +9,7 @@ class AuthService extends BaseApi {
       Response response = await dio.get('/auth/me');
       return response.data['result'];
     } catch (e) {
-      print(e);
+      // print(e);
       throw Exception('Failed to fetch users');
     }
   }
@@ -28,7 +28,7 @@ class AuthService extends BaseApi {
       );
       return response;
     } catch (e) {
-      print(e);
+      // print(e);
       throw Exception('Failed to fetch users');
     }
   }
@@ -44,7 +44,7 @@ class AuthService extends BaseApi {
       );
       return response;
     } catch (e) {
-      print(e);
+      // print(e);
       throw Exception('Failed to fetch users');
     }
   }

@@ -4,29 +4,79 @@ import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/styles/styles.dart';
+import 'package:student_hub/utils/helpers.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/view-models/view_models.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
 class FormExpericence extends StatefulWidget {
-  const FormExpericence({super.key, required this.ps, this.value});
+  const FormExpericence(
+      {super.key, required this.ps, this.value, required this.actionCancel});
   final ProfileStudentViewModel ps;
   final ExperienceModel? value;
+  final Function() actionCancel;
 
   @override
   State<FormExpericence> createState() => _FormExpericenceState();
 }
 
 class _FormExpericenceState extends State<FormExpericence> {
-  DateTime yearStart = DateTime.now();
-  DateTime yearEnd = DateTime.now();
+  DateTime startMonth = DateTime.now();
+  DateTime endMonth = DateTime.now();
+  List<TechnicalModel> skillSets = [];
+
+  int studentId = 2;
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _desctiptionController = TextEditingController();
 
   final _popupSkillSetKey = GlobalKey<DropdownSearchState<TechnicalModel>>();
 
-  final List<TechnicalModel> skillSets = [];
+  void handleDeleteSkillSet(TechnicalModel value) {
+    setState(() {
+      skillSets.remove(value);
+      _popupSkillSetKey.currentState!.changeSelectedItems(skillSets);
+    });
+  }
+
+  void handleCancelSkillSetInModal() {
+    _popupSkillSetKey.currentState!.changeSelectedItems(skillSets);
+    Navigator.pop(_popupSkillSetKey.currentContext!);
+  }
+
+  void handleUpdateSkillSetInModal(List<TechnicalModel> selectedItems) {
+    _popupSkillSetKey.currentState?.popupOnValidate();
+    setState(() {
+      skillSets = selectedItems;
+    });
+  }
+
+  void handleChangeYear(DateTime value, int type) {
+    setState(() {
+      if (type == 1) {
+        startMonth = value;
+      } else {
+        endMonth = value;
+      }
+    });
+  }
+
+  void hanldeSubmitExperience() {
+    final experience = ExperienceModel(
+      title: _titleController.text,
+      description: _desctiptionController.text,
+      startMonth: Helpers.formatDateTimeToMMYYYY(startMonth),
+      endMonth: Helpers.formatDateTimeToMMYYYY(endMonth),
+      skillSets: skillSets,
+    );
+
+    if (widget.value != null) {
+      widget.ps.setExpById(widget.value!.id, experience);
+    } else {
+      widget.ps.addExperience(experience);
+    }
+    widget.ps.updateExperienceStudent(studentId);
+  }
 
   @override
   void initState() {
@@ -34,9 +84,10 @@ class _FormExpericenceState extends State<FormExpericence> {
     if (widget.value != null) {
       _titleController.text = widget.value!.title;
       _desctiptionController.text = widget.value!.description;
-      // yearStart = DateTime(widget.value.endMonth);
-      // yearEnd = widget.value.endDate;
-      skillSets.addAll(widget.value!.skillSets);
+      startMonth = Helpers.formatMMYYYYToDateTime(widget.value!.startMonth);
+      endMonth = Helpers.formatMMYYYYToDateTime(widget.value!.endMonth);
+
+      skillSets = widget.value!.skillSets;
     }
   }
 
@@ -55,6 +106,7 @@ class _FormExpericenceState extends State<FormExpericence> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
+      color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         CommonTextField(
@@ -68,15 +120,19 @@ class _FormExpericenceState extends State<FormExpericence> {
             Expanded(
                 child: SelectMonthYear(
               title: 'Start',
-              actionSelect: (p0) {},
-              pickedDate: DateTime.now(),
+              actionSelect: (p0) {
+                handleChangeYear(p0, 1);
+              },
+              pickedDate: startMonth,
             )),
             const Gap(10),
             Expanded(
                 child: SelectMonthYear(
               title: 'End',
-              actionSelect: (p0) {},
-              pickedDate: DateTime.now(),
+              actionSelect: (p0) {
+                handleChangeYear(p0, 2);
+              },
+              pickedDate: endMonth,
             )),
           ],
         ),
@@ -111,8 +167,7 @@ class _FormExpericenceState extends State<FormExpericence> {
                         label: DisplayText(
                             text: e.name, style: textTheme.labelSmall!),
                         onDeleted: () {
-                          // profileStudentModel.removeSkillset(e);
-                          // profileStudentModel.setIsChange(true);
+                          handleDeleteSkillSet(e);
                         },
                       ),
                     )
@@ -136,8 +191,7 @@ class _FormExpericenceState extends State<FormExpericence> {
                           ElevatedButton(
                               style: buttonSecondary,
                               onPressed: () {
-                                // handleCancelSkillSetInModal(
-                                //     profileStudentModel);
+                                handleCancelSkillSetInModal();
                               },
                               child: DisplayText(
                                 text: 'Cancel',
@@ -149,8 +203,7 @@ class _FormExpericenceState extends State<FormExpericence> {
                           ElevatedButton(
                               style: buttonPrimary,
                               onPressed: () {
-                                // handleUpdateSkillSetInModal(
-                                //     profileStudentModel, selectedItems);
+                                handleUpdateSkillSetInModal(selectedItems);
                               },
                               child: DisplayText(
                                 text: 'Save',
@@ -229,7 +282,7 @@ class _FormExpericenceState extends State<FormExpericence> {
             const Gap(15),
             ElevatedButton(
                 style: buttonSecondary,
-                onPressed: () => {},
+                onPressed: () => {widget.actionCancel()},
                 child: const Icon(
                   Icons.close,
                   color: Colors.white,
@@ -237,7 +290,10 @@ class _FormExpericenceState extends State<FormExpericence> {
             const Gap(15),
             ElevatedButton(
                 style: buttonPrimary,
-                onPressed: () => {},
+                onPressed: () {
+                  hanldeSubmitExperience();
+                  widget.actionCancel();
+                },
                 child: const Icon(
                   Icons.check,
                   color: Colors.white,
