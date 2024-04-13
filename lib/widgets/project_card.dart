@@ -60,18 +60,20 @@ class _ProjectCardState extends State<ProjectCard> {
           isFavorite = true;
         });
       }
-      Map<String, dynamic> headers = {
-        'Authorization': 'Bearer ${provider.currentUser?.token}',
-      };
-      final data = {
-        'projectId': projectId,
-        'disableFlag': disableFlag,
-      };
-      await dio.patch(
-        '$apiServer/favoriteProject/${provider.currentUser!.studentId!}',
-        data: data,
-        options: Options(headers: headers),
-      );
+      // Map<String, dynamic> headers = {
+      //   'Authorization': 'Bearer ${provider.currentUser?.token}',
+      // };
+      // final data = {
+      //   'projectId': projectId,
+      //   'disableFlag': disableFlag,
+      // };
+      // await dio.patch(
+      //   '$apiServer/favoriteProject/${provider.currentUser!.studentId!}',
+      //   data: data,
+      //   options: Options(headers: headers),
+      // );
+      await widget.projectService.updateFavoriteProject(
+          provider.currentUser!.studentId!, projectId, disableFlag);
     } catch (e) {
       throw Exception('Failed to update favorite project');
     }

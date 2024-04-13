@@ -14,20 +14,17 @@ class ProjectService extends BaseApi {
     }
   }
 
-  Future<dynamic> updateFavoriteProject(
+  Future<void> updateFavoriteProject(
       int studentId, int projectId, int disableFlag) async {
-    print(studentId);
-    print(projectId);
-    print(disableFlag);
     try {
-      Response response = await dio.patch(
+      await dio.patch(
         '/favoriteProject/$studentId',
         data: {
           'projectId': projectId,
           'disableFlag': disableFlag,
         },
       );
-      return response;
+      // return response;
     } catch (e) {
       throw Exception('Failed to update favorite project');
     }
@@ -41,6 +38,18 @@ class ProjectService extends BaseApi {
       return response.data['result'];
     } catch (e) {
       throw Exception('Failed to fetch projects');
+    }
+  }
+
+  Future<dynamic> filterProject(Map<String, dynamic> queries) async {
+    try {
+      Response response = await dio.get(
+        '/project',
+        queryParameters: queries,
+      );
+      return response.data['result'];
+    } catch (e) {
+      throw Exception('Failed to fetch project');
     }
   }
 }

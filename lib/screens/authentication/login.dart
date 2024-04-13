@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/user.dart';
@@ -46,6 +47,8 @@ class _LoginState extends State<Login> {
     void signIn() async {
       final String email = emailController.text;
       final String password = passwordController.text;
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+
       FocusScope.of(context).unfocus();
 
       if (email.isEmpty || password.isEmpty) {
@@ -62,6 +65,7 @@ class _LoginState extends State<Login> {
         final String token = response.data['result']['token'];
         if (response.statusCode == 201) {
           try {
+            await prefs.setString('token', token);
             final userInfo = await authService.getMe();
             final companyId =
                 userInfo['company'] != null ? userInfo['company']['id'] : null;
@@ -86,7 +90,6 @@ class _LoginState extends State<Login> {
               token: token,
             );
             userProvider.setCurrentUser(currentUser);
-            print(currentUser.currentRole);
             if (currentUser.currentRole == Role.student) {
               studentNavigate();
             } else if (currentUser.currentRole == Role.company) {

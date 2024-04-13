@@ -18,4 +18,21 @@ class UserService extends BaseApi {
       throw Exception('Failed to fetch users');
     }
   }
+
+  Future<dynamic> changePassword<String>(
+      String oldPassword, String newPassword) async {
+    try {
+      Response response = await dio.put(
+        '/user/changePassword',
+        data: {
+          'oldPassword': oldPassword,
+          'newPassword': newPassword,
+        },
+      );
+      return response;
+    } catch (e) {
+      print(e);
+      throw Exception('Failed to fetch users');
+    }
+  }
 }
