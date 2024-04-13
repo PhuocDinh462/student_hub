@@ -48,6 +48,7 @@ class _LoginState extends State<Login> {
       final String email = emailController.text;
       final String password = passwordController.text;
       final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final dio = Dio();
 
       FocusScope.of(context).unfocus();
 
@@ -61,8 +62,15 @@ class _LoginState extends State<Login> {
         return;
       }
       try {
-        final Response response = await authService.signIn(email, password);
-        print(response.data);
+        // final Response response = await authService.signIn(email, password);
+        final Response response = await dio.post(
+          '$apiServer/auth/sign-in',
+          data: {
+            'email': email,
+            'password': password,
+          },
+        );
+
         final String token = response.data['result']['token'];
         if (response.statusCode == 201) {
           try {

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:student_hub/api/api.dart';
+import 'package:student_hub/providers/providers.dart';
 
 class AuthService extends BaseApi {
   AuthService() : super();
@@ -50,19 +51,15 @@ class AuthService extends BaseApi {
     }
   }
 
-  Future<dynamic> logout(String token) async {
-    await dio.post(
-      '/auth/logout',
-      queryParameters: {
-        'authorization': token,
-      },
-    ).then((value) {
-      return value.data;
-    }).catchError((e) {
-      if (kDebugMode) {
-        print('Logout error: $e');
+  Future<dynamic> logout(String token, UserProvider userProvider) async {
+    try {
+      Response response = await dio.post('/auth/logout');
+      if (response.statusCode == 201) {
+        userProvider.removeCurrentUser();
       }
-      throw Exception(e);
-    });
+      return response;
+    } catch (e) {
+      print(e);
+    }
   }
 }

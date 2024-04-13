@@ -21,4 +21,12 @@ class UserProvider with ChangeNotifier {
     _currentUser = user;
     notifyListeners();
   }
+
+  void removeCurrentUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('role');
+    await prefs.remove('token');
+    _currentUser = null;
+    notifyListeners();
+  }
 }

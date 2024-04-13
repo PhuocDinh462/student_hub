@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -20,16 +22,7 @@ class Account extends StatelessWidget {
     final AuthService authService = AuthService();
 
     void logout() async {
-      context.loaderOverlay.show();
-      await authService
-          .logout(user.currentUser!.token)
-          .then((value) => null)
-          .catchError((e) {
-        throw Exception(e);
-      }).whenComplete(() {
-        context.loaderOverlay.hide();
-        Navigator.of(context).pop();
-      });
+      await authService.logout(user.currentUser!.token, user);
     }
 
     return Scaffold(
@@ -179,7 +172,7 @@ class Account extends StatelessWidget {
               color: text_400,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: logout,
               child: Container(
                 color: Colors.transparent,
                 child: Row(
