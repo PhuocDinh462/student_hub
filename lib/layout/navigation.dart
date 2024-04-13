@@ -6,20 +6,14 @@ import 'package:student_hub/screens/project/projects.dart';
 import 'package:student_hub/constants/theme.dart';
 
 class Navigation extends StatefulWidget {
-  const Navigation({super.key, this.currentScreenIndex = 0});
-  final int currentScreenIndex;
+  const Navigation({super.key});
+
   @override
   State<Navigation> createState() => _NavigationState();
 }
 
 class _NavigationState extends State<Navigation> {
-  late int currentScreenIndex;
-
-  @override
-  void initState() {
-    super.initState();
-    currentScreenIndex = widget.currentScreenIndex;
-  }
+  int currentScreenIndex = 0;
 
   @override
   Widget build(BuildContext context) {

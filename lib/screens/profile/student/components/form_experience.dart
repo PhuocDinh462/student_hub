@@ -25,32 +25,12 @@ class _FormExpericenceState extends State<FormExpericence> {
   DateTime endMonth = DateTime.now();
   List<TechnicalModel> skillSets = [];
 
+  int studentId = 2;
+
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _desctiptionController = TextEditingController();
 
   final _popupSkillSetKey = GlobalKey<DropdownSearchState<TechnicalModel>>();
-
-  @override
-  void initState() {
-    super.initState();
-
-    if (widget.value != null) {
-      _titleController.text = widget.value!.title;
-      _desctiptionController.text = widget.value!.description;
-      startMonth = Helpers.formatMMYYYYToDateTime(widget.value!.startMonth);
-      endMonth = Helpers.formatMMYYYYToDateTime(widget.value!.endMonth);
-
-      skillSets = widget.value!.skillSets;
-    }
-  }
-
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _desctiptionController.dispose();
-    _popupSkillSetKey.currentState?.dispose();
-    super.dispose();
-  }
 
   void handleDeleteSkillSet(TechnicalModel value) {
     setState(() {
@@ -95,7 +75,28 @@ class _FormExpericenceState extends State<FormExpericence> {
     } else {
       widget.ps.addExperience(experience);
     }
-    widget.ps.updateExperienceStudent();
+    widget.ps.updateExperienceStudent(studentId);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.value != null) {
+      _titleController.text = widget.value!.title;
+      _desctiptionController.text = widget.value!.description;
+      startMonth = Helpers.formatMMYYYYToDateTime(widget.value!.startMonth);
+      endMonth = Helpers.formatMMYYYYToDateTime(widget.value!.endMonth);
+
+      skillSets = widget.value!.skillSets;
+    }
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _desctiptionController.dispose();
+    _popupSkillSetKey.currentState?.dispose();
+    super.dispose();
   }
 
   @override

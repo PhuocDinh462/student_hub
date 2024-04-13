@@ -21,11 +21,4 @@ class UserProvider with ChangeNotifier {
     _currentUser = user;
     notifyListeners();
   }
-
-  void setToken(String token) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', token);
-
-    notifyListeners();
-  }
 }

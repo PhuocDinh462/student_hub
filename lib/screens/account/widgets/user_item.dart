@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/models/user.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:student_hub/providers/providers.dart';
 
 class UserItem extends StatelessWidget {
   final String username;
   final Role role;
-  final Function(Role) actionChangeRole;
 
   const UserItem({
     super.key,
     required this.username,
     required this.role,
-    required this.actionChangeRole,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        actionChangeRole(role);
+        if (role == Role.student) {
+          Provider.of(context)<UserProvider>(context, listen: false)
+              .currentUser!
+              .currentRole = Role.company;
+        } else {
+          Provider.of(context)<UserProvider>(context, listen: false)
+              .currentUser!
+              .currentRole = Role.student;
+        }
       },
       child: Row(
         children: [

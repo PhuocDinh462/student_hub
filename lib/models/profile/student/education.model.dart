@@ -66,8 +66,8 @@ class EducationModel extends BaseModel {
       endYear: map['endYear'] as int,
       id: map['id'] as int,
       createdAt: map['createdAt'] as String,
-      updatedAt: map['updatedAt'] as String,
-      deleteAt: map['deleteAt'] ?? map['deleteAt'] as String?,
+      updatedAt: map['updatedAt'] ?? map['updatedAt'] as String,
+      deleteAt: map['updatedAt'] ?? map['deleteAt'] as String,
     );
   }
 
