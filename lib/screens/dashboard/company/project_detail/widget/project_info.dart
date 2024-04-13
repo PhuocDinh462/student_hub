@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/utils/extensions.dart';
 
@@ -108,10 +107,7 @@ class ProjectInfo extends StatelessWidget {
                 ),
                 const Gap(5),
                 Text(
-                  projectProvider.getCurrentProject!.completionTime ==
-                          ProjectScopeFlag.oneToThreeMonth
-                      ? '1-3 months'
-                      : '3-6 months',
+                  projectProvider.getCurrentProject!.completionTimeString(),
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],

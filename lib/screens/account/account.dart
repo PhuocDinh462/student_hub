@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:student_hub/api/api.dart';
 import 'package:student_hub/models/user.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/routes.dart';
@@ -15,6 +17,21 @@ class Account extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserProvider user = Provider.of<UserProvider>(context, listen: true);
+    final AuthService authService = AuthService();
+
+    void logout() async {
+      context.loaderOverlay.show();
+      await authService
+          .logout(user.currentUser!.token)
+          .then((value) => null)
+          .catchError((e) {
+        throw Exception(e);
+      }).whenComplete(() {
+        context.loaderOverlay.hide();
+        Navigator.of(context).pop();
+      });
+    }
+
     return Scaffold(
       body: Container(
         width: double.infinity,

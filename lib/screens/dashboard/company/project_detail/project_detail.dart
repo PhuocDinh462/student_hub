@@ -7,6 +7,7 @@ import 'package:student_hub/models/proposal.dart';
 import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/screens/dashboard/company/project_detail/widget/project_info.dart';
 import 'package:student_hub/screens/dashboard/company/project_detail/widget/proposal_item.dart';
+import 'package:student_hub/utils/empty.dart';
 
 class ProjectDetail extends StatefulWidget {
   const ProjectDetail({super.key});
@@ -92,7 +93,7 @@ class _ProjectDetailState extends State<ProjectDetail> {
                           .where((item) => item.statusFlag == StatusFlag.offer)
                           .isEmpty
                       ? const Center(
-                          child: Text('No proposal yet'),
+                          child: Empty(),
                         )
                       : SingleChildScrollView(
                           child: Column(
@@ -122,7 +123,7 @@ class _ProjectDetailState extends State<ProjectDetail> {
                           .where((item) => item.statusFlag == StatusFlag.hired)
                           .isEmpty
                       ? const Center(
-                          child: Text('No hired student yet'),
+                          child: Empty(),
                         )
                       : SingleChildScrollView(
                           child: Column(
