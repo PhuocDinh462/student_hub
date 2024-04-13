@@ -32,12 +32,15 @@ class ProjectInfo extends StatelessWidget {
               children: [
                 Text(
                   'Title',
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const Gap(5),
                 SizedBox(
                   width: context.deviceSize.width - 100,
-                  child: Text(projectProvider.getCurrentProject!.title),
+                  child: Text(
+                    projectProvider.getCurrentProject!.title,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
                 ),
               ],
             ),
@@ -65,12 +68,15 @@ class ProjectInfo extends StatelessWidget {
               children: [
                 Text(
                   'Description',
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const Gap(5),
                 SizedBox(
                   width: context.deviceSize.width - 100,
-                  child: Text(projectProvider.getCurrentProject!.description),
+                  child: Text(
+                    projectProvider.getCurrentProject!.description,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
                 ),
               ],
             ),
@@ -98,7 +104,7 @@ class ProjectInfo extends StatelessWidget {
               children: [
                 Text(
                   'Project scope',
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const Gap(5),
                 Text(
@@ -106,14 +112,20 @@ class ProjectInfo extends StatelessWidget {
                           ProjectScopeFlag.oneToThreeMonth
                       ? '1-3 months'
                       : '3-6 months',
-                  style: const TextStyle(fontStyle: FontStyle.italic),
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],
             ),
           ],
         ),
-        // Project scope
-        const Gap(40),
+        // Student required
+        const Gap(10),
+        const Divider(
+          height: 50,
+          thickness: .5,
+          color: text_700,
+        ),
+        const Gap(10),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -128,12 +140,12 @@ class ProjectInfo extends StatelessWidget {
               children: [
                 Text(
                   'Student required',
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const Gap(5),
                 Text(
                   '${projectProvider.getCurrentProject!.requiredStudents} students',
-                  style: const TextStyle(fontStyle: FontStyle.italic),
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],
             ),

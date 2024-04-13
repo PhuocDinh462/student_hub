@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/proposal.dart';
 
 class ProposalItem extends StatelessWidget {
-  const ProposalItem({super.key});
+  const ProposalItem({super.key, required this.proposal});
+  final Proposal proposal;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +22,11 @@ class ProposalItem extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('John Doe',
-                        style: Theme.of(context)
-                            .textTheme
-                            .displayLarge
-                            ?.copyWith(
-                                color: Theme.of(context).colorScheme.primary)),
+                    Text(
+                      proposal.studentName,
+                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
                     const Gap(5),
                     Text(
                       '4th year student',
@@ -46,7 +47,7 @@ class ProposalItem extends StatelessWidget {
                     Icon(Icons.work,
                         color: Theme.of(context).colorScheme.primary),
                     const Gap(10),
-                    Text('Fullstack Engineer',
+                    Text(proposal.techStackName,
                         style: Theme.of(context).textTheme.titleMedium),
                   ],
                 ),
@@ -62,8 +63,7 @@ class ProposalItem extends StatelessWidget {
               ],
             ),
             const Gap(20),
-            const Text(
-                'I have gone through your project and it seem like a great project. I will commit for your project...'),
+            Text(proposal.coverLetter),
             const Gap(20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
