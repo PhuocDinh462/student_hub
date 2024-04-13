@@ -84,7 +84,7 @@ class ExperienceModel extends BaseModel {
       id: map['id'] as int,
       createdAt: map['createdAt'] as String,
       updatedAt: map['updatedAt'] as String,
-      deleteAt: map['deleteAt'] as String?,
+      deleteAt: map['deleteAt'] ?? map['deleteAt'] as String?,
     );
   }
 

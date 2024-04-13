@@ -45,10 +45,13 @@ class Helpers {
     String filenameWithPrefix = parts.last;
     String fileName = filenameWithPrefix.replaceFirst(RegExp(r'^\d+-'), '');
 
-    List<String> parts2 = fileName.split('.');
+    return getFileNameAndExtension2(fileName);
+  }
+
+  static List<String> getFileNameAndExtension2(String name) {
+    List<String> parts2 = name.split('.');
     String extension = parts2.last;
-    String nameStr =
-        fileName.substring(0, fileName.length - extension.length - 1);
+    String nameStr = name.substring(0, name.length - extension.length - 1);
 
     return [nameStr, extension];
   }
