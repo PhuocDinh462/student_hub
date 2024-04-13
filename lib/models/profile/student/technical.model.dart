@@ -44,8 +44,8 @@ class TechnicalModel extends BaseModel {
       name: map['name'] as String,
       id: map['id'] as int,
       createdAt: map['createdAt'] as String,
-      updatedAt: map['updatedAt'] as String?,
-      deleteAt: map['deleteAt'] as String?,
+      updatedAt: map['updatedAt'] as String,
+      deleteAt: map['deleteAt'] ?? map['deleteAt'] as String?,
     );
   }
 

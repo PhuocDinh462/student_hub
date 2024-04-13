@@ -3,7 +3,8 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
-import 'package:student_hub/models/profile/profile.dart';
+import 'package:student_hub/models/models.dart';
+import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/routes/student_routes.dart';
 import 'package:student_hub/styles/styles.dart';
@@ -50,6 +51,7 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
   void _onTapCreateProfile(BuildContext context) {
     final profileCompanyViewModel =
         Provider.of<ProfileCompanyViewModel>(context, listen: false);
+
     profileCompanyViewModel.createProfileCompany(ProfileCompanyModel(
       size: profileCompanyViewModel.company.size,
       companyName: _companyName.text,
@@ -94,6 +96,7 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final deviceSize = context.deviceSize;
+    final UserProvider user = Provider.of<UserProvider>(context, listen: true);
 
     return GestureDetector(onTap: () {
       FocusScopeNode currentFocus = FocusScope.of(context);
@@ -120,7 +123,11 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             context.loaderOverlay.hide();
             if (profileCompanyViewModel.errorMessage == 'empty') {
-              Navigator.pushNamed(context, CompanyRoutes.welcomeCompany);
+              if (user.currentUser!.currentRole == Role.student) {
+                Get.toNamed(StudentRoutes.welcomeCompany);
+              } else {
+                Get.toNamed(CompanyRoutes.welcomeCompany);
+              }
             }
           });
         }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/user.dart';
+import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/company_route.dart';
 
 class WelcomeCompany extends StatelessWidget {
@@ -7,6 +10,8 @@ class WelcomeCompany extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider user = Provider.of<UserProvider>(context, listen: true);
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -24,7 +29,16 @@ class WelcomeCompany extends StatelessWidget {
             ),
             const SizedBox(height: 50),
             ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, CompanyRoutes.nav),
+              onPressed: () {
+                if (user.currentUser!.currentRole == Role.student) {
+                  user.setCurrentUser(user.currentUser!.copyWith(
+                      currentRole: Role.company,
+                      roles: [Role.student, Role.company]));
+                } else {
+                  Navigator.pushNamed(context, CompanyRoutes.nav,
+                      arguments: {'index': '1'});
+                }
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: primary_300,
                 foregroundColor: text_50,

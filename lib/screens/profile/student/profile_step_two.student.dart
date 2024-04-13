@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/models/models.dart';
-import 'package:student_hub/routes/student_routes.dart';
+import 'package:student_hub/providers/providers.dart';
+import 'package:student_hub/routes/routes.dart';
 import 'package:student_hub/screens/profile/student/components/components.dart';
 import 'package:student_hub/styles/button_style.dart';
 import 'package:student_hub/utils/utils.dart';
@@ -18,7 +20,6 @@ class ProfileStudentStepTwo extends StatefulWidget {
 }
 
 class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
-  List<int> test = [1, 2, 3, 4];
   bool isAdd = false;
 
   void handleCancelAdd() {
@@ -36,7 +37,7 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
   void handleDeleteExperience(
       ProfileStudentViewModel ps, ExperienceModel value) {
     ps.removeExperience(value);
-    ps.updateExperienceStudent(2);
+    ps.updateExperienceStudent();
   }
 
   @override
@@ -44,6 +45,7 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
     final textTheme = Theme.of(context).textTheme;
     final deviceSize = context.deviceSize;
     final colorScheme = Theme.of(context).colorScheme;
+    final UserProvider user = Provider.of<UserProvider>(context, listen: true);
 
     return Scaffold(
       backgroundColor: colorScheme.onPrimary,
@@ -180,8 +182,13 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
                 ]),
                 child: ElevatedButton(
                     style: buttonPrimary,
-                    onPressed: () => Navigator.pushNamed(
-                        context, StudentRoutes.profileStudentStepThree),
+                    onPressed: () {
+                      if (user.currentUser!.currentRole == Role.student) {
+                        Get.toNamed(StudentRoutes.profileStudentStepThree);
+                      } else {
+                        Get.toNamed(CompanyRoutes.profileStudentStepThree);
+                      }
+                    },
                     child: DisplayText(
                       text: 'Next',
                       style: textTheme.labelLarge!.copyWith(

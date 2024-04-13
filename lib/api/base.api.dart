@@ -27,14 +27,15 @@ class BaseApi {
         onRequest: (options, handler) async {
           try {
             String? token = await getToken();
-            options.headers['Authorization'] = 'Bearer $token';
+            if (token != null) {
+              options.headers['Authorization'] = 'Bearer $token';
+            }
             return handler.next(options);
           } catch (e) {
             return handler.next(options);
           }
         },
         onError: (DioException error, ErrorInterceptorHandler handler) {
-          print(error.response!.statusCode);
           if (error.response?.statusCode == 401) {
             Get.defaultDialog(
               title: 'Session Expired',
