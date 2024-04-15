@@ -274,7 +274,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                           const Gap(10),
                           widgetLanguage(
                               textTheme, profileStudentModel, deviceSize),
-                          const Gap(20),
+                          const Gap(10),
                           widgetEducation(
                               textTheme, profileStudentModel, deviceSize),
                         ]),
@@ -322,7 +322,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
   Container widgetLanguage(TextTheme textTheme,
       ProfileStudentViewModel profileStudentModel, Size deviceSize) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5), color: Colors.white),
       child: Column(
@@ -471,7 +471,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
   Container widgetEducation(TextTheme textTheme,
       ProfileStudentViewModel profileStudentModel, Size deviceSize) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5), color: Colors.white),
       child: Column(
@@ -624,7 +624,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
   Container widgetProfile(ProfileStudentViewModel profileStudentModel,
       TextTheme textTheme, Size deviceSize, ColorScheme colorScheme) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5), color: Colors.white),
       child: Column(
