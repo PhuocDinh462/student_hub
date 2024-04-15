@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:student_hub/models/user.dart';
+import 'package:student_hub/providers/user.provider.dart';
 import 'package:student_hub/screens/alerts/alert.screen.dart';
 import 'package:student_hub/screens/chat/chat.dart';
 import 'package:student_hub/screens/dashboard/company/dashboard.dart';
+import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
 import 'package:student_hub/screens/project/projects.dart';
 import 'package:student_hub/constants/theme.dart';
 
@@ -24,6 +28,8 @@ class _NavigationState extends State<Navigation> {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) =>
@@ -62,7 +68,9 @@ class _NavigationState extends State<Navigation> {
       ),
       body: <Widget>[
         const Projects(),
-        const Dashboard(),
+        userProvider.currentUser?.currentRole == Role.student
+            ? const DashboardStudent()
+            : const DashboardCompany(),
         const MessageListScreen(),
         const AlertScreen(),
       ][currentScreenIndex],

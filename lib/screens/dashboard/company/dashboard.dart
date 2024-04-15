@@ -9,8 +9,8 @@ import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/screens/dashboard/company/widgets/project_item.dart';
 import 'package:student_hub/utils/empty.dart';
 
-class Dashboard extends StatelessWidget {
-  const Dashboard({super.key});
+class DashboardCompany extends StatelessWidget {
+  const DashboardCompany({super.key});
 
   @override
   Widget build(BuildContext context) {
