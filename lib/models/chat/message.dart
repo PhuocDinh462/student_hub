@@ -1,11 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:uuid/uuid.dart';
 
+// ignore: must_be_immutable
 class Message extends Equatable {
   final String? id;
   final String chatRoomId;
-  final String senderUserId;
-  final String receiverUserId;
+  final int senderUserId;
+  final int receiverUserId;
   final String? content;
   final DateTime createdAt;
   final DateTime? startTime;
@@ -31,8 +32,8 @@ class Message extends Equatable {
   Message copyWith({
     String? id,
     String? chatRoomId,
-    String? senderUserId,
-    String? receiverUserId,
+    int? senderUserId,
+    int? receiverUserId,
     String? content,
     DateTime? createdAt,
     DateTime? startTime,

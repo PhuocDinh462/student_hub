@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/screens/alerts/alert.screen.dart';
 import 'package:student_hub/screens/chat/chat.dart';
-import 'package:student_hub/screens/dashboard/dashboard.dart';
+import 'package:student_hub/screens/dashboard/company/dashboard.dart';
 import 'package:student_hub/screens/project/projects.dart';
 import 'package:student_hub/constants/theme.dart';
 
 class Navigation extends StatefulWidget {
-  const Navigation({super.key});
+  const Navigation({super.key, this.currentScreenIndex = 0});
+  final int currentScreenIndex;
 
   @override
   State<Navigation> createState() => _NavigationState();
 }
 
 class _NavigationState extends State<Navigation> {
-  int currentScreenIndex = 0;
+  late int currentScreenIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    currentScreenIndex = widget.currentScreenIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +28,9 @@ class _NavigationState extends State<Navigation> {
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) =>
             setState(() => currentScreenIndex = index),
-        indicatorColor: primary_200,
+        indicatorColor: Theme.of(context).brightness == Brightness.light
+            ? primary_300
+            : primary_200,
         backgroundColor: Colors.transparent,
         selectedIndex: currentScreenIndex,
         destinations: const <Widget>[

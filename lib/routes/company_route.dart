@@ -10,6 +10,11 @@ class CompanyRoutes {
   static const String changePassword = '/profile/change_password';
   static const String welcomeCompany = '/welcome-company';
   static const String profileCompany = '/account-company/profile';
+  static const String profileStudentStepOne = '/account-student/profile-1';
+  static const String profileStudentStepTwo =
+      '/account-student/profile-1/profile-2';
+  static const String profileStudentStepThree =
+      '/account-student/profile-1/profile-2/profile-3';
   static const String messageList = '/chat/message-list';
   static const String videoCall = '/chat/video-call';
   static const String alerts = '/alerts';
@@ -17,21 +22,34 @@ class CompanyRoutes {
   static const String account = '/account';
   static const String settings = '/account/settings';
   static const String languages = '/account/settings/languages';
-  static const String postJob = '/post-job';
-  static const String projectDetail = 'nav/project-detail';
+  static const String postProject = '/post-project';
+  static const String projectDetail = '/project-detail';
+  static const String editProject = '/edit-project';
 
   static Map<String, WidgetBuilder> routes = {
-    nav: (context) => const AccountHeader(
-          title: 'Student Hub',
-          body: Navigation(),
-          resizeToAvoidBottomInset: false,
-        ),
+    nav: (context) {
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+      final index = int.parse(args?['index'] as String? ?? '0');
+
+      return AccountHeader(
+        title: 'Student Hub',
+        body: Navigation(currentScreenIndex: index),
+        resizeToAvoidBottomInset: false,
+      );
+    },
     changePassword: (context) =>
         const AccountHeader(title: 'Student Hub', body: ChangePassword()),
     welcomeCompany: (context) =>
-        const AccountHeader(title: 'Student Hub', body: WelcomeCompany()),
+        const AccountHeader(title: 'Welcome', body: WelcomeCompany()),
     profileCompany: (context) =>
-        const AccountHeader(title: 'Student Hub', body: ProfileCompanyInput()),
+        const AccountHeader(title: 'Profile', body: ProfileCompanyInput()),
+    profileStudentStepOne: (context) =>
+        const AccountHeader(title: 'Profile', body: ProfileStudentStepOne()),
+    profileStudentStepTwo: (context) =>
+        const AccountHeader(title: 'Profile', body: ProfileStudentStepTwo()),
+    profileStudentStepThree: (context) =>
+        const AccountHeader(title: 'Profile', body: ProfileStudentStepThree()),
     messageList: (context) =>
         const AccountHeader(title: 'Student Hub', body: MessageListScreen()),
     videoCall: (context) =>
@@ -45,9 +63,11 @@ class CompanyRoutes {
         const AccountHeader(title: 'Settings', body: Settings()),
     languages: (context) =>
         const AccountHeader(title: 'Languages', body: Languages()),
-    postJob: (context) =>
-        const AccountHeader(title: 'Post Job', body: PostJob()),
+    postProject: (context) =>
+        const AccountHeader(title: 'Post Project', body: PostProject()),
     projectDetail: (context) =>
         const AccountHeader(title: 'Project Detail', body: ProjectDetail()),
+    editProject: (context) =>
+        const AccountHeader(title: 'Edit Project', body: EditProject()),
   };
 }

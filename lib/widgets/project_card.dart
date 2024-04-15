@@ -1,12 +1,22 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
+import 'package:student_hub/providers/providers.dart';
+import 'package:student_hub/utils/snack_bar.dart';
 import 'package:student_hub/widgets/project_detail.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ProjectCard extends StatefulWidget {
   final Project project;
-
-  const ProjectCard({super.key, required this.project});
+  final ProjectService projectService;
+  const ProjectCard(
+      {super.key, required this.project, required this.projectService});
 
   @override
   State<ProjectCard> createState() => _ProjectCardState();
@@ -19,27 +29,69 @@ class _ProjectCardState extends State<ProjectCard> {
   late String projectDescription;
   late int proposalsCount;
   late bool isFavorite;
-
+  final Dio dio = Dio();
+  final String? apiServer = dotenv.env['API_SERVER'];
   @override
   void initState() {
     super.initState();
-    updateProjectData();
+    initializeStateProject();
   }
 
-  void updateProjectData() {
+  void initializeStateProject() {
     final project = widget.project;
     daysAgo = DateTime.now().difference(project.createdAt).inDays > 0
         ? DateTime.now().difference(project.createdAt).inDays
         : 1;
-    timeDuration = project.completionTime;
+    timeDuration = project.completionTime == ProjectScopeFlag.lessThanOneMonth
+        ? 'Less than 1 month'
+        : project.completionTime == ProjectScopeFlag.oneToThreeMonth
+            ? '1-3 months'
+            : project.completionTime == ProjectScopeFlag.threeToSixMonth
+                ? '3-6 months'
+                : 'More than 6 months';
+
     studentsNeeded = project.requiredStudents;
     projectDescription = project.description;
-    proposalsCount = project.proposals.length;
+    proposalsCount = project.countProposals;
     isFavorite = project.favorite;
+  }
+
+  Future<void> updateProjectState(
+      UserProvider provider, int projectId, int disableFlag) async {
+    try {
+      if (disableFlag == 0) {
+        setState(() {
+          isFavorite = true;
+        });
+      }
+      // Map<String, dynamic> headers = {
+      //   'Authorization': 'Bearer ${provider.currentUser?.token}',
+      // };
+      // final data = {
+      //   'projectId': projectId,
+      //   'disableFlag': disableFlag,
+      // };
+      // await dio.patch(
+      //   '$apiServer/favoriteProject/${provider.currentUser!.studentId!}',
+      //   data: data,
+      //   options: Options(headers: headers),
+      // );
+      await widget.projectService.updateFavoriteProject(
+          provider.currentUser!.studentId!, projectId, disableFlag);
+    } catch (e) {
+      MySnackBar.showSnackBar(context, 'Please create your student\'s profile',
+          'Failed', ContentType.failure);
+      setState(() {
+        isFavorite = false;
+      });
+      throw Exception('Failed to update favorite project');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
     return Card(
       elevation: 2,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -61,7 +113,7 @@ class _ProjectCardState extends State<ProjectCard> {
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  widget.project.name,
+                  widget.project.title,
                   style: const TextStyle(
                     color: primary_300,
                     fontWeight: FontWeight.bold,
@@ -138,7 +190,10 @@ class _ProjectCardState extends State<ProjectCard> {
                   builder: (ctx) {
                     return SizedBox(
                       height: MediaQuery.of(context).size.height * 0.8,
-                      child: ProjectDetails(project: widget.project),
+                      child: ProjectDetails(
+                        project: widget.project,
+                        updateProjectState: updateProjectState,
+                      ),
                     );
                   });
             },
@@ -155,6 +210,11 @@ class _ProjectCardState extends State<ProjectCard> {
               onPressed: () {
                 setState(() {
                   isFavorite = !isFavorite;
+                  updateProjectState(
+                    userProvider,
+                    widget.project.id,
+                    isFavorite ? 0 : 1,
+                  );
                 });
               },
             ),

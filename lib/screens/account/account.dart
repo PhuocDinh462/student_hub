@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:student_hub/api/api.dart';
 import 'package:student_hub/models/user.dart';
-import 'package:student_hub/routes/company_route.dart';
+import 'package:student_hub/providers/providers.dart';
+import 'package:student_hub/routes/routes.dart';
 import 'package:student_hub/screens/account/widgets/user_item.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
@@ -11,6 +15,13 @@ class Account extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider user = Provider.of<UserProvider>(context, listen: true);
+    final AuthService authService = AuthService();
+
+    void logout() async {
+      await authService.logout(user.currentUser!.token, user);
+    }
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -28,26 +39,67 @@ class Account extends StatelessWidget {
                 horizontalTitleGap: 10,
                 minLeadingWidth: 0,
                 child: ExpansionTile(
-                  leading: const Icon(Icons.school_outlined, size: 46),
+                  leading: Icon(
+                      user.currentUser!.currentRole == Role.student
+                          ? Icons.school_outlined
+                          : Icons.business,
+                      size: 46),
                   title: Text(
-                    'Hai Pham',
+                    user.currentUser?.fullname ?? '',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   subtitle: Text(
-                    AppLocalizations.of(context)!.user('student'),
+                    AppLocalizations.of(context)!.user(
+                        user.currentUser!.currentRole == Role.student
+                            ? 'student'
+                            : 'company'),
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                           fontStyle: FontStyle.italic,
                         ),
                   ),
-                  children: const <Widget>[
-                    Gap(5),
-                    Row(
-                      children: [
-                        Gap(30),
-                        UserItem(
-                            username: 'Hai Pham', userType: UserType.company),
-                      ],
-                    ),
+                  children: <Widget>[
+                    const Gap(5),
+                    if (user.currentUser!.roles.contains(
+                        user.currentUser!.currentRole == Role.student
+                            ? Role.company
+                            : Role.student))
+                      Row(
+                        children: [
+                          const Gap(30),
+                          UserItem(
+                              username: user.currentUser?.fullname ?? '',
+                              role:
+                                  user.currentUser!.currentRole == Role.student
+                                      ? Role.company
+                                      : Role.student,
+                              actionChangeRole: (role) {
+                                user.setCurrentUser(user.currentUser!.copyWith(
+                                  currentRole: role,
+                                ));
+                              })
+                        ],
+                      ),
+                    if (user.currentUser!.roles.length < 2)
+                      GestureDetector(
+                        onTap: () {
+                          if (user.currentUser!.currentRole == Role.student) {
+                            Get.toNamed(StudentRoutes.profileCompany);
+                          } else {
+                            Get.toNamed(CompanyRoutes.profileStudentStepOne);
+                          }
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          child: const Row(
+                            children: [
+                              Gap(30),
+                              Icon(Icons.add_circle_outline_outlined, size: 28),
+                              Gap(8),
+                              Text('Add profile'),
+                            ],
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -57,8 +109,13 @@ class Account extends StatelessWidget {
 
             // Others setting
             GestureDetector(
-              onTap: () =>
-                  Navigator.pushNamed(context, CompanyRoutes.profileCompany),
+              onTap: () {
+                if (user.currentUser!.currentRole == Role.company) {
+                  Get.toNamed(StudentRoutes.profileCompany);
+                } else {
+                  Get.toNamed(CompanyRoutes.profileStudentStepOne);
+                }
+              },
               child: Container(
                 color: Colors.transparent,
                 child: Row(
@@ -102,7 +159,9 @@ class Account extends StatelessWidget {
               color: text_400,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(StudentRoutes.changePassword);
+              },
               child: Container(
                 color: Colors.transparent,
                 child: Row(
@@ -124,7 +183,30 @@ class Account extends StatelessWidget {
               color: text_400,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () => showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Logout'),
+                    content: const Text('Are you sure you want to logout?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('No'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          logout();
+                        },
+                        child: const Text('Yes'),
+                      ),
+                    ],
+                  );
+                },
+              ),
               child: Container(
                 color: Colors.transparent,
                 child: Row(

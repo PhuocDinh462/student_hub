@@ -30,9 +30,11 @@ class AppTheme {
       onPrimary: text_50,
       primaryContainer: text_100,
       secondaryContainer: text_50,
-      surface: primary_300,
+      surfaceTint: primary_300,
+      surface: text_50,
       onSurface: text_500,
       outline: Colors.transparent,
+      onSecondary: Colors.white,
     ),
     cardTheme: const CardTheme(
       color: text_50,
@@ -84,8 +86,10 @@ class AppTheme {
       onPrimary: text_800,
       primaryContainer: text_800,
       secondaryContainer: text_900,
+      surfaceTint: text_800,
       surface: text_800,
       onSurface: text_50,
+      onSecondary: text_800,
     ),
     cardTheme: const CardTheme(
       color: text_800,

@@ -1,9 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/routes/auth_route.dart';
+import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -15,15 +22,43 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   // Text editing controller
   final TextEditingController emailController = TextEditingController();
-
-  // Sign in
-  void sendCode() async {
-    // Your logic to send code
-    Navigator.pushNamed(context, AuthRoutes.verifyCode);
-  }
+  final String? apiServer = dotenv.env['API_SERVER'];
+  final UserService userService = UserService();
 
   @override
   Widget build(BuildContext context) {
+    // Send New Password
+    void sendNewPassword() async {
+      final String email = emailController.text;
+      FocusScope.of(context).unfocus();
+      if (email.isEmpty) {
+        MySnackBar.showSnackBar(context, 'Please fill in all fields', 'Oh Hey!',
+            ContentType.failure);
+        return;
+      }
+      try {
+        final Response response = await userService.forgotPassword(email);
+
+        if (response.statusCode == 201) {
+          MySnackBar.showSnackBar(
+              context,
+              'New Password has sent to your email',
+              'Success',
+              ContentType.success);
+          await Navigator.pushNamed(context, AuthRoutes.login);
+        } else if (response.statusCode == 404) {
+          MySnackBar.showSnackBar(
+              context, 'Not Found User', 'Oh Hey!', ContentType.failure);
+        } else {
+          MySnackBar.showSnackBar(
+              context, 'Invalid Credentials', 'Oh Hey!', ContentType.failure);
+        }
+      } catch (e) {
+        MySnackBar.showSnackBar(
+            context, 'Something went wrongs!', 'Oh Hey!', ContentType.failure);
+      }
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -114,7 +149,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               const Gap(20),
               // Send code button
               Button(
-                onTap: sendCode,
+                onTap: sendNewPassword,
                 colorButton: primary_300,
                 colorText: text_50,
                 text: 'Send Code',

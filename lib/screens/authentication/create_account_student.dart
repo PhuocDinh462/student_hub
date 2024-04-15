@@ -1,9 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/routes/auth_route.dart';
+import 'package:student_hub/utils/snack_bar.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:dio/dio.dart';
 
 class CreateAccountStudent extends StatefulWidget {
   const CreateAccountStudent({super.key});
@@ -17,14 +24,67 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final AuthService authService = AuthService();
 
   bool agreePersonalData = false;
 
-  //sign in
-  void signIn() async {}
+  final String? apiServer = dotenv.env['API_SERVER'];
+
+  void navigateToLogin() async {
+    await Navigator.pushNamed(context, AuthRoutes.login);
+  }
 
   @override
   Widget build(BuildContext context) {
+    //sign up
+    void signUp() async {
+      final String email = emailController.text;
+      final String password = passwordController.text;
+      final String fullname = nameController.text;
+      FocusScope.of(context).unfocus();
+
+      if (email.isEmpty ||
+          password.isEmpty ||
+          fullname.isEmpty ||
+          !agreePersonalData) {
+        MySnackBar.showSnackBar(
+          context,
+          'Please fill in all fields',
+          'Oh Hey!',
+          ContentType.failure,
+        );
+        return;
+      }
+
+      try {
+        final Response response =
+            await authService.signUp(email, password, fullname, 0);
+        if (response.statusCode == 201) {
+          navigateToLogin();
+          MySnackBar.showSnackBar(
+            context,
+            'Create account successfully',
+            'Success',
+            ContentType.success,
+          );
+        } else {
+          MySnackBar.showSnackBar(
+            context,
+            'Failed to create account',
+            'Oh Hey!',
+            ContentType.failure,
+          );
+        }
+      } catch (e) {
+        MySnackBar.showSnackBar(
+          context,
+          'An error occurred during sign up',
+          'Oh Hey!',
+          ContentType.failure,
+        );
+      }
+    }
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -95,7 +155,7 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                   const Gap(10),
                   //sign in button
                   Button(
-                    onTap: signIn,
+                    onTap: signUp,
                     colorButton: primary_300,
                     colorText: text_50,
                     text: 'Create My Account',

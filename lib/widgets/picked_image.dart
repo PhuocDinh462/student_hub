@@ -5,12 +5,23 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/utils/helpers.dart';
 import 'package:student_hub/utils/utils.dart';
+import 'package:student_hub/view-models/view_models.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
 class PickedImage extends StatefulWidget {
-  const PickedImage({super.key, required this.label});
+  const PickedImage(
+      {super.key,
+      required this.label,
+      required this.ps,
+      required this.urlFile,
+      required this.actionUpdate});
   final String label;
+  final ProfileStudentViewModel ps;
+  final String? urlFile;
+  final Function(File?) actionUpdate;
+
   @override
   State<PickedImage> createState() => _PickedImageState();
 }
@@ -18,28 +29,46 @@ class PickedImage extends StatefulWidget {
 class _PickedImageState extends State<PickedImage> {
   FilePickerResult? result;
   String? fileName;
+  String? extension;
   PlatformFile? pickedfile;
   File? fileToDisplay;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.urlFile != null && widget.urlFile != '') {
+      fileName = Helpers.getFileNameAndExtension(widget.urlFile!)[0];
+      extension = Helpers.getFileNameAndExtension(widget.urlFile!)[1];
+    }
+  }
+
   bool isLoading = false;
+  bool isFilePdf = false;
 
   void pickFile() async {
     try {
       setState(() {
         isLoading = true;
       });
-      result = (await FilePicker.platform.pickFiles(
-          type: FileType.custom, allowedExtensions: ['jpg', 'jpeg', 'png']))!;
+      result = await FilePicker.platform.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf']);
       if (result != null) {
-        fileName = result!.files.first.name;
         pickedfile = result!.files.first;
         fileToDisplay = File(pickedfile!.path.toString());
-      }
+        widget.actionUpdate(fileToDisplay);
 
+        fileName =
+            Helpers.getFileNameAndExtension2(result!.files.first.name)[0];
+        extension =
+            Helpers.getFileNameAndExtension2(result!.files.first.name)[1];
+      }
+    } catch (e) {
+      print(e);
+    } finally {
       setState(() {
         isLoading = false;
       });
-    } catch (e) {
-      print(e);
     }
   }
 
@@ -47,93 +76,80 @@ class _PickedImageState extends State<PickedImage> {
   Widget build(BuildContext context) {
     final deviceSize = context.deviceSize;
     final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        DisplayText(text: widget.label, style: textTheme.bodyLarge!),
-        const Gap(5),
-        DottedBorder(
-          strokeWidth: 1,
-          color: primary_300,
-          dashPattern: const [10, 6],
-          child: pickedfile != null
-              ? SizedBox(
-                  height: 200,
-                  width: deviceSize.width,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 140,
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: colorScheme.onSecondary),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          DisplayText(text: widget.label, style: textTheme.bodyLarge!),
+          const Gap(5),
+          DottedBorder(
+            strokeWidth: 1,
+            color: primary_300,
+            dashPattern: const [10, 6],
+            child: GestureDetector(
+              onTap: () {
+                pickFile();
+              },
+              child: isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : fileName == null
+                      ? Container(
+                          height: 200,
                           width: deviceSize.width,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: FileImage(fileToDisplay!),
-                              fit: BoxFit.contain,
-                            ),
+                          decoration: const BoxDecoration(
+                              image: DecorationImage(
+                            image: AssetImage('assets/images/upload.jpg'),
+                            fit: BoxFit.contain,
+                          )),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              DisplayText(
+                                text: 'Choose file to Upload',
+                                style: textTheme.labelMedium!
+                                    .copyWith(color: primary_300),
+                              ),
+                              const Gap(15)
+                            ],
                           ),
-                          child: isLoading
-                              ? const Center(child: CircularProgressIndicator())
-                              : Container(),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: deviceSize.width * 0.6,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 7, vertical: 2),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: primary_300,
-                                  ),
-                                  borderRadius: BorderRadius.circular(2)),
-                              child: DisplayText(
+                        )
+                      : Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: deviceSize.width * 0.6,
+                                child: DisplayText(
                                   text: fileName!,
-                                  style: textTheme.labelSmall!),
-                            ),
-                            IconButton(
-                                iconSize: 30,
-                                onPressed: () {
-                                  pickFile();
-                                },
-                                icon: const Icon(
-                                  Icons.change_circle,
-                                  color: primary_300,
-                                )),
-                          ],
-                        ),
-                      ]),
-                )
-              : GestureDetector(
-                  onTap: () {
-                    pickFile();
-                  },
-                  child: Container(
-                    height: 200,
-                    width: deviceSize.width,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                      image: AssetImage('assets/images/upload.jpg'),
-                      fit: BoxFit.contain,
-                    )),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        DisplayText(
-                          text: 'Choose file to Upload',
-                          style: textTheme.labelMedium!
-                              .copyWith(color: primary_300),
-                        ),
-                        const Gap(15)
-                      ],
-                    ),
-                  ),
-                ),
-        ),
-      ],
+                                  style: textTheme.labelMedium!,
+                                ),
+                              ),
+                              SizedBox(
+                                width: deviceSize.width * 0.1,
+                                child: DisplayText(
+                                  text: '.${extension!}',
+                                  style: textTheme.labelMedium!,
+                                ),
+                              ),
+                              ButtonIconRetangle(
+                                  icon: Icons.change_circle,
+                                  onPressed: () {
+                                    pickFile();
+                                  }),
+                            ],
+                          )),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

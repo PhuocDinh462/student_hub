@@ -1,74 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:student_hub/models/project.dart';
-import 'package:student_hub/widgets/project_card.dart';
+// ignore_for_file: use_build_context_synchronously
 
-final List<Project> data = [
-  Project(
-    createdAt: DateTime.now(),
-    name: 'Senior frontend developer(fintech)',
-    completionTime: '1-3 months',
-    requiredStudents: 5,
-    description:
-        'Description of Project 1. Description of Project 1. Description of Project 2. ',
-    proposals: ['a', 'b'],
-    favorite: true,
-  ),
-  Project(
-    createdAt: DateTime.now(),
-    name: 'Project 2',
-    completionTime: '1-3 months',
-    requiredStudents: 3,
-    description: 'Description of Project 2',
-    proposals: ['a', 'b', 'a', 'b'],
-    favorite: true,
-  ),
-  Project(
-    createdAt: DateTime.now(),
-    name: 'Senior frontend developer(fintech)',
-    completionTime: '1-3 months',
-    requiredStudents: 5,
-    description: 'Description of Project 1',
-    proposals: ['a', 'b'],
-    favorite: true,
-  ),
-  Project(
-    createdAt: DateTime.now(),
-    name: 'Senior frontend developer(fintech)',
-    completionTime: '1-3 months',
-    requiredStudents: 5,
-    description: 'Description of Project 1',
-    proposals: ['a', 'b'],
-    favorite: true,
-  ),
-  Project(
-    createdAt: DateTime.now(),
-    name: 'Senior frontend developer(fintech)',
-    completionTime: '1-3 months',
-    requiredStudents: 5,
-    description: 'Description of Project 1',
-    proposals: ['a', 'b'],
-    favorite: true,
-  ),
-  Project(
-    createdAt: DateTime.now(),
-    name: 'Senior frontend developer(fintech)',
-    completionTime: '1-3 months',
-    requiredStudents: 5,
-    description: 'Description of Project 1',
-    proposals: ['a', 'b'],
-    favorite: true,
-  ),
-  Project(
-    createdAt: DateTime.now(),
-    name: 'Senior frontend developer(fintech)',
-    completionTime: '1-3 months',
-    requiredStudents: 5,
-    description: 'Description of Project 1',
-    proposals: ['a', 'b'],
-    favorite: true,
-  ),
-];
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:gap/gap.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:provider/provider.dart';
+import 'package:student_hub/api/services/api.services.dart';
+import 'package:student_hub/models/project.dart';
+import 'package:student_hub/providers/user.provider.dart';
+import 'package:student_hub/widgets/project_card.dart';
 
 class ProjectsSaved extends StatefulWidget {
   const ProjectsSaved({super.key});
@@ -77,8 +18,39 @@ class ProjectsSaved extends StatefulWidget {
 }
 
 class _ProjectsSavedState extends State<ProjectsSaved> {
-  final List<Project> projects = data;
+  final List<Project> projects = [];
   final searchController = TextEditingController();
+  final String? apiServer = dotenv.env['API_SERVER'];
+  final ProjectService projectService = ProjectService();
+  Future<void> fetchFavoriteProject(UserProvider userProvider) async {
+    context.loaderOverlay.show();
+    try {
+      final listResponse = await projectService
+          .getFavoriteProjects(userProvider.currentUser!.studentId!);
+      final List<Project> fetchProjects = listResponse
+          .cast<Map<String, dynamic>>()
+          .where((projectData) => projectData['deletedAt'] == null)
+          .map<Project>((projectData) {
+        return Project.fromMapInProjectsSavedList(projectData['project']);
+      }).toList();
+      setState(() {
+        projects.addAll(fetchProjects);
+      });
+    } catch (e) {
+      print(e);
+    }
+
+    context.loaderOverlay.hide();
+  }
+
+  // String _selectedMenu = '';
+  @override
+  void initState() {
+    super.initState();
+    final UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    fetchFavoriteProject(userProvider);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,14 +60,31 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
           child: Column(
             children: [
               const Gap(30),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: projects.length,
-                  itemBuilder: (context, index) {
-                    return ProjectCard(project: projects[index]);
-                  },
-                ),
-              ),
+              projects.isEmpty
+                  ? Column(
+                      children: [
+                        const Gap(50),
+                        Text(
+                          "There's no saved projects available",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )
+                  : Expanded(
+                      child: ListView.builder(
+                        itemCount: projects.length,
+                        itemBuilder: (context, index) {
+                          return ProjectCard(
+                              project: projects[index],
+                              projectService: projectService);
+                        },
+                      ),
+                    ),
             ],
           ),
         ),
