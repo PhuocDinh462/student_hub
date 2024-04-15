@@ -86,7 +86,7 @@ import 'package:student_hub/widgets/display_text.dart';
 
 class CommonTextField extends StatefulWidget {
   const CommonTextField({
-    Key? key,
+    super.key,
     required this.title,
     required this.hintText,
     this.controller,
@@ -94,7 +94,7 @@ class CommonTextField extends StatefulWidget {
     this.suffixIcon,
     this.readOnly = false,
     this.child,
-  }) : super(key: key);
+  });
 
   final String title;
   final String hintText;
@@ -114,6 +114,9 @@ class _CommonTextFieldState extends State<CommonTextField>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<GlobalProvider>(context, listen: false).setFocus(false);
+    });
   }
 
   @override
@@ -127,11 +130,12 @@ class _CommonTextFieldState extends State<CommonTextField>
     final bottomInset = WidgetsBinding.instance.window.viewInsets.bottom;
     GlobalProvider globalProvider =
         Provider.of<GlobalProvider>(context, listen: false);
-    print('Press ${bottomInset}');
 
-    if (globalProvider.isFocus && bottomInset == 0) {
+    if (!globalProvider.isFocus && bottomInset > 0) {
       globalProvider.setFocus(true);
-    } else if (globalProvider.isFocus && bottomInset == 0) {}
+    } else if (globalProvider.isFocus && bottomInset == 0) {
+      globalProvider.setFocus(false);
+    }
   }
 
   @override
@@ -141,10 +145,10 @@ class _CommonTextFieldState extends State<CommonTextField>
 
     FocusNode focusNode = FocusNode();
 
-    focusNode.addListener(() {
-      Provider.of<GlobalProvider>(context, listen: false)
-          .setFocus(focusNode.hasFocus);
-    });
+    // focusNode.addListener(() {
+    //   Provider.of<GlobalProvider>(context, listen: false)
+    //       .setFocus(focusNode.hasFocus);
+    // });
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -161,10 +165,10 @@ class _CommonTextFieldState extends State<CommonTextField>
             controller: widget.controller,
             maxLines: widget.maxLines,
             style: textTheme.bodySmall,
-            onTap: () {
+            onTapOutside: (event) {
+              FocusManager.instance.primaryFocus!.unfocus();
               Provider.of<GlobalProvider>(context, listen: false)
                   .setFocus(focusNode.hasFocus);
-              focusNode.requestFocus();
             },
             decoration: InputDecoration(
               contentPadding:

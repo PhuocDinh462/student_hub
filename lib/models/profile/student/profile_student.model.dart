@@ -6,9 +6,9 @@ import 'package:student_hub/models/models.dart';
 
 class ProfileStudentModel extends BaseModel {
   final int userId;
-
   final String? resume;
   final String? transcript;
+  final int? techStackId;
   final TechnicalModel techStack;
   final List<TechnicalModel> skillSets;
   final List<EducationModel> educations;
@@ -19,6 +19,7 @@ class ProfileStudentModel extends BaseModel {
     this.userId = -1,
     this.resume = '',
     this.transcript = '',
+    this.techStackId,
     this.techStack = const TechnicalModel(),
     this.skillSets = const [],
     this.educations = const [],
@@ -34,6 +35,7 @@ class ProfileStudentModel extends BaseModel {
     int? userId,
     String? resume,
     String? transcript,
+    int? techStackId,
     TechnicalModel? techStack,
     List<TechnicalModel>? skillSets,
     List<EducationModel>? educations,
@@ -49,6 +51,7 @@ class ProfileStudentModel extends BaseModel {
       resume: resume ?? this.resume,
       transcript: transcript ?? this.transcript,
       techStack: techStack ?? this.techStack,
+      techStackId: techStackId ?? this.techStackId,
       skillSets: skillSets ?? this.skillSets,
       educations: educations ?? this.educations,
       experiences: experiences ?? this.experiences,
@@ -66,6 +69,7 @@ class ProfileStudentModel extends BaseModel {
       'resume': resume,
       'transcript': transcript,
       'techStack': techStack.toMap(),
+      'techStackId': techStackId,
       'skillSets': skillSets.map((x) => x.toMap()).toList(),
       'educations': educations.map((x) => x.toMap()).toList(),
       'experiences': experiences.map((x) => x.toMap()).toList(),
@@ -82,6 +86,7 @@ class ProfileStudentModel extends BaseModel {
       userId: map['userId'] as int,
       resume: map['resume'] ?? map['resume'] as String?,
       transcript: map['transcript'] ?? map['transcript'] as String?,
+      techStackId: map['techStackId'] ?? map['techStackId'] as int?,
       techStack:
           TechnicalModel.fromMap(map['techStack'] as Map<String, dynamic>),
       skillSets: List<TechnicalModel>.from(
@@ -130,6 +135,7 @@ class ProfileStudentModel extends BaseModel {
         other.updatedAt == updatedAt &&
         other.deleteAt == deleteAt &&
         other.userId == userId &&
+        other.techStackId == techStackId &&
         other.resume == resume &&
         other.transcript == transcript &&
         other.techStack == techStack &&
@@ -146,6 +152,7 @@ class ProfileStudentModel extends BaseModel {
         updatedAt.hashCode ^
         deleteAt.hashCode ^
         userId.hashCode ^
+        techStackId.hashCode ^
         resume.hashCode ^
         transcript.hashCode ^
         techStack.hashCode ^

@@ -173,7 +173,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
 
     ps.setEduById(id, newEdu);
     ps.updateEducationStudent();
-    ps.setEditLanguageById(id, false);
+    ps.setEditEduById(id, false);
   }
 
   void handleEditEdu(ProfileStudentViewModel ps, EducationModel edu) {
@@ -452,6 +452,8 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                               language: tmp,
                               itemsChecked: itemsLangChecked,
                               onChangeCheck: (p0, p1) {
+                                print(profileStudentModel.student.languages[0]
+                                    .toJson());
                                 eventUpdateItemsLangChecked(p0, p1!);
                               },
                               onEdit: () {

@@ -166,37 +166,38 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
                 ),
               );
             }),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: Container(
-                width: deviceSize.width,
-                padding: const EdgeInsets.all(30),
-                decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                  BoxShadow(
-                    color: colorScheme.onSurface.withOpacity(0.1),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: const Offset(0, -3),
-                  ),
-                ]),
-                child: ElevatedButton(
-                    style: buttonPrimary,
-                    onPressed: () {
-                      if (user.currentUser!.currentRole == Role.student) {
-                        Get.toNamed(StudentRoutes.profileStudentStepThree);
-                      } else {
-                        Get.toNamed(CompanyRoutes.profileStudentStepThree);
-                      }
-                    },
-                    child: DisplayText(
-                      text: 'Next',
-                      style: textTheme.labelLarge!.copyWith(
-                        color: Colors.white,
-                      ),
-                    )),
-              ),
-            )
+            if (!Provider.of<GlobalProvider>(context, listen: true).isFocus)
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Container(
+                  width: deviceSize.width,
+                  padding: const EdgeInsets.all(30),
+                  decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                    BoxShadow(
+                      color: colorScheme.onSurface.withOpacity(0.1),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, -3),
+                    ),
+                  ]),
+                  child: ElevatedButton(
+                      style: buttonPrimary,
+                      onPressed: () {
+                        if (user.currentUser!.currentRole == Role.student) {
+                          Get.toNamed(StudentRoutes.profileStudentStepThree);
+                        } else {
+                          Get.toNamed(CompanyRoutes.profileStudentStepThree);
+                        }
+                      },
+                      child: DisplayText(
+                        text: 'Next',
+                        style: textTheme.labelLarge!.copyWith(
+                          color: Colors.white,
+                        ),
+                      )),
+                ),
+              )
           ],
         ),
       ),
