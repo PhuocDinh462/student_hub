@@ -55,12 +55,12 @@ class LanguageModel extends BaseModel {
 
   factory LanguageModel.fromMap(Map<String, dynamic> map) {
     return LanguageModel(
-      studentId: map['studentId'] as int,
+      studentId: int.tryParse(map['studentId'].toString())!,
       languageName: map['languageName'] as String,
       level: map['level'] as String,
       id: map['id'] as int,
-      createdAt: map['createdAt'] as String,
-      updatedAt: map['updatedAt'] as String,
+      createdAt: map['createdAt'] ?? map['createdAt'] as String?,
+      updatedAt: map['updatedAt'] ?? map['updatedAt'] as String?,
       deleteAt: map['deleteAt'] ?? map['deleteAt'] as String?,
     );
   }

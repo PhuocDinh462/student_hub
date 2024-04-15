@@ -216,6 +216,8 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
       _student = ProfileStudentModel.fromJson(studentJson);
     } catch (e) {
+      print(e);
+
       _errorMessage = 'Failed to fetch student profile';
     } finally {
       _loading = false;
@@ -260,8 +262,7 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
       ProfileStudentModel res = ProfileStudentModel.fromJson(studentJson);
 
-      setSkillSet(res.skillSets);
-      setTechStack(res.techStack);
+      _student = res;
     } catch (e) {
       _errorMessage = 'Failed to fetch company profile';
     } finally {
@@ -309,9 +310,15 @@ class ProfileStudentViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await profileService.updateLanguageStudent(
+      List<dynamic> data = await profileService.updateLanguageStudent(
           _student.id, student.languages);
+      print(data);
+      List<LanguageModel> res =
+          data.map((e) => LanguageModel.fromMap(e)).toList();
+
+      _student = _student.copyWith(languages: res);
     } catch (e) {
+      print(e);
       _errorMessage = 'Update language failed';
     } finally {
       _loading = false;
@@ -330,9 +337,15 @@ class ProfileStudentViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await profileService.updateEducationStudent(
+      List<dynamic> data = await profileService.updateEducationStudent(
           _student.id, student.educations);
+
+      List<EducationModel> res =
+          data.map((e) => EducationModel.fromMap(e)).toList();
+      _student = _student.copyWith(educations: res);
     } catch (e) {
+      print(e);
+
       _errorMessage = 'Failed to fetch company profile';
     } finally {
       _loading = false;
