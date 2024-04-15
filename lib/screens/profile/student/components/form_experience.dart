@@ -105,8 +105,8 @@ class _FormExpericenceState extends State<FormExpericence> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      color: colorScheme.onSecondary,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         CommonTextField(
           title: '',
@@ -249,7 +249,7 @@ class _FormExpericenceState extends State<FormExpericence> {
                             border: Border.all(
                                 color: Theme.of(context).primaryColor),
                             borderRadius: BorderRadius.circular(5),
-                            color: Colors.white,
+                            color: colorScheme.onSecondary,
                           ),
                     child: ListTile(
                       selected: isSelected,

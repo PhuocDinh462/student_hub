@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/widgets/display_text.dart';
 
 class TextFieldTitle extends StatelessWidget {
@@ -26,17 +25,14 @@ class TextFieldTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         DisplayText(
           text: title,
-          style: const TextStyle(
-            color: text_900,
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-          ),
+          style: textTheme.bodyLarge!,
         ),
         const Gap(10),
         TextField(

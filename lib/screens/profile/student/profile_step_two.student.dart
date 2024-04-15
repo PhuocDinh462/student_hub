@@ -48,7 +48,7 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
     final UserProvider user = Provider.of<UserProvider>(context, listen: true);
 
     return Scaffold(
-      backgroundColor: colorScheme.onPrimary,
+      backgroundColor: colorScheme.secondaryContainer,
       body: ConstrainedBox(
         constraints: BoxConstraints(minHeight: deviceSize.height),
         child: Stack(
@@ -63,7 +63,7 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
 
               return SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -109,6 +109,7 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
                               color: colorScheme.onSecondary),
                           child: Column(
                             children: [
+                              const Gap(20),
                               DisplayText(
                                 style: textTheme.headlineMedium!.copyWith(
                                   color: colorScheme.primary,
@@ -173,7 +174,8 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
                 child: Container(
                   width: deviceSize.width,
                   padding: const EdgeInsets.all(30),
-                  decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                  decoration:
+                      BoxDecoration(color: colorScheme.onSecondary, boxShadow: [
                     BoxShadow(
                       color: colorScheme.onSurface.withOpacity(0.1),
                       spreadRadius: 5,
