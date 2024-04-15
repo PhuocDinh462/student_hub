@@ -60,13 +60,13 @@ class EducationModel extends BaseModel {
 
   factory EducationModel.fromMap(Map<String, dynamic> map) {
     return EducationModel(
-      studentId: map['studentId'] as int,
+      studentId: int.tryParse(map['studentId'].toString())!,
       schoolName: map['schoolName'] as String,
       startYear: map['startYear'] as int,
       endYear: map['endYear'] as int,
       id: map['id'] as int,
-      createdAt: map['createdAt'] as String,
-      updatedAt: map['updatedAt'] as String,
+      createdAt: map['createdAt'] ?? map['createdAt'] as String?,
+      updatedAt: map['updatedAt'] ?? map['updatedAt'] as String?,
       deleteAt: map['deleteAt'] ?? map['deleteAt'] as String?,
     );
   }

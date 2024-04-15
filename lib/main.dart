@@ -88,20 +88,16 @@ class MyApp extends StatelessWidget {
                 ],
                 supportedLocales: AppLocalizations.supportedLocales,
                 locale: Locale(themeProvider.getLanguage),
-                routes:
-                    //  StudentRoutes.routes,
-                    userProvider.currentUser != null
-                        ? (userProvider.currentUser!.currentRole == Role.student
-                            ? StudentRoutes.routes
-                            : CompanyRoutes.routes)
-                        : AuthRoutes.routes,
-                initialRoute:
-                    // StudentRoutes.profileStudentStepTwo,
-                    userProvider.currentUser != null
-                        ? (userProvider.currentUser!.currentRole == Role.student
-                            ? StudentRoutes.nav
-                            : CompanyRoutes.nav)
-                        : AuthRoutes.login,
+                routes: userProvider.currentUser != null
+                    ? (userProvider.currentUser!.currentRole == Role.student
+                        ? StudentRoutes.routes
+                        : CompanyRoutes.routes)
+                    : AuthRoutes.routes,
+                initialRoute: userProvider.currentUser != null
+                    ? (userProvider.currentUser!.currentRole == Role.student
+                        ? StudentRoutes.nav
+                        : CompanyRoutes.nav)
+                    : AuthRoutes.login,
                 debugShowCheckedModeBanner: false,
                 theme: themeProvider.getThemeMode
                     ? AppTheme.darkTheme
