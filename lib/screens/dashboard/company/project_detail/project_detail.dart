@@ -18,22 +18,32 @@ class ProjectDetail extends StatefulWidget {
 
 class _ProjectDetailState extends State<ProjectDetail> {
   final ProposalService proposalService = ProposalService();
+  bool _isLoading = false;
   List<Proposal> _proposalList = [];
 
-  void fetchProposal(int projectId) async {
-    await proposalService.getProposal(projectId).then((value) {
+  @override
+  void initState() {
+    fetchProposal();
+    super.initState();
+  }
+
+  void fetchProposal() async {
+    setState(() => _isLoading = true);
+    final ProjectProvider projectProvider =
+        Provider.of<ProjectProvider>(context, listen: false);
+    await proposalService
+        .getProposal(projectProvider.getCurrentProject!.id)
+        .then((value) {
       setState(() => _proposalList = value);
     }).catchError((e) {
       throw Exception(e);
+    }).whenComplete(() {
+      setState(() => _isLoading = false);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final ProjectProvider projectProvider =
-        Provider.of<ProjectProvider>(context);
-    fetchProposal(projectProvider.getCurrentProject!.id);
-
     return DefaultTabController(
       length: 4,
       child: Column(

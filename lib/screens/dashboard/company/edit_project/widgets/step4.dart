@@ -9,15 +9,14 @@ import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/utils/extensions.dart';
 
 class Step4 extends StatelessWidget {
-  const Step4({super.key, required this.back});
+  Step4({super.key, required this.back});
   final VoidCallback back;
+  final ProjectService projectService = ProjectService();
 
   @override
   Widget build(BuildContext context) {
     final ProjectProvider projectProvider =
         Provider.of<ProjectProvider>(context);
-
-    ProjectService projectService = ProjectService();
 
     void editProject() async {
       context.loaderOverlay.show();
