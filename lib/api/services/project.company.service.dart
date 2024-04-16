@@ -28,29 +28,27 @@ class ProjectService extends BaseApi {
   }
 
   Future<dynamic> removeProject(projectId) async {
-    await dio
-        .delete(
-      '/project/$projectId',
-    )
-        .then((value) {
-      return value.data;
-    }).catchError((e) {
+    try {
+      var res = await dio.delete(
+        '/project/$projectId',
+      );
+      return res.data;
+    } catch (e) {
       printError(info: 'Remove project error: $e');
       throw Exception(e);
-    });
+    }
   }
 
-  Future<dynamic> editProject(id, body) async {
-    await dio
-        .patch(
-      '/project/$id',
-      data: body,
-    )
-        .then((value) {
-      return value.data;
-    }).catchError((e) {
+  Future<Project> editProject(id, body) async {
+    try {
+      var res = await dio.patch(
+        '/project/$id',
+        data: body,
+      );
+      return Project.fromMap(res.data['result']);
+    } catch (e) {
       printError(info: 'Edit project error: $e');
       throw Exception(e);
-    });
+    }
   }
 }

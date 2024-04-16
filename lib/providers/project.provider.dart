@@ -67,6 +67,12 @@ class ProjectProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void editProject(Project project) {
+    _projectList =
+        _projectList.map((e) => e.id == project.id ? project : e).toList();
+    notifyListeners();
+  }
+
   Project? get getCurrentProject => _currentProject;
   set setCurrentProject(Project project) {
     _currentProject = project;

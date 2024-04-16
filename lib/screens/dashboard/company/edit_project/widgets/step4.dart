@@ -21,22 +21,20 @@ class Step4 extends StatelessWidget {
 
     void editProject() async {
       context.loaderOverlay.show();
-      await projectService
-          .editProject(projectProvider.getCurrentProject!.id, {
-            'projectScopeFlag': projectProvider.getProjectScope.index,
-            'title': projectProvider.getTitle,
-            'description': projectProvider.getDescription,
-            'typeFlag': 0,
-            'numberOfStudents': projectProvider.getNumOfStudents,
-          })
-          .then((value) {})
-          .catchError((e) {
-            throw Exception(e);
-          })
-          .whenComplete(() {
-            context.loaderOverlay.hide();
-            Navigator.of(context).pop();
-          });
+      await projectService.editProject(projectProvider.getCurrentProject!.id, {
+        'projectScopeFlag': projectProvider.getProjectScope.index,
+        'title': projectProvider.getTitle,
+        'description': projectProvider.getDescription,
+        'typeFlag': 0,
+        'numberOfStudents': projectProvider.getNumOfStudents,
+      }).then((value) {
+        projectProvider.editProject(value);
+      }).catchError((e) {
+        throw Exception(e);
+      }).whenComplete(() {
+        context.loaderOverlay.hide();
+        Navigator.of(context).pop();
+      });
     }
 
     return Column(
