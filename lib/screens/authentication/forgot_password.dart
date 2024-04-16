@@ -107,7 +107,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                          ?.copyWith(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
                   ],
                 ),
@@ -131,16 +131,19 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     children: [
                       Text(
                         'New Password will be sent',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
                       ),
                       const Gap(5),
                       Text(
                         'less than a minute',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.bold, color: primary_300),
+                              fontWeight: FontWeight.bold,
+                              color: primary_300,
+                              fontSize: 14,
+                            ),
                       ),
                     ],
                   ),

@@ -36,7 +36,6 @@ class AppTheme {
       surfaceTint: primary_300,
       surface: text_50,
       onSurface: text_500,
-      background: text_900,
       outline: Colors.transparent,
       onSecondary: Colors.white,
     ),

@@ -146,7 +146,7 @@ class _LoginState extends State<Login> {
               colors: [
                 linearColor1,
                 linearColor2,
-                Color(0xff00C853),
+                linearColor3,
               ],
             ),
           ),
@@ -155,8 +155,8 @@ class _LoginState extends State<Login> {
             children: [
               const Gap(50),
               Image.asset(
-                'assets/images/avatar.jpg',
-                width: MediaQuery.of(context).size.width / 5,
+                'assets/images/Coding-workshop.png',
+                width: MediaQuery.of(context).size.width / 3,
               ),
               const Gap(20),
               Text(
