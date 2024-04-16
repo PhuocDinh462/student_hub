@@ -20,6 +20,9 @@ const Color text_50 = Color(0xfff5f5f5);
 
 // More colors
 const Color color_1 = Color.fromARGB(255, 255, 77, 64);
+const Color linearColor1 = Color(0xff1597FF);
+const Color linearColor2 = Color(0xff3F51B5);
+const Color linearColor3 = Color(0xff00C853);
 
 // Themes
 class AppTheme {
@@ -33,6 +36,7 @@ class AppTheme {
       surfaceTint: primary_300,
       surface: text_50,
       onSurface: text_500,
+      background: text_900,
       outline: Colors.transparent,
       onSecondary: Colors.white,
     ),
@@ -88,6 +92,7 @@ class AppTheme {
       secondaryContainer: text_900,
       surfaceTint: text_800,
       surface: text_800,
+      background: text_50,
       onSurface: text_50,
       onSecondary: text_800,
     ),
