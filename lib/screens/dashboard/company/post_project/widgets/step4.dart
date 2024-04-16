@@ -30,8 +30,7 @@ class Step4 extends StatelessWidget {
         'typeFlag': 0,
         'numberOfStudents': projectProvider.getNumOfStudents,
       }).then((value) {
-        Project project = Project.fromMap(value.data['result']);
-        projectProvider.addProject(project);
+        projectProvider.addProject(value);
       }).catchError((e) {
         throw Exception(e);
       }).whenComplete(() {

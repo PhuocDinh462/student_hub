@@ -5,24 +5,20 @@ import 'package:student_hub/models/project.dart';
 class ProjectService extends BaseApi {
   ProjectService();
 
-  Future<dynamic> postProject(body) async {
-    await dio
-        .post(
-      '/project',
-      data: body,
-    )
-        .then((value) {
-      return value.data;
-    }).catchError((e) {
+  Future<Project> postProject(body) async {
+    try {
+      var res = await dio.post('/project', data: body);
+      return Project.fromMap(res.data['result']);
+    } catch (e) {
       printError(info: 'Post project error: $e');
       throw Exception(e);
-    });
+    }
   }
 
   Future<List<Project>> getProject(companyId) async {
     try {
-      var response = await dio.get('/project/company/$companyId');
-      return (response.data['result'] as List)
+      var res = await dio.get('/project/company/$companyId');
+      return (res.data['result'] as List)
           .map<Project>((item) => Project.fromMap(item))
           .toList();
     } catch (e) {

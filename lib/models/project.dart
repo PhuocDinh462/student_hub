@@ -53,7 +53,7 @@ class Project {
       description: map['description'],
       proposals: [],
       favorite: false,
-      countProposals: map['countProposals'],
+      countProposals: map['countProposals'] ?? 0,
       countMessages: map['countMessages'] ?? 0,
       countHired: map['countHired'] ?? 0,
       typeFlag: TypeFlag.values[map['typeFlag']],

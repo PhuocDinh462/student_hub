@@ -115,7 +115,7 @@ class _ProjectsState extends State<Projects> {
   }
 
   Future<void> _fetchData(UserProvider userProvider) async {
-    context.loaderOverlay.show();
+    // context.loaderOverlay.show();
     await fetchProject(userProvider);
     context.loaderOverlay.hide();
   }
