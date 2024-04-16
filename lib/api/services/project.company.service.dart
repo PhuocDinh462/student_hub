@@ -15,9 +15,12 @@ class ProjectService extends BaseApi {
     }
   }
 
-  Future<List<Project>> getProject(companyId) async {
+  Future<List<Project>> getProject(companyId, [params]) async {
     try {
-      var res = await dio.get('/project/company/$companyId');
+      var res = await dio.get(
+        '/project/company/$companyId',
+        queryParameters: params,
+      );
       return (res.data['result'] as List)
           .map<Project>((item) => Project.fromMap(item))
           .toList();

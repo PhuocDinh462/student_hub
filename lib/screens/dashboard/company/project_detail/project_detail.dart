@@ -1,46 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:provider/provider.dart';
-import 'package:student_hub/api/services/proposal.service.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/proposal.dart';
-import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/screens/dashboard/company/project_detail/widget/project_info.dart';
-import 'package:student_hub/screens/dashboard/company/project_detail/widget/proposal_item.dart';
-import 'package:student_hub/utils/empty.dart';
+import 'widget/proposal_list.dart';
 
-class ProjectDetail extends StatefulWidget {
+class ProjectDetail extends StatelessWidget {
   const ProjectDetail({super.key});
-
-  @override
-  createState() => _ProjectDetailState();
-}
-
-class _ProjectDetailState extends State<ProjectDetail> {
-  final ProposalService proposalService = ProposalService();
-  bool _isLoading = false;
-  List<Proposal> _proposalList = [];
-
-  @override
-  void initState() {
-    fetchProposal();
-    super.initState();
-  }
-
-  void fetchProposal() async {
-    setState(() => _isLoading = true);
-    final ProjectProvider projectProvider =
-        Provider.of<ProjectProvider>(context, listen: false);
-    await proposalService
-        .getProposal(projectProvider.getCurrentProject!.id)
-        .then((value) {
-      setState(() => _proposalList = value);
-    }).catchError((e) {
-      throw Exception(e);
-    }).whenComplete(() {
-      setState(() => _isLoading = false);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,81 +48,25 @@ class _ProjectDetailState extends State<ProjectDetail> {
               ),
             ],
           ),
-          Expanded(
+          const Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               child: TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
+                physics: NeverScrollableScrollPhysics(),
                 children: [
                   // Info
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
                     child: ProjectInfo(),
                   ),
                   // Message
-                  const Center(
+                  Center(
                     child: Text('Message'),
                   ),
                   // Proposals
-                  _proposalList
-                          .where((item) => item.statusFlag == StatusFlag.offer)
-                          .isEmpty
-                      ? const Center(
-                          child: Empty(),
-                        )
-                      : SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              const Gap(10),
-                              Column(
-                                children: _proposalList
-                                    .where((item) =>
-                                        item.statusFlag == StatusFlag.offer)
-                                    .map(
-                                      (item) => Column(
-                                        children: [
-                                          ProposalItem(
-                                            proposal: item,
-                                          ),
-                                          const Gap(10),
-                                        ],
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                            ],
-                          ),
-                        ),
+                  ProposalList(statusFlag: StatusFlag.offer),
                   // Hired
-                  _proposalList
-                          .where((item) => item.statusFlag == StatusFlag.hired)
-                          .isEmpty
-                      ? const Center(
-                          child: Empty(),
-                        )
-                      : SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              const Gap(10),
-                              Column(
-                                children: _proposalList
-                                    .where((item) =>
-                                        item.statusFlag == StatusFlag.hired)
-                                    .map(
-                                      (item) => Column(
-                                        children: [
-                                          ProposalItem(
-                                            proposal: item,
-                                          ),
-                                          const Gap(10),
-                                        ],
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                            ],
-                          ),
-                        ),
+                  ProposalList(statusFlag: StatusFlag.hired),
                 ],
               ),
             ),

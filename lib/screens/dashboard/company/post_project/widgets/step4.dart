@@ -26,7 +26,7 @@ class Step4 extends StatelessWidget {
         'projectScopeFlag': projectProvider.getProjectScope.index,
         'title': projectProvider.getTitle,
         'description': projectProvider.getDescription,
-        'typeFlag': 0,
+        'typeFlag': TypeFlag.archieved.index,
         'numberOfStudents': projectProvider.getNumOfStudents,
       }).then((value) {
         projectProvider.addProject(value);

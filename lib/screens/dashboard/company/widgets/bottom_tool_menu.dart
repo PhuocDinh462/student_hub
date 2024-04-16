@@ -34,20 +34,17 @@ class BottomToolMenu extends StatelessWidget {
 
     void updateProjectTypeFlag(TypeFlag typeFlag) async {
       // context.loaderOverlay.show();
-      await projectService
-          .editProject(projectProvider.getCurrentProject!.id, {
-            'title': projectProvider.getCurrentProject!.title,
-            'typeFlag': typeFlag.index,
-            'numberOfStudents':
-                projectProvider.getCurrentProject!.requiredStudents,
-          })
-          .then((value) {})
-          .catchError((e) {
-            throw Exception(e);
-          })
-          .whenComplete(() {
-            context.loaderOverlay.hide();
-          });
+      await projectService.editProject(projectProvider.getCurrentProject!.id, {
+        'title': projectProvider.getCurrentProject!.title,
+        'typeFlag': typeFlag.index,
+        'numberOfStudents': projectProvider.getCurrentProject!.requiredStudents,
+      }).then((value) {
+        projectProvider.editProject(value);
+      }).catchError((e) {
+        throw Exception(e);
+      }).whenComplete(() {
+        context.loaderOverlay.hide();
+      });
     }
 
     return Container(
