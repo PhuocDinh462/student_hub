@@ -14,13 +14,12 @@ class BottomToolMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ProjectService projectService = ProjectService();
     final ProjectProvider projectProvider =
         Provider.of<ProjectProvider>(context);
 
-    final ProjectService projectService = ProjectService();
-
     void removeProject() async {
-      // context.loaderOverlay.show();
+      context.loaderOverlay.show();
       await projectService
           .removeProject(projectProvider.getCurrentProject!.id)
           .then((value) {
@@ -29,11 +28,12 @@ class BottomToolMenu extends StatelessWidget {
         throw Exception(e);
       }).whenComplete(() {
         context.loaderOverlay.hide();
+        Navigator.pop(context);
       });
     }
 
     void updateProjectTypeFlag(TypeFlag typeFlag) async {
-      // context.loaderOverlay.show();
+      context.loaderOverlay.show();
       await projectService.editProject(projectProvider.getCurrentProject!.id, {
         'title': projectProvider.getCurrentProject!.title,
         'typeFlag': typeFlag.index,
@@ -44,6 +44,7 @@ class BottomToolMenu extends StatelessWidget {
         throw Exception(e);
       }).whenComplete(() {
         context.loaderOverlay.hide();
+        Navigator.pop(context);
       });
     }
 
@@ -133,34 +134,32 @@ class BottomToolMenu extends StatelessWidget {
 
           // Remove
           GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Confirmation'),
-                    content: const Text(
-                        'Are you sure you want to remove this posting?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('No'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          removeProject();
-                        },
-                        child: const Text('Yes'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
+            onTap: () => showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Confirmation'),
+                  content: const Text(
+                      'Are you sure you want to remove this posting?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                      child: const Text('No'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        removeProject();
+                      },
+                      child: const Text('Yes'),
+                    ),
+                  ],
+                );
+              },
+            ),
             child: Container(
               color: Colors.transparent,
               child: Row(
@@ -196,10 +195,7 @@ class BottomToolMenu extends StatelessWidget {
           // Start
           projectProvider.getCurrentProject!.typeFlag == TypeFlag.archieved
               ? GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                    updateProjectTypeFlag(TypeFlag.working);
-                  },
+                  onTap: () => updateProjectTypeFlag(TypeFlag.working),
                   child: Container(
                     color: Colors.transparent,
                     child: Row(
@@ -236,10 +232,7 @@ class BottomToolMenu extends StatelessWidget {
 
               // Closed
               : GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                    updateProjectTypeFlag(TypeFlag.archieved);
-                  },
+                  onTap: () => updateProjectTypeFlag(TypeFlag.archieved),
                   child: Container(
                     color: Colors.transparent,
                     child: Row(

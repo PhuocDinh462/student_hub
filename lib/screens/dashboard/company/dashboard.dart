@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/services/project.company.service.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/company_route.dart';
-import 'package:student_hub/screens/dashboard/company/widgets/project_item.dart';
-import 'package:student_hub/utils/empty.dart';
-
 import 'widgets/project_list.dart';
 
 class DashboardCompany extends StatefulWidget {
