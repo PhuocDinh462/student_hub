@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:student_hub/models/proposal.dart';
+import 'package:student_hub/routes/company_route.dart';
 
 class ProposalItem extends StatelessWidget {
   const ProposalItem({super.key, required this.proposal});
@@ -9,7 +11,9 @@ class ProposalItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Get.toNamed(CompanyRoutes.proposalDetail, arguments: proposal.id);
+      },
       child: Card(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(15, 15, 5, 15),
