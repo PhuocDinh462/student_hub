@@ -14,27 +14,28 @@ class DashboardStudent extends StatefulWidget {
 
 class _DashboardStudentState extends State<DashboardStudent> {
   PageController pageController = PageController();
+  late IndexPageProvider indexPageProvider;
 
   @override
   void initState() {
     super.initState();
     pageController = PageController(initialPage: 0);
 
-    Provider.of<IndexPageProvider>(context, listen: false)
-        .addListener(_handleIndexPageChange);
+    indexPageProvider = Provider.of<IndexPageProvider>(context, listen: false);
+    indexPageProvider.addListener(_handleIndexPageChange);
   }
 
   @override
   void dispose() {
-    Provider.of<IndexPageProvider>(context, listen: false)
-        .removeListener(_handleIndexPageChange);
+    indexPageProvider.removeListener(_handleIndexPageChange);
+
     pageController.dispose();
     super.dispose();
   }
 
   void _handleIndexPageChange() {
-    var indexPage = Provider.of<IndexPageProvider>(context, listen: false)
-        .getIndexDBStudent;
+    final int indexPage = indexPageProvider.getIndexDBStudent;
+
     pageController.animateToPage(
       indexPage,
       duration: const Duration(milliseconds: 300),
@@ -50,10 +51,11 @@ class _DashboardStudentState extends State<DashboardStudent> {
       children: [
         HeaderStudentDashboard(
           headerTitle: headerTitle,
+          title: 'Your project',
         ),
         Expanded(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: PageView.builder(
                 itemCount: pages.length,
                 controller: pageController,

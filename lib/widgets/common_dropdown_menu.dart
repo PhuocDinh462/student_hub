@@ -3,6 +3,8 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/providers.dart';
+import 'package:student_hub/screens/dashboard/student/widgets/dashboard.widgets.dart';
+import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
 class CommonDropdownMenu extends StatelessWidget {
@@ -15,6 +17,7 @@ class CommonDropdownMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isExpanded = Provider.of<OpenIdProvider>(context).openId == id;
 
+    final deviceSize = context.deviceSize;
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     return Column(
@@ -63,7 +66,7 @@ class CommonDropdownMenu extends StatelessWidget {
         if (isExpanded)
           Container(
             padding: const EdgeInsets.all(4),
-            height: 450,
+            height: deviceSize.height * 0.45,
             decoration: BoxDecoration(
               color: colorScheme.onPrimary,
               borderRadius: const BorderRadius.only(
@@ -75,34 +78,7 @@ class CommonDropdownMenu extends StatelessWidget {
                 itemCount: 5,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (ctx, index) {
-                  return Container(
-                    decoration: const BoxDecoration(color: Colors.white),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          DisplayText(
-                              text: 'Senior frontend developer (Fintech)',
-                              style: textTheme.labelMedium!),
-                          const Gap(5),
-                          DisplayText(
-                              text: 'Submitted 3 days ago',
-                              style: textTheme.labelSmall!),
-                          const Gap(10),
-                          DisplayText(
-                              text: 'Students are looking for...',
-                              style: textTheme.labelMedium!),
-                          const Gap(20),
-                          const Divider(
-                            color: text_400,
-                            height: 2,
-                          ),
-                          const Gap(30)
-                        ],
-                      ),
-                    ),
-                  );
+                  return CardInfoProposal();
                 }),
           )
       ],

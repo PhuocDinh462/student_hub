@@ -3,7 +3,7 @@ import 'package:student_hub/api/base.api.dart';
 import 'package:student_hub/models/proposal.dart';
 
 class ProposalService extends BaseApi {
-  ProposalService();
+  ProposalService() : super();
 
   Future<List<Proposal>> getProposal(projectId) async {
     try {

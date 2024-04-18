@@ -3,10 +3,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/providers.dart';
+import 'package:student_hub/routes/routes.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/circle_container.dart';
 import 'package:gap/gap.dart';
@@ -168,7 +170,8 @@ class _ProjectDetailsState extends State<ProjectDetails> {
               children: [
                 Button(
                   onTap: () {
-                    Navigator.pop(context);
+                    Get.toNamed(StudentRoutes.submitProposalStudent,
+                        arguments: {'project': widget.project});
                   },
                   text: 'Apply Now',
                   colorButton: primary_300,

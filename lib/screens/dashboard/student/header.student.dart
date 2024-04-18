@@ -3,8 +3,10 @@ import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
 class HeaderStudentDashboard extends StatelessWidget {
-  const HeaderStudentDashboard({super.key, required this.headerTitle});
+  const HeaderStudentDashboard(
+      {super.key, required this.headerTitle, required this.title});
   final List<String> headerTitle;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class HeaderStudentDashboard extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 20),
             child: DisplayText(
-              text: 'Your project',
+              text: title,
               style: textTheme.headlineLarge!,
             ),
           ),
