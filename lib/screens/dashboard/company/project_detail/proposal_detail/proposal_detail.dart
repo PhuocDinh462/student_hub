@@ -214,37 +214,19 @@ class ProposalDetail extends StatelessWidget {
 
               // Action buttons
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: primary_300,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primary_300,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
-                    ),
-                    child: const SizedBox(
-                      width: 100,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.message_outlined,
-                              color: text_50, size: 20),
-                          Gap(10),
-                          Text(
-                            'Message',
-                            style: TextStyle(
-                              color: text_50,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const Gap(30),
+                      child:
+                          const Icon(Icons.message_outlined, color: text_50)),
+                  const Gap(20),
                   ElevatedButton(
                     onPressed: () {
                       showDialog(
@@ -301,28 +283,10 @@ class ProposalDetail extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primary_300,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const SizedBox(
-                      width: 100,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.check_box_outlined,
-                              color: text_50, size: 20),
-                          Gap(10),
-                          Text(
-                            'Hire',
-                            style: TextStyle(
-                              color: text_50,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: const Icon(Icons.check, color: text_50),
                   ),
                 ],
               ),
