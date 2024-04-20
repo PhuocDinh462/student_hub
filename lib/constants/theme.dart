@@ -91,7 +91,6 @@ class AppTheme {
       secondaryContainer: text_900,
       surfaceTint: text_800,
       surface: text_800,
-      background: text_50,
       onSurface: text_50,
       onSecondary: text_800,
     ),

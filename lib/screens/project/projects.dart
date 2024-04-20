@@ -39,18 +39,22 @@ class _ProjectsState extends State<Projects> {
     //   options: Options(headers: headers),
     // );
     // final listResponse = response.data['result'];
-    final listResponse = await projectService.getProjects();
-    final List<Project> fetchProjects = listResponse
-        .cast<Map<String, dynamic>>()
-        .where((projectData) => projectData['deletedAt'] == null)
-        .map<Project>((projectData) {
-      return Project.fromMapInProjectsList(projectData);
-    }).toList();
-    setState(() {
-      projects.clear();
-      projects.addAll(fetchProjects);
-      filteredProjects = projects;
-    });
+    try {
+      final listResponse = await projectService.getProjects();
+      final List<Project> fetchProjects = listResponse
+          .cast<Map<String, dynamic>>()
+          .where((projectData) => projectData['deletedAt'] == null)
+          .map<Project>((projectData) {
+        return Project.fromMapInProjectsList(projectData);
+      }).toList();
+      setState(() {
+        projects.clear();
+        projects.addAll(fetchProjects);
+        filteredProjects = projects;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> resetProjects() async {
