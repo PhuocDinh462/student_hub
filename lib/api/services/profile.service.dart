@@ -90,7 +90,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      throw Exception('Failed to create profile student');
+      throw Exception('Failed to update profile student');
     }
   }
 
@@ -122,7 +122,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      throw Exception('Failed to create profile student');
+      throw Exception('Failed to get TechStack');
     }
   }
 
@@ -153,7 +153,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      throw Exception('Failed to create profile student');
+      throw Exception('Failed to get TechStack by id "$techStackId"');
     }
   }
 
@@ -170,7 +170,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      throw Exception('Failed to create profile student');
+      throw Exception('Failed to create TechStack student');
     }
   }
 
@@ -184,8 +184,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      // print(e);
-      throw Exception('Failed to create profile student');
+      throw Exception('Failed to get all skillset');
     }
   }
 
@@ -200,7 +199,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      throw Exception('Failed to create profile student');
+      throw Exception('Failed to create skillset student');
     }
   }
 
@@ -214,7 +213,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      throw Exception('Failed to create profile student');
+      throw Exception('Failed to get skillset by id "$id"');
     }
   }
 
@@ -228,7 +227,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      throw Exception('Failed to create profile student');
+      throw Exception('Failed to get language');
     }
   }
 
@@ -269,7 +268,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      throw Exception('Failed to create profile student');
+      throw Exception('Failed to get education');
     }
   }
 
@@ -296,7 +295,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      throw Exception('Failed to create profile student');
+      throw Exception('Failed to update education');
     }
   }
 
@@ -311,7 +310,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      throw Exception('Failed to create profile student');
+      throw Exception('Failed to get experience');
     }
   }
 
@@ -351,7 +350,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      throw Exception('Failed to update experience student');
+      throw Exception('Failed to get resume');
     }
   }
 
@@ -370,7 +369,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      throw Exception('Failed to update experience student');
+      throw Exception('Failed to update resume');
     }
   }
 
@@ -384,7 +383,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      throw Exception('Failed to update experience student');
+      throw Exception('Failed to get transcript');
     }
   }
 
@@ -403,7 +402,7 @@ class ProfileService extends BaseApi {
         throw Exception('The key "result" does not exist in the response');
       }
     } catch (e) {
-      throw Exception('Failed to update experience student');
+      throw Exception('Failed to update transcript');
     }
   }
 }

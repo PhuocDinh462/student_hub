@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/layout/navigation.dart';
-import 'package:student_hub/models/models.dart';
 import 'package:student_hub/screens/alerts/alert.screen.dart';
 import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
 import 'package:student_hub/screens/project/submit_proposal.dart';
@@ -63,12 +62,12 @@ class StudentRoutes {
     submitProposalStudent: (context) {
       final args =
           ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
-      final Project projectInfo = args!['project'];
+      final int projectId = args?['projectId'] ?? 0;
 
       return AccountHeader(
           title: 'Apply Now',
           body: SubmitProposal(
-            project: projectInfo,
+            projectId: projectId,
           ));
     },
     messageList: (context) =>

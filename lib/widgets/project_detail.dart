@@ -171,7 +171,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                 Button(
                   onTap: () {
                     Get.toNamed(StudentRoutes.submitProposalStudent,
-                        arguments: {'project': widget.project});
+                        arguments: {'projectId': widget.project.id});
                   },
                   text: 'Apply Now',
                   colorButton: primary_300,

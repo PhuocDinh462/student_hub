@@ -75,6 +75,7 @@ class _CommonTextFieldState extends State<CommonTextField>
         DisplayText(
           text: widget.title,
           style: widget.titleStyle ?? textTheme.bodyLarge!,
+          overflow: TextOverflow.visible,
         ),
         if (widget.title != '') const Gap(10),
         if (widget.child != null) widget.child!,

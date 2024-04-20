@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/screens/dashboard/student/widgets/dashboard.widgets.dart';
 import 'package:student_hub/utils/utils.dart';
@@ -9,9 +8,13 @@ import 'package:student_hub/widgets/widgets.dart';
 
 class CommonDropdownMenu extends StatelessWidget {
   const CommonDropdownMenu(
-      {super.key, required this.labelText, required this.id});
+      {super.key,
+      required this.labelText,
+      required this.id,
+      required this.proposals});
   final int id;
   final String labelText;
+  final List<ProposalModel> proposals;
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +26,9 @@ class CommonDropdownMenu extends StatelessWidget {
     return Column(
       children: [
         Container(
-            // width: double.infinity,
             height: 70,
             decoration: BoxDecoration(
               color: colorScheme.onPrimary,
-              // border: Border.all(color: colorScheme.onSurface, width: 2),
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(isExpanded ? 0 : 5),
                   bottomRight: Radius.circular(isExpanded ? 0 : 5),
@@ -75,10 +76,12 @@ class CommonDropdownMenu extends StatelessWidget {
             ),
             child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
-                itemCount: 5,
+                itemCount: proposals.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (ctx, index) {
-                  return CardInfoProposal();
+                  return CardInfoProposal(
+                    proposal: proposals[index],
+                  );
                 }),
           )
       ],
