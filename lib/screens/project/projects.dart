@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gap/gap.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/models/project.dart';
@@ -13,7 +12,6 @@ import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/project_filter.dart';
 import 'package:student_hub/widgets/project_card.dart';
 import 'package:student_hub/widgets/search_field.dart';
-import 'package:dio/dio.dart';
 
 class Projects extends StatefulWidget {
   const Projects({super.key});
@@ -28,17 +26,8 @@ class _ProjectsState extends State<Projects> {
   final searchController = TextEditingController();
   final String? apiServer = dotenv.env['API_SERVER'];
   final ProjectService projectService = ProjectService();
-  final dio = Dio();
-
+  bool isLoading = false;
   Future<void> fetchProject(UserProvider userProvider) async {
-    // Map<String, dynamic> headers = {
-    //   'Authorization': 'Bearer ${userProvider.currentUser?.token}',
-    // };
-    // final response = await dio.get(
-    //   '$apiServer/project',
-    //   options: Options(headers: headers),
-    // );
-    // final listResponse = response.data['result'];
     try {
       final listResponse = await projectService.getProjects();
       final List<Project> fetchProjects = listResponse
@@ -67,8 +56,10 @@ class _ProjectsState extends State<Projects> {
 
   Future<void> updateFilteredProjects(int? studentsNeeded, int? proposalsCount,
       int? projectScopeFlag, UserProvider provider) async {
+    setState(() {
+      isLoading = true;
+    });
     await resetProjects();
-    context.loaderOverlay.show();
     try {
       final queries = {
         if (studentsNeeded != null &&
@@ -83,15 +74,6 @@ class _ProjectsState extends State<Projects> {
             (projectScopeFlag == 0))
           'projectScopeFlag': projectScopeFlag,
       };
-      // Map<String, dynamic> headers = {
-      //   'Authorization': 'Bearer ${provider.currentUser?.token}',
-      // };
-      // final response = await dio.get(
-      //   '$apiServer/project',
-      //   queryParameters: queries,
-      //   options: Options(headers: headers),
-      // );
-      // final listResponse = response.data['result'];
       final listResponse = await projectService.filterProject(queries);
       List<Project> fetchProjects = listResponse
           .cast<Map<String, dynamic>>()
@@ -106,7 +88,9 @@ class _ProjectsState extends State<Projects> {
     } catch (e) {
       print(e);
     }
-    context.loaderOverlay.hide();
+    setState(() {
+      isLoading = false;
+    });
   }
 
   void filterProjects(String query) {
@@ -119,12 +103,15 @@ class _ProjectsState extends State<Projects> {
   }
 
   Future<void> _fetchData(UserProvider userProvider) async {
-    context.loaderOverlay.show();
+    setState(() {
+      isLoading = true;
+    });
     await fetchProject(userProvider);
-    context.loaderOverlay.hide();
+    setState(() {
+      isLoading = false;
+    });
   }
 
-  // String _selectedMenu = '';
   @override
   void initState() {
     super.initState();
@@ -267,33 +254,35 @@ class _ProjectsState extends State<Projects> {
                   ),
                 ],
               ),
-              const Gap(10),
-              filteredProjects.isEmpty
-                  ? Column(
-                      children: [
-                        const Gap(50),
-                        Text(
-                          "There's no projects available",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    )
-                  : Expanded(
-                      child: ListView.builder(
-                        itemCount: filteredProjects.length,
-                        itemBuilder: (context, index) {
-                          return ProjectCard(
-                            project: filteredProjects[index],
-                            projectService: projectService,
-                          );
-                        },
-                      ),
-                    ),
+              if (isLoading)
+                const Column(
+                  children: [
+                    Gap(50),
+                    CircularProgressIndicator(),
+                  ],
+                )
+              else if (filteredProjects.isEmpty)
+                Text(
+                  "There's no projects available",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  textAlign: TextAlign.center,
+                )
+              else
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: filteredProjects.length,
+                    itemBuilder: (context, index) {
+                      return ProjectCard(
+                        project: filteredProjects[index],
+                        projectService: projectService,
+                      );
+                    },
+                  ),
+                ),
             ],
           ),
         ),
