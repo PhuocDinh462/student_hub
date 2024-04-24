@@ -12,7 +12,7 @@ class ProposalItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(CompanyRoutes.proposalDetail, arguments: proposal.id);
+        Get.toNamed(CompanyRoutes.proposalDetail, arguments: proposal);
       },
       child: Card(
         child: Padding(
@@ -31,7 +31,7 @@ class ProposalItem extends StatelessWidget {
                   ),
                   const Gap(5),
                   Text(
-                    proposal.techStackName,
+                    proposal.techStack.name,
                     style: Theme.of(context)
                         .textTheme
                         .labelSmall

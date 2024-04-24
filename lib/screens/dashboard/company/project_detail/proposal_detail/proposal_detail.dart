@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/proposal.dart';
 import 'package:student_hub/screens/dashboard/company/project_detail/proposal_detail/widgets/skill_item.dart';
 import 'package:student_hub/utils/extensions.dart';
-// import 'package:get/get.dart';
+import 'package:get/get.dart';
 
 class ProposalDetail extends StatelessWidget {
   const ProposalDetail({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // final int proposalId = Get.arguments;
+    final Proposal proposal = Get.arguments;
 
     return SingleChildScrollView(
       child: Padding(
@@ -33,7 +34,7 @@ class ProposalDetail extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Phuoc Dinh Cao Hong',
+                          proposal.studentName,
                           style: Theme.of(context)
                               .textTheme
                               .displayLarge
@@ -44,7 +45,7 @@ class ProposalDetail extends StatelessWidget {
                         ),
                         const Gap(5),
                         Text(
-                          'Fullstack Engineer',
+                          proposal.techStack.name,
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall
@@ -60,8 +61,7 @@ class ProposalDetail extends StatelessWidget {
               // Cover letter
               SizedBox(
                 width: context.deviceSize.width - 30,
-                child: const Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'),
+                child: Text(proposal.coverLetter),
               ),
               const Gap(30),
 
@@ -86,27 +86,26 @@ class ProposalDetail extends StatelessWidget {
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('University of Science - VNUHCM'),
-                  Text(
-                    '2020 - 2024',
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall
-                        ?.copyWith(fontStyle: FontStyle.italic),
-                  ),
-                  const Gap(15),
-                  const Text('University of Science - VNUHCM'),
-                  Text(
-                    '2020 - 2024',
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall
-                        ?.copyWith(fontStyle: FontStyle.italic),
-                  ),
-                ],
+                children: proposal.educations
+                    .map(
+                      (education) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(education.schoolName),
+                          Text(
+                            '${education.startYear} - ${education.endYear}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.copyWith(fontStyle: FontStyle.italic),
+                          ),
+                          const Gap(15),
+                        ],
+                      ),
+                    )
+                    .toList(),
               ),
-              const Gap(30),
+              const Gap(15),
 
               // Skills
               Row(
@@ -171,7 +170,7 @@ class ProposalDetail extends StatelessWidget {
                             text: 'Resume: ',
                             style: Theme.of(context).textTheme.bodyMedium),
                         TextSpan(
-                            text: '1713367523615-Mock CV.pdf',
+                            text: proposal.resume,
                             style: Theme.of(context)
                                 .textTheme
                                 .labelSmall
@@ -196,7 +195,7 @@ class ProposalDetail extends StatelessWidget {
                             text: 'Transcript: ',
                             style: Theme.of(context).textTheme.bodyMedium),
                         TextSpan(
-                            text: '1713367527862-logo.png',
+                            text: proposal.transcript,
                             style: Theme.of(context)
                                 .textTheme
                                 .labelSmall
