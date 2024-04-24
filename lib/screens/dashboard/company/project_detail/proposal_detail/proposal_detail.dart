@@ -1,17 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:student_hub/api/services/profile.service.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/proposal.dart';
 import 'package:student_hub/screens/dashboard/company/project_detail/proposal_detail/widgets/skill_item.dart';
 import 'package:student_hub/utils/extensions.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProposalDetail extends StatelessWidget {
   const ProposalDetail({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ProfileService profileService = ProfileService();
     final Proposal proposal = Get.arguments;
+
+    void openResume() async {
+      context.loaderOverlay.show();
+      profileService.getResumeStudent(proposal.studentId).then((value) async {
+        final url = Uri.parse(value);
+        if (!await launchUrl(url)) {
+          throw Exception('Could not launch $url');
+        }
+      }).catchError((e) {
+        throw Exception(e);
+      }).whenComplete(() {
+        context.loaderOverlay.hide();
+      });
+    }
+
+    void openTranscript() async {
+      context.loaderOverlay.show();
+      profileService
+          .getTranscriptStudent(proposal.studentId)
+          .then((value) async {
+        final url = Uri.parse(value);
+        if (!await launchUrl(url)) {
+          throw Exception('Could not launch $url');
+        }
+      }).catchError((e) {
+        throw Exception(e);
+      }).whenComplete(() {
+        context.loaderOverlay.hide();
+      });
+    }
 
     return SingleChildScrollView(
       child: Padding(
@@ -179,7 +213,7 @@ class ProposalDetail extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => openResume(),
                     icon: const Icon(Icons.open_in_browser, size: 30),
                   ),
                 ],
@@ -204,7 +238,7 @@ class ProposalDetail extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => openTranscript(),
                     icon: const Icon(Icons.open_in_browser, size: 30),
                   ),
                 ],
