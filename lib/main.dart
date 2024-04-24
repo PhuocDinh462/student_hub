@@ -96,7 +96,7 @@ class MyApp extends StatelessWidget {
                 initialRoute: userProvider.currentUser != null
                     ? (userProvider.currentUser!.currentRole == Role.student
                         ? StudentRoutes.nav
-                        : CompanyRoutes.proposalDetail)
+                        : CompanyRoutes.nav)
                     : AuthRoutes.login,
                 debugShowCheckedModeBanner: false,
                 theme: themeProvider.getThemeMode
