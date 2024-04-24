@@ -155,10 +155,10 @@ class _LoginState extends State<Login> {
             children: [
               const Gap(50),
               Image.asset(
-                'assets/images/Coding-workshop.png',
+                'assets/images/logo.png',
                 width: MediaQuery.of(context).size.width / 3,
               ),
-              const Gap(20),
+              const Gap(10),
               Text(
                 'Student Hub',
                 style: textTheme.displayLarge!.copyWith(
