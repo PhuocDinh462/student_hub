@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -19,6 +21,8 @@ void main() async {
   await dotenv.load(fileName: '.env');
   final ProfileService profileService = ProfileService();
   final AuthService authService = AuthService();
+  final ProposalService proposalService = ProposalService();
+
   runApp(
     MultiProvider(
       providers: [
@@ -34,6 +38,9 @@ void main() async {
             create: (_) => ProfileStudentViewModel(
                 profileService: profileService, authService: authService)),
         ChangeNotifierProvider(create: (_) => UserProvider(null)),
+        ChangeNotifierProvider(
+            create: (_) =>
+                ProposalStudentViewModel(proposalService: proposalService)),
       ],
       child: const MyApp(),
     ),
@@ -46,10 +53,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
+
+    Future<void> initializeProviders() async {
+      await Provider.of<UserProvider>(context, listen: false)
+          .initializeProvider();
+      await Provider.of<ThemeProvider>(context, listen: false)
+          .initializeProvider();
+    }
+
     Get.put(userProvider);
     return FutureBuilder(
-      future: Provider.of<ThemeProvider>(context, listen: false)
-          .initializeProvider(),
+      future: initializeProviders(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(

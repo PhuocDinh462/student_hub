@@ -13,8 +13,7 @@ import 'package:student_hub/routes/auth_route.dart';
 import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/routes/student_routes.dart';
 import 'package:student_hub/utils/snack_bar.dart';
-import 'package:student_hub/widgets/button.dart';
-import 'package:student_hub/widgets/text_field.dart';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
@@ -31,6 +30,7 @@ class _LoginState extends State<Login> {
   final TextEditingController passwordController = TextEditingController();
   final String? apiServer = dotenv.env['API_SERVER'];
   final AuthService authService = AuthService();
+  bool isObscured = true;
 
   void companyNavigate() async {
     await Navigator.pushNamed(context, CompanyRoutes.nav);
@@ -43,6 +43,9 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
     //sign in
     void signIn() async {
       final String email = emailController.text;
@@ -132,96 +135,170 @@ class _LoginState extends State<Login> {
     }
 
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Column(
-                children: [
-                  const Gap(50),
-                  //welcome back
-                  Text(
-                    'Welcome back to StudentHub!',
-                    style: Theme.of(context).textTheme.titleLarge,
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                linearColor1,
+                linearColor2,
+                linearColor3,
+              ],
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Gap(50),
+              Image.asset(
+                'assets/images/Coding-workshop.png',
+                width: MediaQuery.of(context).size.width / 3,
+              ),
+              const Gap(20),
+              Text(
+                'Student Hub',
+                style: textTheme.displayLarge!.copyWith(
+                    color: colorScheme.onPrimary, fontWeight: FontWeight.bold),
+              ),
+              const Gap(20),
+              Container(
+                  height: MediaQuery.of(context).size.height / 1.7,
+                  width: MediaQuery.of(context).size.width / 1.1,
+                  decoration: BoxDecoration(
+                    color: colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  const Gap(30),
-                  //user name textfield
-                  InputText(
-                    controller: emailController,
-                    hintText: 'Email',
-                    obscureText: false,
-                    icon: Icons.email,
-                  ),
-                  const Gap(20),
-                  // password textfield
-                  InputText(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    obscureText: true,
-                    icon: Icons.lock,
-                  ),
-                  const Gap(10),
-                  //forgot password
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, AuthRoutes.forgotPassword);
-                          },
-                          child: const Text(
-                            'Forgot Password?',
-                            style: TextStyle(
-                              color: primary_300,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Gap(20),
+                      Text(
+                        'Welcome back!',
+                        style: textTheme.titleLarge!.copyWith(
+                            color: colorScheme.primary,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const Gap(20),
+                      Text(
+                        'Please login to continue',
+                        style: textTheme.headlineMedium!
+                            .copyWith(color: colorScheme.onSurface),
+                      ),
+                      const Gap(20),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.3,
+                        child: TextField(
+                          controller: emailController,
+                          decoration: const InputDecoration(
+                            labelText: 'Email Address',
+                            suffixIcon: Icon(Icons.email),
+                          ),
+                        ),
+                      ),
+                      const Gap(20),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.3,
+                        child: TextField(
+                          controller: passwordController,
+                          obscureText: isObscured,
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                isObscured
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
+                              onPressed: () => {
+                                setState(() {
+                                  isObscured = !isObscured;
+                                })
+                              },
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  const Gap(25),
-                  //sign in button
-                  Button(
-                    onTap: signIn,
-                    colorButton: primary_300,
-                    colorText: text_50,
-                    text: 'Sign In',
-                  ),
-
-                  const Gap(25),
-                  // not a member ? register now
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Don\'t have an Account?',
-                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      const SizedBox(width: 4),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 20, 40, 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, AuthRoutes.forgotPassword);
+                              },
+                              child: Text(
+                                'Forgot Password?',
+                                style: textTheme.bodyMedium!.copyWith(
+                                  color: colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, AuthRoutes.signUpOption);
-                        },
-                        child: const Text(
-                          'Sign up here',
-                          style: TextStyle(
-                            color: primary_200,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                        onTap: signIn,
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width / 1.5,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            gradient: const LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                linearColor1,
+                                linearColor2,
+                                linearColor3,
+                              ],
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text(
+                              'Login',
+                              style: textTheme.bodyMedium!.copyWith(
+                                color: colorScheme.onPrimary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),
+                      const Gap(20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Don\'t have an Account?',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          const SizedBox(width: 4),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, AuthRoutes.signUpOption);
+                            },
+                            child: Text(
+                              'Sign up here',
+                              style: textTheme.bodyMedium!.copyWith(
+                                color: colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
-            ),
+                  ))
+            ],
           ),
         ),
       ),

@@ -458,8 +458,6 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                               language: tmp,
                               itemsChecked: itemsLangChecked,
                               onChangeCheck: (p0, p1) {
-                                print(profileStudentModel.student.languages[0]
-                                    .toJson());
                                 eventUpdateItemsLangChecked(p0, p1!);
                               },
                               onEdit: () {

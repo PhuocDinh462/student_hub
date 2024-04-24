@@ -1,10 +1,6 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gap/gap.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/models/project.dart';
@@ -22,8 +18,14 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
   final searchController = TextEditingController();
   final String? apiServer = dotenv.env['API_SERVER'];
   final ProjectService projectService = ProjectService();
+  bool isLoading = false;
+
   Future<void> fetchFavoriteProject(UserProvider userProvider) async {
-    context.loaderOverlay.show();
+    setState(() {
+      projects.clear();
+      isLoading = true;
+    });
+
     try {
       final listResponse = await projectService
           .getFavoriteProjects(userProvider.currentUser!.studentId!);
@@ -39,11 +41,11 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
     } catch (e) {
       print(e);
     }
-
-    context.loaderOverlay.hide();
+    setState(() {
+      isLoading = false;
+    });
   }
 
-  // String _selectedMenu = '';
   @override
   void initState() {
     super.initState();
@@ -60,31 +62,39 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
           child: Column(
             children: [
               const Gap(30),
-              projects.isEmpty
-                  ? Column(
-                      children: [
-                        const Gap(50),
-                        Text(
-                          "There's no saved projects available",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    )
-                  : Expanded(
-                      child: ListView.builder(
-                        itemCount: projects.length,
-                        itemBuilder: (context, index) {
-                          return ProjectCard(
-                              project: projects[index],
-                              projectService: projectService);
-                        },
+              if (isLoading)
+                const Column(
+                  children: [
+                    Gap(50),
+                    CircularProgressIndicator(),
+                  ],
+                )
+              else if (projects.isEmpty)
+                Column(
+                  children: [
+                    const Gap(50),
+                    Text(
+                      "There's no saved projects available",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
+                      textAlign: TextAlign.center,
                     ),
+                  ],
+                )
+              else
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: projects.length,
+                    itemBuilder: (context, index) {
+                      return ProjectCard(
+                          project: projects[index],
+                          projectService: projectService);
+                    },
+                  ),
+                ),
             ],
           ),
         ),

@@ -16,7 +16,9 @@ class MySnackBar {
     ContentType contentType,
   ) {
     final snackBar = SnackBar(
+      duration: const Duration(seconds: 3),
       elevation: 0,
+      padding: const EdgeInsets.all(25),
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
       content: AwesomeSnackbarContent(

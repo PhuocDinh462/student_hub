@@ -63,8 +63,6 @@ class _PickedImageState extends State<PickedImage> {
         extension =
             Helpers.getFileNameAndExtension2(result!.files.first.name)[1];
       }
-    } catch (e) {
-      print(e);
     } finally {
       setState(() {
         isLoading = false;

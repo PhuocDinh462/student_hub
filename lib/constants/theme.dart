@@ -20,6 +20,9 @@ const Color text_50 = Color(0xfff5f5f5);
 
 // More colors
 const Color color_1 = Color.fromARGB(255, 255, 77, 64);
+const Color linearColor1 = Color(0xff1597FF);
+const Color linearColor2 = Color(0xff3F51B5);
+const Color linearColor3 = Color(0xff00C853);
 
 // Themes
 class AppTheme {

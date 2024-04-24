@@ -15,6 +15,7 @@ class CommonTextField extends StatefulWidget {
     this.suffixIcon,
     this.readOnly = false,
     this.child,
+    this.titleStyle,
   });
 
   final String title;
@@ -24,6 +25,7 @@ class CommonTextField extends StatefulWidget {
   final Widget? suffixIcon;
   final bool readOnly;
   final Widget? child;
+  final TextStyle? titleStyle;
 
   @override
   State<CommonTextField> createState() => _CommonTextFieldState();
@@ -48,6 +50,7 @@ class _CommonTextFieldState extends State<CommonTextField>
 
   @override
   void didChangeMetrics() {
+    // ignore: deprecated_member_use
     final bottomInset = WidgetsBinding.instance.window.viewInsets.bottom;
     GlobalProvider globalProvider =
         Provider.of<GlobalProvider>(context, listen: false);
@@ -71,7 +74,8 @@ class _CommonTextFieldState extends State<CommonTextField>
       children: [
         DisplayText(
           text: widget.title,
-          style: textTheme.bodyLarge!,
+          style: widget.titleStyle ?? textTheme.bodyLarge!,
+          overflow: TextOverflow.visible,
         ),
         if (widget.title != '') const Gap(10),
         if (widget.child != null) widget.child!,
@@ -81,11 +85,6 @@ class _CommonTextFieldState extends State<CommonTextField>
             controller: widget.controller,
             maxLines: widget.maxLines,
             style: textTheme.bodySmall,
-            onTapOutside: (event) {
-              FocusManager.instance.primaryFocus!.unfocus();
-              Provider.of<GlobalProvider>(context, listen: false)
-                  .setFocus(focusNode.hasFocus);
-            },
             decoration: InputDecoration(
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
