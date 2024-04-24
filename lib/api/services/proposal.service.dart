@@ -7,9 +7,12 @@ import 'package:dio/dio.dart';
 class ProposalService extends BaseApi {
   ProposalService() : super();
 
-  Future<List<Proposal>> getProposal(projectId) async {
+  Future<List<Proposal>> getProposal(projectId, [params]) async {
     try {
-      var response = await dio.get('/proposal/getByProjectId/$projectId');
+      var response = await dio.get(
+        '/proposal/getByProjectId/$projectId',
+        queryParameters: params,
+      );
       return (response.data['result']['items'] as List)
           .map<Proposal>((item) => Proposal.fromMap(item))
           .toList();

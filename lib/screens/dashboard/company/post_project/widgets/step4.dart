@@ -9,16 +9,15 @@ import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/utils/extensions.dart';
 
 class Step4 extends StatelessWidget {
-  const Step4({super.key, required this.back});
+  Step4({super.key, required this.back});
   final VoidCallback back;
+  final ProjectService projectService = ProjectService();
 
   @override
   Widget build(BuildContext context) {
     final ProjectProvider projectProvider =
         Provider.of<ProjectProvider>(context);
     final UserProvider userProvider = Provider.of<UserProvider>(context);
-
-    ProjectService projectService = ProjectService();
 
     void postProject() async {
       context.loaderOverlay.show();
@@ -27,11 +26,10 @@ class Step4 extends StatelessWidget {
         'projectScopeFlag': projectProvider.getProjectScope.index,
         'title': projectProvider.getTitle,
         'description': projectProvider.getDescription,
-        'typeFlag': 0,
+        'typeFlag': TypeFlag.archieved.index,
         'numberOfStudents': projectProvider.getNumOfStudents,
       }).then((value) {
-        Project project = Project.fromMap(value.data['result']);
-        projectProvider.addProject(project);
+        projectProvider.addProject(value);
       }).catchError((e) {
         throw Exception(e);
       }).whenComplete(() {
