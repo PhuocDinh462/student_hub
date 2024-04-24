@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -46,10 +48,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
+
+    Future<void> initializeProviders() async {
+      await Provider.of<UserProvider>(context, listen: false)
+          .initializeProvider();
+      await Provider.of<ThemeProvider>(context, listen: false)
+          .initializeProvider();
+    }
+
     Get.put(userProvider);
     return FutureBuilder(
-      future: Provider.of<ThemeProvider>(context, listen: false)
-          .initializeProvider(),
+      future: initializeProviders(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
