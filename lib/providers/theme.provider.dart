@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:is_first_run/is_first_run.dart';
 
 Future<void> saveData({ThemeMode? theme, String? language}) async {
   final prefs = await SharedPreferences.getInstance();
@@ -32,6 +33,7 @@ ThemeMode themeModeFromString(String theme) {
 class ThemeProvider with ChangeNotifier {
   late String _language;
   late ThemeMode _theme;
+  late bool _isFirstCall;
 
   ThemeMode get getTheme => _theme;
 
@@ -62,6 +64,7 @@ class ThemeProvider with ChangeNotifier {
     final data = await loadData();
     _theme = (data as Map)['theme'];
     _language = (data)['language'];
+    _isFirstCall = await IsFirstRun.isFirstCall();
     notifyListeners();
   }
 
@@ -76,4 +79,6 @@ class ThemeProvider with ChangeNotifier {
     notifyListeners();
     await saveData(language: language);
   }
+
+  bool get getIsFirstCall => _isFirstCall;
 }

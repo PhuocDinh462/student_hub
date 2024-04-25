@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/screens/authentication/authentication.dart';
+import 'package:student_hub/screens/intro/intro.dart';
 
 class AuthRoutes {
   static const String login = '/';
@@ -10,6 +11,7 @@ class AuthRoutes {
   static const String createAccountStudent = '/create_account_student';
   static const String signUpOption = '/sign_up';
   static const String resetPassword = '/reset_password';
+  static const String intro = '/intro';
 
   static Map<String, WidgetBuilder> routes = {
     login: (context) => const Login(),
@@ -25,5 +27,6 @@ class AuthRoutes {
         const AccountHeader(title: 'Student Hub', body: SignUpOption()),
     resetPassword: (context) =>
         const AccountHeader(title: 'Student Hub', body: ResetPassword()),
+    intro: (context) => const Intro(),
   };
 }
