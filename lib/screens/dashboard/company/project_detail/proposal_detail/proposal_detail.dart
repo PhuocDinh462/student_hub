@@ -7,6 +7,7 @@ import 'package:student_hub/models/proposal.dart';
 import 'package:student_hub/screens/dashboard/company/project_detail/proposal_detail/widgets/skill_item.dart';
 import 'package:student_hub/utils/extensions.dart';
 import 'package:get/get.dart';
+import 'package:student_hub/widgets/yes_no_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProposalDetail extends StatelessWidget {
@@ -265,50 +266,13 @@ class ProposalDetail extends StatelessWidget {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(
-                              'Hired offer',
-                              style: Theme.of(context).textTheme.displayMedium,
-                            ),
-                            content: const Text(
-                                'Do you really want to send hired offer for student to do this project?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  // Cancel hire action
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(
-                                  'Cancel',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface
-                                            .withOpacity(.75),
-                                      ),
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  // Perform hire action
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(
-                                  'Send',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                      ),
-                                ),
-                              ),
-                            ],
+                          return YesNoDialog(
+                            title: 'Hired offer',
+                            content:
+                                'Do you really want to send hired offer for student to do this project?',
+                            onYesPressed: () {
+                              // Accept proposal
+                            },
                           );
                         },
                       );

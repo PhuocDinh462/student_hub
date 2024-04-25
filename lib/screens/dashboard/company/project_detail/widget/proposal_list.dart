@@ -8,8 +8,8 @@ import 'package:student_hub/screens/dashboard/company/project_detail/widget/prop
 import 'package:student_hub/utils/empty.dart';
 
 class ProposalList extends StatefulWidget {
-  const ProposalList({super.key, required this.statusFlag});
-  final StatusFlag statusFlag;
+  const ProposalList({super.key, required this.statusFlags});
+  final Set<StatusFlag> statusFlags;
 
   @override
   createState() => _ProposalListState();
@@ -18,7 +18,7 @@ class ProposalList extends StatefulWidget {
 class _ProposalListState extends State<ProposalList> {
   final ProposalService proposalService = ProposalService();
   bool _isLoading = false;
-  List<Proposal> _proposalList = [];
+  final List<Proposal> _proposalList = [];
 
   @override
   void initState() {
@@ -30,10 +30,11 @@ class _ProposalListState extends State<ProposalList> {
     setState(() => _isLoading = true);
     final ProjectProvider projectProvider =
         Provider.of<ProjectProvider>(context, listen: false);
+
     await proposalService.getProposal(projectProvider.getCurrentProject!.id, {
-      'statusFlag': widget.statusFlag.index.toString(),
+      'statusFlag': widget.statusFlags.map((e) => e.index).join(','),
     }).then((value) {
-      setState(() => _proposalList = value);
+      setState(() => _proposalList.addAll(value));
     }).catchError((e) {
       throw Exception(e);
     }).whenComplete(() {
