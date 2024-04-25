@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
+import 'package:student_hub/routes/routes.dart';
 import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/view-models/view_models.dart';
@@ -53,6 +54,7 @@ class _SubmitProposalState extends State<SubmitProposal> {
           orElse: () => const ProposalModel(),
         );
         _textController.text = proposalInfo!.coverLetter;
+
         if (proposalInfo?.projectId != -1) {
           if (widget.action == ActionProposal.submit) {
             MySnackBar.showSnackBar(
@@ -202,14 +204,26 @@ class _SubmitProposalState extends State<SubmitProposal> {
       ProposalStudentViewModel proposalStudentViewModel, BuildContext context) {
     if (proposalStudentViewModel.successMessage != '') {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        MySnackBar.showSnackBar(
-          context,
-          proposalStudentViewModel.successMessage,
-          'Successful',
-          ContentType.success,
-        );
+        if (action == ActionProposal.submit) {
+          Get.toNamed(StudentRoutes.nav, arguments: {
+            'index': 0,
+            'message': proposalStudentViewModel.successMessage,
+            'messageType': ContentType.success,
+          });
+        } else {
+          MySnackBar.showSnackBar(
+            context,
+            proposalStudentViewModel.successMessage,
+            'Successful',
+            ContentType.success,
+          );
+        }
+
         proposalStudentViewModel.successMessage = '';
-        action = ActionProposal.update;
+
+        setState(() {
+          action = ActionProposal.update;
+        });
       });
     } else if (proposalStudentViewModel.errorMessage != '') {
       WidgetsBinding.instance.addPostFrameCallback((_) {

@@ -11,10 +11,12 @@ class CommonDropdownMenu extends StatelessWidget {
       {super.key,
       required this.labelText,
       required this.id,
-      required this.proposals});
+      required this.proposals,
+      this.actionCard});
   final int id;
   final String labelText;
   final List<ProposalModel> proposals;
+  final Function(Project)? actionCard;
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +83,7 @@ class CommonDropdownMenu extends StatelessWidget {
                 itemBuilder: (ctx, index) {
                   return CardInfoProposal(
                     proposal: proposals[index],
+                    action: actionCard,
                   );
                 }),
           )

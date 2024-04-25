@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/view-models/view_models.dart';
 import 'package:student_hub/widgets/common_dropdown_menu.dart';
+import 'package:student_hub/widgets/project_detail.dart';
 
 class AllProjectStudent extends StatefulWidget {
   const AllProjectStudent({
@@ -16,6 +18,23 @@ class AllProjectStudent extends StatefulWidget {
 }
 
 class _AllProjectStudentState extends State<AllProjectStudent> {
+  void handleOpenProjectDetails(
+      Project project, ProjectDetailsView view) async {
+    await showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.white,
+        isScrollControlled: true,
+        builder: (ctx) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: ProjectDetails(
+              project: project,
+              viewType: view,
+            ),
+          );
+        });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -43,12 +62,20 @@ class _AllProjectStudentState extends State<AllProjectStudent> {
             id: 1,
             labelText: 'Active proposal (${psvm.proposalActive.length})',
             proposals: psvm.proposalActive,
+            actionCard: (project) {
+              handleOpenProjectDetails(
+                  project, ProjectDetailsView.viewActiveProposal);
+            },
           ),
           const Gap(20),
           CommonDropdownMenu(
             id: 2,
             labelText: 'Submitted proposal (${psvm.proposalSubmited.length})',
             proposals: psvm.proposalSubmited,
+            actionCard: (project) {
+              handleOpenProjectDetails(
+                  project, ProjectDetailsView.viewProposal);
+            },
           ),
         ],
       );
