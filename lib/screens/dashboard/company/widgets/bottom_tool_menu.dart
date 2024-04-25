@@ -7,11 +7,13 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/routes/company_route.dart';
+import 'package:student_hub/widgets/yes_no_dialog.dart';
 
 class BottomToolMenu extends StatelessWidget {
-  const BottomToolMenu({super.key});
+  const BottomToolMenu({super.key, required this.rootContext});
   final double itemHeight = 50;
   final double dividerHeight = 30;
+  final BuildContext rootContext;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class BottomToolMenu extends StatelessWidget {
             : 4;
 
     void removeProject() async {
-      context.loaderOverlay.show();
+      rootContext.loaderOverlay.show();
       await projectService
           .removeProject(projectProvider.getCurrentProject!.id)
           .then((value) {
@@ -32,13 +34,12 @@ class BottomToolMenu extends StatelessWidget {
       }).catchError((e) {
         throw Exception(e);
       }).whenComplete(() {
-        context.loaderOverlay.hide();
-        Navigator.pop(context);
+        rootContext.loaderOverlay.hide();
       });
     }
 
     void updateProjectTypeFlag(TypeFlag typeFlag) async {
-      context.loaderOverlay.show();
+      rootContext.loaderOverlay.show();
       await projectService.editProject(projectProvider.getCurrentProject!.id, {
         'title': projectProvider.getCurrentProject!.title,
         'typeFlag': typeFlag.index,
@@ -48,8 +49,7 @@ class BottomToolMenu extends StatelessWidget {
       }).catchError((e) {
         throw Exception(e);
       }).whenComplete(() {
-        context.loaderOverlay.hide();
-        Navigator.pop(context);
+        rootContext.loaderOverlay.hide();
       });
     }
 
@@ -86,7 +86,7 @@ class BottomToolMenu extends StatelessWidget {
                       ),
                       const Gap(3),
                       Text(
-                        'View project posting',
+                        'View project project',
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               fontStyle: FontStyle.italic,
                             ),
@@ -126,7 +126,7 @@ class BottomToolMenu extends StatelessWidget {
                       ),
                       const Gap(3),
                       Text(
-                        'Edit posting',
+                        'Edit project',
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               fontStyle: FontStyle.italic,
                             ),
@@ -141,32 +141,19 @@ class BottomToolMenu extends StatelessWidget {
 
           // Remove
           GestureDetector(
-            onTap: () => showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Confirmation'),
-                  content: const Text(
-                      'Are you sure you want to remove this posting?'),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      },
-                      child: const Text('No'),
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        Navigator.pop(context);
-                        removeProject();
-                      },
-                      child: const Text('Yes'),
-                    ),
-                  ],
-                );
-              },
-            ),
+            onTap: () {
+              Navigator.pop(context);
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return YesNoDialog(
+                    title: 'Remove project',
+                    content: 'Are you sure you want to remove this project?',
+                    onYesPressed: () => removeProject(),
+                  );
+                },
+              );
+            },
             child: Container(
               color: Colors.transparent,
               height: itemHeight,
@@ -187,7 +174,7 @@ class BottomToolMenu extends StatelessWidget {
                       ),
                       const Gap(3),
                       Text(
-                        'Remove posting',
+                        'Remove project',
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               fontStyle: FontStyle.italic,
                             ),
@@ -206,7 +193,21 @@ class BottomToolMenu extends StatelessWidget {
                 Divider(height: dividerHeight, thickness: .5, color: text_600),
                 projectProvider.getCurrentProject!.typeFlag == TypeFlag.newType
                     ? GestureDetector(
-                        onTap: () => updateProjectTypeFlag(TypeFlag.working),
+                        onTap: () {
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return YesNoDialog(
+                                title: 'Start project',
+                                content:
+                                    'Are you sure you want to start this project?',
+                                onYesPressed: () =>
+                                    updateProjectTypeFlag(TypeFlag.working),
+                              );
+                            },
+                          );
+                        },
                         child: Container(
                           color: Colors.transparent,
                           height: itemHeight,
@@ -245,7 +246,21 @@ class BottomToolMenu extends StatelessWidget {
 
                     // Closed
                     : GestureDetector(
-                        onTap: () => updateProjectTypeFlag(TypeFlag.archieved),
+                        onTap: () {
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return YesNoDialog(
+                                title: 'Close project',
+                                content:
+                                    'Are you sure you want to close this project?',
+                                onYesPressed: () =>
+                                    updateProjectTypeFlag(TypeFlag.archieved),
+                              );
+                            },
+                          );
+                        },
                         child: Container(
                           color: Colors.transparent,
                           height: itemHeight,

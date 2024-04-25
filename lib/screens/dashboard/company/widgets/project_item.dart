@@ -71,9 +71,7 @@ class ProjectItem extends StatelessWidget {
                           context: context,
                           backgroundColor:
                               Theme.of(context).colorScheme.onPrimary,
-                          builder: (BuildContext context) {
-                            return const BottomToolMenu();
-                          },
+                          builder: (_) => BottomToolMenu(rootContext: context),
                         );
                       },
                     ),

@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 class YesNoDialog extends StatelessWidget {
   final String title;
   final String content;
-  final String yesText = 'Yes';
-  final String noText = 'No';
-  final VoidCallback onYesPressed;
+  final String yesText;
+  final String noText;
+  final VoidCallback? onYesPressed;
 
   const YesNoDialog({
     super.key,
-    required this.title,
-    required this.content,
-    required this.onYesPressed,
+    this.title = 'Confirmation',
+    this.content = 'Are you sure?',
+    this.yesText = 'Yes',
+    this.noText = 'No',
+    this.onYesPressed,
   });
 
   @override
@@ -35,7 +37,7 @@ class YesNoDialog extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            onYesPressed();
+            onYesPressed!();
             Navigator.of(context).pop();
           },
           child: Text(
