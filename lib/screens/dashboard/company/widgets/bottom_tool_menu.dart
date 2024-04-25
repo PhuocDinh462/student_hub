@@ -10,13 +10,18 @@ import 'package:student_hub/routes/company_route.dart';
 
 class BottomToolMenu extends StatelessWidget {
   const BottomToolMenu({super.key});
-  final double itemHeight = 60;
+  final double itemHeight = 50;
+  final double dividerHeight = 30;
 
   @override
   Widget build(BuildContext context) {
     final ProjectService projectService = ProjectService();
     final ProjectProvider projectProvider =
         Provider.of<ProjectProvider>(context);
+    final int itemCount =
+        projectProvider.getCurrentProject!.typeFlag == TypeFlag.archieved
+            ? 3
+            : 4;
 
     void removeProject() async {
       context.loaderOverlay.show();
@@ -49,7 +54,7 @@ class BottomToolMenu extends StatelessWidget {
     }
 
     return Container(
-      height: 275,
+      height: itemCount * itemHeight + (itemCount - 1) * dividerHeight,
       width: double.infinity,
       margin: const EdgeInsets.all(20),
       child: Column(
@@ -63,6 +68,7 @@ class BottomToolMenu extends StatelessWidget {
             },
             child: Container(
               color: Colors.transparent,
+              height: itemHeight,
               child: Row(
                 children: [
                   Icon(
@@ -91,7 +97,7 @@ class BottomToolMenu extends StatelessWidget {
               ),
             ),
           ),
-          const Divider(height: 30, thickness: .5, color: text_600),
+          Divider(height: dividerHeight, thickness: .5, color: text_600),
 
           // Edit
           GestureDetector(
@@ -102,6 +108,7 @@ class BottomToolMenu extends StatelessWidget {
             },
             child: Container(
               color: Colors.transparent,
+              height: itemHeight,
               child: Row(
                 children: [
                   Icon(
@@ -130,7 +137,7 @@ class BottomToolMenu extends StatelessWidget {
               ),
             ),
           ),
-          const Divider(height: 30, thickness: .5, color: text_600),
+          Divider(height: dividerHeight, thickness: .5, color: text_600),
 
           // Remove
           GestureDetector(
@@ -162,6 +169,7 @@ class BottomToolMenu extends StatelessWidget {
             ),
             child: Container(
               color: Colors.transparent,
+              height: itemHeight,
               child: Row(
                 children: [
                   Icon(
@@ -190,82 +198,91 @@ class BottomToolMenu extends StatelessWidget {
               ),
             ),
           ),
-          const Divider(height: 30, thickness: .5, color: text_600),
 
-          // Start
-          projectProvider.getCurrentProject!.typeFlag == TypeFlag.archieved
-              ? GestureDetector(
-                  onTap: () => updateProjectTypeFlag(TypeFlag.working),
-                  child: Container(
-                    color: Colors.transparent,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.start_outlined,
-                          size: 32,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        const Gap(15),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Start',
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            const Gap(3),
-                            Text(
-                              'Start working this project',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall
-                                  ?.copyWith(
-                                    fontStyle: FontStyle.italic,
+          if (projectProvider.getCurrentProject!.typeFlag != TypeFlag.archieved)
+            // Start
+            Column(
+              children: [
+                Divider(height: dividerHeight, thickness: .5, color: text_600),
+                projectProvider.getCurrentProject!.typeFlag == TypeFlag.newType
+                    ? GestureDetector(
+                        onTap: () => updateProjectTypeFlag(TypeFlag.working),
+                        child: Container(
+                          color: Colors.transparent,
+                          height: itemHeight,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.start_outlined,
+                                size: 32,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              const Gap(15),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Start',
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
                                   ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                )
+                                  const Gap(3),
+                                  Text(
+                                    'Start working this project',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall
+                                        ?.copyWith(
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      )
 
-              // Closed
-              : GestureDetector(
-                  onTap: () => updateProjectTypeFlag(TypeFlag.archieved),
-                  child: Container(
-                    color: Colors.transparent,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.close_rounded,
-                          size: 32,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        const Gap(15),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Close',
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            const Gap(3),
-                            Text(
-                              'Close this project',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall
-                                  ?.copyWith(
-                                    fontStyle: FontStyle.italic,
+                    // Closed
+                    : GestureDetector(
+                        onTap: () => updateProjectTypeFlag(TypeFlag.archieved),
+                        child: Container(
+                          color: Colors.transparent,
+                          height: itemHeight,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.close_rounded,
+                                size: 32,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              const Gap(15),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Close',
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
                                   ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                                  const Gap(3),
+                                  Text(
+                                    'Close this project',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall
+                                        ?.copyWith(
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+              ],
+            ),
         ],
       ),
     );
