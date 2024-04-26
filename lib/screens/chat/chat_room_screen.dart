@@ -132,13 +132,36 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   final List<Message> messages =
       sampleMessages.isNotEmpty ? sampleMessages : [];
   late IO.Socket socket;
-  final ScrollController _scrollController = ScrollController();
+  late ScrollController _scrollController;
+  final FocusNode _messageFocusNode = FocusNode(); // Khai báo FocusNode
 
   @override
   void initState() {
+    _scrollController = ScrollController();
     super.initState();
     _loadMessages();
     connect();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent + 100,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    });
+    _messageFocusNode.addListener(_scrollToBottom);
+  }
+
+  void _scrollToBottom() {
+    if (_messageFocusNode.hasFocus) {
+      print('a');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent + 100,
+          duration: const Duration(milliseconds: 1),
+          curve: Curves.easeOut,
+        );
+      });
+    }
   }
 
   Future<void> connect() async {
@@ -178,11 +201,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           createdAt: DateTime.now(),
           meeting: MessageFlag.values[data['messageFlag']],
         ));
-        // _scrollController.animateTo(
-        //   _scrollController.position.maxScrollExtent,
-        //   duration: const Duration(milliseconds: 300),
-        //   curve: Curves.easeOut,
-        // );
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent + 100,
+          duration: const Duration(milliseconds: 1),
+          curve: Curves.easeOut,
+        );
       });
     });
   }
@@ -190,25 +213,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   @override
   void dispose() {
     messageController.dispose();
+    socket.dispose();
+    _scrollController.dispose();
     super.dispose();
-  }
-
-  void _sendMessage() async {
-    final message = Message(
-      chatRoomId: 'chatRoomId1',
-      senderUserId: 1,
-      receiverUserId: 2,
-      content: messageController.text,
-      createdAt: DateTime.now(),
-    );
-    socket.emit('SEND_MESSAGE', {
-      'content': message.content,
-      'projectId': 1,
-      'senderId': message.senderUserId,
-      'receiverId': message.receiverUserId,
-      'messageFlag': 0
-    });
-    messageController.clear();
   }
 
   _loadMessages() async {
@@ -239,6 +246,24 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     final otherParticipant = widget.chatRoom?.participants.firstWhere(
       (user) => user.userId != currentParticipant?.userId,
     );
+
+    void sendMessage() async {
+      final message = Message(
+        chatRoomId: 'chatRoomId1',
+        senderUserId: 1,
+        receiverUserId: 2,
+        content: messageController.text,
+        createdAt: DateTime.now(),
+      );
+      socket.emit('SEND_MESSAGE', {
+        'content': message.content,
+        'projectId': 1,
+        'senderId': message.senderUserId,
+        'receiverId': message.receiverUserId,
+        'messageFlag': 0
+      });
+      messageController.clear();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -444,6 +469,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     ),
                     Expanded(
                       child: TextFormField(
+                        focusNode: _messageFocusNode,
                         controller: messageController,
                         decoration: InputDecoration(
                           filled: true,
@@ -458,7 +484,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                           ),
                           suffixIcon: IconButton(
                             onPressed: () {
-                              _sendMessage();
+                              sendMessage();
                             },
                             icon: const Icon(Icons.send),
                           ),
