@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_hub/models/chat/chat_room.dart';
 import 'package:student_hub/models/chat/message.dart';
 import 'package:student_hub/widgets/avatar.dart';
@@ -8,6 +9,8 @@ import 'package:student_hub/widgets/message_chat_bubble.dart';
 import 'package:student_hub/widgets/message_meeting_bubble.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 List<Message> sampleMessages = [
   Message(
@@ -99,7 +102,7 @@ List<Message> sampleMessages = [
     createdAt: DateTime.now().add(const Duration(minutes: 60)),
     startTime: DateTime.now(),
     endTime: DateTime.now().add(const Duration(minutes: 15)),
-    meeting: true,
+    meeting: MessageFlag.interview,
   ),
   Message(
     id: const Uuid().v4(),
@@ -110,7 +113,7 @@ List<Message> sampleMessages = [
     createdAt: DateTime.now().add(const Duration(minutes: 70)),
     startTime: DateTime.now(),
     endTime: DateTime.now().add(const Duration(minutes: 15)),
-    meeting: true,
+    meeting: MessageFlag.interview,
     canceled: true,
   ),
 ];
@@ -128,20 +131,53 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   final messageController = TextEditingController();
   final List<Message> messages =
       sampleMessages.isNotEmpty ? sampleMessages : [];
+  late IO.Socket socket;
 
   @override
   void initState() {
     _loadMessages();
-
-    // messageRepository.subscribeToMessageUpdates((messageData) {
-    //   final message = Message.fromJson(messageData);
-    //   if (message.chatRoomId == widget.chatRoom.id) {
-    //     messages.add(message);
-    //     messages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
-    //     setState(() {});
-    //   }
-    // });
+    connect();
     super.initState();
+  }
+
+  Future<void> connect() async {
+    final prefs = await SharedPreferences.getInstance();
+    // socket = IO.io(
+    //     dotenv.env['SH_URL_DEV'], // Server url
+    //     IO.OptionBuilder()
+    //         .setTransports(['websocket'])
+    //         .disableAutoConnect()
+    //         .build());
+    socket = IO.io(dotenv.env['SH_URL_DEV'], <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+    final token = prefs.getString('token');
+    socket.io.options?['extraHeaders'] = {
+      'Authorization': 'Bearer $token',
+    };
+    socket.io.options?['query'] = {'project_id': 1};
+
+    socket.connect();
+
+    socket.onConnect((data) => {
+          print('Connected'),
+        });
+    socket.on('RECEIVE_MESSAGE', (data) {
+      print('a');
+      // Your code to update ui
+      setState(() {
+        // messages.add(Message(
+        //   id: const Uuid().v4(),
+        //   chatRoomId: 'chatRoomId1',
+        //   senderUserId: 2,
+        //   receiverUserId: 1,
+        //   content: data['content'],
+        //   createdAt: DateTime.now(),
+        // ));
+        print(data);
+      });
+    });
   }
 
   @override
@@ -158,8 +194,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       content: messageController.text,
       createdAt: DateTime.now(),
     );
-
-    // await messageRepository.createMessage(message);
+    socket.emit('SEND_MESSAGE', {
+      'content': message.content,
+      'projectId': 1,
+      'senderId': message.senderUserId,
+      'receiverId': message.receiverUserId,
+      'messageFlag': 0
+    });
     messageController.clear();
   }
 
@@ -318,7 +359,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                   ),
                                 ],
                               ),
-                            if (message.meeting)
+                            if (message.meeting == MessageFlag.interview)
                               MessageMeetingBubble(
                                 userId1: 1,
                                 userId2: 2,

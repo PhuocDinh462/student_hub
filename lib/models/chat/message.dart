@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:uuid/uuid.dart';
 
+enum MessageFlag { message, interview }
+
 // ignore: must_be_immutable
 class Message extends Equatable {
   final String? id;
@@ -12,7 +14,7 @@ class Message extends Equatable {
   final DateTime? startTime;
   final DateTime? endTime;
   final String? title;
-  final bool meeting;
+  final MessageFlag meeting;
   bool canceled;
 
   Message({
@@ -25,7 +27,7 @@ class Message extends Equatable {
     this.startTime,
     this.endTime,
     this.title,
-    this.meeting = false,
+    this.meeting = MessageFlag.message,
     this.canceled = false,
   });
 
@@ -39,7 +41,7 @@ class Message extends Equatable {
     DateTime? startTime,
     DateTime? endTime,
     String? title,
-    bool? meeting,
+    MessageFlag? meeting,
     bool? canceled,
   }) {
     return Message(
@@ -71,7 +73,7 @@ class Message extends Equatable {
       endTime:
           json['end_time'] != null ? DateTime.parse(json['end_time']) : null,
       title: json['title'],
-      meeting: json['meeting'] ?? false,
+      meeting: json['meeting'] ?? MessageFlag.message,
       canceled: json['canceled'] ?? false,
     );
   }
