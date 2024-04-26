@@ -132,12 +132,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   final List<Message> messages =
       sampleMessages.isNotEmpty ? sampleMessages : [];
   late IO.Socket socket;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
+    super.initState();
     _loadMessages();
     connect();
-    super.initState();
   }
 
   Future<void> connect() async {
@@ -163,19 +164,25 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     socket.onConnect((data) => {
           print('Connected'),
         });
+
+    // socket.onConnectError((data) => print('$data'));
+    // socket.onError((data) => print(data));
     socket.on('RECEIVE_MESSAGE', (data) {
-      print('a');
-      // Your code to update ui
       setState(() {
-        // messages.add(Message(
-        //   id: const Uuid().v4(),
-        //   chatRoomId: 'chatRoomId1',
-        //   senderUserId: 2,
-        //   receiverUserId: 1,
-        //   content: data['content'],
-        //   createdAt: DateTime.now(),
-        // ));
-        print(data);
+        messages.add(Message(
+          id: const Uuid().v4(),
+          chatRoomId: 'chatRoomId1',
+          senderUserId: 2,
+          receiverUserId: 1,
+          content: data['content'],
+          createdAt: DateTime.now(),
+          meeting: MessageFlag.values[data['messageFlag']],
+        ));
+        // _scrollController.animateTo(
+        //   _scrollController.position.maxScrollExtent,
+        //   duration: const Duration(milliseconds: 300),
+        //   curve: Curves.easeOut,
+        // );
       });
     });
   }
@@ -211,6 +218,14 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
     // setState(() {
     //   messages.addAll(_messages);
+    // });
+
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   _scrollController.animateTo(
+    //     _scrollController.position.maxScrollExtent,
+    //     duration: const Duration(milliseconds: 300),
+    //     curve: Curves.easeOut,
+    //   );
     // });
   }
 
@@ -332,6 +347,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             children: [
               Expanded(
                 child: ListView.builder(
+                  controller: _scrollController,
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final message = messages[index];
