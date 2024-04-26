@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/models/proposal.dart';
 import 'package:student_hub/models/proposal.model.dart';
 import 'package:student_hub/screens/dashboard/company/project_detail/widget/project_info.dart';
 import 'widget/proposal_list.dart';

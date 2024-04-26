@@ -37,8 +37,8 @@ class YesNoDialog extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            onYesPressed!();
             Navigator.of(context).pop();
+            onYesPressed!();
           },
           child: Text(
             yesText,

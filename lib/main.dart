@@ -61,7 +61,6 @@ class MyApp extends StatelessWidget {
           .initializeProvider();
     }
 
-    Get.put(userProvider);
     return FutureBuilder(
       future: initializeProviders(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
