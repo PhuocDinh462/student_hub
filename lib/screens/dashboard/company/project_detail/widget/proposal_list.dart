@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/services/proposal.service.dart';
 import 'package:student_hub/models/proposal.dart';
+import 'package:student_hub/models/proposal.model.dart';
 import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/screens/dashboard/company/project_detail/widget/proposal_item.dart';
 import 'package:student_hub/utils/empty.dart';

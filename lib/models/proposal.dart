@@ -1,11 +1,9 @@
 import 'package:student_hub/models/models.dart';
 
-enum StatusFlag { waiting, active, offer, hired }
-
 class Proposal {
   final int id;
   final String coverLetter;
-  final StatusFlag statusFlag;
+  StatusFlag statusFlag;
   final int projectId;
   final int studentId;
   final String studentName;

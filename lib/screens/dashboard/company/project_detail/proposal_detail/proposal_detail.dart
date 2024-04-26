@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:student_hub/api/services/profile.service.dart';
+import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/models.dart';
 import 'package:student_hub/models/proposal.dart';
 import 'package:student_hub/screens/dashboard/company/project_detail/proposal_detail/widgets/skill_item.dart';
 import 'package:student_hub/utils/extensions.dart';
@@ -10,44 +11,61 @@ import 'package:get/get.dart';
 import 'package:student_hub/widgets/yes_no_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ProposalDetail extends StatelessWidget {
+class ProposalDetail extends StatefulWidget {
   const ProposalDetail({super.key});
 
   @override
+  createState() => _ProposalDetailState();
+}
+
+class _ProposalDetailState extends State<ProposalDetail> {
+  final Proposal proposal = Get.arguments;
+  final ProfileService profileService = ProfileService();
+  final ProposalService proposalService = ProposalService();
+
+  void openResume() async {
+    context.loaderOverlay.show();
+    profileService.getResumeStudent(proposal.studentId).then((value) async {
+      final url = Uri.parse(value);
+      if (!await launchUrl(url)) {
+        throw Exception('Could not launch $url');
+      }
+    }).catchError((e) {
+      throw Exception(e);
+    }).whenComplete(() {
+      context.loaderOverlay.hide();
+    });
+  }
+
+  void openTranscript() async {
+    context.loaderOverlay.show();
+    profileService.getTranscriptStudent(proposal.studentId).then((value) async {
+      final url = Uri.parse(value);
+      if (!await launchUrl(url)) {
+        throw Exception('Could not launch $url');
+      }
+    }).catchError((e) {
+      throw Exception(e);
+    }).whenComplete(() {
+      context.loaderOverlay.hide();
+    });
+  }
+
+  void updateStatusFlag(StatusFlag statusFlag) {
+    context.loaderOverlay.show();
+    proposalService
+        .updateProposalStatusFlag(proposal.id, statusFlag)
+        .then((value) {
+      setState(() => proposal.statusFlag = statusFlag);
+    }).catchError((e) {
+      throw Exception(e);
+    }).whenComplete(() {
+      context.loaderOverlay.hide();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final ProfileService profileService = ProfileService();
-    final Proposal proposal = Get.arguments;
-
-    void openResume() async {
-      context.loaderOverlay.show();
-      profileService.getResumeStudent(proposal.studentId).then((value) async {
-        final url = Uri.parse(value);
-        if (!await launchUrl(url)) {
-          throw Exception('Could not launch $url');
-        }
-      }).catchError((e) {
-        throw Exception(e);
-      }).whenComplete(() {
-        context.loaderOverlay.hide();
-      });
-    }
-
-    void openTranscript() async {
-      context.loaderOverlay.show();
-      profileService
-          .getTranscriptStudent(proposal.studentId)
-          .then((value) async {
-        final url = Uri.parse(value);
-        if (!await launchUrl(url)) {
-          throw Exception('Could not launch $url');
-        }
-      }).catchError((e) {
-        throw Exception(e);
-      }).whenComplete(() {
-        context.loaderOverlay.hide();
-      });
-    }
-
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -247,46 +265,50 @@ class ProposalDetail extends StatelessWidget {
               const Gap(40),
 
               // Action buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton(
-                      onPressed: () {},
+              if (proposal.statusFlag != StatusFlag.hired)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primary_300,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child:
+                            const Icon(Icons.message_outlined, color: text_50)),
+                    const Gap(20),
+                    ElevatedButton(
+                      onPressed: proposal.statusFlag == StatusFlag.offer
+                          ? null
+                          : () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return YesNoDialog(
+                                    title: 'Hired offer',
+                                    content:
+                                        'Do you really want to send hired offer for student to do this project?',
+                                    onYesPressed: () =>
+                                        updateStatusFlag(StatusFlag.offer),
+                                  );
+                                },
+                              );
+                            },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: primary_300,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child:
-                          const Icon(Icons.message_outlined, color: text_50)),
-                  const Gap(20),
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return YesNoDialog(
-                            title: 'Hired offer',
-                            content:
-                                'Do you really want to send hired offer for student to do this project?',
-                            onYesPressed: () {
-                              // Accept proposal
-                            },
-                          );
-                        },
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: primary_300,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      child: proposal.statusFlag == StatusFlag.offer
+                          ? const Icon(Icons.hourglass_empty)
+                          : const Icon(Icons.check, color: text_50),
                     ),
-                    child: const Icon(Icons.check, color: text_50),
-                  ),
-                ],
-              ),
+                  ],
+                ),
             ],
           ),
         ),
