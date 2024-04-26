@@ -117,4 +117,39 @@ class ProposalStudentViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> getProjectWorkingOrArchived(int? studentId, int status) async {
+    if (studentId == null) {
+      errorMessage = 'Student information is not available. Please try again.';
+      notifyListeners();
+    }
+
+    _loading = true;
+    notifyListeners();
+    errorMessage = '';
+    successMessage = '';
+
+    try {
+      List<dynamic> data =
+          await proposalService.getAllProposalByStudentId(studentId!);
+
+      List<ProposalModel> res =
+          data.map((e) => ProposalModel.fromMap(e)).toList();
+
+      if (status == 1) {
+        _proposals = res.reversed
+            .where((e) => e.project?.typeFlag == TypeFlag.working)
+            .toList();
+      } else {
+        _proposals = res.reversed
+            .where((e) => e.project?.typeFlag == TypeFlag.archieved)
+            .toList();
+      }
+    } catch (e) {
+      errorMessage = '';
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
 }

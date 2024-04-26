@@ -79,4 +79,18 @@ class ProposalService extends BaseApi {
       throw Exception('Failed to create proposal');
     }
   }
+
+  Future<dynamic> getAllProposalByStudentId(int studentId) async {
+    try {
+      Response response = await dio.get('/proposal/project/$studentId');
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create proposal');
+    }
+  }
 }

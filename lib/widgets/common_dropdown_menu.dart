@@ -6,21 +6,42 @@ import 'package:student_hub/screens/dashboard/student/widgets/dashboard.widgets.
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
-class CommonDropdownMenu extends StatelessWidget {
+class CommonDropdownMenu extends StatefulWidget {
   const CommonDropdownMenu(
       {super.key,
       required this.labelText,
       required this.id,
       required this.proposals,
-      this.actionCard});
+      this.actionCard,
+      this.view});
   final int id;
   final String labelText;
+  final ProjectDetailsView? view;
   final List<ProposalModel> proposals;
   final Function(Project)? actionCard;
 
   @override
+  State<CommonDropdownMenu> createState() => _CommonDropdownMenuState();
+}
+
+class _CommonDropdownMenuState extends State<CommonDropdownMenu> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    bool isExpanded = Provider.of<OpenIdProvider>(context).openId == id;
+    bool isExpanded = Provider.of<OpenIdProvider>(context).openId == widget.id;
 
     final deviceSize = context.deviceSize;
     final textTheme = Theme.of(context).textTheme;
@@ -42,12 +63,12 @@ class CommonDropdownMenu extends StatelessWidget {
                   int currId =
                       Provider.of<OpenIdProvider>(context, listen: false)
                           .openId;
-                  if (currId == id) {
+                  if (currId == widget.id) {
                     Provider.of<OpenIdProvider>(context, listen: false)
                         .setOpenId(0);
                   } else {
                     Provider.of<OpenIdProvider>(context, listen: false)
-                        .setOpenId(id);
+                        .setOpenId(widget.id);
                   }
                 },
                 child: Padding(
@@ -55,7 +76,7 @@ class CommonDropdownMenu extends StatelessWidget {
                     child: Row(children: [
                       Expanded(
                         child: DisplayText(
-                            text: labelText,
+                            text: widget.labelText,
                             style: textTheme.labelLarge!
                                 .copyWith(color: Colors.black)),
                       ),
@@ -77,13 +98,15 @@ class CommonDropdownMenu extends StatelessWidget {
                   bottomRight: Radius.circular(5)),
             ),
             child: ListView.builder(
+                controller: _scrollController,
                 physics: const BouncingScrollPhysics(),
-                itemCount: proposals.length,
+                itemCount: widget.proposals.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (ctx, index) {
                   return CardInfoProposal(
-                    proposal: proposals[index],
-                    action: actionCard,
+                    proposal: widget.proposals[index],
+                    action: widget.actionCard,
+                    view: widget.view,
                   );
                 }),
           )

@@ -11,7 +11,11 @@ import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/circle_container.dart';
 import 'package:gap/gap.dart';
 
-enum ProjectDetailsView { viewProposal, viewActiveProposal }
+enum ProjectDetailsView {
+  viewProposal,
+  viewActiveProposal,
+  viewProjectProposal
+}
 
 class ProjectDetails extends StatefulWidget {
   const ProjectDetails(

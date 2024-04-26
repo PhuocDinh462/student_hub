@@ -56,12 +56,14 @@ class _AllProjectStudentState extends State<AllProjectStudent> {
       } else {
         context.loaderOverlay.hide();
       }
+
       return Column(
         children: [
           CommonDropdownMenu(
             id: 1,
             labelText: 'Active proposal (${psvm.proposalActive.length})',
             proposals: psvm.proposalActive,
+            view: ProjectDetailsView.viewActiveProposal,
             actionCard: (project) {
               handleOpenProjectDetails(
                   project, ProjectDetailsView.viewActiveProposal);
@@ -72,6 +74,7 @@ class _AllProjectStudentState extends State<AllProjectStudent> {
             id: 2,
             labelText: 'Submitted proposal (${psvm.proposalSubmited.length})',
             proposals: psvm.proposalSubmited,
+            view: ProjectDetailsView.viewProposal,
             actionCard: (project) {
               handleOpenProjectDetails(
                   project, ProjectDetailsView.viewProposal);
