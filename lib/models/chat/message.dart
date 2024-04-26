@@ -5,8 +5,8 @@ enum MessageFlag { message, interview }
 
 // ignore: must_be_immutable
 class Message extends Equatable {
-  final String? id;
-  final String chatRoomId;
+  final int? id;
+  final int projectId;
   final int senderUserId;
   final int receiverUserId;
   final String? content;
@@ -19,7 +19,7 @@ class Message extends Equatable {
 
   Message({
     this.id,
-    required this.chatRoomId,
+    required this.projectId,
     required this.senderUserId,
     required this.receiverUserId,
     this.content,
@@ -32,8 +32,8 @@ class Message extends Equatable {
   });
 
   Message copyWith({
-    String? id,
-    String? chatRoomId,
+    int? id,
+    int? projectId,
     int? senderUserId,
     int? receiverUserId,
     String? content,
@@ -46,7 +46,7 @@ class Message extends Equatable {
   }) {
     return Message(
       id: id ?? this.id,
-      chatRoomId: chatRoomId ?? this.chatRoomId,
+      projectId: projectId ?? this.projectId,
       senderUserId: senderUserId ?? this.senderUserId,
       receiverUserId: receiverUserId ?? this.receiverUserId,
       content: content ?? this.content,
@@ -61,8 +61,8 @@ class Message extends Equatable {
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
-      id: json['id'] ?? const Uuid().v4(),
-      chatRoomId: json['chat_room_id'] ?? '',
+      id: json['id'],
+      projectId: json['projectId'] ?? 1,
       senderUserId: json['sender_user_id'] ?? '',
       receiverUserId: json['receiver_user_id'] ?? '',
       content: json['content'],
@@ -80,7 +80,7 @@ class Message extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'chat_room_id': chatRoomId,
+      'projectId': projectId,
       'sender_user_id': senderUserId,
       'receiver_user_id': receiverUserId,
       'content': content,
@@ -96,7 +96,7 @@ class Message extends Equatable {
   @override
   List<Object?> get props => [
         id,
-        chatRoomId,
+        projectId,
         senderUserId,
         receiverUserId,
         content,

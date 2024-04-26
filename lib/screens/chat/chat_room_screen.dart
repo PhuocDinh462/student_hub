@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_hub/api/api.dart';
 import 'package:student_hub/models/chat/chat_room.dart';
 import 'package:student_hub/models/chat/message.dart';
 import 'package:student_hub/widgets/avatar.dart';
@@ -14,88 +15,77 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 List<Message> sampleMessages = [
   Message(
-    id: const Uuid().v4(),
-    chatRoomId: 'chatRoomId1',
+    projectId: 1,
     senderUserId: 1,
     receiverUserId: 2,
     content: 'Hello, how are you?',
     createdAt: DateTime.now(),
   ),
   Message(
-    id: const Uuid().v4(),
-    chatRoomId: 'chatRoomId1',
+    projectId: 1,
     senderUserId: 2,
     receiverUserId: 1,
     content: 'Hi, I am doing fine. How about you?',
     createdAt: DateTime.now().add(const Duration(minutes: 5)),
   ),
   Message(
-    id: const Uuid().v4(),
-    chatRoomId: 'chatRoomId1',
+    projectId: 1,
     senderUserId: 1,
     receiverUserId: 2,
     content: 'I am good too. Thanks for asking.',
     createdAt: DateTime.now().add(const Duration(minutes: 10)),
   ),
   Message(
-    id: const Uuid().v4(),
-    chatRoomId: 'chatRoomId1',
+    projectId: 1,
     senderUserId: 2,
     receiverUserId: 1,
     content: 'What have you been up to lately?',
     createdAt: DateTime.now().add(const Duration(minutes: 15)),
   ),
   Message(
-    id: const Uuid().v4(),
-    chatRoomId: 'chatRoomId1',
+    projectId: 1,
     senderUserId: 1,
     receiverUserId: 2,
     content: 'I have been busy with work. How about you?',
     createdAt: DateTime.now().add(const Duration(minutes: 20)),
   ),
   Message(
-    id: const Uuid().v4(),
-    chatRoomId: 'chatRoomId1',
+    projectId: 1,
     senderUserId: 2,
     receiverUserId: 1,
     content: 'I have been studying for my exams.',
     createdAt: DateTime.now().add(const Duration(minutes: 25)),
   ),
   Message(
-    id: const Uuid().v4(),
-    chatRoomId: 'chatRoomId1',
+    projectId: 1,
     senderUserId: 1,
     receiverUserId: 2,
     content: 'Good luck with your exams!',
     createdAt: DateTime.now().add(const Duration(minutes: 30)),
   ),
   Message(
-    id: const Uuid().v4(),
-    chatRoomId: 'chatRoomId1',
+    projectId: 1,
     senderUserId: 2,
     receiverUserId: 1,
     content: 'Thank you!',
     createdAt: DateTime.now().add(const Duration(minutes: 35)),
   ),
   Message(
-    id: const Uuid().v4(),
-    chatRoomId: 'chatRoomId1',
+    projectId: 1,
     senderUserId: 1,
     receiverUserId: 2,
     content: 'You\'re welcome. Let me know if you need any help.',
     createdAt: DateTime.now().add(const Duration(minutes: 40)),
   ),
   Message(
-    id: const Uuid().v4(),
-    chatRoomId: 'chatRoomId1',
+    projectId: 1,
     senderUserId: 2,
     receiverUserId: 1,
     content: 'Sure, I will. Thanks again!',
     createdAt: DateTime.now().add(const Duration(minutes: 45)),
   ),
   Message(
-    id: const Uuid().v4(),
-    chatRoomId: 'chatRoomId1',
+    projectId: 1,
     senderUserId: 2,
     receiverUserId: 1,
     title: 'Catch up meeting',
@@ -105,8 +95,7 @@ List<Message> sampleMessages = [
     meeting: MessageFlag.interview,
   ),
   Message(
-    id: const Uuid().v4(),
-    chatRoomId: 'chatRoomId1',
+    projectId: 1,
     senderUserId: 1,
     receiverUserId: 2,
     title: 'Catch up meeting',
@@ -133,14 +122,22 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       sampleMessages.isNotEmpty ? sampleMessages : [];
   late IO.Socket socket;
   late ScrollController _scrollController;
-  final FocusNode _messageFocusNode = FocusNode(); // Khai báo FocusNode
+  final FocusNode _messageFocusNode = FocusNode();
+  final MessageService messageService = MessageService();
+  bool isLoading = false;
 
   @override
   void initState() {
+    setState(() {
+      isLoading = true;
+    });
     _scrollController = ScrollController();
     super.initState();
     _loadMessages();
     connect();
+    setState(() {
+      isLoading = false;
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent + 100,
@@ -153,7 +150,6 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   void _scrollToBottom() {
     if (_messageFocusNode.hasFocus) {
-      print('a');
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent + 100,
@@ -166,12 +162,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   Future<void> connect() async {
     final prefs = await SharedPreferences.getInstance();
-    // socket = IO.io(
-    //     dotenv.env['SH_URL_DEV'], // Server url
-    //     IO.OptionBuilder()
-    //         .setTransports(['websocket'])
-    //         .disableAutoConnect()
-    //         .build());
+
     socket = IO.io(dotenv.env['SH_URL_DEV'], <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
@@ -193,8 +184,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     socket.on('RECEIVE_MESSAGE', (data) {
       setState(() {
         messages.add(Message(
-          id: const Uuid().v4(),
-          chatRoomId: 'chatRoomId1',
+          projectId: 1,
           senderUserId: 2,
           receiverUserId: 1,
           content: data['content'],
@@ -219,13 +209,33 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   }
 
   _loadMessages() async {
-    // final _messages = await messageRepository.fetchMessages(widget.chatRoom.id);
-
-    // _messages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
-
-    // setState(() {
-    //   messages.addAll(_messages);
-    // });
+    final listMessages = await messageService.getConversations(2, 1);
+    final List<Message> fetchMessages = listMessages
+        .cast<Map<String, dynamic>>()
+        .where((msg) => msg['deletedAt'] == null)
+        .map<Message>((msg) {
+      return Message(
+        id: msg['id'],
+        projectId: msg['projectId'] ?? 1,
+        senderUserId: msg['sender']['id'],
+        // receiverUserId: msg['receiver']['id'],
+        receiverUserId: 1,
+        content: msg['content'],
+        createdAt: DateTime.parse(msg['createdAt']),
+        startTime: null,
+        endTime: null,
+        title: '',
+        meeting: msg['interview'] != null
+            ? MessageFlag.interview
+            : MessageFlag.message,
+        canceled: msg['canceled'] ?? false,
+      );
+    }).toList();
+    setState(() {
+      // messages.clear();
+      // messages.addAll(sampleMessages);
+      messages.addAll(fetchMessages);
+    });
 
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   _scrollController.animateTo(
@@ -249,18 +259,19 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
     void sendMessage() async {
       final message = Message(
-        chatRoomId: 'chatRoomId1',
+        projectId: 1,
         senderUserId: 1,
         receiverUserId: 2,
         content: messageController.text,
         createdAt: DateTime.now(),
+        meeting: MessageFlag.message,
       );
       socket.emit('SEND_MESSAGE', {
         'content': message.content,
-        'projectId': 1,
+        'projectId': message.projectId,
         'senderId': message.senderUserId,
         'receiverId': message.receiverUserId,
-        'messageFlag': 0
+        'messageFlag': message.meeting.index,
       });
       messageController.clear();
     }
@@ -369,84 +380,93 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             bottom: (viewInsets.bottom > 0) ? 8.0 : 0.0,
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Expanded(
-                child: ListView.builder(
-                  controller: _scrollController,
-                  itemCount: messages.length,
-                  itemBuilder: (context, index) {
-                    final message = messages[index];
+              if (isLoading)
+                const Column(
+                  children: [
+                    CircularProgressIndicator(),
+                    Gap(50),
+                  ],
+                )
+              else
+                Expanded(
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) {
+                      final message = messages[index];
 
-                    final showImage = index + 1 == messages.length ||
-                        messages[index + 1].senderUserId !=
-                            message.senderUserId;
+                      final showImage = index + 1 == messages.length ||
+                          messages[index + 1].senderUserId !=
+                              message.senderUserId;
 
-                    return Column(
-                      children: [
-                        const Gap(6),
-                        Row(
-                          mainAxisAlignment: (message.senderUserId != 1)
-                              ? MainAxisAlignment.end
-                              : MainAxisAlignment.start,
-                          children: [
-                            if (showImage && message.senderUserId == 1)
-                              const Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Avatar(
-                                    imageUrl:
-                                        'assets/images/default_avatar.png',
-                                    radius: 12,
-                                  ),
-                                ],
+                      return Column(
+                        children: [
+                          const Gap(6),
+                          Row(
+                            mainAxisAlignment: (message.senderUserId != 1)
+                                ? MainAxisAlignment.end
+                                : MainAxisAlignment.start,
+                            children: [
+                              if (showImage && message.senderUserId == 1)
+                                const Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Avatar(
+                                      imageUrl:
+                                          'assets/images/default_avatar.png',
+                                      radius: 12,
+                                    ),
+                                  ],
+                                ),
+                              if (message.meeting == MessageFlag.interview)
+                                MessageMeetingBubble(
+                                  userId1: 1,
+                                  userId2: 2,
+                                  message: message,
+                                  onCancelMeeting: () {
+                                    setState(() {
+                                      // Cập nhật trạng thái của cuộc họp
+                                      message.canceled = true;
+                                    });
+                                  },
+                                )
+                              else
+                                MessageChatBubble(
+                                  userId1: 1,
+                                  userId2: 2,
+                                  message: message,
+                                ),
+                              if (showImage && message.senderUserId != 1)
+                                const Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Avatar(
+                                      imageUrl:
+                                          'assets/images/default_avatar.png',
+                                      radius: 12,
+                                    ),
+                                  ],
+                                ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: (message.senderUserId != 1)
+                                ? MainAxisAlignment.end
+                                : MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${DateFormat("MMM d").format(message.createdAt)}, ${message.createdAt.hour}:${message.createdAt.minute.toString().padLeft(2, '0')}',
+                                style: Theme.of(context).textTheme.labelMedium,
                               ),
-                            if (message.meeting == MessageFlag.interview)
-                              MessageMeetingBubble(
-                                userId1: 1,
-                                userId2: 2,
-                                message: message,
-                                onCancelMeeting: () {
-                                  setState(() {
-                                    // Cập nhật trạng thái của cuộc họp
-                                    message.canceled = true;
-                                  });
-                                },
-                              )
-                            else
-                              MessageChatBubble(
-                                userId1: 1,
-                                userId2: 2,
-                                message: message,
-                              ),
-                            if (showImage && message.senderUserId != 1)
-                              const Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Avatar(
-                                    imageUrl:
-                                        'assets/images/default_avatar.png',
-                                    radius: 12,
-                                  ),
-                                ],
-                              ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: (message.senderUserId != 1)
-                              ? MainAxisAlignment.end
-                              : MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${DateFormat("MMM d").format(message.createdAt)}, ${message.createdAt.hour}:${message.createdAt.minute.toString().padLeft(2, '0')}',
-                              style: Theme.of(context).textTheme.labelMedium,
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-                  },
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
-              ),
               Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: Row(
