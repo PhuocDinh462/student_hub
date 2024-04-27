@@ -23,7 +23,6 @@ class MessageMeetingBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-
     final alignment = (message.senderUserId != userId1)
         ? Alignment.centerRight
         : Alignment.centerLeft;
