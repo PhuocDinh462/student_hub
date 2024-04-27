@@ -44,9 +44,6 @@ Dio privateDio = Dio(
             buttonColor: Colors.transparent,
             confirm: TextButton(
               onPressed: () {
-                ThemeProvider themeProvider = Get.find();
-                print('theme: ${themeProvider.getTheme.toString()}');
-                print('login');
                 Get.back();
               },
               style: TextButton.styleFrom(
@@ -61,7 +58,6 @@ Dio privateDio = Dio(
               ),
             ),
             onWillPop: () async {
-              print('login');
               return true;
             },
           );

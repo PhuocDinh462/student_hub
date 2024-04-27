@@ -92,7 +92,8 @@ class ProposalService extends BaseApi {
     } catch (e) {
       throw Exception('Failed to create proposal');
     }
-  
+  }
+
   Future<void> updateProposalStatusFlag(int id, StatusFlag statusFlag) async {
     try {
       await dio.patch('/proposal/$id', data: {
@@ -101,4 +102,5 @@ class ProposalService extends BaseApi {
     } catch (e) {
       throw Exception('Failed to update status flag of proposal');
     }
+  }
 }
