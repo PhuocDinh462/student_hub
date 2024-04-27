@@ -23,12 +23,16 @@ class _DashboardStudentState extends State<DashboardStudent> {
 
     indexPageProvider = Provider.of<IndexPageProvider>(context, listen: false);
     indexPageProvider.addListener(_handleIndexPageChange);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      indexPageProvider.setIndexDBStudent(0);
+      _handleIndexPageChange();
+    });
   }
 
   @override
   void dispose() {
     indexPageProvider.removeListener(_handleIndexPageChange);
-
     pageController.dispose();
     super.dispose();
   }
@@ -43,7 +47,11 @@ class _DashboardStudentState extends State<DashboardStudent> {
     );
   }
 
-  List<Widget> pages = [const AllProjectStudent(), const WorkingStudent()];
+  List<Widget> pages = [
+    const AllProjectStudent(),
+    const ListProposalScreen(),
+    const ListProposalScreen()
+  ];
 
   @override
   Widget build(BuildContext context) {

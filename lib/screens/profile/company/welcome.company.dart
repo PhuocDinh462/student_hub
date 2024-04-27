@@ -36,7 +36,7 @@ class WelcomeCompany extends StatelessWidget {
                       roles: [Role.student, Role.company]));
                 } else {
                   Navigator.pushNamed(context, CompanyRoutes.nav,
-                      arguments: {'index': '1'});
+                      arguments: {'index': 1});
                 }
               },
               style: ElevatedButton.styleFrom(

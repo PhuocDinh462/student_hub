@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:student_hub/widgets/display_text.dart';
 
-enum SnackBarType { success, failure }
+enum SnackBarType { success, failure, warning, help }
 
 enum AlertDialogType { yesNo, infor }
 

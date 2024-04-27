@@ -31,11 +31,17 @@ class CompanyRoutes {
     nav: (context) {
       final args =
           ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
-      final index = int.parse(args?['index'] as String? ?? '0');
+      final index = args?['index'];
+      final message = args?['message'];
+      final messageType = args?['messageType'];
 
       return AccountHeader(
         title: 'Student Hub',
-        body: Navigation(currentScreenIndex: index),
+        body: Navigation(
+          currentScreenIndex: index,
+          message: message,
+          messageType: messageType,
+        ),
         resizeToAvoidBottomInset: false,
       );
     },

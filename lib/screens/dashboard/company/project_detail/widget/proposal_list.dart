@@ -51,7 +51,9 @@ class _ProposalListState extends State<ProposalList> {
           )
         : _proposalList.isEmpty
             ? const Center(
-                child: Empty(),
+                child: Empty(
+                    imgPath: 'assets/images/Empty.png',
+                    text: 'No data available'),
               )
             : SingleChildScrollView(
                 child: Column(

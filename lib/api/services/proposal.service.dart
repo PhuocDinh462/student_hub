@@ -80,6 +80,19 @@ class ProposalService extends BaseApi {
     }
   }
 
+  Future<dynamic> getAllProposalByStudentId(int studentId) async {
+    try {
+      Response response = await dio.get('/proposal/project/$studentId');
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create proposal');
+    }
+  
   Future<void> updateProposalStatusFlag(int id, StatusFlag statusFlag) async {
     try {
       await dio.patch('/proposal/$id', data: {
@@ -88,5 +101,4 @@ class ProposalService extends BaseApi {
     } catch (e) {
       throw Exception('Failed to update status flag of proposal');
     }
-  }
 }

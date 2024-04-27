@@ -3,7 +3,9 @@ import 'package:gap/gap.dart';
 import 'package:student_hub/utils/extensions.dart';
 
 class Empty extends StatelessWidget {
-  const Empty({super.key});
+  const Empty({super.key, required this.imgPath, required this.text});
+  final String imgPath;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -11,12 +13,12 @@ class Empty extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(
-          'assets/images/Empty.png',
+          imgPath,
           width: context.deviceSize.width / 1.5,
         ),
         const Gap(10),
         Text(
-          'No data available',
+          text,
           style: Theme.of(context).textTheme.titleLarge,
         ),
         const Gap(60),

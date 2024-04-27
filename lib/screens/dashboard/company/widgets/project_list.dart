@@ -62,7 +62,11 @@ class _ProjectListState extends State<ProjectList> {
                     ? element.typeFlag == widget.typeFlag
                     : true)
                 .isEmpty
-            ? const Center(child: Empty())
+            ? const Center(
+                child: Empty(
+                    imgPath: 'assets/images/Empty.png',
+                    text: 'No data available'),
+              )
             : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: SingleChildScrollView(
