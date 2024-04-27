@@ -232,7 +232,8 @@ class _ProposalDetailState extends State<ProposalDetail> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () => openResume(),
+                    onPressed:
+                        proposal.resume.isEmpty ? null : () => openResume(),
                     icon: const Icon(Icons.open_in_browser, size: 30),
                   ),
                 ],
@@ -257,7 +258,9 @@ class _ProposalDetailState extends State<ProposalDetail> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () => openTranscript(),
+                    onPressed: proposal.transcript.isEmpty
+                        ? null
+                        : () => openTranscript(),
                     icon: const Icon(Icons.open_in_browser, size: 30),
                   ),
                 ],
