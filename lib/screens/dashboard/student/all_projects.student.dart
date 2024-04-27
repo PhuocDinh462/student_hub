@@ -50,6 +50,7 @@ class _AllProjectStudentState extends State<AllProjectStudent> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ProposalStudentViewModel>(builder: (context, psvm, child) {
+
       return psvm.loading
           ? const Column(children: [
               Gap(30),

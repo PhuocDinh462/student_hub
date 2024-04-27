@@ -138,6 +138,7 @@ class ProposalStudentViewModel extends ChangeNotifier {
 
       if (status == 1) {
         _proposals = res.reversed
+
             .where((e) =>
                 e.project?.typeFlag == TypeFlag.working &&
                 e.statusFlag == StatusFlag.hired)

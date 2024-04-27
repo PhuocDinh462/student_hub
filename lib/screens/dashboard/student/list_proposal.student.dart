@@ -76,6 +76,7 @@ class _ListProposalScreenState extends State<ListProposalScreen> {
           );
         }
       }
+
     });
   }
 }
