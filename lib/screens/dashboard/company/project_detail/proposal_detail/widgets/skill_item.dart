@@ -11,6 +11,8 @@ class SkillItem extends StatelessWidget {
     String skillUrl = skills[skill] ?? '';
     return Tooltip(
       message: skill,
+      triggerMode: TooltipTriggerMode.tap,
+      preferBelow: false,
       child: skillUrl.isNotEmpty
           ? Image.asset(
               'assets/images/skills/${Theme.of(context).brightness == Brightness.light ? 'light' : 'dark'}/$skillUrl',

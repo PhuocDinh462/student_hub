@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/models/proposal.dart';
+import 'package:student_hub/models/proposal.model.dart';
 import 'package:student_hub/screens/dashboard/company/project_detail/widget/project_info.dart';
 import 'widget/proposal_list.dart';
 
@@ -64,9 +64,15 @@ class ProjectDetail extends StatelessWidget {
                     child: Text('Message'),
                   ),
                   // Proposals
-                  ProposalList(statusFlag: StatusFlag.offer),
+                  ProposalList(statusFlags: <StatusFlag>{
+                    StatusFlag.waiting,
+                    StatusFlag.active,
+                    StatusFlag.offer,
+                  }),
                   // Hired
-                  ProposalList(statusFlag: StatusFlag.hired),
+                  ProposalList(statusFlags: <StatusFlag>{
+                    StatusFlag.hired,
+                  }),
                 ],
               ),
             ),

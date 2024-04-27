@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/providers/providers.dart';
 
 Future<String?> getToken() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -36,6 +37,8 @@ class BaseApi {
           }
         },
         onError: (DioException error, ErrorInterceptorHandler handler) {
+          final UserProvider userProvider = Get.find();
+
           if (error.response?.statusCode == 401) {
             Get.defaultDialog(
               title: 'Session Expired',
@@ -55,10 +58,7 @@ class BaseApi {
               contentPadding: const EdgeInsets.only(bottom: 15),
               buttonColor: Colors.transparent,
               confirm: TextButton(
-                onPressed: () {
-                  // print('login');
-                  Get.back();
-                },
+                onPressed: () => userProvider.removeCurrentUser(),
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
                   minimumSize: const Size(40, 25),
@@ -71,7 +71,7 @@ class BaseApi {
                 ),
               ),
               onWillPop: () async {
-                // print('login');
+                userProvider.removeCurrentUser();
                 return true;
               },
             );

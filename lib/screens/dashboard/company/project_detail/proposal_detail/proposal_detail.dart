@@ -1,17 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/models.dart';
+import 'package:student_hub/models/proposal.dart';
 import 'package:student_hub/screens/dashboard/company/project_detail/proposal_detail/widgets/skill_item.dart';
 import 'package:student_hub/utils/extensions.dart';
-// import 'package:get/get.dart';
+import 'package:get/get.dart';
+import 'package:student_hub/widgets/yes_no_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class ProposalDetail extends StatelessWidget {
+class ProposalDetail extends StatefulWidget {
   const ProposalDetail({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // final int proposalId = Get.arguments;
+  createState() => _ProposalDetailState();
+}
 
+class _ProposalDetailState extends State<ProposalDetail> {
+  final Proposal proposal = Get.arguments;
+  final ProfileService profileService = ProfileService();
+  final ProposalService proposalService = ProposalService();
+
+  void openResume() async {
+    context.loaderOverlay.show();
+    profileService.getResumeStudent(proposal.studentId).then((value) async {
+      final url = Uri.parse(value);
+      if (!await launchUrl(url)) {
+        throw Exception('Could not launch $url');
+      }
+    }).catchError((e) {
+      throw Exception(e);
+    }).whenComplete(() {
+      context.loaderOverlay.hide();
+    });
+  }
+
+  void openTranscript() async {
+    context.loaderOverlay.show();
+    profileService.getTranscriptStudent(proposal.studentId).then((value) async {
+      final url = Uri.parse(value);
+      if (!await launchUrl(url)) {
+        throw Exception('Could not launch $url');
+      }
+    }).catchError((e) {
+      throw Exception(e);
+    }).whenComplete(() {
+      context.loaderOverlay.hide();
+    });
+  }
+
+  void updateStatusFlag(StatusFlag statusFlag) {
+    context.loaderOverlay.show();
+    proposalService
+        .updateProposalStatusFlag(proposal.id, statusFlag)
+        .then((value) {
+      setState(() => proposal.statusFlag = statusFlag);
+    }).catchError((e) {
+      throw Exception(e);
+    }).whenComplete(() {
+      context.loaderOverlay.hide();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -33,7 +87,7 @@ class ProposalDetail extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Phuoc Dinh Cao Hong',
+                          proposal.studentName,
                           style: Theme.of(context)
                               .textTheme
                               .displayLarge
@@ -44,7 +98,7 @@ class ProposalDetail extends StatelessWidget {
                         ),
                         const Gap(5),
                         Text(
-                          'Fullstack Engineer',
+                          proposal.techStack.name,
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall
@@ -60,8 +114,7 @@ class ProposalDetail extends StatelessWidget {
               // Cover letter
               SizedBox(
                 width: context.deviceSize.width - 30,
-                child: const Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'),
+                child: Text(proposal.coverLetter),
               ),
               const Gap(30),
 
@@ -86,27 +139,26 @@ class ProposalDetail extends StatelessWidget {
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('University of Science - VNUHCM'),
-                  Text(
-                    '2020 - 2024',
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall
-                        ?.copyWith(fontStyle: FontStyle.italic),
-                  ),
-                  const Gap(15),
-                  const Text('University of Science - VNUHCM'),
-                  Text(
-                    '2020 - 2024',
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall
-                        ?.copyWith(fontStyle: FontStyle.italic),
-                  ),
-                ],
+                children: proposal.educations
+                    .map(
+                      (education) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(education.schoolName),
+                          Text(
+                            '${education.startYear} - ${education.endYear}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.copyWith(fontStyle: FontStyle.italic),
+                          ),
+                          const Gap(15),
+                        ],
+                      ),
+                    )
+                    .toList(),
               ),
-              const Gap(30),
+              const Gap(15),
 
               // Skills
               Row(
@@ -171,7 +223,7 @@ class ProposalDetail extends StatelessWidget {
                             text: 'Resume: ',
                             style: Theme.of(context).textTheme.bodyMedium),
                         TextSpan(
-                            text: '1713367523615-Mock CV.pdf',
+                            text: proposal.resume,
                             style: Theme.of(context)
                                 .textTheme
                                 .labelSmall
@@ -180,7 +232,7 @@ class ProposalDetail extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => openResume(),
                     icon: const Icon(Icons.open_in_browser, size: 30),
                   ),
                 ],
@@ -196,7 +248,7 @@ class ProposalDetail extends StatelessWidget {
                             text: 'Transcript: ',
                             style: Theme.of(context).textTheme.bodyMedium),
                         TextSpan(
-                            text: '1713367527862-logo.png',
+                            text: proposal.transcript,
                             style: Theme.of(context)
                                 .textTheme
                                 .labelSmall
@@ -205,7 +257,7 @@ class ProposalDetail extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => openTranscript(),
                     icon: const Icon(Icons.open_in_browser, size: 30),
                   ),
                 ],
@@ -213,83 +265,50 @@ class ProposalDetail extends StatelessWidget {
               const Gap(40),
 
               // Action buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton(
-                      onPressed: () {},
+              if (proposal.statusFlag != StatusFlag.hired)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primary_300,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child:
+                            const Icon(Icons.message_outlined, color: text_50)),
+                    const Gap(20),
+                    ElevatedButton(
+                      onPressed: proposal.statusFlag == StatusFlag.offer
+                          ? null
+                          : () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return YesNoDialog(
+                                    title: 'Hired offer',
+                                    content:
+                                        'Do you really want to send hired offer for student to do this project?',
+                                    onYesPressed: () =>
+                                        updateStatusFlag(StatusFlag.offer),
+                                  );
+                                },
+                              );
+                            },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: primary_300,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child:
-                          const Icon(Icons.message_outlined, color: text_50)),
-                  const Gap(20),
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(
-                              'Hired offer',
-                              style: Theme.of(context).textTheme.displayMedium,
-                            ),
-                            content: const Text(
-                                'Do you really want to send hired offer for student to do this project?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  // Cancel hire action
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(
-                                  'Cancel',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface
-                                            .withOpacity(.75),
-                                      ),
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  // Perform hire action
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(
-                                  'Send',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                      ),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: primary_300,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      child: proposal.statusFlag == StatusFlag.offer
+                          ? const Icon(Icons.hourglass_empty)
+                          : const Icon(Icons.check, color: text_50),
                     ),
-                    child: const Icon(Icons.check, color: text_50),
-                  ),
-                ],
-              ),
+                  ],
+                ),
             ],
           ),
         ),

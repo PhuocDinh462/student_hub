@@ -90,7 +90,7 @@ class _ProjectListState extends State<ProjectList> {
                             )
                             .toList(),
                       ),
-                      const Gap(85),
+                      if (widget.typeFlag == TypeFlag.newType) const Gap(85),
                     ],
                   ),
                 ),

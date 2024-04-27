@@ -16,6 +16,7 @@ class DashboardCompany extends StatefulWidget {
 
 class _DashboardCompanyState extends State<DashboardCompany> {
   bool _isLoading = false;
+  bool _showPostProjectBtn = true;
   final ProjectService projectService = ProjectService();
 
   @override
@@ -49,21 +50,27 @@ class _DashboardCompanyState extends State<DashboardCompany> {
         Provider.of<ProjectProvider>(context);
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          projectProvider.clear();
-          Navigator.pushNamed(context, CompanyRoutes.postProject);
-        },
-        foregroundColor: theme.colorScheme.secondaryContainer,
-        backgroundColor:
-            theme.brightness == Brightness.dark ? primary_200 : primary_300,
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: _showPostProjectBtn
+          ? FloatingActionButton(
+              onPressed: () {
+                projectProvider.clear();
+                Navigator.pushNamed(context, CompanyRoutes.postProject);
+              },
+              foregroundColor: theme.colorScheme.secondaryContainer,
+              backgroundColor: theme.brightness == Brightness.dark
+                  ? primary_200
+                  : primary_300,
+              child: const Icon(Icons.add),
+            )
+          : null,
       body: DefaultTabController(
         length: 3,
         child: Column(
           children: [
             TabBar(
+              onTap: (index) {
+                setState(() => _showPostProjectBtn = index == 0);
+              },
               dividerColor: Theme.of(context).brightness == Brightness.dark
                   ? text_800
                   : text_200,
@@ -72,7 +79,7 @@ class _DashboardCompanyState extends State<DashboardCompany> {
                   padding: EdgeInsets.only(top: 2.0),
                   child: Tab(
                     child: Text(
-                      'All',
+                      'New',
                       style: TextStyle(fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -105,8 +112,8 @@ class _DashboardCompanyState extends State<DashboardCompany> {
                   : const TabBarView(
                       physics: NeverScrollableScrollPhysics(),
                       children: [
-                        // All projects
-                        ProjectList(),
+                        // New
+                        ProjectList(typeFlag: TypeFlag.newType),
                         // Working
                         ProjectList(typeFlag: TypeFlag.working),
                         // Archived

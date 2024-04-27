@@ -59,7 +59,6 @@ class MyApp extends StatelessWidget {
           .initializeProvider();
     }
 
-    Get.put(userProvider);
     return FutureBuilder(
       future: initializeProviders(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -109,7 +108,9 @@ class MyApp extends StatelessWidget {
                     ? (userProvider.currentUser!.currentRole == Role.student
                         ? StudentRoutes.nav
                         : CompanyRoutes.nav)
-                    : AuthRoutes.login,
+                    : themeProvider.getIsFirstCall
+                        ? AuthRoutes.intro
+                        : AuthRoutes.login,
                 debugShowCheckedModeBanner: false,
                 theme: themeProvider.getThemeMode
                     ? AppTheme.darkTheme

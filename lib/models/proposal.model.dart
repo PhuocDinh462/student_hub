@@ -12,7 +12,7 @@ enum StatusFlag {
 
 enum DisableFlag {
   enable,
-  sisable,
+  disable,
 }
 
 class ProposalModel extends BaseModel {
