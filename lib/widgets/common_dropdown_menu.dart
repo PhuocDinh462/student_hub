@@ -46,12 +46,13 @@ class _CommonDropdownMenuState extends State<CommonDropdownMenu> {
     final deviceSize = context.deviceSize;
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       children: [
         Container(
             height: 70,
             decoration: BoxDecoration(
-              color: colorScheme.onPrimary,
+              color: colorScheme.onSecondaryContainer,
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(isExpanded ? 0 : 5),
                   bottomRight: Radius.circular(isExpanded ? 0 : 5),
@@ -78,21 +79,21 @@ class _CommonDropdownMenuState extends State<CommonDropdownMenu> {
                         child: DisplayText(
                             text: widget.labelText,
                             style: textTheme.labelLarge!
-                                .copyWith(color: Colors.black)),
+                                .copyWith(color: colorScheme.secondary)),
                       ),
                       Icon(
                         isExpanded
                             ? Icons.keyboard_arrow_up
                             : Icons.keyboard_arrow_down,
-                        color: Colors.black,
+                        color: colorScheme.secondary,
                       )
                     ])))),
-        if (isExpanded)
+        if (isExpanded && widget.proposals.isNotEmpty)
           Container(
             padding: const EdgeInsets.all(4),
             height: deviceSize.height * 0.45,
             decoration: BoxDecoration(
-              color: colorScheme.onPrimary,
+              color: colorScheme.onSecondaryContainer,
               borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(5),
                   bottomRight: Radius.circular(5)),

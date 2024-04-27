@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:student_hub/api/api.dart';
-import 'package:student_hub/providers/providers.dart';
 
 class MessageService extends BaseApi {
   MessageService() : super();
@@ -11,6 +10,20 @@ class MessageService extends BaseApi {
       return response.data['result'];
     } catch (e) {
       throw Exception('Failed to fetch users');
+    }
+  }
+
+  Future<dynamic> getAllMessage() async {
+    try {
+      Response response = await dio.get('/message');
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create profile company');
     }
   }
 }

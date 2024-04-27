@@ -138,11 +138,16 @@ class ProposalStudentViewModel extends ChangeNotifier {
 
       if (status == 1) {
         _proposals = res.reversed
-            .where((e) => e.project?.typeFlag == TypeFlag.working)
+
+            .where((e) =>
+                e.project?.typeFlag == TypeFlag.working &&
+                e.statusFlag == StatusFlag.hired)
             .toList();
       } else {
         _proposals = res.reversed
-            .where((e) => e.project?.typeFlag == TypeFlag.archieved)
+            .where((e) =>
+                e.project?.typeFlag == TypeFlag.archieved &&
+                e.statusFlag == StatusFlag.hired)
             .toList();
       }
     } catch (e) {

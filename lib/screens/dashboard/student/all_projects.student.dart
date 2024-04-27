@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
@@ -51,37 +50,38 @@ class _AllProjectStudentState extends State<AllProjectStudent> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ProposalStudentViewModel>(builder: (context, psvm, child) {
-      if (psvm.loading) {
-        context.loaderOverlay.show();
-      } else {
-        context.loaderOverlay.hide();
-      }
 
-      return Column(
-        children: [
-          CommonDropdownMenu(
-            id: 1,
-            labelText: 'Active proposal (${psvm.proposalActive.length})',
-            proposals: psvm.proposalActive,
-            view: ProjectDetailsView.viewActiveProposal,
-            actionCard: (project) {
-              handleOpenProjectDetails(
-                  project, ProjectDetailsView.viewActiveProposal);
-            },
-          ),
-          const Gap(20),
-          CommonDropdownMenu(
-            id: 2,
-            labelText: 'Submitted proposal (${psvm.proposalSubmited.length})',
-            proposals: psvm.proposalSubmited,
-            view: ProjectDetailsView.viewProposal,
-            actionCard: (project) {
-              handleOpenProjectDetails(
-                  project, ProjectDetailsView.viewProposal);
-            },
-          ),
-        ],
-      );
+      return psvm.loading
+          ? const Column(children: [
+              Gap(30),
+              CircularProgressIndicator(),
+            ])
+          : Column(
+              children: [
+                CommonDropdownMenu(
+                  id: 1,
+                  labelText: 'Active proposal (${psvm.proposalActive.length})',
+                  proposals: psvm.proposalActive,
+                  view: ProjectDetailsView.viewActiveProposal,
+                  actionCard: (project) {
+                    handleOpenProjectDetails(
+                        project, ProjectDetailsView.viewActiveProposal);
+                  },
+                ),
+                const Gap(20),
+                CommonDropdownMenu(
+                  id: 2,
+                  labelText:
+                      'Submitted proposal (${psvm.proposalSubmited.length})',
+                  proposals: psvm.proposalSubmited,
+                  view: ProjectDetailsView.viewProposal,
+                  actionCard: (project) {
+                    handleOpenProjectDetails(
+                        project, ProjectDetailsView.viewProposal);
+                  },
+                ),
+              ],
+            );
     });
   }
 }

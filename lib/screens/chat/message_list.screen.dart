@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/screens/chat/widgets/chat.widgets.dart';
+import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/search_field.dart';
 
 class MessageListScreen extends StatefulWidget {
@@ -12,49 +13,49 @@ class MessageListScreen extends StatefulWidget {
 class _MessageListScreenState extends State<MessageListScreen> {
   TextEditingController _searchController = TextEditingController();
 
+  late ScrollController _scrollController;
+
   @override
   void initState() {
-    _searchController = TextEditingController();
     super.initState();
+    _scrollController = ScrollController();
+
+    _searchController = TextEditingController();
   }
 
   @override
   void dispose() {
-    _searchController.dispose();
     super.dispose();
+    _scrollController.dispose();
+
+    _searchController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final deviceSize = context.deviceSize;
 
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 0),
-        child: Column(children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: colorScheme.onSurface.withOpacity(0.1),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: const Offset(0, -3),
-                )
-              ],
-            ),
-            child: SearchBox(controller: _searchController),
-          ),
-          Expanded(
-            child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (ctx, index) {
-                  return const MessageItem();
-                }),
-          )
-        ]),
-      ),
+      body: Column(children: [
+        Container(
+          height: deviceSize.height * 0.1,
+          padding: const EdgeInsets.only(top: 30),
+          child: SearchBox(controller: _searchController),
+        ),
+        Container(
+          height: deviceSize.height * 0.7,
+          padding:
+              const EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 0),
+          child: ListView.builder(
+              controller: _scrollController,
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              itemCount: 10,
+              itemBuilder: (ctx, index) {
+                return const MessageItem();
+              }),
+        ),
+      ]),
     );
   }
 }
