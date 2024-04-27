@@ -51,6 +51,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
+    Get.put(userProvider);
 
     Future<void> initializeProviders() async {
       await Provider.of<UserProvider>(context, listen: false)
@@ -74,7 +75,6 @@ class MyApp extends StatelessWidget {
           } else {
             final ThemeProvider themeProvider =
                 Provider.of<ThemeProvider>(context);
-            Get.put(themeProvider);
 
             ImageList.loadImage(context);
 
