@@ -8,9 +8,8 @@ import 'package:student_hub/widgets/avatar.dart';
 import 'package:student_hub/widgets/create_meeting.dart';
 import 'package:student_hub/widgets/message_chat_bubble.dart';
 import 'package:student_hub/widgets/message_meeting_bubble.dart';
-import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 List<Message> sampleMessages = [
@@ -120,7 +119,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   final messageController = TextEditingController();
   final List<Message> messages =
       sampleMessages.isNotEmpty ? sampleMessages : [];
-  late IO.Socket socket;
+  late io.Socket socket;
   late ScrollController _scrollController;
   final FocusNode _messageFocusNode = FocusNode();
   final MessageService messageService = MessageService();
@@ -163,7 +162,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   Future<void> connect() async {
     final prefs = await SharedPreferences.getInstance();
 
-    socket = IO.io(dotenv.env['SH_URL_DEV'], <String, dynamic>{
+    socket = io.io(dotenv.env['SH_URL_DEV'], <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
@@ -186,7 +185,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         messages.add(Message(
           projectId: 1,
           senderUserId: 2,
-          receiverUserId: 1,
+          receiverUserId: 2,
           content: data['content'],
           createdAt: DateTime.now(),
           meeting: MessageFlag.values[data['messageFlag']],
@@ -253,14 +252,14 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       (user) => user.userId == 1,
     );
 
-    final otherParticipant = widget.chatRoom?.participants.firstWhere(
-      (user) => user.userId != currentParticipant?.userId,
-    );
+    // final otherParticipant = widget.chatRoom?.participants.firstWhere(
+    //   (user) => user.userId != currentParticipant?.userId,
+    // );
 
     void sendMessage() async {
       final message = Message(
         projectId: 1,
-        senderUserId: 1,
+        senderUserId: 2,
         receiverUserId: 2,
         content: messageController.text,
         createdAt: DateTime.now(),
@@ -393,82 +392,138 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                 Expanded(
                   child: ListView.builder(
                     controller: _scrollController,
-                    itemCount: messages.length,
+                    itemCount: messages.length + 1,
                     itemBuilder: (context, index) {
-                      final message = messages[index];
-
-                      final showImage = index + 1 == messages.length ||
-                          messages[index + 1].senderUserId !=
-                              message.senderUserId;
-
-                      return Column(
-                        children: [
-                          const Gap(6),
-                          Row(
-                            mainAxisAlignment: (message.senderUserId != 1)
-                                ? MainAxisAlignment.end
-                                : MainAxisAlignment.start,
+                      if (index == 0) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 16.0),
+                          child: const Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              if (showImage && message.senderUserId == 1)
-                                const Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Avatar(
-                                      imageUrl:
-                                          'assets/images/default_avatar.png',
-                                      radius: 12,
-                                    ),
-                                  ],
-                                ),
-                              if (message.meeting == MessageFlag.interview)
-                                MessageMeetingBubble(
-                                  userId1: 1,
-                                  userId2: 2,
-                                  message: message,
-                                  onCancelMeeting: () {
-                                    setState(() {
-                                      // Cập nhật trạng thái của cuộc họp
-                                      message.canceled = true;
-                                    });
-                                  },
-                                )
-                              else
-                                MessageChatBubble(
-                                  userId1: 1,
-                                  userId2: 2,
-                                  message: message,
-                                ),
-                              if (showImage && message.senderUserId != 1)
-                                const Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Avatar(
-                                      imageUrl:
-                                          'assets/images/default_avatar.png',
-                                      radius: 12,
-                                    ),
-                                  ],
-                                ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: (message.senderUserId != 1)
-                                ? MainAxisAlignment.end
-                                : MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${DateFormat("MMM d").format(message.createdAt)}, ${message.createdAt.hour}:${message.createdAt.minute.toString().padLeft(2, '0')}',
-                                style: Theme.of(context).textTheme.labelMedium,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Avatar(
+                                    imageUrl:
+                                        'assets/images/default_avatar.png',
+                                    radius: 30,
+                                  ),
+                                  SizedBox(width: 16.0),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'User 2',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18.0,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4.0),
+                                      Text(
+                                        'StudentHub',
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 14.0,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4.0),
+                                      Text(
+                                        'You\'re connected on StudentHub',
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 14.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
+                              SizedBox(height: 8.0),
+                              Divider(),
                             ],
                           ),
-                        ],
-                      );
+                        );
+                      } else {
+                        final message = messages[index - 1];
+
+                        final showImage = index - 1 == messages.length - 1 ||
+                            (index < messages.length - 1 &&
+                                messages[index + 1].senderUserId !=
+                                    message.senderUserId);
+
+                        return Column(
+                          children: [
+                            const Gap(6),
+                            Row(
+                              mainAxisAlignment: (message.senderUserId != 1)
+                                  ? MainAxisAlignment.end
+                                  : MainAxisAlignment.start,
+                              children: [
+                                if (showImage && message.senderUserId == 1)
+                                  const Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Avatar(
+                                        imageUrl:
+                                            'assets/images/default_avatar.png',
+                                        radius: 12,
+                                      ),
+                                    ],
+                                  ),
+                                if (message.meeting == MessageFlag.interview)
+                                  MessageMeetingBubble(
+                                    userId1: 1,
+                                    userId2: 2,
+                                    message: message,
+                                    onCancelMeeting: () {
+                                      setState(() {
+                                        // Cập nhật trạng thái của cuộc họp
+                                        message.canceled = true;
+                                      });
+                                    },
+                                  )
+                                else
+                                  MessageChatBubble(
+                                    userId1: 1,
+                                    userId2: 2,
+                                    message: message,
+                                  ),
+                                if (showImage && message.senderUserId != 1)
+                                  const Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Avatar(
+                                        imageUrl:
+                                            'assets/images/default_avatar.png',
+                                        radius: 12,
+                                      ),
+                                    ],
+                                  ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: (message.senderUserId != 1)
+                                  ? MainAxisAlignment.end
+                                  : MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${DateFormat("MMM d").format(message.createdAt)}, ${message.createdAt.hour}:${message.createdAt.minute.toString().padLeft(2, '0')}',
+                                  style:
+                                      Theme.of(context).textTheme.labelMedium,
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      }
                     },
                   ),
                 ),
               Padding(
-                padding: const EdgeInsets.all(6.0),
+                padding: const EdgeInsets.all(4.0),
                 child: Row(
                   children: [
                     IconButton(
@@ -499,7 +554,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                               .withAlpha(100),
                           hintText: 'Type a message',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16.0),
+                            borderRadius: BorderRadius.circular(100),
                             borderSide: BorderSide.none,
                           ),
                           suffixIcon: IconButton(
