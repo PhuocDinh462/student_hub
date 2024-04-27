@@ -34,8 +34,8 @@ class Proposal {
       studentId: map['student']['id'],
       studentName: map['student']['user']['fullname'] ?? '',
       techStack: TechnicalModel.fromMap(map['student']['techStack']),
-      resume: map['student']['resume'].split('resumes/')[1] ?? '',
-      transcript: map['student']['transcript'].split('transcripts/')[1] ?? '',
+      resume: map['student']['resume']?.split('resumes/')[1] ?? '',
+      transcript: map['student']['transcript']?.split('transcripts/')[1] ?? '',
       educations: List<EducationModel>.from(
         map['student']['educations']
             .map((education) => EducationModel.fromMap(education)),
