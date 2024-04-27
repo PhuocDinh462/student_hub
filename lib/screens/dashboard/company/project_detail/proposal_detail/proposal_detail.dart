@@ -218,6 +218,7 @@ class _ProposalDetailState extends State<ProposalDetail> {
                 children: [
                   Expanded(
                     child: RichText(
+                      textDirection: TextDirection.ltr,
                       text: TextSpan(children: [
                         TextSpan(
                             text: 'Resume: ',
@@ -244,6 +245,7 @@ class _ProposalDetailState extends State<ProposalDetail> {
                 children: [
                   Expanded(
                     child: RichText(
+                      textDirection: TextDirection.ltr,
                       text: TextSpan(children: [
                         TextSpan(
                             text: 'Transcript: ',
