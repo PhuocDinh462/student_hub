@@ -19,7 +19,8 @@ const Color text_100 = Color(0xffe9e9e9);
 const Color text_50 = Color(0xfff5f5f5);
 
 // More colors
-const Color color_1 = Color.fromARGB(255, 255, 77, 64);
+const Color color_1 = Color.fromRGBO(255, 77, 64, 1);
+const Color color_2 = Color(0xff46AB5E);
 const Color linearColor1 = Color(0xff1597FF);
 const Color linearColor2 = Color(0xff3F51B5);
 const Color linearColor3 = Color(0xff00C853);
@@ -39,7 +40,8 @@ class AppTheme {
         outline: Colors.transparent,
         onSecondary: Colors.white,
         secondary: Colors.black,
-        onSecondaryContainer: text_50),
+        onSecondaryContainer: text_50,
+        surfaceVariant: text_800),
     cardTheme: const CardTheme(
       color: text_50,
       surfaceTintColor: Colors.transparent,
@@ -95,7 +97,8 @@ class AppTheme {
         onSurface: text_50,
         onSecondary: text_800,
         secondary: Colors.white,
-        onSecondaryContainer: text_600),
+        onSecondaryContainer: text_600,
+        surfaceVariant: Colors.white),
     cardTheme: const CardTheme(
       color: text_800,
       surfaceTintColor: Colors.transparent,

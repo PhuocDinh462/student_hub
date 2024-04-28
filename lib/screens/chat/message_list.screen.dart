@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/screens/chat/widgets/chat.widgets.dart';
-import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/search_field.dart';
 
 class MessageListScreen extends StatefulWidget {
@@ -33,27 +32,30 @@ class _MessageListScreenState extends State<MessageListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = context.deviceSize;
-
     return Scaffold(
       body: Column(children: [
-        Container(
-          height: deviceSize.height * 0.1,
-          padding: const EdgeInsets.only(top: 30),
-          child: SearchBox(controller: _searchController),
+        SizedBox(
+          height: 90,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SearchBox(controller: _searchController),
+            ],
+          ),
         ),
-        Container(
-          height: deviceSize.height * 0.7,
-          padding:
-              const EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 0),
-          child: ListView.builder(
-              controller: _scrollController,
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              itemCount: 10,
-              itemBuilder: (ctx, index) {
-                return const MessageItem();
-              }),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10, left: 20),
+            child: ListView.builder(
+                controller: _scrollController,
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                itemCount: 10,
+                itemBuilder: (ctx, index) {
+                  return const MessageItem();
+                }),
+          ),
         ),
       ]),
     );

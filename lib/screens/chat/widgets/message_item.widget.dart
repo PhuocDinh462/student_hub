@@ -35,29 +35,29 @@ class MessageItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(1000),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(1000),
+                    ),
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 3),
+                      child: const Icon(
+                        Icons.circle,
+                        size: 14,
+                        color: Colors.green,
                       ),
-                      child:
-                          //  Container(
-                          //   margin: const EdgeInsets.only(right: 3),
-                          //   child: const Icon(
-                          //     Icons.circle,
-                          //     size: 14,
-                          //     color: Colors.green,
-                          //   ),
-                          // ),
-                          Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(1000),
-                            color: Colors.green.withOpacity(0.2)),
-                        child: DisplayText(
-                          text: '12p',
-                          style: textTheme.labelLarge!.copyWith(fontSize: 8),
-                        ),
-                      )),
+                    ),
+                    //   Container(
+                    // padding: const EdgeInsets.symmetric(horizontal: 4),
+                    // decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(1000),
+                    //     color: Colors.green.withOpacity(0.2)),
+                    // child: DisplayText(
+                    //   text: '12p',
+                    //   style: textTheme.labelLarge!.copyWith(fontSize: 8),
+                    // ),
+                    // )
+                  ),
                 ],
               ),
             ),
@@ -79,7 +79,7 @@ class MessageItem extends StatelessWidget {
                 Row(
                   children: [
                     SizedBox(
-                      width: deviceSize.width * 0.55,
+                      width: deviceSize.width * 0.65,
                       child: DisplayText(
                         text:
                             'Clear expectation about your project or deliverables',

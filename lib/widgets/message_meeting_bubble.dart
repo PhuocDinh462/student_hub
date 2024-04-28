@@ -3,7 +3,8 @@ import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:student_hub/models/chat/message.dart';
 import 'package:student_hub/routes/company_route.dart';
-import 'package:student_hub/widgets/button.dart';
+import 'package:student_hub/styles/styles.dart';
+import 'package:student_hub/widgets/widgets.dart';
 
 class MessageMeetingBubble extends StatelessWidget {
   const MessageMeetingBubble({
@@ -27,17 +28,9 @@ class MessageMeetingBubble extends StatelessWidget {
         ? Alignment.centerRight
         : Alignment.centerLeft;
 
-    final color = (message.senderUserId == userId1)
-        ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.secondary;
+    final color = Theme.of(context).colorScheme.onPrimary;
 
-    final colorBtn = (message.senderUserId == userId1)
-        ? const Color(0xffB0C5A4)
-        : const Color(0xffEBC49F);
-
-    final textColor = (message.senderUserId == userId1)
-        ? Theme.of(context).colorScheme.onPrimary
-        : Theme.of(context).colorScheme.onSecondary;
+    final textColor = Theme.of(context).colorScheme.surfaceVariant;
 
     return Align(
       alignment: alignment,
@@ -61,7 +54,6 @@ class MessageMeetingBubble extends StatelessWidget {
                     message.title ?? '',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: textColor,
-                          fontWeight: FontWeight.bold,
                         ),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -69,7 +61,8 @@ class MessageMeetingBubble extends StatelessWidget {
                 const Gap(8),
                 Text(
                   '${message.endTime?.difference(message.startTime!).inMinutes} mins',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        fontSize: 12,
                         color: textColor.withOpacity(0.8),
                       ),
                 ),
@@ -80,14 +73,13 @@ class MessageMeetingBubble extends StatelessWidget {
               children: [
                 Text(
                   'Start Time: ',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: textColor,
                       ),
                 ),
                 Text(
                   '${DateFormat.yMMMd().format(message.startTime!)}, ${message.startTime!.hour}:${message.startTime!.minute.toString().padLeft(2, '0')}',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: textColor,
                       ),
                 ),
@@ -98,14 +90,13 @@ class MessageMeetingBubble extends StatelessWidget {
               children: [
                 Text(
                   'End Time:   ',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: textColor,
                       ),
                 ),
                 Text(
                   '${DateFormat.yMMMd().format(message.endTime!)}, ${message.endTime!.hour}:${message.endTime!.minute.toString().padLeft(2, '0')}',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: textColor,
                       ),
                 ),
@@ -116,17 +107,17 @@ class MessageMeetingBubble extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 if (!message.canceled)
-                  Button(
-                    onTap: () {
-                      Navigator.pushNamed(context, CompanyRoutes.videoCall);
-                    },
-                    text: 'Join',
-                    colorButton: colorBtn,
-                    colorText: textColor,
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    padding: 4,
-                  ),
+                  ElevatedButton(
+                      style: buttonGreen,
+                      onPressed: () {
+                        Navigator.pushNamed(context, CompanyRoutes.videoCall);
+                      },
+                      child: DisplayText(
+                        text: 'Join',
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                              color: Colors.white,
+                            ),
+                      )),
                 const Gap(8),
                 if (!message.canceled && message.senderUserId == userId2)
                   PopupMenuButton<String>(
@@ -202,8 +193,10 @@ class MessageMeetingBubble extends StatelessWidget {
                 if (message.canceled)
                   Text(
                     'The meeting has been canceled',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Colors.red, fontWeight: FontWeight.bold),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: Colors.red),
                   ),
               ],
             ),
