@@ -306,7 +306,7 @@ class _ProposalDetailState extends State<ProposalDetail> {
                                               .getCurrentProject!.countHired <
                                           projectProvider.getCurrentProject!
                                               .requiredStudents) {
-                                        updateStatusFlag(StatusFlag.hired);
+                                        updateStatusFlag(StatusFlag.offer);
                                         projectProvider
                                             .increaseCountHiredCurrentProject();
                                       } else {
