@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_hub/api/api.dart';
+import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/chat/chat_room.dart';
 import 'package:student_hub/models/chat/message.dart';
 import 'package:student_hub/widgets/avatar.dart';
@@ -118,7 +119,8 @@ class ChatRoomScreen extends StatefulWidget {
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
   final messageController = TextEditingController();
   final List<Message> messages =
-      sampleMessages.isNotEmpty ? sampleMessages : [];
+      // sampleMessages.isNotEmpty ? sampleMessages :
+      [];
   late io.Socket socket;
   late ScrollController _scrollController;
   final FocusNode _messageFocusNode = FocusNode();
@@ -162,14 +164,16 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   Future<void> connect() async {
     final prefs = await SharedPreferences.getInstance();
 
-    socket = io.io(dotenv.env['SH_URL_DEV'], <String, dynamic>{
+    socket = io.io(dotenv.env['API_SERVER'], <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
+
     final token = prefs.getString('token');
     socket.io.options?['extraHeaders'] = {
       'Authorization': 'Bearer $token',
     };
+
     socket.io.options?['query'] = {'project_id': 1};
 
     socket.connect();
@@ -231,7 +235,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       );
     }).toList();
     setState(() {
-      // messages.clear();
+      messages.clear();
       // messages.addAll(sampleMessages);
       messages.addAll(fetchMessages);
     });
@@ -511,8 +515,16 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                               children: [
                                 Text(
                                   '${DateFormat("MMM d").format(message.createdAt)}, ${message.createdAt.hour}:${message.createdAt.minute.toString().padLeft(2, '0')}',
-                                  style:
-                                      Theme.of(context).textTheme.labelMedium,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelSmall!
+                                      .copyWith(
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .labelSmall
+                                              ?.color!
+                                              .withOpacity(0.7)),
                                 ),
                               ],
                             ),
@@ -523,10 +535,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                   ),
                 ),
               Padding(
-                padding: const EdgeInsets.all(4.0),
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
                 child: Row(
                   children: [
                     IconButton(
+                      iconSize: 26,
                       onPressed: () async {
                         await showModalBottomSheet(
                             context: context,
@@ -540,19 +553,35 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                               );
                             });
                       },
-                      icon: const Icon(Icons.calendar_month),
+                      icon: const Icon(
+                        Icons.calendar_month_sharp,
+                        color: primary_300,
+                      ),
                     ),
+                    const Gap(10),
                     Expanded(
                       child: TextFormField(
                         focusNode: _messageFocusNode,
                         controller: messageController,
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelMedium!
+                            .copyWith(
+                                fontSize: 15,
+                                color: Theme.of(context).colorScheme.secondary),
                         decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 0),
                           filled: true,
                           fillColor: Theme.of(context)
                               .colorScheme
-                              .primary
-                              .withAlpha(100),
+                              .onSecondaryContainer,
                           hintText: 'Type a message',
+                          hintStyle:
+                              Theme.of(context).textTheme.labelSmall!.copyWith(
+                                    color: text_400,
+                                    fontSize: 15,
+                                  ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(100),
                             borderSide: BorderSide.none,
@@ -561,7 +590,10 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                             onPressed: () {
                               sendMessage();
                             },
-                            icon: const Icon(Icons.send),
+                            icon: const Icon(
+                              Icons.send,
+                              color: primary_300,
+                            ),
                           ),
                         ),
                       ),
