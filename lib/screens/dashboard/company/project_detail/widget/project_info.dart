@@ -139,9 +139,25 @@ class ProjectInfo extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const Gap(5),
-                Text(
-                  '${projectProvider.getCurrentProject!.requiredStudents} students',
-                  style: Theme.of(context).textTheme.titleLarge,
+                RichText(
+                  textDirection: TextDirection.ltr,
+                  text: TextSpan(children: [
+                    TextSpan(
+                      text:
+                          '${projectProvider.getCurrentProject!.countHired}/${projectProvider.getCurrentProject!.requiredStudents}',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color:
+                                projectProvider.getCurrentProject!.countHired <
+                                        projectProvider
+                                            .getCurrentProject!.requiredStudents
+                                    ? Colors.red
+                                    : Colors.green,
+                          ),
+                    ),
+                    TextSpan(
+                        text: ' students',
+                        style: Theme.of(context).textTheme.titleLarge),
+                  ]),
                 ),
               ],
             ),

@@ -1,30 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
+import 'package:student_hub/screens/dashboard/student/widgets/dashboard.widgets.dart';
+import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
-class CommonDropdownMenu extends StatelessWidget {
+class CommonDropdownMenu extends StatefulWidget {
   const CommonDropdownMenu(
-      {super.key, required this.labelText, required this.id});
+      {super.key,
+      required this.labelText,
+      required this.id,
+      required this.proposals,
+      this.actionCard,
+      this.view});
   final int id;
   final String labelText;
+  final ProjectDetailsView? view;
+  final List<ProposalModel> proposals;
+  final Function(Project)? actionCard;
+
+  @override
+  State<CommonDropdownMenu> createState() => _CommonDropdownMenuState();
+}
+
+class _CommonDropdownMenuState extends State<CommonDropdownMenu> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    bool isExpanded = Provider.of<OpenIdProvider>(context).openId == id;
+    bool isExpanded = Provider.of<OpenIdProvider>(context).openId == widget.id;
 
+    final deviceSize = context.deviceSize;
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       children: [
         Container(
-            // width: double.infinity,
             height: 70,
             decoration: BoxDecoration(
-              color: colorScheme.onPrimary,
-              // border: Border.all(color: colorScheme.onSurface, width: 2),
+              color: colorScheme.onSecondaryContainer,
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(isExpanded ? 0 : 5),
                   bottomRight: Radius.circular(isExpanded ? 0 : 5),
@@ -36,12 +64,12 @@ class CommonDropdownMenu extends StatelessWidget {
                   int currId =
                       Provider.of<OpenIdProvider>(context, listen: false)
                           .openId;
-                  if (currId == id) {
+                  if (currId == widget.id) {
                     Provider.of<OpenIdProvider>(context, listen: false)
                         .setOpenId(0);
                   } else {
                     Provider.of<OpenIdProvider>(context, listen: false)
-                        .setOpenId(id);
+                        .setOpenId(widget.id);
                   }
                 },
                 child: Padding(
@@ -49,59 +77,37 @@ class CommonDropdownMenu extends StatelessWidget {
                     child: Row(children: [
                       Expanded(
                         child: DisplayText(
-                            text: labelText,
+                            text: widget.labelText,
                             style: textTheme.labelLarge!
-                                .copyWith(color: Colors.black)),
+                                .copyWith(color: colorScheme.secondary)),
                       ),
                       Icon(
                         isExpanded
                             ? Icons.keyboard_arrow_up
                             : Icons.keyboard_arrow_down,
-                        color: Colors.black,
+                        color: colorScheme.secondary,
                       )
                     ])))),
-        if (isExpanded)
+        if (isExpanded && widget.proposals.isNotEmpty)
           Container(
             padding: const EdgeInsets.all(4),
-            height: 450,
+            height: deviceSize.height * 0.45,
             decoration: BoxDecoration(
-              color: colorScheme.onPrimary,
+              color: colorScheme.onSecondaryContainer,
               borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(5),
                   bottomRight: Radius.circular(5)),
             ),
             child: ListView.builder(
+                controller: _scrollController,
                 physics: const BouncingScrollPhysics(),
-                itemCount: 5,
+                itemCount: widget.proposals.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (ctx, index) {
-                  return Container(
-                    decoration: const BoxDecoration(color: Colors.white),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          DisplayText(
-                              text: 'Senior frontend developer (Fintech)',
-                              style: textTheme.labelMedium!),
-                          const Gap(5),
-                          DisplayText(
-                              text: 'Submitted 3 days ago',
-                              style: textTheme.labelSmall!),
-                          const Gap(10),
-                          DisplayText(
-                              text: 'Students are looking for...',
-                              style: textTheme.labelMedium!),
-                          const Gap(20),
-                          const Divider(
-                            color: text_400,
-                            height: 2,
-                          ),
-                          const Gap(30)
-                        ],
-                      ),
-                    ),
+                  return CardInfoProposal(
+                    proposal: widget.proposals[index],
+                    action: widget.actionCard,
+                    view: widget.view,
                   );
                 }),
           )

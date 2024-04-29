@@ -1,11 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:uuid/uuid.dart';
 
-enum UserType {
-  student,
-  company,
-}
-
 // Khai báo enum Role
 enum Role { student, company }
 

@@ -19,23 +19,29 @@ const Color text_100 = Color(0xffe9e9e9);
 const Color text_50 = Color(0xfff5f5f5);
 
 // More colors
-const Color color_1 = Color.fromARGB(255, 255, 77, 64);
+const Color color_1 = Color.fromRGBO(255, 77, 64, 1);
+const Color color_2 = Color(0xff46AB5E);
+const Color linearColor1 = Color(0xff1597FF);
+const Color linearColor2 = Color(0xff3F51B5);
+const Color linearColor3 = Color(0xff00C853);
 
 // Themes
 class AppTheme {
   static final lightTheme = ThemeData(
     useMaterial3: true,
     colorScheme: const ColorScheme.light(
-      primary: primary_300,
-      onPrimary: text_50,
-      primaryContainer: text_100,
-      secondaryContainer: text_50,
-      surfaceTint: primary_300,
-      surface: text_50,
-      onSurface: text_500,
-      outline: Colors.transparent,
-      onSecondary: Colors.white,
-    ),
+        primary: primary_300,
+        onPrimary: text_50,
+        primaryContainer: text_100,
+        secondaryContainer: text_50,
+        surfaceTint: primary_300,
+        surface: text_50,
+        onSurface: text_500,
+        outline: Colors.transparent,
+        onSecondary: Colors.white,
+        secondary: Colors.black,
+        onSecondaryContainer: text_50,
+        surfaceVariant: text_800),
     cardTheme: const CardTheme(
       color: text_50,
       surfaceTintColor: Colors.transparent,
@@ -82,15 +88,17 @@ class AppTheme {
   static final darkTheme = ThemeData(
     useMaterial3: true,
     colorScheme: const ColorScheme.dark(
-      primary: text_50,
-      onPrimary: text_800,
-      primaryContainer: text_800,
-      secondaryContainer: text_900,
-      surfaceTint: text_800,
-      surface: text_800,
-      onSurface: text_50,
-      onSecondary: text_800,
-    ),
+        primary: text_50,
+        onPrimary: text_800,
+        primaryContainer: text_800,
+        secondaryContainer: text_900,
+        surfaceTint: text_800,
+        surface: text_800,
+        onSurface: text_50,
+        onSecondary: text_800,
+        secondary: Colors.white,
+        onSecondaryContainer: text_600,
+        surfaceVariant: Colors.white),
     cardTheme: const CardTheme(
       color: text_800,
       surfaceTintColor: Colors.transparent,

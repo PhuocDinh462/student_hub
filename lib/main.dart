@@ -19,6 +19,8 @@ void main() async {
   await dotenv.load(fileName: '.env');
   final ProfileService profileService = ProfileService();
   final AuthService authService = AuthService();
+  final ProposalService proposalService = ProposalService();
+
   runApp(
     MultiProvider(
       providers: [
@@ -34,6 +36,9 @@ void main() async {
             create: (_) => ProfileStudentViewModel(
                 profileService: profileService, authService: authService)),
         ChangeNotifierProvider(create: (_) => UserProvider(null)),
+        ChangeNotifierProvider(
+            create: (_) =>
+                ProposalStudentViewModel(proposalService: proposalService)),
       ],
       child: const MyApp(),
     ),
@@ -47,9 +52,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
     Get.put(userProvider);
+
+    Future<void> initializeProviders() async {
+      await Provider.of<UserProvider>(context, listen: false)
+          .initializeProvider();
+      await Provider.of<ThemeProvider>(context, listen: false)
+          .initializeProvider();
+    }
+
     return FutureBuilder(
-      future: Provider.of<ThemeProvider>(context, listen: false)
-          .initializeProvider(),
+      future: initializeProviders(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -63,7 +75,6 @@ class MyApp extends StatelessWidget {
           } else {
             final ThemeProvider themeProvider =
                 Provider.of<ThemeProvider>(context);
-            Get.put(themeProvider);
 
             ImageList.loadImage(context);
 
@@ -97,7 +108,9 @@ class MyApp extends StatelessWidget {
                     ? (userProvider.currentUser!.currentRole == Role.student
                         ? StudentRoutes.nav
                         : CompanyRoutes.nav)
-                    : AuthRoutes.login,
+                    : themeProvider.getIsFirstCall
+                        ? AuthRoutes.intro
+                        : AuthRoutes.login,
                 debugShowCheckedModeBanner: false,
                 theme: themeProvider.getThemeMode
                     ? AppTheme.darkTheme

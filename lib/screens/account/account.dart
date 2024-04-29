@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/api.dart';
 import 'package:student_hub/models/user.dart';
@@ -9,6 +10,7 @@ import 'package:student_hub/screens/account/widgets/user_item.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:student_hub/widgets/yes_no_dialog.dart';
 
 class Account extends StatelessWidget {
   const Account({super.key});
@@ -19,7 +21,10 @@ class Account extends StatelessWidget {
     final AuthService authService = AuthService();
 
     void logout() async {
-      await authService.logout(user.currentUser!.token, user);
+      context.loaderOverlay.show();
+      await authService
+          .logout(user.currentUser!.token, user)
+          .whenComplete(() => context.loaderOverlay.hide());
     }
 
     return Scaffold(
@@ -186,24 +191,10 @@ class Account extends StatelessWidget {
               onTap: () => showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Logout'),
-                    content: const Text('Are you sure you want to logout?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('No'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          logout();
-                        },
-                        child: const Text('Yes'),
-                      ),
-                    ],
+                  return YesNoDialog(
+                    title: 'Logout',
+                    content: 'Do you want to logout?',
+                    onYesPressed: () => logout(),
                   );
                 },
               ),

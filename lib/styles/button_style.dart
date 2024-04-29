@@ -16,3 +16,12 @@ final ButtonStyle buttonSecondary = ElevatedButton.styleFrom(
     elevation: 0,
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5))));
+
+final ButtonStyle buttonGreen = ElevatedButton.styleFrom(
+    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 0),
+    backgroundColor: color_2,
+    textStyle: const TextStyle(
+        fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
+    elevation: 0,
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5))));

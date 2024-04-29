@@ -1,22 +1,32 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/providers.dart';
+import 'package:student_hub/routes/routes.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/circle_container.dart';
 import 'package:gap/gap.dart';
 
+enum ProjectDetailsView {
+  viewProposal,
+  viewActiveProposal,
+  viewProjectProposal
+}
+
 class ProjectDetails extends StatefulWidget {
   const ProjectDetails(
-      {super.key, required this.project, this.updateProjectState});
-  final Future<void> Function(UserProvider, int, int)? updateProjectState;
+      {super.key,
+      required this.project,
+      this.updateProjectState,
+      this.viewType});
 
+  final Future<void> Function(UserProvider, int, int)? updateProjectState;
   final Project project;
+  final ProjectDetailsView? viewType;
 
   @override
   State<ProjectDetails> createState() => _ProjectDetailsState();
@@ -163,31 +173,37 @@ class _ProjectDetailsState extends State<ProjectDetails> {
               ],
             ),
             const Gap(50),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Button(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  text: 'Apply Now',
-                  colorButton: primary_300,
-                  colorText: text_50,
-                  width: MediaQuery.of(context).size.width * 0.4,
-                ),
-                Button(
-                  onTap: () async {
-                    await widget.updateProjectState!(
-                        userProvider, widget.project.id, 0);
-                    Navigator.pop(context);
-                  },
-                  text: 'Saved',
-                  colorButton: primary_300,
-                  colorText: text_50,
-                  width: MediaQuery.of(context).size.width * 0.4,
-                ),
-              ],
-            ),
+            if (widget.viewType != ProjectDetailsView.viewActiveProposal)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Button(
+                    onTap: () {
+                      Get.toNamed(StudentRoutes.submitProposalStudent,
+                          arguments: {'projectId': widget.project.id});
+                    },
+                    text: widget.viewType != ProjectDetailsView.viewProposal
+                        ? 'Apply Now'
+                        : 'View Letter',
+                    colorButton: primary_300,
+                    colorText: text_50,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                  ),
+                  if (widget.viewType != ProjectDetailsView.viewProposal &&
+                      widget.viewType != ProjectDetailsView.viewActiveProposal)
+                    Button(
+                      onTap: () async {
+                        await widget.updateProjectState!(
+                            userProvider, widget.project.id, 0);
+                        Get.back();
+                      },
+                      text: 'Saved',
+                      colorButton: primary_300,
+                      colorText: text_50,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                    ),
+                ],
+              ),
           ],
         ),
       ),

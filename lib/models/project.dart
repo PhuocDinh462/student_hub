@@ -6,6 +6,7 @@ enum ProjectScopeFlag {
 }
 
 enum TypeFlag {
+  newType,
   working,
   archieved,
 }
@@ -22,8 +23,8 @@ class Project {
   bool favorite;
   final int countProposals;
   final int countMessages;
-  final int countHired;
-  final TypeFlag typeFlag;
+  int countHired;
+  final TypeFlag? typeFlag;
 
   Project({
     required this.id,
@@ -38,7 +39,7 @@ class Project {
     this.countProposals = 0,
     this.countMessages = 0,
     this.countHired = 0,
-    this.typeFlag = TypeFlag.working,
+    this.typeFlag,
   });
 
   static Project fromMap(Map<String, dynamic> map) {
@@ -53,7 +54,7 @@ class Project {
       description: map['description'],
       proposals: [],
       favorite: false,
-      countProposals: map['countProposals'],
+      countProposals: map['countProposals'] ?? 0,
       countMessages: map['countMessages'] ?? 0,
       countHired: map['countHired'] ?? 0,
       typeFlag: TypeFlag.values[map['typeFlag']],
@@ -75,9 +76,8 @@ class Project {
       countProposals: map['countProposals'],
       countMessages: 0,
       countHired: 0,
-      typeFlag: map['typeFlag'] != null
-          ? TypeFlag.values[map['typeFlag']]
-          : TypeFlag.working,
+      typeFlag:
+          map['typeFlag'] != null ? TypeFlag.values[map['typeFlag']] : null,
     );
   }
 

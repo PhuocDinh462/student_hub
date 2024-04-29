@@ -7,20 +7,26 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/routes/company_route.dart';
+import 'package:student_hub/widgets/yes_no_dialog.dart';
 
 class BottomToolMenu extends StatelessWidget {
-  const BottomToolMenu({super.key});
-  final double itemHeight = 60;
+  const BottomToolMenu({super.key, required this.rootContext});
+  final double itemHeight = 50;
+  final double dividerHeight = 30;
+  final BuildContext rootContext;
 
   @override
   Widget build(BuildContext context) {
+    final ProjectService projectService = ProjectService();
     final ProjectProvider projectProvider =
         Provider.of<ProjectProvider>(context);
-
-    final ProjectService projectService = ProjectService();
+    final int itemCount =
+        projectProvider.getCurrentProject!.typeFlag == TypeFlag.archieved
+            ? 3
+            : 4;
 
     void removeProject() async {
-      // context.loaderOverlay.show();
+      rootContext.loaderOverlay.show();
       await projectService
           .removeProject(projectProvider.getCurrentProject!.id)
           .then((value) {
@@ -28,30 +34,27 @@ class BottomToolMenu extends StatelessWidget {
       }).catchError((e) {
         throw Exception(e);
       }).whenComplete(() {
-        context.loaderOverlay.hide();
+        rootContext.loaderOverlay.hide();
       });
     }
 
     void updateProjectTypeFlag(TypeFlag typeFlag) async {
-      // context.loaderOverlay.show();
-      await projectService
-          .editProject(projectProvider.getCurrentProject!.id, {
-            'title': projectProvider.getCurrentProject!.title,
-            'typeFlag': typeFlag.index,
-            'numberOfStudents':
-                projectProvider.getCurrentProject!.requiredStudents,
-          })
-          .then((value) {})
-          .catchError((e) {
-            throw Exception(e);
-          })
-          .whenComplete(() {
-            context.loaderOverlay.hide();
-          });
+      rootContext.loaderOverlay.show();
+      await projectService.editProject(projectProvider.getCurrentProject!.id, {
+        'title': projectProvider.getCurrentProject!.title,
+        'typeFlag': typeFlag.index,
+        'numberOfStudents': projectProvider.getCurrentProject!.requiredStudents,
+      }).then((value) {
+        projectProvider.editProject(value);
+      }).catchError((e) {
+        throw Exception(e);
+      }).whenComplete(() {
+        rootContext.loaderOverlay.hide();
+      });
     }
 
     return Container(
-      height: 275,
+      height: itemCount * itemHeight + (itemCount - 1) * dividerHeight,
       width: double.infinity,
       margin: const EdgeInsets.all(20),
       child: Column(
@@ -65,6 +68,7 @@ class BottomToolMenu extends StatelessWidget {
             },
             child: Container(
               color: Colors.transparent,
+              height: itemHeight,
               child: Row(
                 children: [
                   Icon(
@@ -82,7 +86,7 @@ class BottomToolMenu extends StatelessWidget {
                       ),
                       const Gap(3),
                       Text(
-                        'View project posting',
+                        'View project project',
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               fontStyle: FontStyle.italic,
                             ),
@@ -93,7 +97,7 @@ class BottomToolMenu extends StatelessWidget {
               ),
             ),
           ),
-          const Divider(height: 30, thickness: .5, color: text_600),
+          Divider(height: dividerHeight, thickness: .5, color: text_600),
 
           // Edit
           GestureDetector(
@@ -104,6 +108,7 @@ class BottomToolMenu extends StatelessWidget {
             },
             child: Container(
               color: Colors.transparent,
+              height: itemHeight,
               child: Row(
                 children: [
                   Icon(
@@ -121,7 +126,7 @@ class BottomToolMenu extends StatelessWidget {
                       ),
                       const Gap(3),
                       Text(
-                        'Edit posting',
+                        'Edit project',
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               fontStyle: FontStyle.italic,
                             ),
@@ -132,7 +137,7 @@ class BottomToolMenu extends StatelessWidget {
               ),
             ),
           ),
-          const Divider(height: 30, thickness: .5, color: text_600),
+          Divider(height: dividerHeight, thickness: .5, color: text_600),
 
           // Remove
           GestureDetector(
@@ -141,31 +146,17 @@ class BottomToolMenu extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Confirmation'),
-                    content: const Text(
-                        'Are you sure you want to remove this posting?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('No'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          removeProject();
-                        },
-                        child: const Text('Yes'),
-                      ),
-                    ],
+                  return YesNoDialog(
+                    title: 'Remove project',
+                    content: 'Are you sure you want to remove this project?',
+                    onYesPressed: () => removeProject(),
                   );
                 },
               );
             },
             child: Container(
               color: Colors.transparent,
+              height: itemHeight,
               child: Row(
                 children: [
                   Icon(
@@ -183,7 +174,7 @@ class BottomToolMenu extends StatelessWidget {
                       ),
                       const Gap(3),
                       Text(
-                        'Remove posting',
+                        'Remove project',
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               fontStyle: FontStyle.italic,
                             ),
@@ -194,88 +185,119 @@ class BottomToolMenu extends StatelessWidget {
               ),
             ),
           ),
-          const Divider(height: 30, thickness: .5, color: text_600),
 
-          // Start
-          projectProvider.getCurrentProject!.typeFlag == TypeFlag.archieved
-              ? GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                    updateProjectTypeFlag(TypeFlag.working);
-                  },
-                  child: Container(
-                    color: Colors.transparent,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.start_outlined,
-                          size: 32,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        const Gap(15),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Start',
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            const Gap(3),
-                            Text(
-                              'Start working this project',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall
-                                  ?.copyWith(
-                                    fontStyle: FontStyle.italic,
+          if (projectProvider.getCurrentProject!.typeFlag != TypeFlag.archieved)
+            // Start
+            Column(
+              children: [
+                Divider(height: dividerHeight, thickness: .5, color: text_600),
+                projectProvider.getCurrentProject!.typeFlag == TypeFlag.newType
+                    ? GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return YesNoDialog(
+                                title: 'Start project',
+                                content:
+                                    'Are you sure you want to start this project?',
+                                onYesPressed: () =>
+                                    updateProjectTypeFlag(TypeFlag.working),
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          height: itemHeight,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.start_outlined,
+                                size: 32,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              const Gap(15),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Start',
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
                                   ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                )
+                                  const Gap(3),
+                                  Text(
+                                    'Start working this project',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall
+                                        ?.copyWith(
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      )
 
-              // Closed
-              : GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                    updateProjectTypeFlag(TypeFlag.archieved);
-                  },
-                  child: Container(
-                    color: Colors.transparent,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.close_rounded,
-                          size: 32,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        const Gap(15),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Close',
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            const Gap(3),
-                            Text(
-                              'Close this project',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall
-                                  ?.copyWith(
-                                    fontStyle: FontStyle.italic,
+                    // Closed
+                    : GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return YesNoDialog(
+                                title: 'Close project',
+                                content:
+                                    'Are you sure you want to close this project?',
+                                onYesPressed: () =>
+                                    updateProjectTypeFlag(TypeFlag.archieved),
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          height: itemHeight,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.close_rounded,
+                                size: 32,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              const Gap(15),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Close',
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
                                   ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                                  const Gap(3),
+                                  Text(
+                                    'Close this project',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall
+                                        ?.copyWith(
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+              ],
+            ),
         ],
       ),
     );

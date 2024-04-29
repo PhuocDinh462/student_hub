@@ -235,7 +235,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
     UserProvider user = Provider.of<UserProvider>(context, listen: false);
 
     return Scaffold(
-        backgroundColor: colorScheme.onPrimary,
+        backgroundColor: colorScheme.secondaryContainer,
         body: ConstrainedBox(
           constraints: BoxConstraints(minHeight: deviceSize.height),
           child: Stack(
@@ -251,7 +251,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        top: 20, left: 20, right: 20, bottom: 130),
+                        top: 20, left: 10, right: 10, bottom: 130),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
@@ -272,11 +272,11 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                           widgetProfile(profileStudentModel, textTheme,
                               deviceSize, colorScheme),
                           const Gap(10),
-                          widgetLanguage(
-                              textTheme, profileStudentModel, deviceSize),
-                          const Gap(20),
-                          widgetEducation(
-                              textTheme, profileStudentModel, deviceSize),
+                          widgetLanguage(textTheme, profileStudentModel,
+                              deviceSize, colorScheme),
+                          const Gap(10),
+                          widgetEducation(textTheme, profileStudentModel,
+                              deviceSize, colorScheme),
                         ]),
                   ),
                 );
@@ -289,14 +289,16 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                     width: deviceSize.width,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 20),
-                    decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                      BoxShadow(
-                        color: colorScheme.onSurface.withOpacity(0.1),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: const Offset(0, -3),
-                      ),
-                    ]),
+                    decoration: BoxDecoration(
+                        color: colorScheme.onSecondary,
+                        boxShadow: [
+                          BoxShadow(
+                            color: colorScheme.onSurface.withOpacity(0.1),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: const Offset(0, -3),
+                          ),
+                        ]),
                     child: ElevatedButton(
                         style: buttonPrimary,
                         onPressed: () {
@@ -309,7 +311,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                         child: DisplayText(
                           text: 'Next',
                           style: textTheme.labelLarge!.copyWith(
-                            color: Colors.white,
+                            color: colorScheme.onSecondary,
                           ),
                         )),
                   ),
@@ -319,12 +321,16 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
         ));
   }
 
-  Container widgetLanguage(TextTheme textTheme,
-      ProfileStudentViewModel profileStudentModel, Size deviceSize) {
+  Container widgetLanguage(
+      TextTheme textTheme,
+      ProfileStudentViewModel profileStudentModel,
+      Size deviceSize,
+      ColorScheme colorScheme) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5), color: Colors.white),
+          borderRadius: BorderRadius.circular(5),
+          color: colorScheme.onSecondary),
       child: Column(
         children: [
           Row(
@@ -452,8 +458,6 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                               language: tmp,
                               itemsChecked: itemsLangChecked,
                               onChangeCheck: (p0, p1) {
-                                print(profileStudentModel.student.languages[0]
-                                    .toJson());
                                 eventUpdateItemsLangChecked(p0, p1!);
                               },
                               onEdit: () {
@@ -468,12 +472,16 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
     );
   }
 
-  Container widgetEducation(TextTheme textTheme,
-      ProfileStudentViewModel profileStudentModel, Size deviceSize) {
+  Container widgetEducation(
+      TextTheme textTheme,
+      ProfileStudentViewModel profileStudentModel,
+      Size deviceSize,
+      ColorScheme colorScheme) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5), color: Colors.white),
+          borderRadius: BorderRadius.circular(5),
+          color: colorScheme.onSecondary),
       child: Column(
         children: [
           Row(
@@ -624,9 +632,10 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
   Container widgetProfile(ProfileStudentViewModel profileStudentModel,
       TextTheme textTheme, Size deviceSize, ColorScheme colorScheme) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5), color: Colors.white),
+          borderRadius: BorderRadius.circular(5),
+          color: colorScheme.onSecondary),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -748,7 +757,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                               border: Border.all(
                                   color: Theme.of(context).primaryColor),
                               borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
+                              color: colorScheme.onSecondary,
                             ),
                       child: ListTile(
                         selected: isSelected,

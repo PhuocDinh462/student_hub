@@ -15,7 +15,7 @@ class IndexPageProvider with ChangeNotifier {
   int _indexDBStudent = 0;
 
   IndexPageProvider() {
-    loadValue('db_student').then((index) async {
+    loadValue('db_student').then((index) {
       _indexDBStudent = index;
       notifyListeners();
     });

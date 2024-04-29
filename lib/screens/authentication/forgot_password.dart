@@ -103,11 +103,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      'Enter to send code to your email',
+                      'Enter to send new password to your email',
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                          ?.copyWith(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
                   ],
                 ),
@@ -130,17 +130,20 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Code will expire in',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                        'New Password will be sent',
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
                       ),
                       const Gap(5),
                       Text(
-                        '5 minutes',
+                        'less than a minute',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.bold, color: primary_300),
+                              fontWeight: FontWeight.bold,
+                              color: primary_300,
+                              fontSize: 14,
+                            ),
                       ),
                     ],
                   ),

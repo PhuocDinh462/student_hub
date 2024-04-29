@@ -4,14 +4,14 @@ import 'package:gap/gap.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:student_hub/routes/auth_route.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class Intro extends StatefulWidget {
+  const Intro({super.key});
 
   @override
-  HomeState createState() => HomeState();
+  IntroState createState() => IntroState();
 }
 
-class HomeState extends State<Home> {
+class IntroState extends State<Intro> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd(context) {

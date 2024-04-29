@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/chat/message.dart';
 
 class MessageChatBubble extends StatelessWidget {
@@ -22,12 +23,12 @@ class MessageChatBubble extends StatelessWidget {
         : Alignment.centerLeft;
 
     final color = (message.senderUserId == userId1)
-        ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.secondary;
+        ? Theme.of(context).colorScheme.onPrimary
+        : primary_300;
 
     final textColor = (message.senderUserId == userId1)
-        ? Theme.of(context).colorScheme.onPrimary
-        : Theme.of(context).colorScheme.onSecondary;
+        ? Theme.of(context).colorScheme.surfaceVariant
+        : Colors.white;
 
     return Align(
       alignment: alignment,
@@ -43,7 +44,7 @@ class MessageChatBubble extends StatelessWidget {
         ),
         child: Text(
           message.content ?? '',
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+          style: Theme.of(context).textTheme.labelSmall!.copyWith(
                 color: textColor,
               ),
         ),

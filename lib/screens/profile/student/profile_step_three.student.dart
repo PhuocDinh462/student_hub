@@ -29,7 +29,7 @@ class _ProfileStudentStepThreeState extends State<ProfileStudentStepThree> {
     final UserProvider user = Provider.of<UserProvider>(context, listen: false);
 
     return Scaffold(
-      backgroundColor: colorScheme.onPrimary,
+      backgroundColor: colorScheme.secondaryContainer,
       body: Consumer<ProfileStudentViewModel>(
           builder: (context, profileStudentModel, child) {
         if (profileStudentModel.loading) {
@@ -87,7 +87,8 @@ class _ProfileStudentStepThreeState extends State<ProfileStudentStepThree> {
                   width: deviceSize.width,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                  decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                  decoration:
+                      BoxDecoration(color: colorScheme.onSecondary, boxShadow: [
                     BoxShadow(
                       color: colorScheme.onSurface.withOpacity(0.1),
                       spreadRadius: 5,

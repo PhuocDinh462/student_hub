@@ -12,49 +12,52 @@ class MessageListScreen extends StatefulWidget {
 class _MessageListScreenState extends State<MessageListScreen> {
   TextEditingController _searchController = TextEditingController();
 
+  late ScrollController _scrollController;
+
   @override
   void initState() {
-    _searchController = TextEditingController();
     super.initState();
+    _scrollController = ScrollController();
+
+    _searchController = TextEditingController();
   }
 
   @override
   void dispose() {
-    _searchController.dispose();
     super.dispose();
+    _scrollController.dispose();
+
+    _searchController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 0),
-        child: Column(children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: colorScheme.onSurface.withOpacity(0.1),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: const Offset(0, -3),
-                )
-              ],
-            ),
-            child: SearchBox(controller: _searchController),
+      body: Column(children: [
+        SizedBox(
+          height: 90,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SearchBox(controller: _searchController),
+            ],
           ),
-          Expanded(
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10, left: 20),
             child: ListView.builder(
+                controller: _scrollController,
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
                 itemCount: 10,
                 itemBuilder: (ctx, index) {
                   return const MessageItem();
                 }),
-          )
-        ]),
-      ),
+          ),
+        ),
+      ]),
     );
   }
 }

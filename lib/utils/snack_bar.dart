@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:student_hub/widgets/display_text.dart';
 
-enum SnackBarType { success, failure }
+enum SnackBarType { success, failure, warning, help }
 
 enum AlertDialogType { yesNo, infor }
 
@@ -16,7 +16,9 @@ class MySnackBar {
     ContentType contentType,
   ) {
     final snackBar = SnackBar(
+      duration: const Duration(seconds: 3),
       elevation: 0,
+      padding: const EdgeInsets.all(25),
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
       content: AwesomeSnackbarContent(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/models/user.dart';
 
 class UserProvider with ChangeNotifier {
@@ -33,5 +34,38 @@ class UserProvider with ChangeNotifier {
   void setToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', token);
+  }
+
+  Future<void> initializeProvider() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final AuthService authService = AuthService();
+    int? role = prefs.getInt('role');
+    String? token = prefs.getString('token');
+    if (role != null && token != null) {
+      final userInfo = await authService.getMe();
+      final companyId =
+          userInfo['company'] != null ? userInfo['company']['id'] : null;
+      final studentId =
+          userInfo['student'] != null ? userInfo['student']['id'] : null;
+      List<Role> roles = [];
+
+      for (var role in userInfo['roles']) {
+        roles.add(role == 0 ? Role.student : Role.company);
+      }
+
+      User user = User(
+        userId: userInfo['id'],
+        fullname: userInfo['fullname'],
+        roles: roles,
+        currentRole: Role.values[role],
+        companyId: companyId,
+        studentId: studentId,
+        token: token,
+      );
+
+      _currentUser = user;
+    }
+
+    // notifyListeners();
   }
 }
