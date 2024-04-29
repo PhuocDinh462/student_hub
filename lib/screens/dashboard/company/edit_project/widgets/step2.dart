@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -110,7 +112,7 @@ class Step2 extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                   fontSize: 22,
                 ),
-                minValue: 1,
+                minValue: max(projectProvider.getCurrentProject!.countHired, 1),
                 maxValue: 100,
                 itemHeight: 60,
                 itemWidth: 60,

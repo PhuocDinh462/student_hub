@@ -79,6 +79,11 @@ class ProjectProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  increaseCountHiredCurrentProject() {
+    _currentProject!.countHired++;
+    notifyListeners();
+  }
+
   void clear() {
     _title = '';
     _projectScope = ProjectScopeFlag.oneToThreeMonth;
