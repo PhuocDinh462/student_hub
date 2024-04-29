@@ -15,77 +15,77 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 List<Message> sampleMessages = [
   Message(
-    projectId: 1,
+    projectId: 3,
     senderUserId: 1,
     receiverUserId: 2,
     content: 'Hello, how are you?',
     createdAt: DateTime.now(),
   ),
   Message(
-    projectId: 1,
+    projectId: 3,
     senderUserId: 2,
     receiverUserId: 1,
     content: 'Hi, I am doing fine. How about you?',
     createdAt: DateTime.now().add(const Duration(minutes: 5)),
   ),
   Message(
-    projectId: 1,
+    projectId: 3,
     senderUserId: 1,
     receiverUserId: 2,
     content: 'I am good too. Thanks for asking.',
     createdAt: DateTime.now().add(const Duration(minutes: 10)),
   ),
   Message(
-    projectId: 1,
+    projectId: 3,
     senderUserId: 2,
     receiverUserId: 1,
     content: 'What have you been up to lately?',
     createdAt: DateTime.now().add(const Duration(minutes: 15)),
   ),
   Message(
-    projectId: 1,
+    projectId: 3,
     senderUserId: 1,
     receiverUserId: 2,
     content: 'I have been busy with work. How about you?',
     createdAt: DateTime.now().add(const Duration(minutes: 20)),
   ),
   Message(
-    projectId: 1,
+    projectId: 3,
     senderUserId: 2,
     receiverUserId: 1,
     content: 'I have been studying for my exams.',
     createdAt: DateTime.now().add(const Duration(minutes: 25)),
   ),
   Message(
-    projectId: 1,
+    projectId: 3,
     senderUserId: 1,
     receiverUserId: 2,
     content: 'Good luck with your exams!',
     createdAt: DateTime.now().add(const Duration(minutes: 30)),
   ),
   Message(
-    projectId: 1,
+    projectId: 3,
     senderUserId: 2,
     receiverUserId: 1,
     content: 'Thank you!',
     createdAt: DateTime.now().add(const Duration(minutes: 35)),
   ),
   Message(
-    projectId: 1,
+    projectId: 3,
     senderUserId: 1,
     receiverUserId: 2,
     content: 'You\'re welcome. Let me know if you need any help.',
     createdAt: DateTime.now().add(const Duration(minutes: 40)),
   ),
   Message(
-    projectId: 1,
+    projectId: 3,
     senderUserId: 2,
     receiverUserId: 1,
     content: 'Sure, I will. Thanks again!',
     createdAt: DateTime.now().add(const Duration(minutes: 45)),
   ),
   Message(
-    projectId: 1,
+    projectId: 3,
     senderUserId: 2,
     receiverUserId: 1,
     title: 'Catch up meeting',
@@ -93,9 +93,11 @@ List<Message> sampleMessages = [
     startTime: DateTime.now(),
     endTime: DateTime.now().add(const Duration(minutes: 15)),
     meeting: MessageFlag.interview,
+    meetingRoomId: '123456',
+    meetingRoomCode: '123456',
   ),
   Message(
-    projectId: 1,
+    projectId: 3,
     senderUserId: 1,
     receiverUserId: 2,
     title: 'Catch up meeting',
@@ -104,6 +106,8 @@ List<Message> sampleMessages = [
     endTime: DateTime.now().add(const Duration(minutes: 15)),
     meeting: MessageFlag.interview,
     canceled: true,
+    meetingRoomId: '123456',
+    meetingRoomCode: '123456',
   ),
 ];
 
@@ -119,8 +123,7 @@ class ChatRoomScreen extends StatefulWidget {
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
   final messageController = TextEditingController();
   final List<Message> messages =
-      // sampleMessages.isNotEmpty ? sampleMessages :
-      [];
+      sampleMessages.isNotEmpty ? sampleMessages : [];
   late io.Socket socket;
   late ScrollController _scrollController;
   final FocusNode _messageFocusNode = FocusNode();
@@ -174,7 +177,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       'Authorization': 'Bearer $token',
     };
 
-    socket.io.options?['query'] = {'project_id': 1};
+    socket.io.options?['query'] = {'project_id': 3};
 
     socket.connect();
 
@@ -187,12 +190,35 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     socket.on('RECEIVE_MESSAGE', (data) {
       setState(() {
         messages.add(Message(
-          projectId: 1,
+          projectId: 3,
           senderUserId: 2,
           receiverUserId: 2,
           content: data['content'],
           createdAt: DateTime.now(),
           meeting: MessageFlag.values[data['messageFlag']],
+        ));
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent + 100,
+          duration: const Duration(milliseconds: 1),
+          curve: Curves.easeOut,
+        );
+      });
+    });
+
+    socket.on('RECEIVE_INTERVIEW', (data) {
+      print(data);
+      setState(() {
+        messages.add(Message(
+          projectId: 3,
+          senderUserId: 2,
+          receiverUserId: 2,
+          title: data['title'],
+          createdAt: DateTime.now(),
+          startTime: DateTime.parse(data['startTime']),
+          endTime: DateTime.parse(data['endTime']),
+          meeting: MessageFlag.interview,
+          meetingRoomId: data['meetingRoomId'],
+          meetingRoomCode: data['meetingRoomCode'],
         ));
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent + 100,
@@ -212,17 +238,17 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   }
 
   _loadMessages() async {
-    final listMessages = await messageService.getConversations(2, 1);
+    final listMessages = await messageService.getConversations(2, 3);
     final List<Message> fetchMessages = listMessages
         .cast<Map<String, dynamic>>()
         .where((msg) => msg['deletedAt'] == null)
         .map<Message>((msg) {
       return Message(
         id: msg['id'],
-        projectId: msg['projectId'] ?? 1,
+        projectId: msg['projectId'] ?? 3,
         senderUserId: msg['sender']['id'],
         // receiverUserId: msg['receiver']['id'],
-        receiverUserId: 1,
+        receiverUserId: 2,
         content: msg['content'],
         createdAt: DateTime.parse(msg['createdAt']),
         startTime: null,
@@ -235,7 +261,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       );
     }).toList();
     setState(() {
-      messages.clear();
+      // messages.clear();
       // messages.addAll(sampleMessages);
       messages.addAll(fetchMessages);
     });
@@ -262,7 +288,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
     void sendMessage() async {
       final message = Message(
-        projectId: 1,
+        projectId: 3,
         senderUserId: 2,
         receiverUserId: 2,
         content: messageController.text,
@@ -320,7 +346,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       builder: (ctx) {
                         return SizedBox(
                           height: MediaQuery.of(context).size.height * 0.7,
-                          child: const CreateMeeting(),
+                          child: CreateMeeting(
+                            projectId: 3,
+                            senderId: 2,
+                            receiverId: 2,
+                            messages: messages,
+                            socket: socket,
+                          ),
                         );
                       });
                 },
@@ -549,7 +581,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                               return SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.7,
-                                child: const CreateMeeting(),
+                                child: CreateMeeting(
+                                  projectId: 3,
+                                  senderId: 2,
+                                  receiverId: 2,
+                                  messages: messages,
+                                  socket: socket,
+                                ),
                               );
                             });
                       },

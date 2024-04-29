@@ -5,12 +5,19 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/utils/helpers.dart';
 import 'package:student_hub/widgets/text_field_title.dart';
 
+// ignore: must_be_immutable
 class SelectDateTime extends StatefulWidget {
-  const SelectDateTime(
-      {super.key, required this.titleDate, required this.titleTime});
+  SelectDateTime(
+      {super.key,
+      required this.titleDate,
+      required this.titleTime,
+      required this.date,
+      required this.time});
 
   final String titleDate;
   final String titleTime;
+  late DateTime date;
+  late TimeOfDay time;
 
   @override
   State<SelectDateTime> createState() => _SelectDateTimeState();
@@ -23,8 +30,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
   @override
   void initState() {
     super.initState();
-    _pickedDate = DateTime.now();
-    _pickedTime = TimeOfDay.now();
+    _pickedDate = widget.date;
+    _pickedTime = widget.time;
   }
 
   @override
@@ -34,7 +41,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
         Expanded(
           child: TextFieldTitle(
             title: widget.titleDate,
-            hintText: DateFormat.yMMMd().format(_pickedDate),
+            hintText: DateFormat.yMMMd().format(widget.date),
             readOnly: true,
             suffixIcon: IconButton(
               onPressed: () => _selectDate(context),
@@ -46,7 +53,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
         Expanded(
           child: TextFieldTitle(
             title: widget.titleTime,
-            hintText: Helpers.timeToString(_pickedTime),
+            hintText: Helpers.timeToString(widget.time),
             readOnly: true,
             suffixIcon: IconButton(
               onPressed: () => _selectTime(context),
@@ -78,7 +85,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
     );
     if (pickedDate != null) {
       setState(() {
-        _pickedDate = pickedDate;
+        widget.date = pickedDate;
       });
     }
   }
@@ -112,7 +119,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
     );
     if (pickedTime != null) {
       setState(() {
-        _pickedTime = pickedTime;
+        widget.time = pickedTime;
       });
     }
   }

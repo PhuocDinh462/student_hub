@@ -1,28 +1,110 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:student_hub/models/chat/message.dart';
+import 'package:student_hub/utils/utils.dart';
 // import 'package:student_hub/models/project.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/circle_container.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/widgets/select_date_time.dart';
 import 'package:student_hub/widgets/text_field_title.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class CreateMeeting extends StatefulWidget {
-  const CreateMeeting({super.key});
-
+  const CreateMeeting({
+    super.key,
+    required this.projectId,
+    required this.senderId,
+    required this.receiverId,
+    required this.messages,
+    required this.socket,
+  });
+  final int projectId;
+  final int senderId;
+  final int receiverId;
+  final List<Message> messages;
+  final io.Socket socket;
   @override
   State<CreateMeeting> createState() => _CreateMeetingState();
 }
 
 class _CreateMeetingState extends State<CreateMeeting> {
   final titleController = TextEditingController();
+  late DateTime pickedDate;
+  late TimeOfDay pickedTime;
   @override
   void initState() {
     super.initState();
+    pickedDate = DateTime.now();
+    pickedTime = TimeOfDay.now();
   }
 
   @override
   Widget build(BuildContext context) {
+    void createMeeting() {
+      Navigator.pop(context);
+
+      if (titleController.text.isEmpty) {
+        MySnackBar.showSnackBar(
+          context,
+          'Please fill all meeting\'s information',
+          'Error',
+          ContentType.failure,
+        );
+        return;
+      } else {
+        final Message meeting = Message(
+          id: widget.messages.length + 1,
+          projectId: widget.projectId,
+          title: titleController.text,
+          senderUserId: widget.senderId,
+          receiverUserId: widget.receiverId,
+          createdAt: DateTime.now(),
+          startTime: DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          ),
+          endTime: DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour + 1,
+            pickedTime.minute,
+          ),
+          meeting: MessageFlag.interview,
+          meetingRoomCode: MeetingRoom.generateMeetingRoomCode(),
+          meetingRoomId: MeetingRoom.generateMeetingRoomId(),
+        );
+        print(meeting.toJson());
+        widget.socket.emit('SCHEDULE_MEETING', {
+          'title': titleController.text,
+          'startTime': DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          ).toIso8601String(),
+          'endTime': DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour + 1,
+            pickedTime.minute,
+          ).toIso8601String(),
+          'projectId': widget.projectId,
+          'senderId': widget.senderId,
+          'receiverId': widget.receiverId,
+          'meeting_room_code': MeetingRoom.generateMeetingRoomCode(),
+          'meeting_room_id': MeetingRoom.generateMeetingRoomId(),
+        });
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.all(10),
       child: SizedBox(
@@ -53,11 +135,19 @@ class _CreateMeetingState extends State<CreateMeeting> {
                     controller: titleController,
                   ),
                   const Gap(30),
-                  const SelectDateTime(
-                      titleDate: 'Start Date', titleTime: 'Start Time'),
+                  SelectDateTime(
+                    titleDate: 'Start Date',
+                    titleTime: 'Start Time',
+                    date: pickedDate,
+                    time: pickedTime,
+                  ),
                   const Gap(30),
-                  const SelectDateTime(
-                      titleDate: 'End Date', titleTime: 'End Time'),
+                  SelectDateTime(
+                    titleDate: 'End Date',
+                    titleTime: 'End Time',
+                    date: pickedDate,
+                    time: pickedTime,
+                  ),
                   const Gap(20),
                   const Divider(thickness: 1.5, color: primary_300),
                   const Gap(30),
@@ -78,7 +168,7 @@ class _CreateMeetingState extends State<CreateMeeting> {
                 ),
                 Button(
                   onTap: () {
-                    Navigator.pop(context);
+                    createMeeting();
                   },
                   text: 'Send Invite',
                   colorButton: primary_300,

@@ -14,6 +14,8 @@ class Message extends Equatable {
   final DateTime? startTime;
   final DateTime? endTime;
   final String? title;
+  final String? meetingRoomId;
+  final String? meetingRoomCode;
   final MessageFlag meeting;
   bool canceled;
 
@@ -27,6 +29,8 @@ class Message extends Equatable {
     this.startTime,
     this.endTime,
     this.title,
+    this.meetingRoomId,
+    this.meetingRoomCode,
     this.meeting = MessageFlag.message,
     this.canceled = false,
   });
@@ -41,6 +45,8 @@ class Message extends Equatable {
     DateTime? startTime,
     DateTime? endTime,
     String? title,
+    String? meetingRoomId,
+    String? meetingRoomCode,
     MessageFlag? meeting,
     bool? canceled,
   }) {
@@ -54,6 +60,8 @@ class Message extends Equatable {
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
       title: title ?? this.title,
+      meetingRoomId: meetingRoomId ?? this.meetingRoomId,
+      meetingRoomCode: meetingRoomCode ?? this.meetingRoomCode,
       meeting: meeting ?? this.meeting,
       canceled: canceled ?? this.canceled,
     );
@@ -73,6 +81,8 @@ class Message extends Equatable {
       endTime:
           json['end_time'] != null ? DateTime.parse(json['end_time']) : null,
       title: json['title'],
+      meetingRoomId: json['meeting_room_id'],
+      meetingRoomCode: json['meeting_room_code'],
       meeting: json['meeting'] ?? MessageFlag.message,
       canceled: json['canceled'] ?? false,
     );
@@ -88,6 +98,8 @@ class Message extends Equatable {
       'start_time': startTime?.toIso8601String(),
       'end_time': endTime?.toIso8601String(),
       'title': title,
+      'meeting_room_id': meetingRoomId,
+      'meeting_room_code': meetingRoomCode,
       'meeting': meeting,
       'canceled': canceled,
     };
@@ -104,6 +116,8 @@ class Message extends Equatable {
         startTime,
         endTime,
         title,
+        meetingRoomId,
+        meetingRoomCode,
         meeting,
         canceled,
       ];
