@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/models/proposal.dart';
+import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/screens/dashboard/company/project_detail/proposal_detail/widgets/skill_item.dart';
 import 'package:student_hub/utils/extensions.dart';
 import 'package:get/get.dart';
@@ -66,6 +68,9 @@ class _ProposalDetailState extends State<ProposalDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final ProjectProvider projectProvider =
+        Provider.of<ProjectProvider>(context);
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -296,8 +301,27 @@ class _ProposalDetailState extends State<ProposalDetail> {
                                     title: 'Hired offer',
                                     content:
                                         'Do you really want to send hired offer for student to do this project?',
-                                    onYesPressed: () =>
-                                        updateStatusFlag(StatusFlag.offer),
+                                    onYesPressed: () {
+                                      if (projectProvider
+                                              .getCurrentProject!.countHired <
+                                          projectProvider.getCurrentProject!
+                                              .requiredStudents) {
+                                        updateStatusFlag(StatusFlag.hired);
+                                        projectProvider
+                                            .increaseCountHiredCurrentProject();
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'You have already hired enough students for this project',
+                                              style: TextStyle(color: text_50),
+                                            ),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                      }
+                                    },
                                   );
                                 },
                               );

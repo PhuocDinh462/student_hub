@@ -23,7 +23,7 @@ class Project {
   bool favorite;
   final int countProposals;
   final int countMessages;
-  final int countHired;
+  int countHired;
   final TypeFlag? typeFlag;
 
   Project({
