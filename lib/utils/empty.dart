@@ -3,7 +3,12 @@ import 'package:gap/gap.dart';
 import 'package:student_hub/utils/extensions.dart';
 
 class Empty extends StatelessWidget {
-  const Empty({super.key, required this.imgPath, required this.text});
+  const Empty({
+    super.key,
+    this.imgPath = 'assets/images/Empty.png',
+    this.text = 'No data available',
+  });
+
   final String imgPath;
   final String text;
 

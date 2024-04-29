@@ -7,6 +7,7 @@ import 'package:student_hub/models/proposal.model.dart';
 import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/screens/dashboard/company/project_detail/widget/proposal_item.dart';
 import 'package:student_hub/utils/empty.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProposalList extends StatefulWidget {
   const ProposalList({super.key, required this.statusFlags});
@@ -50,10 +51,9 @@ class _ProposalListState extends State<ProposalList> {
             child: CircularProgressIndicator.adaptive(),
           )
         : _proposalList.isEmpty
-            ? const Center(
-                child: Empty(
-                    imgPath: 'assets/images/Empty.png',
-                    text: 'No data available'),
+            ? Center(
+                child:
+                    Empty(text: AppLocalizations.of(context)!.noDataAvailable),
               )
             : SingleChildScrollView(
                 child: Column(

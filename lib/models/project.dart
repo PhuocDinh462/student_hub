@@ -8,7 +8,7 @@ enum ProjectScopeFlag {
 enum TypeFlag {
   newType,
   working,
-  archieved,
+  archived,
 }
 
 class Project {

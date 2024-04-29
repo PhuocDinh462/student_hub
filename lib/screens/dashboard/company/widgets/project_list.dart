@@ -6,6 +6,7 @@ import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/screens/dashboard/company/widgets/project_item.dart';
 import 'package:student_hub/utils/empty.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProjectList extends StatefulWidget {
   const ProjectList({super.key, this.typeFlag});
@@ -62,10 +63,9 @@ class _ProjectListState extends State<ProjectList> {
                     ? element.typeFlag == widget.typeFlag
                     : true)
                 .isEmpty
-            ? const Center(
-                child: Empty(
-                    imgPath: 'assets/images/Empty.png',
-                    text: 'No data available'),
+            ? Center(
+                child:
+                    Empty(text: AppLocalizations.of(context)!.noDataAvailable),
               )
             : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),

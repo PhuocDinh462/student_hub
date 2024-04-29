@@ -95,12 +95,13 @@ class Account extends StatelessWidget {
                         },
                         child: Container(
                           color: Colors.transparent,
-                          child: const Row(
+                          child: Row(
                             children: [
-                              Gap(30),
-                              Icon(Icons.add_circle_outline_outlined, size: 28),
-                              Gap(8),
-                              Text('Add profile'),
+                              const Gap(30),
+                              const Icon(Icons.add_circle_outline_outlined,
+                                  size: 28),
+                              const Gap(8),
+                              Text(AppLocalizations.of(context)!.addProfile),
                             ],
                           ),
                         ),
@@ -192,8 +193,10 @@ class Account extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return YesNoDialog(
-                    title: 'Logout',
-                    content: 'Do you want to logout?',
+                    title: AppLocalizations.of(context)!.account('logout'),
+                    content: AppLocalizations.of(context)!.logoutConfirm,
+                    yesText: AppLocalizations.of(context)!.yes,
+                    noText: AppLocalizations.of(context)!.no,
                     onYesPressed: () => logout(),
                   );
                 },
