@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/layout/navigation.dart';
 import 'package:student_hub/screens/alerts/alert.screen.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:student_hub/screens/screens.dart';
 
 class CompanyRoutes {
@@ -49,34 +49,45 @@ class CompanyRoutes {
         const AccountHeader(title: 'Student Hub', body: ChangePassword()),
     welcomeCompany: (context) =>
         const AccountHeader(title: 'Welcome', body: WelcomeCompany()),
-    profileCompany: (context) =>
-        const AccountHeader(title: 'Profile', body: ProfileCompanyInput()),
-    profileStudentStepOne: (context) =>
-        const AccountHeader(title: 'Profile', body: ProfileStudentStepOne()),
-    profileStudentStepTwo: (context) =>
-        const AccountHeader(title: 'Profile', body: ProfileStudentStepTwo()),
-    profileStudentStepThree: (context) =>
-        const AccountHeader(title: 'Profile', body: ProfileStudentStepThree()),
+    profileCompany: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.profile,
+        body: const ProfileCompanyInput()),
+    profileStudentStepOne: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.profile,
+        body: const ProfileStudentStepOne()),
+    profileStudentStepTwo: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.profile,
+        body: const ProfileStudentStepTwo()),
+    profileStudentStepThree: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.profile,
+        body: const ProfileStudentStepThree()),
     messageList: (context) =>
         const AccountHeader(title: 'Student Hub', body: MessageListScreen()),
-    videoCall: (context) =>
-        const AccountHeader(title: 'Video Call', body: VideoCallScreen()),
+    videoCall: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.videoCall,
+        body: const VideoCallScreen()),
     alerts: (context) =>
         const AccountHeader(title: 'Student Hub', body: AlertScreen()),
     chatScreen: (context) => const ChatRoomScreen(),
-    account: (context) =>
-        const AccountHeader(title: 'Account', body: Account()),
-    settings: (context) =>
-        const AccountHeader(title: 'Settings', body: Settings()),
-    languages: (context) =>
-        const AccountHeader(title: 'Languages', body: Languages()),
-    postProject: (context) =>
-        const AccountHeader(title: 'Post Project', body: PostProject()),
-    projectDetail: (context) =>
-        const AccountHeader(title: 'Project Detail', body: ProjectDetail()),
-    proposalDetail: (context) =>
-        const AccountHeader(title: 'Proposal Detail', body: ProposalDetail()),
-    editProject: (context) =>
-        const AccountHeader(title: 'Edit Project', body: EditProject()),
+    account: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.account(''),
+        body: const Account()),
+    settings: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.settings, body: const Settings()),
+    languages: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.language(''),
+        body: const Languages()),
+    postProject: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.postProject,
+        body: const PostProject()),
+    projectDetail: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.projectDetail,
+        body: const ProjectDetail()),
+    proposalDetail: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.proposalDetail,
+        body: const ProposalDetail()),
+    editProject: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.editProject,
+        body: const EditProject()),
   };
 }

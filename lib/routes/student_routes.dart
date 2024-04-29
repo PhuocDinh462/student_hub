@@ -4,7 +4,7 @@ import 'package:student_hub/layout/navigation.dart';
 import 'package:student_hub/screens/alerts/alert.screen.dart';
 import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
 import 'package:student_hub/screens/project/submit_proposal.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:student_hub/screens/screens.dart';
 
 class StudentRoutes {
@@ -53,16 +53,21 @@ class StudentRoutes {
         const AccountHeader(title: 'Student Hub', body: DashboardStudent()),
     welcomeCompany: (context) =>
         const AccountHeader(title: 'Welcome', body: WelcomeCompany()),
-    profileCompany: (context) =>
-        const AccountHeader(title: 'Profile', body: ProfileCompanyInput()),
-    profileStudentStepOne: (context) =>
-        const AccountHeader(title: 'Profile', body: ProfileStudentStepOne()),
-    profileStudentStepTwo: (context) =>
-        const AccountHeader(title: 'Profile', body: ProfileStudentStepTwo()),
-    profileStudentStepThree: (context) =>
-        const AccountHeader(title: 'Profile', body: ProfileStudentStepThree()),
-    projectsSaved: (context) =>
-        const AccountHeader(title: 'Saved Projects', body: ProjectsSaved()),
+    profileCompany: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.profile,
+        body: const ProfileCompanyInput()),
+    profileStudentStepOne: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.profile,
+        body: const ProfileStudentStepOne()),
+    profileStudentStepTwo: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.profile,
+        body: const ProfileStudentStepTwo()),
+    profileStudentStepThree: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.profile,
+        body: const ProfileStudentStepThree()),
+    projectsSaved: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.savedProject,
+        body: const ProjectsSaved()),
     projects: (context) =>
         const AccountHeader(title: 'Student Hub', body: Projects()),
     submitProposalStudent: (context) {
@@ -78,16 +83,19 @@ class StudentRoutes {
     },
     messageList: (context) =>
         const AccountHeader(title: 'Student Hub', body: MessageListScreen()),
-    videoCall: (context) =>
-        const AccountHeader(title: 'Video Call', body: VideoCallScreen()),
+    videoCall: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.videoCall,
+        body: const VideoCallScreen()),
     alerts: (context) =>
         const AccountHeader(title: 'Student Hub', body: AlertScreen()),
     chatScreen: (context) => const ChatRoomScreen(),
-    account: (context) =>
-        const AccountHeader(title: 'Account', body: Account()),
-    settings: (context) =>
-        const AccountHeader(title: 'Settings', body: Settings()),
-    languages: (context) =>
-        const AccountHeader(title: 'Languages', body: Languages()),
+    account: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.account(''),
+        body: const Account()),
+    settings: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.settings, body: const Settings()),
+    languages: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.language(''),
+        body: const Languages()),
   };
 }

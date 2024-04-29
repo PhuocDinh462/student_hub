@@ -21,7 +21,7 @@ class BottomToolMenu extends StatelessWidget {
     final ProjectProvider projectProvider =
         Provider.of<ProjectProvider>(context);
     final int itemCount =
-        projectProvider.getCurrentProject!.typeFlag == TypeFlag.archieved
+        projectProvider.getCurrentProject!.typeFlag == TypeFlag.archived
             ? 3
             : 4;
 
@@ -186,7 +186,7 @@ class BottomToolMenu extends StatelessWidget {
             ),
           ),
 
-          if (projectProvider.getCurrentProject!.typeFlag != TypeFlag.archieved)
+          if (projectProvider.getCurrentProject!.typeFlag != TypeFlag.archived)
             // Start
             Column(
               children: [
@@ -256,7 +256,7 @@ class BottomToolMenu extends StatelessWidget {
                                 content:
                                     'Are you sure you want to close this project?',
                                 onYesPressed: () =>
-                                    updateProjectTypeFlag(TypeFlag.archieved),
+                                    updateProjectTypeFlag(TypeFlag.archived),
                               );
                             },
                           );

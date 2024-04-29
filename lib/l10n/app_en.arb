@@ -35,5 +35,25 @@
         "type": "String"
       }
     }
-  }
+  },
+  "addProfile": "Add profile",
+  "logoutConfirm": "Do you want to logout?",
+  "newType": "New",
+  "working": "Working",
+  "archived": "Archived",
+  "projects": "Projects",
+  "dashboard": "Dashboard",
+  "messages": "Messages",
+  "alerts": "Alerts",
+  "videoCall": "Video call",
+  "settings": "Settings",
+  "postProject": "Post project",
+  "projectDetail": "Project detail",
+  "proposalDetail": "Proposal detail",
+  "editProject": "Edit project",
+  "profile": "Profile",
+  "savedProject": "Profile",
+  "noDataAvailable": "No data available",
+  "yes": "Yes",
+  "no": "No"
 }

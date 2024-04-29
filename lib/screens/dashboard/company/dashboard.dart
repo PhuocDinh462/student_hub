@@ -6,6 +6,7 @@ import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/company_route.dart';
 import 'widgets/project_list.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardCompany extends StatefulWidget {
   const DashboardCompany({super.key});
@@ -74,31 +75,31 @@ class _DashboardCompanyState extends State<DashboardCompany> {
               dividerColor: Theme.of(context).brightness == Brightness.dark
                   ? text_800
                   : text_200,
-              tabs: const [
+              tabs: [
                 Padding(
-                  padding: EdgeInsets.only(top: 2.0),
+                  padding: const EdgeInsets.only(top: 2.0),
                   child: Tab(
                     child: Text(
-                      'New',
-                      style: TextStyle(fontWeight: FontWeight.w500),
+                      AppLocalizations.of(context)!.newType,
+                      style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 2.0),
+                  padding: const EdgeInsets.only(top: 2.0),
                   child: Tab(
                     child: Text(
-                      'Working',
-                      style: TextStyle(fontWeight: FontWeight.w500),
+                      AppLocalizations.of(context)!.working,
+                      style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 2.0),
+                  padding: const EdgeInsets.only(top: 2.0),
                   child: Tab(
                     child: Text(
-                      'Archived',
-                      style: TextStyle(fontWeight: FontWeight.w500),
+                      AppLocalizations.of(context)!.archived,
+                      style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),
@@ -117,7 +118,7 @@ class _DashboardCompanyState extends State<DashboardCompany> {
                         // Working
                         ProjectList(typeFlag: TypeFlag.working),
                         // Archived
-                        ProjectList(typeFlag: TypeFlag.archieved),
+                        ProjectList(typeFlag: TypeFlag.archived),
                       ],
                     ),
             ),

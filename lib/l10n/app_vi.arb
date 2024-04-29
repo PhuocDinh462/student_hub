@@ -35,5 +35,25 @@
         "type": "String"
       }
     }
-  }
+  },
+  "addProfile": "Thêm hồ sơ",
+  "logoutConfirm": "Bạn có muốn đăng xuất?",
+  "newType": "Mới",
+  "working": "Đang làm",
+  "archived": "Lưu trữ",
+  "projects": "Dự án",
+  "dashboard": "Tổng quan",
+  "messages": "Tin nhắn",
+  "alerts": "Thông báo",
+  "videoCall": "Gọi video",
+  "settings": "Cài đặt",
+  "postProject": "Tạo dự án",
+  "projectDetail": "Chi tiết dự án",
+  "proposalDetail": "Chi tiết đơn",
+  "editProject": "Chỉnh sửa dự án",
+  "profile": "Hồ sơ",
+  "savedProject": "Dự án đã lưu",
+  "noDataAvailable": "Không có dữ liệu",
+  "yes": "Đồng ý",
+  "no": "Hủy"
 }

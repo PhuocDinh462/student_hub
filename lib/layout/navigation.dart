@@ -10,6 +10,7 @@ import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
 import 'package:student_hub/screens/project/projects.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/utils/utils.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation(
@@ -66,30 +67,30 @@ class _NavigationState extends State<Navigation> {
             : primary_200,
         backgroundColor: Colors.transparent,
         selectedIndex: currentScreenIndex,
-        destinations: const <Widget>[
+        destinations: <Widget>[
           NavigationDestination(
-            icon: Icon(
+            icon: const Icon(
               Icons.task,
             ),
-            label: 'Projects',
+            label: AppLocalizations.of(context)!.projects,
           ),
           NavigationDestination(
-            icon: Icon(
+            icon: const Icon(
               Icons.dashboard,
             ),
-            label: 'Dashboard',
+            label: AppLocalizations.of(context)!.dashboard,
           ),
           NavigationDestination(
-            icon: Icon(
+            icon: const Icon(
               Icons.message,
             ),
-            label: 'Message',
+            label: AppLocalizations.of(context)!.messages,
           ),
           NavigationDestination(
-            icon: Icon(
+            icon: const Icon(
               Icons.notifications,
             ),
-            label: 'Alerts',
+            label: AppLocalizations.of(context)!.alerts,
           ),
         ],
       ),
