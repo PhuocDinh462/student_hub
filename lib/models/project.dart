@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 enum ProjectScopeFlag {
   lessThanOneMonth,
   oneToThreeMonth,
@@ -102,16 +105,30 @@ class Project {
     );
   }
 
-  String completionTimeString() {
+  String completionTime2String(BuildContext context) {
     switch (completionTime) {
       case ProjectScopeFlag.lessThanOneMonth:
-        return 'Less than 1 month';
+        return AppLocalizations.of(context)!.lessThanOneMonth;
       case ProjectScopeFlag.oneToThreeMonth:
-        return '1 to 3 months';
+        return AppLocalizations.of(context)!.oneToThreeMonths;
       case ProjectScopeFlag.threeToSixMonth:
-        return '3 to 6 months';
+        return AppLocalizations.of(context)!.threeToSixMonths;
       case ProjectScopeFlag.moreThanSixMonth:
-        return 'More than 6 months';
+        return AppLocalizations.of(context)!.moreThanSixMonths;
+    }
+  }
+
+  static String projectScopeFlag2String(
+      BuildContext context, ProjectScopeFlag projectScopeFlag) {
+    switch (projectScopeFlag) {
+      case ProjectScopeFlag.lessThanOneMonth:
+        return AppLocalizations.of(context)!.lessThanOneMonth;
+      case ProjectScopeFlag.oneToThreeMonth:
+        return AppLocalizations.of(context)!.oneToThreeMonths;
+      case ProjectScopeFlag.threeToSixMonth:
+        return AppLocalizations.of(context)!.threeToSixMonths;
+      case ProjectScopeFlag.moreThanSixMonth:
+        return AppLocalizations.of(context)!.moreThanSixMonths;
     }
   }
 }

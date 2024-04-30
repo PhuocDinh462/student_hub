@@ -107,7 +107,8 @@ class ProjectInfo extends StatelessWidget {
                 ),
                 const Gap(5),
                 Text(
-                  projectProvider.getCurrentProject!.completionTimeString(),
+                  projectProvider.getCurrentProject!
+                      .completionTime2String(context),
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],
