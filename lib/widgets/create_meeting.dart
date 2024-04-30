@@ -54,33 +54,7 @@ class _CreateMeetingState extends State<CreateMeeting> {
         );
         return;
       } else {
-        final Message meeting = Message(
-          id: widget.messages.length + 1,
-          projectId: widget.projectId,
-          title: titleController.text,
-          senderUserId: widget.senderId,
-          receiverUserId: widget.receiverId,
-          createdAt: DateTime.now(),
-          startTime: DateTime(
-            pickedDate.year,
-            pickedDate.month,
-            pickedDate.day,
-            pickedTime.hour,
-            pickedTime.minute,
-          ),
-          endTime: DateTime(
-            pickedDate.year,
-            pickedDate.month,
-            pickedDate.day,
-            pickedTime.hour + 1,
-            pickedTime.minute,
-          ),
-          meeting: MessageFlag.interview,
-          meetingRoomCode: MeetingRoom.generateMeetingRoomCode(),
-          meetingRoomId: MeetingRoom.generateMeetingRoomId(),
-        );
-        print(meeting.toJson());
-        widget.socket.emit('SCHEDULE_MEETING', {
+        widget.socket.emit('SCHEDULE_INTERVIEW', {
           'title': titleController.text,
           'startTime': DateTime(
             pickedDate.year,

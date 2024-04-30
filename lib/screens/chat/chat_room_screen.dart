@@ -206,19 +206,23 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     });
 
     socket.on('RECEIVE_INTERVIEW', (data) {
-      print(data);
+      print(data['notification']['interview']);
       setState(() {
         messages.add(Message(
           projectId: 3,
           senderUserId: 2,
           receiverUserId: 2,
-          title: data['title'],
-          createdAt: DateTime.now(),
-          startTime: DateTime.parse(data['startTime']),
-          endTime: DateTime.parse(data['endTime']),
+          title: data['notification']['interview']['title'],
+          createdAt:
+              DateTime.parse(data['notification']['interview']['createdAt']),
+          startTime:
+              DateTime.parse(data['notification']['interview']['startTime']),
+          endTime: DateTime.parse(data['notification']['interview']['endTime']),
           meeting: MessageFlag.interview,
-          meetingRoomId: data['meetingRoomId'],
-          meetingRoomCode: data['meetingRoomCode'],
+          meetingRoomId:
+              data['notification']['interview']['meetingRoomid'] ?? '123456',
+          meetingRoomCode:
+              data['notification']['interview']['meetingRoomCode'] ?? 'abcdefg',
         ));
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent + 100,
@@ -239,26 +243,40 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   _loadMessages() async {
     final listMessages = await messageService.getConversations(2, 3);
-    final List<Message> fetchMessages = listMessages
-        .cast<Map<String, dynamic>>()
-        .where((msg) => msg['deletedAt'] == null)
-        .map<Message>((msg) {
-      return Message(
-        id: msg['id'],
-        projectId: msg['projectId'] ?? 3,
-        senderUserId: msg['sender']['id'],
-        // receiverUserId: msg['receiver']['id'],
-        receiverUserId: 2,
-        content: msg['content'],
-        createdAt: DateTime.parse(msg['createdAt']),
-        startTime: null,
-        endTime: null,
-        title: '',
-        meeting: msg['interview'] != null
-            ? MessageFlag.interview
-            : MessageFlag.message,
-        canceled: msg['canceled'] ?? false,
-      );
+    final List<Message> fetchMessages =
+        listMessages.cast<Map<String, dynamic>>().map<Message>((msg) {
+      if (msg['interview'] == null) {
+        return Message(
+          id: msg['id'],
+          projectId: msg['projectId'] ?? 3,
+          senderUserId: msg['sender']['id'],
+          // receiverUserId: msg['receiver']['id'],
+          receiverUserId: 2,
+          content: msg['content'],
+          createdAt: DateTime.parse(msg['createdAt']),
+          startTime: null,
+          endTime: null,
+          title: '',
+          meeting: MessageFlag.message,
+          canceled: msg['canceled'] ?? false,
+        );
+      } else {
+        return Message(
+          id: msg['id'],
+          projectId: msg['projectId'] ?? 3,
+          senderUserId: msg['sender']['id'],
+          // receiverUserId: msg['receiver']['id'],
+          receiverUserId: 2,
+          createdAt: DateTime.parse(msg['createdAt']),
+          startTime: DateTime.parse(msg['interview']['startTime']),
+          endTime: DateTime.parse(msg['interview']['endTime']),
+          title: msg['interview']['title'],
+          meeting: MessageFlag.interview,
+          canceled: msg['interview']['disableFlag'] == 0 ? false : true,
+          meetingRoomId: msg['interview']['meetingRoom_Id'] ?? '123456',
+          meetingRoomCode: msg['interview']['meetingRoom_Code'] ?? 'abcdefg',
+        );
+      }
     }).toList();
     setState(() {
       // messages.clear();
