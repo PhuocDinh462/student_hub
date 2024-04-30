@@ -7,6 +7,7 @@ import 'package:student_hub/models/chat/message.dart';
 import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/utils/snack_bar.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:student_hub/widgets/widgets.dart';
 
 class MessageMeetingBubble extends StatefulWidget {
@@ -21,6 +22,7 @@ class MessageMeetingBubble extends StatefulWidget {
   final int userId1;
   final int userId2;
   final Message message;
+
   final VoidCallback? onCancelMeeting;
 
   @override
@@ -258,7 +260,25 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
                       PopupMenuItem<String>(
                         value: 'Re-Schedule the meeting',
                         height: 60,
-                        onTap: () async {},
+                        onTap: () async {
+                          await showModalBottomSheet(
+                              context: context,
+                              backgroundColor: Colors.white,
+                              isScrollControlled: true,
+                              builder: (ctx) {
+                                return SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.7,
+                                  child: UpdateMeeting(
+                                    projectId: 3,
+                                    senderId: 2,
+                                    receiverId: 2,
+                                    message: widget.message,
+                                    // socket: widget.socket,
+                                  ),
+                                );
+                              });
+                        },
                         child: Row(
                           children: [
                             Icon(

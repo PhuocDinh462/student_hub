@@ -6,86 +6,85 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/chat/chat_room.dart';
 import 'package:student_hub/models/chat/message.dart';
 import 'package:student_hub/widgets/avatar.dart';
-import 'package:student_hub/widgets/create_meeting.dart';
-import 'package:student_hub/widgets/message_chat_bubble.dart';
-import 'package:student_hub/widgets/message_meeting_bubble.dart';
+
 import 'package:intl/intl.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:student_hub/widgets/widgets.dart';
 
 List<Message> sampleMessages = [
   Message(
-    projectId: 3,
+    projectId: 8,
     senderUserId: 1,
     receiverUserId: 2,
     content: 'Hello, how are you?',
     createdAt: DateTime.now(),
   ),
   Message(
-    projectId: 3,
+    projectId: 8,
     senderUserId: 2,
     receiverUserId: 1,
     content: 'Hi, I am doing fine. How about you?',
     createdAt: DateTime.now().add(const Duration(minutes: 5)),
   ),
   Message(
-    projectId: 3,
+    projectId: 8,
     senderUserId: 1,
     receiverUserId: 2,
     content: 'I am good too. Thanks for asking.',
     createdAt: DateTime.now().add(const Duration(minutes: 10)),
   ),
   Message(
-    projectId: 3,
+    projectId: 8,
     senderUserId: 2,
     receiverUserId: 1,
     content: 'What have you been up to lately?',
     createdAt: DateTime.now().add(const Duration(minutes: 15)),
   ),
   Message(
-    projectId: 3,
+    projectId: 8,
     senderUserId: 1,
     receiverUserId: 2,
     content: 'I have been busy with work. How about you?',
     createdAt: DateTime.now().add(const Duration(minutes: 20)),
   ),
   Message(
-    projectId: 3,
+    projectId: 8,
     senderUserId: 2,
     receiverUserId: 1,
     content: 'I have been studying for my exams.',
     createdAt: DateTime.now().add(const Duration(minutes: 25)),
   ),
   Message(
-    projectId: 3,
+    projectId: 8,
     senderUserId: 1,
     receiverUserId: 2,
     content: 'Good luck with your exams!',
     createdAt: DateTime.now().add(const Duration(minutes: 30)),
   ),
   Message(
-    projectId: 3,
+    projectId: 8,
     senderUserId: 2,
     receiverUserId: 1,
     content: 'Thank you!',
     createdAt: DateTime.now().add(const Duration(minutes: 35)),
   ),
   Message(
-    projectId: 3,
+    projectId: 8,
     senderUserId: 1,
     receiverUserId: 2,
     content: 'You\'re welcome. Let me know if you need any help.',
     createdAt: DateTime.now().add(const Duration(minutes: 40)),
   ),
   Message(
-    projectId: 3,
+    projectId: 8,
     senderUserId: 2,
     receiverUserId: 1,
     content: 'Sure, I will. Thanks again!',
     createdAt: DateTime.now().add(const Duration(minutes: 45)),
   ),
   Message(
-    projectId: 3,
+    projectId: 8,
     senderUserId: 2,
     receiverUserId: 1,
     title: 'Catch up meeting',
@@ -97,7 +96,7 @@ List<Message> sampleMessages = [
     meetingRoomCode: '123456',
   ),
   Message(
-    projectId: 3,
+    projectId: 8,
     senderUserId: 1,
     receiverUserId: 2,
     title: 'Catch up meeting',
@@ -177,7 +176,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       'Authorization': 'Bearer $token',
     };
 
-    socket.io.options?['query'] = {'project_id': 3};
+    socket.io.options?['query'] = {'project_id': 8};
 
     socket.connect();
 
@@ -190,12 +189,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     socket.on('RECEIVE_MESSAGE', (data) {
       setState(() {
         messages.add(Message(
-          projectId: 3,
+          projectId: 8,
           senderUserId: 2,
           receiverUserId: 2,
-          content: data['content'],
-          createdAt: DateTime.now(),
-          meeting: MessageFlag.values[data['messageFlag']],
+          content: data['notification']['message']['content'],
+          createdAt: DateTime.parse(data['notification']['createdAt']),
+          meeting: MessageFlag
+              .values[data['notification']['message']['messageFlag']],
         ));
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent + 100,
@@ -206,13 +206,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     });
 
     socket.on('RECEIVE_INTERVIEW', (data) {
-      print(data['notification']['interview']);
       setState(() {
         messages.add(Message(
-          projectId: 3,
+          projectId: 8,
           senderUserId: 2,
           receiverUserId: 2,
-          title: data['notification']['interview']['title'],
+          interviewId: data['notification']['interview']['id'],
+          title: data['notification']['title'],
           createdAt:
               DateTime.parse(data['notification']['interview']['createdAt']),
           startTime:
@@ -220,12 +220,12 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           endTime: DateTime.parse(data['notification']['interview']['endTime']),
           meeting: MessageFlag.interview,
           meetingRoomId:
-              data['notification']['interview']['meetingRoomid'] ?? '123456',
+              data['notification']['meetingRoom']['meeting_room_id'] ?? '',
           meetingRoomCode:
-              data['notification']['interview']['meetingRoomCode'] ?? 'abcdefg',
+              data['notification']['meetingRoom']['meeting_room_code'] ?? '',
         ));
         _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent + 100,
+          _scrollController.position.maxScrollExtent + 200,
           duration: const Duration(milliseconds: 1),
           curve: Curves.easeOut,
         );
@@ -242,13 +242,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   }
 
   _loadMessages() async {
-    final listMessages = await messageService.getConversations(2, 3);
+    final listMessages = await messageService.getConversations(2, 8);
     final List<Message> fetchMessages =
         listMessages.cast<Map<String, dynamic>>().map<Message>((msg) {
       if (msg['interview'] == null) {
         return Message(
           id: msg['id'],
-          projectId: msg['projectId'] ?? 3,
+          projectId: msg['projectId'] ?? 8,
           senderUserId: msg['sender']['id'],
           // receiverUserId: msg['receiver']['id'],
           receiverUserId: 2,
@@ -263,18 +263,21 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       } else {
         return Message(
           id: msg['id'],
-          projectId: msg['projectId'] ?? 3,
+          projectId: msg['projectId'] ?? 8,
           senderUserId: msg['sender']['id'],
           // receiverUserId: msg['receiver']['id'],
           receiverUserId: 2,
+          interviewId: msg['interview']['id'],
           createdAt: DateTime.parse(msg['createdAt']),
           startTime: DateTime.parse(msg['interview']['startTime']),
           endTime: DateTime.parse(msg['interview']['endTime']),
           title: msg['interview']['title'],
           meeting: MessageFlag.interview,
           canceled: msg['interview']['disableFlag'] == 0 ? false : true,
-          meetingRoomId: msg['interview']['meetingRoom_Id'] ?? '123456',
-          meetingRoomCode: msg['interview']['meetingRoom_Code'] ?? 'abcdefg',
+          meetingRoomId:
+              msg['interview']['meetingRoom']['meeting_room_id'] ?? '',
+          meetingRoomCode:
+              msg['interview']['meetingRoom']['meeting_room_code'] ?? '',
         );
       }
     }).toList();
@@ -306,7 +309,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
     void sendMessage() async {
       final message = Message(
-        projectId: 3,
+        projectId: 8,
         senderUserId: 2,
         receiverUserId: 2,
         content: messageController.text,
@@ -365,7 +368,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                         return SizedBox(
                           height: MediaQuery.of(context).size.height * 0.7,
                           child: CreateMeeting(
-                            projectId: 3,
+                            projectId: 8,
                             senderId: 2,
                             receiverId: 2,
                             messages: messages,
@@ -600,7 +603,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.7,
                                 child: CreateMeeting(
-                                  projectId: 3,
+                                  projectId: 8,
                                   senderId: 2,
                                   receiverId: 2,
                                   messages: messages,

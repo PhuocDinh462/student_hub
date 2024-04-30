@@ -10,3 +10,7 @@ export 'select_year.dart';
 export 'select_month_year.dart';
 export 'button_icon_retangle.dart';
 export 'project_detail.dart';
+export 'chat/create_meeting.dart';
+export 'chat/message_chat_bubble.dart';
+export 'chat/message_meeting_bubble.dart';
+export 'chat/update_meeting.dart';
