@@ -195,8 +195,6 @@ class Account extends StatelessWidget {
                   return YesNoDialog(
                     title: AppLocalizations.of(context)!.account('logout'),
                     content: AppLocalizations.of(context)!.logoutConfirm,
-                    yesText: AppLocalizations.of(context)!.yes,
-                    noText: AppLocalizations.of(context)!.no,
                     onYesPressed: () => logout(),
                   );
                 },

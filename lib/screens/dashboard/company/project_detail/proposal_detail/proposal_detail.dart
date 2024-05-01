@@ -12,6 +12,7 @@ import 'package:student_hub/utils/extensions.dart';
 import 'package:get/get.dart';
 import 'package:student_hub/widgets/yes_no_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProposalDetail extends StatefulWidget {
   const ProposalDetail({super.key});
@@ -127,7 +128,7 @@ class _ProposalDetailState extends State<ProposalDetail> {
               Row(
                 children: [
                   Text(
-                    'Educations',
+                    AppLocalizations.of(context)!.educations,
                     style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                         fontStyle: FontStyle.italic),
@@ -169,7 +170,7 @@ class _ProposalDetailState extends State<ProposalDetail> {
               Row(
                 children: [
                   Text(
-                    'Skills',
+                    AppLocalizations.of(context)!.skills,
                     style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                         fontStyle: FontStyle.italic),
@@ -202,7 +203,7 @@ class _ProposalDetailState extends State<ProposalDetail> {
               Row(
                 children: [
                   Text(
-                    'Resume & Transcript',
+                    '${AppLocalizations.of(context)!.resume} & ${AppLocalizations.of(context)!.transcript}',
                     style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                         fontStyle: FontStyle.italic),
@@ -226,7 +227,7 @@ class _ProposalDetailState extends State<ProposalDetail> {
                       textDirection: TextDirection.ltr,
                       text: TextSpan(children: [
                         TextSpan(
-                            text: 'Resume: ',
+                            text: '${AppLocalizations.of(context)!.resume}: ',
                             style: Theme.of(context).textTheme.bodyMedium),
                         TextSpan(
                             text: proposal.resume,
@@ -253,7 +254,8 @@ class _ProposalDetailState extends State<ProposalDetail> {
                       textDirection: TextDirection.ltr,
                       text: TextSpan(children: [
                         TextSpan(
-                            text: 'Transcript: ',
+                            text:
+                                '${AppLocalizations.of(context)!.transcript}: ',
                             style: Theme.of(context).textTheme.bodyMedium),
                         TextSpan(
                             text: proposal.transcript,
@@ -298,9 +300,10 @@ class _ProposalDetailState extends State<ProposalDetail> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return YesNoDialog(
-                                    title: 'Hired offer',
-                                    content:
-                                        'Do you really want to send hired offer for student to do this project?',
+                                    title: AppLocalizations.of(context)!
+                                        .sendHiredOfferTitle,
+                                    content: AppLocalizations.of(context)!
+                                        .sendHireOfferContent,
                                     onYesPressed: () {
                                       if (projectProvider
                                               .getCurrentProject!.countHired <
@@ -312,10 +315,12 @@ class _ProposalDetailState extends State<ProposalDetail> {
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
-                                          const SnackBar(
+                                          SnackBar(
                                             content: Text(
-                                              'You have already hired enough students for this project',
-                                              style: TextStyle(color: text_50),
+                                              AppLocalizations.of(context)!
+                                                  .sendHireOfferFullStudentError,
+                                              style: const TextStyle(
+                                                  color: text_50),
                                             ),
                                             backgroundColor: Colors.red,
                                           ),

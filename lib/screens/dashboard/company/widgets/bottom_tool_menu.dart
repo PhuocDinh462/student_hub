@@ -8,6 +8,7 @@ import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/widgets/yes_no_dialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BottomToolMenu extends StatelessWidget {
   const BottomToolMenu({super.key, required this.rootContext});
@@ -81,12 +82,12 @@ class BottomToolMenu extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'View',
+                        AppLocalizations.of(context)!.view,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       const Gap(3),
                       Text(
-                        'View project project',
+                        AppLocalizations.of(context)!.viewProject,
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               fontStyle: FontStyle.italic,
                             ),
@@ -121,12 +122,12 @@ class BottomToolMenu extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Edit',
+                        AppLocalizations.of(context)!.edit,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       const Gap(3),
                       Text(
-                        'Edit project',
+                        AppLocalizations.of(context)!.editProject,
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               fontStyle: FontStyle.italic,
                             ),
@@ -147,8 +148,8 @@ class BottomToolMenu extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return YesNoDialog(
-                    title: 'Remove project',
-                    content: 'Are you sure you want to remove this project?',
+                    title: AppLocalizations.of(context)!.removeProjectTitle,
+                    content: AppLocalizations.of(context)!.removeProjectContent,
                     onYesPressed: () => removeProject(),
                   );
                 },
@@ -169,12 +170,12 @@ class BottomToolMenu extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Remove',
+                        AppLocalizations.of(context)!.remove,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       const Gap(3),
                       Text(
-                        'Remove project',
+                        AppLocalizations.of(context)!.removeProjectTitle,
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               fontStyle: FontStyle.italic,
                             ),
@@ -199,11 +200,30 @@ class BottomToolMenu extends StatelessWidget {
                             context: context,
                             builder: (BuildContext context) {
                               return YesNoDialog(
-                                title: 'Start project',
-                                content:
-                                    'Are you sure you want to start this project?',
-                                onYesPressed: () =>
-                                    updateProjectTypeFlag(TypeFlag.working),
+                                title: AppLocalizations.of(context)!
+                                    .startProjectTitle,
+                                content: AppLocalizations.of(context)!
+                                    .startProjectContent,
+                                onYesPressed: () {
+                                  if (projectProvider
+                                          .getCurrentProject!.countHired <
+                                      projectProvider.getCurrentProject!
+                                          .requiredStudents) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          AppLocalizations.of(context)!
+                                              .startProjectErrorNotEnoughStudent,
+                                          style:
+                                              const TextStyle(color: text_50),
+                                        ),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  } else {
+                                    updateProjectTypeFlag(TypeFlag.working);
+                                  }
+                                },
                               );
                             },
                           );
@@ -223,13 +243,14 @@ class BottomToolMenu extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Start',
+                                    AppLocalizations.of(context)!.start,
                                     style:
                                         Theme.of(context).textTheme.titleLarge,
                                   ),
                                   const Gap(3),
                                   Text(
-                                    'Start working this project',
+                                    AppLocalizations.of(context)!
+                                        .startWorkingThisProject,
                                     style: Theme.of(context)
                                         .textTheme
                                         .labelSmall
@@ -252,9 +273,10 @@ class BottomToolMenu extends StatelessWidget {
                             context: context,
                             builder: (BuildContext context) {
                               return YesNoDialog(
-                                title: 'Close project',
-                                content:
-                                    'Are you sure you want to close this project?',
+                                title: AppLocalizations.of(context)!
+                                    .closeProjectTitle,
+                                content: AppLocalizations.of(context)!
+                                    .closeProjectContent,
                                 onYesPressed: () =>
                                     updateProjectTypeFlag(TypeFlag.archived),
                               );
@@ -276,13 +298,14 @@ class BottomToolMenu extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Close',
+                                    AppLocalizations.of(context)!.close,
                                     style:
                                         Theme.of(context).textTheme.titleLarge,
                                   ),
                                   const Gap(3),
                                   Text(
-                                    'Close this project',
+                                    AppLocalizations.of(context)!
+                                        .closeThisProject,
                                     style: Theme.of(context)
                                         .textTheme
                                         .labelSmall
