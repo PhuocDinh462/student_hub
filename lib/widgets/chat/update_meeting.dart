@@ -7,9 +7,9 @@ import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/circle_container.dart';
 import 'package:gap/gap.dart';
-import 'package:student_hub/widgets/select_date_time.dart';
 import 'package:student_hub/widgets/text_field_title.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
+import 'package:student_hub/widgets/widgets.dart';
 
 class UpdateMeeting extends StatefulWidget {
   const UpdateMeeting({
@@ -18,35 +18,44 @@ class UpdateMeeting extends StatefulWidget {
     required this.senderId,
     required this.receiverId,
     required this.message,
-    this.socket,
-    this.currentDate,
-    this.currentTime,
+    required this.socket,
+    this.startDate,
+    this.startTime,
+    this.endDate,
+    this.endTime,
   });
   final int projectId;
   final int senderId;
   final int receiverId;
-  final DateTime? currentDate;
-  final TimeOfDay? currentTime;
+  final DateTime? startDate;
+  final TimeOfDay? startTime;
+  final DateTime? endDate;
+  final TimeOfDay? endTime;
   final Message message;
-  final io.Socket? socket;
+  final io.Socket socket;
   @override
   State<UpdateMeeting> createState() => _UpdateMeetingState();
 }
 
 class _UpdateMeetingState extends State<UpdateMeeting> {
   final titleController = TextEditingController();
-  late DateTime pickedDate;
-  late TimeOfDay pickedTime;
+  late DateTime pickedStartDate;
+  late TimeOfDay pickedStartTime;
+  late DateTime pickedEndDate;
+  late TimeOfDay pickedEndTime;
   @override
   void initState() {
     super.initState();
-    pickedDate = widget.currentDate ?? DateTime.now();
-    pickedTime = widget.currentTime ?? TimeOfDay.now();
+    pickedStartDate = widget.startDate ?? DateTime.now();
+    pickedStartTime = widget.startTime ?? TimeOfDay.now();
+    pickedEndDate = widget.endDate ?? DateTime.now();
+    pickedEndTime = widget.endTime ?? TimeOfDay.now();
+    titleController.text = widget.message.title ?? '';
   }
 
   @override
   Widget build(BuildContext context) {
-    void createMeeting() {
+    void updateMeeting() {
       Navigator.pop(context);
 
       if (titleController.text.isEmpty) {
@@ -58,28 +67,30 @@ class _UpdateMeetingState extends State<UpdateMeeting> {
         );
         return;
       } else {
-        // widget.socket.emit('SCHEDULE_INTERVIEW', {
-        //   'title': titleController.text,
-        //   'startTime': DateTime(
-        //     pickedDate.year,
-        //     pickedDate.month,
-        //     pickedDate.day,
-        //     pickedTime.hour,
-        //     pickedTime.minute,
-        //   ).toIso8601String(),
-        //   'endTime': DateTime(
-        //     pickedDate.year,
-        //     pickedDate.month,
-        //     pickedDate.day,
-        //     pickedTime.hour + 1,
-        //     pickedTime.minute,
-        //   ).toIso8601String(),
-        //   'projectId': widget.projectId,
-        //   'senderId': widget.senderId,
-        //   'receiverId': widget.receiverId,
-        //   'meeting_room_code': MeetingRoom.generateMeetingRoomCode(),
-        //   'meeting_room_id': MeetingRoom.generateMeetingRoomId(),
-        // });
+        final DateTime newStartDate = DateTime(
+          pickedStartDate.year,
+          pickedStartDate.month,
+          pickedStartDate.day,
+          pickedStartTime.hour,
+          pickedStartTime.minute,
+        );
+        final DateTime newEndDate = DateTime(
+          pickedEndDate.year,
+          pickedEndDate.month,
+          pickedEndDate.day,
+          pickedEndTime.hour,
+          pickedEndTime.minute,
+        );
+        widget.socket.emit('UPDATE_INTERVIEW', {
+          'interviewId': widget.message.interviewId,
+          'senderId': widget.senderId,
+          'receiverId': widget.receiverId,
+          'projectId': widget.projectId,
+          'title': titleController.text,
+          'startTime': newStartDate.toIso8601String(),
+          'endTime': newEndDate.toIso8601String(),
+          'updateAction': true,
+        });
       }
     }
 
@@ -116,15 +127,27 @@ class _UpdateMeetingState extends State<UpdateMeeting> {
                   SelectDateTime(
                     titleDate: 'Start Date',
                     titleTime: 'Start Time',
-                    date: pickedDate,
-                    time: pickedTime,
+                    date: pickedStartDate,
+                    time: pickedStartTime,
+                    onChanged: (startDate, startTime) {
+                      setState(() {
+                        pickedStartDate = startDate;
+                        pickedStartTime = startTime;
+                      });
+                    },
                   ),
                   const Gap(30),
                   SelectDateTime(
                     titleDate: 'End Date',
                     titleTime: 'End Time',
-                    date: pickedDate,
-                    time: pickedTime,
+                    date: pickedEndDate,
+                    time: pickedEndTime,
+                    onChanged: (endDate, endTime) {
+                      setState(() {
+                        pickedEndDate = endDate;
+                        pickedEndTime = endTime;
+                      });
+                    },
                   ),
                   const Gap(20),
                   const Divider(thickness: 1.5, color: primary_300),
@@ -146,9 +169,9 @@ class _UpdateMeetingState extends State<UpdateMeeting> {
                 ),
                 Button(
                   onTap: () {
-                    createMeeting();
+                    updateMeeting();
                   },
-                  text: 'Send Invite',
+                  text: 'Update',
                   colorButton: primary_300,
                   colorText: text_50,
                   width: MediaQuery.of(context).size.width * 0.4,

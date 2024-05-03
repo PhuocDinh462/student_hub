@@ -12,9 +12,9 @@ class Message extends Equatable {
   final int? interviewId;
   final String? content;
   final DateTime createdAt;
-  final DateTime? startTime;
-  final DateTime? endTime;
-  final String? title;
+  DateTime? startTime;
+  DateTime? endTime;
+  String? title;
   final String? meetingRoomId;
   final String? meetingRoomCode;
   final MessageFlag meeting;

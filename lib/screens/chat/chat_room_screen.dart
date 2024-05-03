@@ -206,30 +206,33 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     });
 
     socket.on('RECEIVE_INTERVIEW', (data) {
-      setState(() {
-        messages.add(Message(
-          projectId: 8,
-          senderUserId: 2,
-          receiverUserId: 2,
-          interviewId: data['notification']['interview']['id'],
-          title: data['notification']['title'],
-          createdAt:
-              DateTime.parse(data['notification']['interview']['createdAt']),
-          startTime:
-              DateTime.parse(data['notification']['interview']['startTime']),
-          endTime: DateTime.parse(data['notification']['interview']['endTime']),
-          meeting: MessageFlag.interview,
-          meetingRoomId:
-              data['notification']['meetingRoom']['meeting_room_id'] ?? '',
-          meetingRoomCode:
-              data['notification']['meetingRoom']['meeting_room_code'] ?? '',
-        ));
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent + 200,
-          duration: const Duration(milliseconds: 1),
-          curve: Curves.easeOut,
-        );
-      });
+      if (data['notification']['content'] == 'Interview created') {
+        setState(() {
+          messages.add(Message(
+            projectId: 8,
+            senderUserId: 2,
+            receiverUserId: 2,
+            interviewId: data['notification']['interview']['id'],
+            title: data['notification']['interview']['title'],
+            createdAt:
+                DateTime.parse(data['notification']['interview']['createdAt']),
+            startTime:
+                DateTime.parse(data['notification']['interview']['startTime']),
+            endTime:
+                DateTime.parse(data['notification']['interview']['endTime']),
+            meeting: MessageFlag.interview,
+            meetingRoomId:
+                data['notification']['meetingRoom']['meeting_room_id'] ?? '',
+            meetingRoomCode:
+                data['notification']['meetingRoom']['meeting_room_code'] ?? '',
+          ));
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent + 200,
+            duration: const Duration(milliseconds: 1),
+            curve: Curves.easeOut,
+          );
+        });
+      }
     });
   }
 
@@ -532,16 +535,28 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                   ),
                                 if (message.meeting == MessageFlag.interview)
                                   MessageMeetingBubble(
-                                    userId1: 1,
-                                    userId2: 2,
-                                    message: message,
-                                    onCancelMeeting: () {
-                                      setState(() {
-                                        // Cập nhật trạng thái của cuộc họp
-                                        message.canceled = true;
-                                      });
-                                    },
-                                  )
+                                      senderId: 2,
+                                      receiver: 2,
+                                      message: message,
+                                      projectId: 8,
+                                      onCancelMeeting: () {
+                                        setState(() {
+                                          // Cập nhật trạng thái của cuộc họp
+                                          message.canceled = true;
+                                        });
+                                      },
+                                      onUpdateMeeting: (DateTime startTime,
+                                          DateTime endTime,
+                                          String title,
+                                          bool canceled) {
+                                        // Cập nhật thông tin cuộc họp
+                                        setState(() {
+                                          message.startTime = startTime;
+                                          message.endTime = endTime;
+                                          message.title = title;
+                                          message.canceled = canceled;
+                                        });
+                                      })
                                 else
                                   MessageChatBubble(
                                     userId1: 1,

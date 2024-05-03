@@ -7,9 +7,9 @@ import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/circle_container.dart';
 import 'package:gap/gap.dart';
-import 'package:student_hub/widgets/select_date_time.dart';
 import 'package:student_hub/widgets/text_field_title.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
+import 'package:student_hub/widgets/widgets.dart';
 
 class CreateMeeting extends StatefulWidget {
   const CreateMeeting({
@@ -23,6 +23,7 @@ class CreateMeeting extends StatefulWidget {
   final int projectId;
   final int senderId;
   final int receiverId;
+
   final List<Message> messages;
   final io.Socket socket;
   @override
@@ -31,13 +32,17 @@ class CreateMeeting extends StatefulWidget {
 
 class _CreateMeetingState extends State<CreateMeeting> {
   final titleController = TextEditingController();
-  late DateTime pickedDate;
-  late TimeOfDay pickedTime;
+  late DateTime pickedStartDate;
+  late TimeOfDay pickedStartTime;
+  late DateTime pickedEndDate;
+  late TimeOfDay pickedEndTime;
   @override
   void initState() {
     super.initState();
-    pickedDate = DateTime.now();
-    pickedTime = TimeOfDay.now();
+    pickedStartDate = DateTime.now();
+    pickedStartTime = TimeOfDay.now();
+    pickedEndDate = DateTime.now();
+    pickedEndTime = TimeOfDay.now();
   }
 
   @override
@@ -54,21 +59,39 @@ class _CreateMeetingState extends State<CreateMeeting> {
         );
         return;
       } else {
+        print(titleController.text);
+        print(widget.projectId);
+        print(widget.senderId);
+        print(widget.receiverId);
+        print(DateTime(
+          pickedStartDate.year,
+          pickedStartDate.month,
+          pickedStartDate.day,
+          pickedStartTime.hour,
+          pickedStartTime.minute,
+        ).toIso8601String());
+        print(DateTime(
+          pickedEndDate.year,
+          pickedEndDate.month,
+          pickedEndDate.day,
+          pickedEndTime.hour,
+          pickedEndTime.minute,
+        ).toIso8601String());
         widget.socket.emit('SCHEDULE_INTERVIEW', {
           'title': titleController.text,
           'startTime': DateTime(
-            pickedDate.year,
-            pickedDate.month,
-            pickedDate.day,
-            pickedTime.hour,
-            pickedTime.minute,
+            pickedStartDate.year,
+            pickedStartDate.month,
+            pickedStartDate.day,
+            pickedStartTime.hour,
+            pickedStartTime.minute,
           ).toIso8601String(),
           'endTime': DateTime(
-            pickedDate.year,
-            pickedDate.month,
-            pickedDate.day,
-            pickedTime.hour + 1,
-            pickedTime.minute,
+            pickedEndDate.year,
+            pickedEndDate.month,
+            pickedEndDate.day,
+            pickedEndTime.hour,
+            pickedEndTime.minute,
           ).toIso8601String(),
           'projectId': widget.projectId,
           'senderId': widget.senderId,
@@ -112,15 +135,27 @@ class _CreateMeetingState extends State<CreateMeeting> {
                   SelectDateTime(
                     titleDate: 'Start Date',
                     titleTime: 'Start Time',
-                    date: pickedDate,
-                    time: pickedTime,
+                    date: pickedStartDate,
+                    time: pickedStartTime,
+                    onChanged: (startDate, startTime) {
+                      setState(() {
+                        pickedStartDate = startDate;
+                        pickedStartTime = startTime;
+                      });
+                    },
                   ),
                   const Gap(30),
                   SelectDateTime(
                     titleDate: 'End Date',
                     titleTime: 'End Time',
-                    date: pickedDate,
-                    time: pickedTime,
+                    date: pickedEndDate,
+                    time: pickedEndTime,
+                    onChanged: (endDate, endTime) {
+                      setState(() {
+                        pickedEndDate = endDate;
+                        pickedEndTime = endTime;
+                      });
+                    },
                   ),
                   const Gap(20),
                   const Divider(thickness: 1.5, color: primary_300),
