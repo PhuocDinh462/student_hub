@@ -1,6 +1,11 @@
-export 'profile/profile.dart';
 export 'base.model.dart';
+export 'interview.model.dart';
+export 'meeting_room.model.dart';
+export 'message.model.dart';
+export 'notification.model.dart';
+export 'profile/profile.dart';
 export 'project.dart';
-export 'user.dart';
-export 'proposal.model.dart';
 export 'project.model.dart';
+export 'proposal.model.dart';
+export 'user.dart';
+export 'user.model.dart';
