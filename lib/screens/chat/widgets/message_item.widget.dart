@@ -1,20 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
+import 'package:student_hub/models/models.dart';
+import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/company_route.dart';
+import 'package:student_hub/utils/helpers.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
 class MessageItem extends StatelessWidget {
-  const MessageItem({super.key});
+  const MessageItem({super.key, required this.message});
+  final MessageModel message;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final deviceSize = context.deviceSize;
+    final userId =
+        Provider.of<UserProvider>(context, listen: false).currentUser?.userId;
+
+    final name = userId == message.sender?.id
+        ? message.receiver!.fullname
+        : message.sender?.fullname;
+
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(CompanyRoutes.chatScreen);
+        Navigator.of(context).pushNamed(CompanyRoutes.chatScreen, arguments: {
+          'receiver': message.receiver,
+          'sender': message.sender,
+          'project': message.projectModel
+        });
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
@@ -39,13 +55,10 @@ class MessageItem extends StatelessWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(1000),
                     ),
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 3),
-                      child: const Icon(
-                        Icons.circle,
-                        size: 14,
-                        color: Colors.green,
-                      ),
+                    child: const Icon(
+                      Icons.circle,
+                      size: 14,
+                      color: Colors.green,
                     ),
                     //   Container(
                     // padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -66,11 +79,11 @@ class MessageItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DisplayText(
-                  text: 'User 2',
+                  text: name!,
                   style: textTheme.labelMedium!,
                 ),
                 DisplayText(
-                    text: 'Senior frontend developer (Fintech)',
+                    text: message.projectModel!.title,
                     style: textTheme.labelSmall!.copyWith(
                       fontSize: 10,
                       color: colorScheme.onSurface,
@@ -81,14 +94,14 @@ class MessageItem extends StatelessWidget {
                     SizedBox(
                       width: deviceSize.width * 0.65,
                       child: DisplayText(
-                        text:
-                            'Clear expectation about your project or deliverables',
+                        text: message.content,
                         style: textTheme.labelSmall!
                             .copyWith(color: colorScheme.onSurface),
                       ),
                     ),
                     DisplayText(
-                      text: '· 00:00',
+                      text:
+                          '· ${Helpers.formatTime(message.createdAt ?? DateTime.now().toString())}',
                       style: textTheme.labelSmall!
                           .copyWith(color: colorScheme.onSurface),
                     ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/layout/navigation.dart';
+import 'package:student_hub/models/models.dart';
 import 'package:student_hub/screens/alerts/alert.screen.dart';
 import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
 import 'package:student_hub/screens/project/submit_proposal.dart';
@@ -88,7 +89,17 @@ class StudentRoutes {
         body: const VideoCallScreen()),
     alerts: (context) =>
         const AccountHeader(title: 'Student Hub', body: AlertScreen()),
-    chatScreen: (context) => const ChatRoomScreen(),
+    chatScreen: (context) {
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+
+      final ProjectModel project = args?['project'];
+      final UserModel sender = args?['sender'];
+      final UserModel receiver = args?['receiver'];
+
+      return ChatRoomScreen(
+          project: project, receiver: receiver, sender: sender);
+    },
     account: (context) => AccountHeader(
         title: AppLocalizations.of(context)!.account(''),
         body: const Account()),

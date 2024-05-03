@@ -5,6 +5,7 @@ import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/chat/chat_room.dart';
 import 'package:student_hub/models/chat/message.dart';
+import 'package:student_hub/models/models.dart';
 import 'package:student_hub/widgets/avatar.dart';
 
 import 'package:intl/intl.dart';
@@ -111,9 +112,16 @@ List<Message> sampleMessages = [
 ];
 
 class ChatRoomScreen extends StatefulWidget {
-  const ChatRoomScreen({super.key, this.chatRoom});
-
+  const ChatRoomScreen(
+      {super.key,
+      this.chatRoom,
+      required this.project,
+      required this.sender,
+      required this.receiver});
   final ChatRoom? chatRoom;
+  final ProjectModel project;
+  final UserModel sender;
+  final UserModel receiver;
 
   @override
   State<ChatRoomScreen> createState() => _ChatRoomScreenState();
@@ -131,6 +139,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   @override
   void initState() {
+    print(widget.project);
+    print(widget.receiver);
+    print(widget.sender);
     setState(() {
       isLoading = true;
     });

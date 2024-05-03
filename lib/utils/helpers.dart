@@ -61,7 +61,9 @@ class Helpers {
     DateTime now = DateTime.now();
     Duration difference = now.difference(date);
 
-    if (difference.inDays > 0) {
+    if (difference.inDays > 10) {
+      return '${date.day}/${date.month}/${date.year}';
+    } else if (difference.inDays > 0 && difference.inDays <= 10) {
       return '${difference.inDays} days ago';
     } else if (difference.inHours > 0) {
       return '${difference.inHours} hours ago';
@@ -69,6 +71,31 @@ class Helpers {
       return '${difference.inMinutes} minutes ago';
     } else {
       return '${difference.inSeconds} seconds ago';
+    }
+  }
+
+  static String formatTime(String dateString) {
+    DateTime date = DateTime.parse(dateString);
+    DateTime now = DateTime.now();
+    DateFormat timeFormat = DateFormat('HH:mm');
+    DateFormat dateFormat = DateFormat('dd/MM');
+
+    // Find the first and last day of the current week
+    DateTime startOfWeek = now.subtract(Duration(days: now.weekday - 1));
+    DateTime endOfWeek = startOfWeek.add(const Duration(days: 6));
+
+    if (date.day == now.day &&
+        date.month == now.month &&
+        date.year == now.year) {
+      return timeFormat.format(date);
+    } else if (date.isAfter(startOfWeek) && date.isBefore(endOfWeek)) {
+      if (date.weekday == 7) {
+        return 'CN';
+      } else {
+        return 'T.${date.weekday + 1}';
+      }
+    } else {
+      return dateFormat.format(date);
     }
   }
 }

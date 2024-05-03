@@ -20,6 +20,7 @@ void main() async {
   final ProfileService profileService = ProfileService();
   final AuthService authService = AuthService();
   final ProposalService proposalService = ProposalService();
+  final NotifiactionService notifiactionService = NotifiactionService();
 
   runApp(
     MultiProvider(
@@ -39,6 +40,9 @@ void main() async {
         ChangeNotifierProvider(
             create: (_) =>
                 ProposalStudentViewModel(proposalService: proposalService)),
+        ChangeNotifierProvider(
+            create: (_) => NotificationViewModel(
+                notificationService: notifiactionService)),
       ],
       child: const MyApp(),
     ),

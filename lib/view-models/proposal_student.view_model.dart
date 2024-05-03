@@ -66,6 +66,7 @@ class ProposalStudentViewModel extends ChangeNotifier {
     if (studentId == null) {
       errorMessage = 'Student information is not available. Please try again.';
       notifyListeners();
+      return;
     }
 
     _loading = true;
@@ -75,7 +76,7 @@ class ProposalStudentViewModel extends ChangeNotifier {
 
     try {
       List<dynamic> data = await proposalService
-          .getProposalByStudentIdAndStatusFlag(studentId!, statusFlag);
+          .getProposalByStudentIdAndStatusFlag(studentId, statusFlag);
 
       List<ProposalModel> res =
           data.map((e) => ProposalModel.fromMap(e)).toList();
@@ -96,6 +97,7 @@ class ProposalStudentViewModel extends ChangeNotifier {
     if (studentId == null) {
       errorMessage = 'Student information is not available. Please try again.';
       notifyListeners();
+      return;
     }
 
     _loading = true;
@@ -105,7 +107,7 @@ class ProposalStudentViewModel extends ChangeNotifier {
 
     try {
       List<dynamic> data =
-          await proposalService.getProposalByStudentId(studentId!);
+          await proposalService.getProposalByStudentId(studentId);
 
       List<ProposalModel> res =
           data.map((e) => ProposalModel.fromMap(e)).toList();
@@ -122,6 +124,7 @@ class ProposalStudentViewModel extends ChangeNotifier {
     if (studentId == null) {
       errorMessage = 'Student information is not available. Please try again.';
       notifyListeners();
+      return;
     }
 
     _loading = true;
@@ -131,7 +134,7 @@ class ProposalStudentViewModel extends ChangeNotifier {
 
     try {
       List<dynamic> data =
-          await proposalService.getAllProposalByStudentId(studentId!);
+          await proposalService.getAllProposalByStudentId(studentId);
 
       List<ProposalModel> res =
           data.map((e) => ProposalModel.fromMap(e)).toList();
