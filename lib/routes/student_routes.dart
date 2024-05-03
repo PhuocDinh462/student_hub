@@ -29,6 +29,7 @@ class StudentRoutes {
   static const String account = '/account';
   static const String settings = '/account/settings';
   static const String languages = '/account/settings/languages';
+  static const String videoConference = '/video-conference';
 
   static Map<String, WidgetBuilder> routes = {
     nav: (context) {
@@ -108,5 +109,6 @@ class StudentRoutes {
     languages: (context) => AccountHeader(
         title: AppLocalizations.of(context)!.language(''),
         body: const Languages()),
+    videoConference: (context) => const VideoConference(),
   };
 }

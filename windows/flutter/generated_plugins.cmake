@@ -3,9 +3,13 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  audioplayers_windows
   file_selector_windows
+  permission_handler_windows
   smart_auth
   url_launcher_windows
+  zego_express_engine
+  zego_zim
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

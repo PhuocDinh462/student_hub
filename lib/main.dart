@@ -75,7 +75,10 @@ class MyApp extends StatelessWidget {
           );
         } else {
           if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
+            return Text(
+              'Error: ${snapshot.error}',
+              textDirection: TextDirection.ltr,
+            );
           } else {
             final ThemeProvider themeProvider =
                 Provider.of<ThemeProvider>(context);

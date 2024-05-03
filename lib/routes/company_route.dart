@@ -27,6 +27,7 @@ class CompanyRoutes {
   static const String projectDetail = '/project-detail';
   static const String proposalDetail = '/project-detail/proposal-detail';
   static const String editProject = '/edit-project';
+  static const String videoConference = '/video-conference';
 
   static Map<String, WidgetBuilder> routes = {
     nav: (context) {
@@ -100,5 +101,6 @@ class CompanyRoutes {
     editProject: (context) => AccountHeader(
         title: AppLocalizations.of(context)!.editProject,
         body: const EditProject()),
+    videoConference: (context) => const VideoConference(),
   };
 }
