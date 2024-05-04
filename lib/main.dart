@@ -58,10 +58,8 @@ class MyApp extends StatelessWidget {
     Get.put(userProvider);
 
     Future<void> initializeProviders() async {
-      await Provider.of<UserProvider>(context, listen: false)
-          .initializeProvider();
-      await Provider.of<ThemeProvider>(context, listen: false)
-          .initializeProvider();
+      Provider.of<UserProvider>(context, listen: false).initializeProvider();
+      Provider.of<ThemeProvider>(context, listen: false).initializeProvider();
     }
 
     return FutureBuilder(
@@ -113,8 +111,8 @@ class MyApp extends StatelessWidget {
                     : AuthRoutes.routes,
                 initialRoute: userProvider.currentUser != null
                     ? (userProvider.currentUser!.currentRole == Role.student
-                        ? StudentRoutes.chatScreen
-                        : CompanyRoutes.chatScreen)
+                        ? StudentRoutes.nav
+                        : CompanyRoutes.nav)
                     : themeProvider.getIsFirstCall
                         ? AuthRoutes.intro
                         : AuthRoutes.login,

@@ -34,7 +34,6 @@ class NotificationViewModel extends ChangeNotifier {
 
       _notif = res.reversed.toList();
     } catch (e) {
-      print(e);
       _errorMessage = 'Failed to fetch student profile';
     } finally {
       _loading = false;
