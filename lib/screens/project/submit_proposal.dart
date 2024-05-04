@@ -12,6 +12,7 @@ import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/view-models/view_models.dart';
 import 'package:student_hub/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum ActionProposal {
   submit,
@@ -59,7 +60,7 @@ class _SubmitProposalState extends State<SubmitProposal> {
           if (widget.action == ActionProposal.submit) {
             MySnackBar.showSnackBar(
               context,
-              'Your proposal has been submitted. Now you can update it.',
+              AppLocalizations.of(context)!.notifSubmittedProposal,
               'Help',
               ContentType.help,
             );
@@ -121,7 +122,7 @@ class _SubmitProposalState extends State<SubmitProposal> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         DisplayText(
-                            text: 'Cover letter',
+                            text: AppLocalizations.of(context)!.coverLetter,
                             style: textTheme.headlineLarge!),
                         const Gap(20),
                         Container(
@@ -132,8 +133,8 @@ class _SubmitProposalState extends State<SubmitProposal> {
                               borderRadius: BorderRadius.circular(10)),
                           child: CommonTextField(
                             title:
-                                '(Describe why do you fit to this project and what you can contribute to it.)',
-                            hintText: 'Your answer',
+                                AppLocalizations.of(context)!.descriptionLetter,
+                            hintText: AppLocalizations.of(context)!.yourAnwser,
                             maxLines: 20,
                             titleStyle: textTheme.labelSmall!
                                 .copyWith(color: primary_300),
@@ -172,7 +173,7 @@ class _SubmitProposalState extends State<SubmitProposal> {
                                 Get.back();
                               },
                               child: DisplayText(
-                                text: 'Cancel',
+                                text: AppLocalizations.of(context)!.cancel,
                                 style: textTheme.labelLarge!.copyWith(
                                   color: Colors.white,
                                 ),
@@ -186,8 +187,10 @@ class _SubmitProposalState extends State<SubmitProposal> {
                               },
                               child: DisplayText(
                                 text: action == ActionProposal.submit
-                                    ? 'Submit proposal'
-                                    : 'Update proposal',
+                                    ? AppLocalizations.of(context)!
+                                        .submitedProposal
+                                    : AppLocalizations.of(context)!
+                                        .updateProposal,
                                 style: textTheme.labelLarge!.copyWith(
                                   color: Colors.white,
                                 ),

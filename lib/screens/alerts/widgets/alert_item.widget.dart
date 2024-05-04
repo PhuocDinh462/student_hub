@@ -70,7 +70,8 @@ class AlertItem extends StatelessWidget {
                       ),
                     const Gap(10),
                     DisplayText(
-                        text: Helpers.calculateTimeFromNow(notif.createdAt!),
+                        text: Helpers.calculateTimeFromNow(
+                            notif.createdAt!, context),
                         style: textTheme.labelSmall!.copyWith(
                             color: colorScheme.onSurface.withOpacity(0.7),
                             fontSize: 12)),

@@ -32,7 +32,7 @@ class _NavigationState extends State<Navigation> {
   @override
   void initState() {
     super.initState();
-    currentScreenIndex = widget.currentScreenIndex ?? 3;
+    currentScreenIndex = widget.currentScreenIndex ?? 0;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.messageType != null) {

@@ -9,6 +9,7 @@ import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/utils/extensions.dart';
 import 'package:student_hub/view-models/view_models.dart';
 import 'package:student_hub/widgets/picked_image.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:student_hub/widgets/widgets.dart';
 
@@ -49,21 +50,22 @@ class _ProfileStudentStepThreeState extends State<ProfileStudentStepThree> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             DisplayText(
-                              text: 'CV & Transcript',
+                              text:
+                                  AppLocalizations.of(context)!.cVAndTranscript,
                               style: textTheme.headlineLarge!,
                               textAlign: TextAlign.center,
                             ),
                             const Gap(10),
                             DisplayText(
-                              text:
-                                  'Tell us about your self and you will be on your way connect with real-world project.',
+                              text: AppLocalizations.of(context)!
+                                  .descriptionStudent,
                               style: textTheme.bodySmall!,
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.visible,
                             ),
                             const Gap(20),
                             PickedImage(
-                                label: 'Resume/CV (*)',
+                                label: AppLocalizations.of(context)!.cv,
                                 ps: profileStudentModel,
                                 urlFile: profileStudentModel.student.resume,
                                 actionUpdate: (p0) => {
@@ -72,7 +74,8 @@ class _ProfileStudentStepThreeState extends State<ProfileStudentStepThree> {
                                     }),
                             const Gap(20),
                             PickedImage(
-                                label: 'Transcript (*)',
+                                label:
+                                    AppLocalizations.of(context)!.transcriptP,
                                 ps: profileStudentModel,
                                 urlFile: profileStudentModel.student.transcript,
                                 actionUpdate: (p0) => {
@@ -111,7 +114,7 @@ class _ProfileStudentStepThreeState extends State<ProfileStudentStepThree> {
                         }
                       },
                       child: DisplayText(
-                        text: 'Continue',
+                        text: AppLocalizations.of(context)!.continute,
                         style: textTheme.labelLarge!.copyWith(
                           color: Colors.white,
                         ),

@@ -4,9 +4,11 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/user.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/company_route.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WelcomeCompany extends StatelessWidget {
-  const WelcomeCompany({super.key});
+  const WelcomeCompany({super.key, required this.appLocal});
+  final AppLocalizations appLocal;
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +21,12 @@ class WelcomeCompany extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Welcome, Hai!'),
-                Text("Let's start with your first project post!"),
+                Text('${appLocal.welcome} ${user.currentUser?.fullname}!'),
+                Text(appLocal.descriptionWelcomeCompany),
               ],
             ),
             const SizedBox(height: 50),
@@ -46,7 +48,7 @@ class WelcomeCompany extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-              child: const Text('Get started!'),
+              child: Text(appLocal.gettingStarted),
             ),
           ],
         ),
