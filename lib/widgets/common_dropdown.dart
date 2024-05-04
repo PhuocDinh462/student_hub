@@ -9,13 +9,11 @@ class CommonDropdown extends StatelessWidget {
       required this.listItem,
       required this.title,
       this.maxHeight = 300,
-      required this.keyValue,
       required this.value,
       required this.onChange});
   final List<dynamic> listItem;
   final String title;
   final double maxHeight;
-  final String keyValue;
   final int value;
   final void Function(int) onChange;
 

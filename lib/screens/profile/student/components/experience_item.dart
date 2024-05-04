@@ -5,15 +5,18 @@ import 'package:student_hub/models/models.dart';
 import 'package:student_hub/utils/helpers.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ExperienceItem extends StatelessWidget {
   const ExperienceItem(
       {super.key,
       required this.exp,
       required this.actionDelete,
-      required this.actionEdit});
+      required this.actionEdit,
+      this.appLocal});
 
   final ExperienceModel exp;
+  final AppLocalizations? appLocal;
   final Function() actionDelete;
   final Function() actionEdit;
 
@@ -91,7 +94,7 @@ class ExperienceItem extends StatelessWidget {
             overflow: TextOverflow.visible,
           ),
           const Gap(10),
-          DisplayText(text: 'Skillset', style: textTheme.bodyLarge!),
+          DisplayText(text: appLocal!.skillset, style: textTheme.bodyLarge!),
           const Gap(5),
           ChipList(listChip: skills),
           const Gap(30)

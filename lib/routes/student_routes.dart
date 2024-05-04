@@ -53,8 +53,16 @@ class StudentRoutes {
         const AccountHeader(title: 'Student Hub', body: ChangePassword()),
     dashboardStudent: (context) =>
         const AccountHeader(title: 'Student Hub', body: DashboardStudent()),
-    welcomeCompany: (context) =>
-        const AccountHeader(title: 'Welcome', body: WelcomeCompany()),
+    welcomeCompany: (context) {
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+      final appLocal = args?['appLocal'];
+      return AccountHeader(
+          title: 'Welcome',
+          body: WelcomeCompany(
+            appLocal: appLocal,
+          ));
+    },
     profileCompany: (context) => AccountHeader(
         title: AppLocalizations.of(context)!.profile,
         body: const ProfileCompanyInput()),

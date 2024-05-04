@@ -58,8 +58,10 @@ class MyApp extends StatelessWidget {
     Get.put(userProvider);
 
     Future<void> initializeProviders() async {
-      Provider.of<UserProvider>(context, listen: false).initializeProvider();
-      Provider.of<ThemeProvider>(context, listen: false).initializeProvider();
+      await Provider.of<UserProvider>(context, listen: false)
+          .initializeProvider();
+      await Provider.of<ThemeProvider>(context, listen: false)
+          .initializeProvider();
     }
 
     return FutureBuilder(

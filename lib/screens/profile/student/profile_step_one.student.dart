@@ -14,6 +14,7 @@ import 'package:student_hub/utils/extensions.dart';
 import 'package:student_hub/view-models/view_models.dart';
 
 import 'package:student_hub/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileStudentStepOne extends StatefulWidget {
   const ProfileStudentStepOne({super.key});
@@ -41,6 +42,14 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
   final _popupLanguageKey = GlobalKey<DropdownSearchState<String>>();
 
   final TextEditingController _eduController = TextEditingController();
+
+  late AppLocalizations? appLocal;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    appLocal = AppLocalizations.of(context);
+  }
 
   @override
   void initState() {
@@ -256,14 +265,13 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           DisplayText(
-                            text: 'Welcome to Student Hub',
+                            text: appLocal!.welcomeStudentHub,
                             style: textTheme.headlineLarge!,
                             textAlign: TextAlign.center,
                           ),
                           const Gap(10),
                           DisplayText(
-                            text:
-                                'Tell us about your self and you will be on your way connect with real-world projects.',
+                            text: appLocal!.descriptionStudent,
                             style: textTheme.bodySmall!,
                             textAlign: TextAlign.center,
                             overflow: TextOverflow.visible,
@@ -309,7 +317,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                           }
                         },
                         child: DisplayText(
-                          text: 'Next',
+                          text: appLocal!.next,
                           style: textTheme.labelLarge!.copyWith(
                             color: colorScheme.onSecondary,
                           ),
@@ -336,7 +344,8 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              DisplayText(text: 'Languages', style: textTheme.bodyLarge!),
+              DisplayText(
+                  text: appLocal!.languageP, style: textTheme.bodyLarge!),
               langEdit
                   ? Row(
                       children: [
@@ -487,7 +496,8 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              DisplayText(text: 'Education', style: textTheme.bodyLarge!),
+              DisplayText(
+                  text: appLocal!.educaiion, style: textTheme.bodyLarge!),
               eduEdit
                   ? Row(
                       children: [
@@ -641,14 +651,13 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
         children: [
           CommonDropdown(
             listItem: profileStudentModel.listTechStack,
-            title: 'Techstack',
-            keyValue: 'name',
+            title: appLocal!.techstack,
             value: profileStudentModel.student.techStack.id,
             onChange: (int value) => onSelectTechStack(value),
           ),
           const Gap(20),
           DisplayText(
-            text: 'Skillset',
+            text: appLocal!.skillset,
             style: textTheme.bodyLarge!,
           ),
           const Gap(10),
@@ -700,7 +709,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                                       profileStudentModel);
                                 },
                                 child: DisplayText(
-                                  text: 'Cancel',
+                                  text: appLocal!.cancel,
                                   style: textTheme.labelLarge!.copyWith(
                                     color: Colors.white,
                                   ),
@@ -713,7 +722,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                                       profileStudentModel, selectedItems);
                                 },
                                 child: DisplayText(
-                                  text: 'Save',
+                                  text: appLocal!.save,
                                   style: textTheme.labelLarge!.copyWith(
                                     color: Colors.white,
                                   ),
@@ -739,7 +748,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                           padding: const EdgeInsets.symmetric(horizontal: 15),
                           margin: const EdgeInsets.only(bottom: 10),
                           child: DisplayText(
-                            text: 'Select skillset',
+                            text: appLocal!.selectSkillSet,
                             style: textTheme.titleLarge!,
                           )),
                       const Divider(
@@ -771,7 +780,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
               dropdownDecoratorProps: DropDownDecoratorProps(
                 dropdownSearchDecoration: InputDecoration(
                   prefixText: profileStudentModel.student.skillSets.isEmpty
-                      ? 'Select skillsets'
+                      ? appLocal!.selectSkillSet
                       : '',
                   prefixStyle: textTheme.bodySmall!.copyWith(color: text_400),
                   contentPadding:
@@ -795,7 +804,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                       profileStudentModel.fetchProfileStudent();
                     },
                     child: DisplayText(
-                      text: 'Cancel',
+                      text: appLocal!.cancel,
                       style: textTheme.labelLarge!.copyWith(
                         color: Colors.white,
                       ),
@@ -807,7 +816,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                       profileStudentModel.updateProfileStudent();
                     },
                     child: DisplayText(
-                      text: 'Save',
+                      text: appLocal!.save,
                       style: textTheme.labelLarge!.copyWith(
                         color: Colors.white,
                       ),

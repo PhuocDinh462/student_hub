@@ -6,6 +6,7 @@ import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/view-models/view_models.dart';
 import 'package:student_hub/widgets/common_dropdown_menu.dart';
 import 'package:student_hub/widgets/project_detail.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AllProjectStudent extends StatefulWidget {
   const AllProjectStudent({
@@ -50,7 +51,6 @@ class _AllProjectStudentState extends State<AllProjectStudent> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ProposalStudentViewModel>(builder: (context, psvm, child) {
-
       return psvm.loading
           ? const Column(children: [
               Gap(30),
@@ -60,7 +60,8 @@ class _AllProjectStudentState extends State<AllProjectStudent> {
               children: [
                 CommonDropdownMenu(
                   id: 1,
-                  labelText: 'Active proposal (${psvm.proposalActive.length})',
+                  labelText:
+                      '${AppLocalizations.of(context)!.activeProposal} (${psvm.proposalActive.length})',
                   proposals: psvm.proposalActive,
                   view: ProjectDetailsView.viewActiveProposal,
                   actionCard: (project) {
@@ -72,7 +73,7 @@ class _AllProjectStudentState extends State<AllProjectStudent> {
                 CommonDropdownMenu(
                   id: 2,
                   labelText:
-                      'Submitted proposal (${psvm.proposalSubmited.length})',
+                      '${AppLocalizations.of(context)!.submitedProposal} (${psvm.proposalSubmited.length})',
                   proposals: psvm.proposalSubmited,
                   view: ProjectDetailsView.viewProposal,
                   actionCard: (project) {

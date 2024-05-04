@@ -5,6 +5,7 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FormLanguage extends StatelessWidget {
   const FormLanguage(
@@ -13,7 +14,7 @@ class FormLanguage extends StatelessWidget {
       required this.keyValidation,
       required this.actionCancel,
       required this.actionSave,
-      this.value = 'Native'});
+      this.value = ''});
   final TextEditingController controller;
   final GlobalKey<DropdownSearchState<String>> keyValidation;
   final String value;
@@ -25,6 +26,8 @@ class FormLanguage extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final deviceSize = context.deviceSize;
     final colorScheme = Theme.of(context).colorScheme;
+    final String typeLang =
+        value == '' ? AppLocalizations.of(context)!.native : value;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -33,14 +36,17 @@ class FormLanguage extends StatelessWidget {
         children: [
           CommonTextField(
             title: '',
-            hintText: 'Enter language',
+            hintText: AppLocalizations.of(context)!.enterLanguage,
             controller: controller,
           ),
           const Gap(5),
           DropdownSearch<String>(
               key: keyValidation,
-              items: const ['Native', 'Billingual'],
-              selectedItem: value,
+              items: [
+                AppLocalizations.of(context)!.native,
+                AppLocalizations.of(context)!.billingual
+              ],
+              selectedItem: typeLang,
               dropdownBuilder: (context, selectedItem) {
                 return DisplayText(
                   text: selectedItem!,
