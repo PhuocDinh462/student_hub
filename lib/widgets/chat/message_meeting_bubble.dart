@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/chat/message.dart';
-import 'package:student_hub/models/models.dart';
 import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/utils/snack_bar.dart';
@@ -17,14 +16,14 @@ class MessageMeetingBubble extends StatefulWidget {
   const MessageMeetingBubble({
     super.key,
     required this.message,
-    required this.receiver,
+    required this.receiverId,
     required this.senderId,
     this.onCancelMeeting,
     required this.projectId,
     this.onUpdateMeeting,
   });
 
-  final int receiver;
+  final int receiverId;
   final int senderId;
   final Message message;
   final int projectId;
@@ -38,7 +37,6 @@ class MessageMeetingBubble extends StatefulWidget {
 }
 
 class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
-  bool _isMeetingCanceled = false;
   final TextEditingController _meetingRoomIdController =
       TextEditingController();
   final TextEditingController _meetingRoomCodeController =
@@ -69,22 +67,8 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
     socket.connect();
 
     socket.onConnect((data) => {
-          print('Connected Message'),
+          print('Connected Meeting Messages'),
         });
-
-    // socket.on('RECEIVE_INTERVIEW', (data) {
-    //   print(data);
-    //   if (data['notification']['content'] == 'Interview updated') {
-    //     DateTime startTime =
-    //         DateTime.parse(data['notification']['interview']['startTime']);
-    //     DateTime endTime =
-    //         DateTime.parse(data['notification']['interview']['endTime']);
-    //     String title = data['notification']['interview']['title'];
-    //     bool canceled =
-    //         data['notification']['interview']['disbleFlag'] == 0 ? false : true;
-    //     widget.onUpdateMeeting!(startTime, endTime, title, canceled);
-    //   }
-    // });
   }
 
   @override
@@ -96,7 +80,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    final alignment = (widget.message.senderUserId != widget.receiver)
+    final alignment = (widget.message.senderUserId != widget.receiverId)
         ? Alignment.centerRight
         : Alignment.centerLeft;
 
@@ -132,15 +116,11 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
       socket.emit('UPDATE_INTERVIEW', {
         'title': widget.message.title,
         'interviewId': widget.message.interviewId,
-        'senderId': widget.receiver,
-        'receiverId': widget.senderId,
+        'senderId': widget.message.senderUserId,
+        'receiverId': widget.message.receiverUserId,
         'projectId': widget.projectId,
         'deleteAction': true,
       });
-      setState(() {
-        _isMeetingCanceled = true;
-      });
-      widget.onCancelMeeting?.call();
     }
 
     return Align(
@@ -249,7 +229,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                if (!_isMeetingCanceled && !widget.message.canceled)
+                if (!widget.message.canceled)
                   ElevatedButton(
                     style: buttonGreen,
                     onPressed: () {
@@ -317,8 +297,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
                     ),
                   ),
                 const Gap(8),
-                if (!_isMeetingCanceled &&
-                    !widget.message.canceled &&
+                if (!widget.message.canceled &&
                     widget.message.senderUserId == widget.senderId)
                   PopupMenuButton<String>(
                     icon: const Icon(
@@ -342,9 +321,9 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.7,
                                   child: UpdateMeeting(
-                                    projectId: 3,
-                                    senderId: 2,
-                                    receiverId: 2,
+                                    projectId: widget.projectId,
+                                    senderId: widget.senderId,
+                                    receiverId: widget.receiverId,
                                     message: widget.message,
                                     startDate: widget.message.startTime!,
                                     startTime: TimeOfDay(
