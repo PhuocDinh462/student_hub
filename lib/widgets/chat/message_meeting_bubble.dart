@@ -72,19 +72,19 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
           print('Connected Message'),
         });
 
-    socket.on('RECEIVE_INTERVIEW', (data) {
-      print(data['notification']['content']);
-      if (data['notification']['content'] == 'Interview updated') {
-        DateTime startTime =
-            DateTime.parse(data['notification']['interview']['startTime']);
-        DateTime endTime =
-            DateTime.parse(data['notification']['interview']['endTime']);
-        String title = data['notification']['interview']['title'];
-        bool canceled =
-            data['notification']['interview']['disbleFlag'] == 0 ? false : true;
-        widget.onUpdateMeeting!(startTime, endTime, title, canceled);
-      }
-    });
+    // socket.on('RECEIVE_INTERVIEW', (data) {
+    //   print(data);
+    //   if (data['notification']['content'] == 'Interview updated') {
+    //     DateTime startTime =
+    //         DateTime.parse(data['notification']['interview']['startTime']);
+    //     DateTime endTime =
+    //         DateTime.parse(data['notification']['interview']['endTime']);
+    //     String title = data['notification']['interview']['title'];
+    //     bool canceled =
+    //         data['notification']['interview']['disbleFlag'] == 0 ? false : true;
+    //     widget.onUpdateMeeting!(startTime, endTime, title, canceled);
+    //   }
+    // });
   }
 
   @override

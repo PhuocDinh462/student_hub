@@ -145,7 +145,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     projectId = 487; //widget.project.id;
     senderId = 2; //widget.receiver.id;
     receiverId = 94; //widget.sender.id;
-    receiverName = 'ABC'; //widget.receiver.fullname
+    receiverName = 'quan'; //widget.receiver.fullname
 
     _scrollController = ScrollController();
     super.initState();
@@ -219,8 +219,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     });
 
     socket.on('RECEIVE_INTERVIEW', (data) {
-      print(data['notification']);
-      if (data['notification']['content'] == 'Interview created') {
+      //check null value for data['notification']['content']
+      if (data!['notification']!['content']! == 'Interview created') {
         setState(() {
           messages.add(Message(
             projectId: projectId,
@@ -244,6 +244,24 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             _scrollController.position.maxScrollExtent + 200,
             duration: const Duration(milliseconds: 1),
             curve: Curves.easeOut,
+          );
+        });
+      } else if (data['notification']['content'] == 'Interview updated') {
+        DateTime startTime =
+            DateTime.parse(data['notification']['interview']['startTime']);
+        DateTime endTime =
+            DateTime.parse(data['notification']['interview']['endTime']);
+        String title = data['notification']['interview']['title'];
+        bool canceled =
+            data['notification']['interview']['disbleFlag'] == 0 ? false : true;
+        int index = messages.indexWhere(
+            (element) => element.id == data['notification']['message']['id']);
+        setState(() {
+          messages[index] = messages[index].copyWith(
+            startTime: startTime,
+            endTime: endTime,
+            title: title,
+            canceled: canceled,
           );
         });
       }

@@ -79,7 +79,7 @@ class _CreateMeetingState extends State<CreateMeeting> {
         ).toIso8601String());
         widget.socket.emit('SCHEDULE_INTERVIEW', {
           'title': titleController.text,
-          'content': 'Interview created',
+          'content': titleController.text,
           'startTime': DateTime(
             pickedStartDate.year,
             pickedStartDate.month,
