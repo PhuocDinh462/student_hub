@@ -8,6 +8,7 @@ import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/student_routes.dart';
+import 'package:student_hub/utils/empty.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/project_filter.dart';
 import 'package:student_hub/widgets/project_card.dart';
@@ -122,171 +123,146 @@ class _ProjectsState extends State<Projects> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            children: [
-              const Gap(30),
-              Row(
-                children: [
-                  Expanded(
-                    child: SearchBox(
-                      controller: searchController,
-                      onChanged: filterProjects,
-                    ),
-                  ),
-                  PopupMenuButton<String>(
-                    icon: const Icon(Icons.more_vert),
-                    iconSize: 32,
-                    offset: const Offset(-30, 45),
-                    color: Theme.of(context).colorScheme.secondaryContainer,
-                    onSelected: (String value) {
-                      setState(() {
-                        // _selectedMenu = value;
-                      });
-                    },
-                    itemBuilder: (BuildContext context) =>
-                        <PopupMenuEntry<String>>[
-                      PopupMenuItem<String>(
-                        value: 'Saved',
-                        height: 60,
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, StudentRoutes.projectsSaved);
-                        },
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.favorite,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? 1
-                                      : .7),
-                            ),
-                            const Gap(16),
-                            Text(
-                              'Saved projects',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
+    return Column(
+      children: [
+        const Gap(15),
+        Row(
+          children: [
+            Expanded(
+              child: SearchBox(
+                controller: searchController,
+                onChanged: filterProjects,
+              ),
+            ),
+            PopupMenuButton<String>(
+              icon: const Icon(Icons.more_vert),
+              iconSize: 32,
+              offset: const Offset(-30, 45),
+              color: Theme.of(context).colorScheme.secondaryContainer,
+              onSelected: (String value) {
+                setState(() {
+                  // _selectedMenu = value;
+                });
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                PopupMenuItem<String>(
+                  value: 'Saved',
+                  height: 60,
+                  onTap: () {
+                    Navigator.pushNamed(context, StudentRoutes.projectsSaved);
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.favorite,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? 1
+                                    : .7),
                       ),
-                      PopupMenuItem<String>(
-                        value: 'Filter',
-                        height: 60,
-                        onTap: () async {
-                          await showModalBottomSheet(
-                              context: context,
-                              backgroundColor: Colors.white,
-                              isScrollControlled: true,
-                              builder: (ctx) {
-                                return SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.8,
-                                  child: ProjectFilter(
-                                      apiServer: apiServer,
-                                      onFilterApplied: updateFilteredProjects),
-                                );
-                              });
-                        },
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.filter_alt,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? 1
-                                      : .7),
-                            ),
-                            const Gap(16),
-                            Text(
-                              'Filter projects',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem<String>(
-                        value: 'Cancel', // Giá trị cho mục "Cancel"
-                        height: 60,
-                        onTap: () {
-                          // Xử lý khi chọn "Cancel"
-                        },
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.cancel,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? 1
-                                      : .7),
-                            ),
-                            const Gap(16),
-                            Text(
-                              'Cancel',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                            ),
-                          ],
-                        ),
+                      const Gap(16),
+                      Text(
+                        'Saved projects',
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
-                ],
-              ),
-              if (isLoading)
-                const Column(
-                  children: [
-                    Gap(50),
-                    CircularProgressIndicator(),
-                  ],
-                )
-              else if (filteredProjects.isEmpty)
-                Text(
-                  "There's no projects available",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  textAlign: TextAlign.center,
-                )
-              else
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: filteredProjects.length,
-                    itemBuilder: (context, index) {
-                      return ProjectCard(
-                        project: filteredProjects[index],
-                        projectService: projectService,
-                      );
-                    },
+                ),
+                PopupMenuItem<String>(
+                  value: 'Filter',
+                  height: 60,
+                  onTap: () async {
+                    await showModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.white,
+                        isScrollControlled: true,
+                        builder: (ctx) {
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.8,
+                            child: ProjectFilter(
+                                apiServer: apiServer,
+                                onFilterApplied: updateFilteredProjects),
+                          );
+                        });
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.filter_alt,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? 1
+                                    : .7),
+                      ),
+                      const Gap(16),
+                      Text(
+                        'Filter projects',
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
                 ),
-            ],
-          ),
+                PopupMenuItem<String>(
+                  value: 'Cancel', // Giá trị cho mục "Cancel"
+                  height: 60,
+                  onTap: () {
+                    // Xử lý khi chọn "Cancel"
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.cancel,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? 1
+                                    : .7),
+                      ),
+                      const Gap(16),
+                      Text(
+                        'Cancel',
+                        style:
+                            Theme.of(context).textTheme.labelMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-      ),
+        Expanded(
+          child: isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : filteredProjects.isEmpty
+                  ? const Empty()
+                  : ListView.builder(
+                      itemCount: filteredProjects.length,
+                      itemBuilder: (context, index) {
+                        return ProjectCard(
+                          project: filteredProjects[index],
+                          projectService: projectService,
+                        );
+                      },
+                    ),
+        ),
+      ],
     );
   }
 }
