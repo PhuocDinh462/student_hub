@@ -129,22 +129,28 @@ class ChatRoomScreen extends StatefulWidget {
 
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
   final messageController = TextEditingController();
-  final List<Message> messages =
-      sampleMessages.isNotEmpty ? sampleMessages : [];
+  final List<Message> messages = [];
+  // sampleMessages.isNotEmpty ? sampleMessages : [];
   late io.Socket socket;
   late ScrollController _scrollController;
   final FocusNode _messageFocusNode = FocusNode();
   final MessageService messageService = MessageService();
   bool isLoading = false;
+  late int projectId;
+  late int senderId;
+  late int receiverId;
 
   @override
   void initState() {
-    print(widget.project);
-    print(widget.receiver);
-    print(widget.sender);
     setState(() {
       isLoading = true;
     });
+    projectId = widget.project.id;
+    senderId = widget.receiver.id;
+    receiverId = widget.sender.id;
+    print(projectId);
+    print('$senderId : ${widget.sender.fullname}');
+    print('$receiverId : ${widget.receiver.fullname}');
     _scrollController = ScrollController();
     super.initState();
     _loadMessages();
@@ -187,7 +193,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       'Authorization': 'Bearer $token',
     };
 
-    socket.io.options?['query'] = {'project_id': 8};
+    socket.io.options?['query'] = {'project_id': projectId};
 
     socket.connect();
 
@@ -200,9 +206,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     socket.on('RECEIVE_MESSAGE', (data) {
       setState(() {
         messages.add(Message(
-          projectId: 8,
-          senderUserId: 2,
-          receiverUserId: 2,
+          projectId: projectId,
+          senderUserId: senderId,
+          receiverUserId: receiverId,
           content: data['notification']['message']['content'],
           createdAt: DateTime.parse(data['notification']['createdAt']),
           meeting: MessageFlag
@@ -220,9 +226,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       if (data['notification']['content'] == 'Interview created') {
         setState(() {
           messages.add(Message(
-            projectId: 8,
-            senderUserId: 2,
-            receiverUserId: 2,
+            projectId: projectId,
+            senderUserId: senderId,
+            receiverUserId: receiverId,
             interviewId: data['notification']['interview']['id'],
             title: data['notification']['interview']['title'],
             createdAt:
@@ -256,16 +262,16 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   }
 
   _loadMessages() async {
-    final listMessages = await messageService.getConversations(2, 8);
+    final listMessages =
+        await messageService.getConversations(receiverId, projectId);
     final List<Message> fetchMessages =
         listMessages.cast<Map<String, dynamic>>().map<Message>((msg) {
       if (msg['interview'] == null) {
         return Message(
           id: msg['id'],
-          projectId: msg['projectId'] ?? 8,
+          projectId: msg['projectId'] ?? projectId,
           senderUserId: msg['sender']['id'],
-          // receiverUserId: msg['receiver']['id'],
-          receiverUserId: 2,
+          receiverUserId: msg['receiver']['id'],
           content: msg['content'],
           createdAt: DateTime.parse(msg['createdAt']),
           startTime: null,
@@ -277,10 +283,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       } else {
         return Message(
           id: msg['id'],
-          projectId: msg['projectId'] ?? 8,
+          projectId: msg['projectId'] ?? projectId,
           senderUserId: msg['sender']['id'],
-          // receiverUserId: msg['receiver']['id'],
-          receiverUserId: 2,
+          receiverUserId: msg['receiver']['id'],
           interviewId: msg['interview']['id'],
           createdAt: DateTime.parse(msg['createdAt']),
           startTime: DateTime.parse(msg['interview']['startTime']),
@@ -323,9 +328,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
     void sendMessage() async {
       final message = Message(
-        projectId: 8,
-        senderUserId: 2,
-        receiverUserId: 2,
+        projectId: projectId,
+        senderUserId: senderId,
+        receiverUserId: receiverId,
         content: messageController.text,
         createdAt: DateTime.now(),
         meeting: MessageFlag.message,
@@ -351,7 +356,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             ),
             const Gap(16),
             Text(
-              'User 2',
+              '${widget.receiver.fullname}',
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge
@@ -382,9 +387,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                         return SizedBox(
                           height: MediaQuery.of(context).size.height * 0.7,
                           child: CreateMeeting(
-                            projectId: 8,
-                            senderId: 2,
-                            receiverId: 2,
+                            projectId: projectId,
+                            senderId: senderId,
+                            receiverId: receiverId,
                             messages: messages,
                             socket: socket,
                           ),
@@ -469,39 +474,39 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                         return Container(
                           padding: const EdgeInsets.symmetric(
                               vertical: 8.0, horizontal: 16.0),
-                          child: const Column(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Avatar(
+                                  const Avatar(
                                     imageUrl:
                                         'assets/images/default_avatar.png',
                                     radius: 30,
                                   ),
-                                  SizedBox(width: 16.0),
+                                  const SizedBox(width: 16.0),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'User 2',
-                                        style: TextStyle(
+                                        '${widget.receiver.fullname}',
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18.0,
                                         ),
                                       ),
-                                      SizedBox(height: 4.0),
-                                      Text(
+                                      const SizedBox(height: 4.0),
+                                      const Text(
                                         'StudentHub',
                                         style: TextStyle(
                                           color: Colors.grey,
                                           fontSize: 14.0,
                                         ),
                                       ),
-                                      SizedBox(height: 4.0),
-                                      Text(
+                                      const SizedBox(height: 4.0),
+                                      const Text(
                                         'You\'re connected on StudentHub',
                                         style: TextStyle(
                                           color: Colors.grey,
@@ -512,8 +517,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 8.0),
-                              Divider(),
+                              const SizedBox(height: 8.0),
+                              const Divider(),
                             ],
                           ),
                         );
@@ -546,10 +551,10 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                   ),
                                 if (message.meeting == MessageFlag.interview)
                                   MessageMeetingBubble(
-                                      senderId: 2,
-                                      receiver: 2,
+                                      senderId: senderId,
+                                      receiver: receiverId,
                                       message: message,
-                                      projectId: 8,
+                                      projectId: projectId,
                                       onCancelMeeting: () {
                                         setState(() {
                                           // Cập nhật trạng thái của cuộc họp
@@ -570,11 +575,12 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                       })
                                 else
                                   MessageChatBubble(
-                                    userId1: 1,
-                                    userId2: 2,
+                                    userId1: receiverId,
+                                    userId2: senderId,
                                     message: message,
                                   ),
-                                if (showImage && message.senderUserId != 1)
+                                if (showImage &&
+                                    message.senderUserId != senderId)
                                   const Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -588,9 +594,10 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                               ],
                             ),
                             Row(
-                              mainAxisAlignment: (message.senderUserId != 1)
-                                  ? MainAxisAlignment.end
-                                  : MainAxisAlignment.start,
+                              mainAxisAlignment:
+                                  (message.senderUserId != senderId)
+                                      ? MainAxisAlignment.end
+                                      : MainAxisAlignment.start,
                               children: [
                                 Text(
                                   '${DateFormat("MMM d").format(message.createdAt)}, ${message.createdAt.hour}:${message.createdAt.minute.toString().padLeft(2, '0')}',
@@ -629,9 +636,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.7,
                                 child: CreateMeeting(
-                                  projectId: 8,
-                                  senderId: 2,
-                                  receiverId: 2,
+                                  projectId: projectId,
+                                  senderId: senderId,
+                                  receiverId: receiverId,
                                   messages: messages,
                                   socket: socket,
                                 ),

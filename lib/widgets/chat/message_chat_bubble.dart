@@ -29,7 +29,6 @@ class MessageChatBubble extends StatelessWidget {
     final textColor = (message.senderUserId == userId1)
         ? Theme.of(context).colorScheme.surfaceVariant
         : Colors.white;
-
     return Align(
       alignment: alignment,
       child: Container(
@@ -43,7 +42,7 @@ class MessageChatBubble extends StatelessWidget {
           ),
         ),
         child: Text(
-          message.content ?? '',
+          '${message.content} ${message.senderUserId}',
           style: Theme.of(context).textTheme.labelSmall!.copyWith(
                 color: textColor,
               ),
