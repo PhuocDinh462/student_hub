@@ -18,7 +18,7 @@ class MessageChatBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
 
-    final alignment = (message.senderUserId != userId1)
+    final alignment = (message.senderUserId == userId1)
         ? Alignment.centerRight
         : Alignment.centerLeft;
 
@@ -42,7 +42,7 @@ class MessageChatBubble extends StatelessWidget {
           ),
         ),
         child: Text(
-          '${message.content} ${message.senderUserId}',
+          '${message.content}',
           style: Theme.of(context).textTheme.labelSmall!.copyWith(
                 color: textColor,
               ),

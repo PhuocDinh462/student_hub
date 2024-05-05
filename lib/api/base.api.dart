@@ -18,8 +18,8 @@ class BaseApi {
   BaseApi() : dio = Dio() {
     BaseOptions options = BaseOptions(
       baseUrl: '${dotenv.get('API_SERVER')}/api',
-      connectTimeout: const Duration(milliseconds: 5000),
-      receiveTimeout: const Duration(milliseconds: 3000),
+      connectTimeout: const Duration(milliseconds: 100000),
+      receiveTimeout: const Duration(milliseconds: 300000),
     );
     dio = Dio(options);
 

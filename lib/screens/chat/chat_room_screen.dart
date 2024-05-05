@@ -112,16 +112,12 @@ List<Message> sampleMessages = [
 ];
 
 class ChatRoomScreen extends StatefulWidget {
-  const ChatRoomScreen(
-      {super.key,
-      this.chatRoom,
-      required this.project,
-      required this.sender,
-      required this.receiver});
+  ChatRoomScreen(
+      {super.key, this.chatRoom, this.project, this.sender, this.receiver});
   final ChatRoom? chatRoom;
-  final ProjectModel project;
-  final UserModel sender;
-  final UserModel receiver;
+  ProjectModel? project;
+  UserModel? sender;
+  UserModel? receiver;
 
   @override
   State<ChatRoomScreen> createState() => _ChatRoomScreenState();
@@ -139,18 +135,18 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   late int projectId;
   late int senderId;
   late int receiverId;
+  late String receiverName;
 
   @override
   void initState() {
     setState(() {
       isLoading = true;
     });
-    projectId = widget.project.id;
-    senderId = widget.receiver.id;
-    receiverId = widget.sender.id;
-    print(projectId);
-    print('$senderId : ${widget.sender.fullname}');
-    print('$receiverId : ${widget.receiver.fullname}');
+    projectId = 487; //widget.project.id;
+    senderId = 2; //widget.receiver.id;
+    receiverId = 94; //widget.sender.id;
+    receiverName = 'ABC'; //widget.receiver.fullname
+
     _scrollController = ScrollController();
     super.initState();
     _loadMessages();
@@ -223,6 +219,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     });
 
     socket.on('RECEIVE_INTERVIEW', (data) {
+      print(data['notification']);
       if (data['notification']['content'] == 'Interview created') {
         setState(() {
           messages.add(Message(
@@ -356,7 +353,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             ),
             const Gap(16),
             Text(
-              '${widget.receiver.fullname}',
+              '${receiverName}',
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge
@@ -491,7 +488,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        '${widget.receiver.fullname}',
+                                        '${receiverName}',
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18.0,
@@ -525,20 +522,24 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       } else {
                         final message = messages[index - 1];
 
-                        final showImage = index - 1 == messages.length - 1 ||
-                            (index < messages.length - 1 &&
-                                messages[index + 1].senderUserId !=
-                                    message.senderUserId);
-
+                        // final showImage = index - 1 == messages.length - 1 ||
+                        //     (index < messages.length - 1 &&
+                        //         messages[index + 1].senderUserId !=
+                        //             message.senderUserId);
+                        final showImage = index - 1 == messages.length ||
+                            messages[index - 1].senderUserId !=
+                                message.senderUserId;
                         return Column(
                           children: [
                             const Gap(6),
                             Row(
-                              mainAxisAlignment: (message.senderUserId != 1)
-                                  ? MainAxisAlignment.end
-                                  : MainAxisAlignment.start,
+                              mainAxisAlignment:
+                                  (message.senderUserId != receiverId)
+                                      ? MainAxisAlignment.end
+                                      : MainAxisAlignment.start,
                               children: [
-                                if (showImage && message.senderUserId == 1)
+                                if (showImage &&
+                                    message.senderUserId == senderId)
                                   const Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -580,7 +581,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                     message: message,
                                   ),
                                 if (showImage &&
-                                    message.senderUserId != senderId)
+                                    message.senderUserId != receiverId)
                                   const Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -595,7 +596,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                             ),
                             Row(
                               mainAxisAlignment:
-                                  (message.senderUserId != senderId)
+                                  (message.senderUserId != receiverId)
                                       ? MainAxisAlignment.end
                                       : MainAxisAlignment.start,
                               children: [
