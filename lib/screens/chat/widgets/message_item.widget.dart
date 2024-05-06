@@ -26,11 +26,19 @@ class MessageItem extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(CompanyRoutes.chatScreen, arguments: {
-          'receiver': message.receiver,
-          'sender': message.sender,
-          'project': message.projectModel
-        });
+        if (message.receiver?.id == userId) {
+          Navigator.of(context).pushNamed(CompanyRoutes.chatScreen, arguments: {
+            'user': message.receiver,
+            'otherUser': message.sender,
+            'project': message.projectModel
+          });
+        } else {
+          Navigator.of(context).pushNamed(CompanyRoutes.chatScreen, arguments: {
+            'user': message.sender,
+            'otherUser': message.receiver,
+            'project': message.projectModel
+          });
+        }
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
