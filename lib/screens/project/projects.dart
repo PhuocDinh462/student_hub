@@ -1,9 +1,7 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gap/gap.dart';
-import 'package:provider/provider.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/providers.dart';
@@ -21,104 +19,78 @@ class Projects extends StatefulWidget {
 }
 
 class _ProjectsState extends State<Projects> {
-  List<Project> projects = [];
-  List<Project> filteredProjects = [];
   final _debouncer = Debouncer(milliseconds: 500);
   final searchController = TextEditingController();
   final String? apiServer = dotenv.env['API_SERVER'];
   final ProjectService projectService = ProjectService();
   bool isLoading = false;
-  Future<void> fetchProject(UserProvider userProvider) async {
-    try {
-      final listResponse = await projectService.getProjects();
-      final List<Project> fetchProjects = listResponse
-          .cast<Map<String, dynamic>>()
-          .where((projectData) => projectData['deletedAt'] == null)
-          .map<Project>((projectData) {
-        return Project.fromMapInProjectsList(projectData);
-      }).toList();
-      setState(() {
-        projects.clear();
-        projects.addAll(fetchProjects);
-        filteredProjects = projects;
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
 
-  Future<void> resetProjects() async {
-    setState(() {
-      searchController.clear();
-      filteredProjects = [];
-      projects = [];
+  final int _pageSize = 10;
+  String? _searchTerm;
+  int? _studentsNeeded;
+  int? _proposalsCount;
+  int? _projectScopeFlag;
+
+  final PagingController<int, Project> _pagingController =
+      PagingController(firstPageKey: 0);
+
+  void _updateSearchTerm(String searchTerm) {
+    _debouncer.run(() {
+      clearFilters();
+      _searchTerm = searchTerm;
+      _pagingController.refresh();
     });
   }
 
   Future<void> updateFilteredProjects(int? studentsNeeded, int? proposalsCount,
       int? projectScopeFlag, UserProvider provider) async {
-    setState(() {
-      isLoading = true;
-    });
-    await resetProjects();
+    clearSearch();
+    _studentsNeeded = studentsNeeded;
+    _proposalsCount = proposalsCount;
+    _projectScopeFlag = projectScopeFlag;
+    _pagingController.refresh();
+  }
+
+  void clearFilters() {
+    _studentsNeeded = null;
+    _proposalsCount = null;
+    _projectScopeFlag = null;
+  }
+
+  void clearSearch() {
+    searchController.clear();
+    _searchTerm = null;
+  }
+
+  Future<void> _fetchPage(int pageKey) async {
     try {
-      final queries = {
-        if (studentsNeeded != null &&
-            studentsNeeded != 0 &&
-            studentsNeeded.isNaN == false)
-          'numberOfStudents': studentsNeeded,
-        if (proposalsCount != null &&
-            proposalsCount != 0 &&
-            proposalsCount.isNaN == false)
-          'proposalsLessThan': proposalsCount,
-        if ((projectScopeFlag != -1 && projectScopeFlag?.isNaN == false) ||
-            (projectScopeFlag == 0))
-          'projectScopeFlag': projectScopeFlag,
+      final params = {
+        'title': _searchTerm,
+        'projectScopeFlag': _projectScopeFlag,
+        'numberOfStudents': _studentsNeeded,
+        'proposalsLessThan': _proposalsCount,
+        'page': pageKey / _pageSize + 1,
+        'perPage': _pageSize,
       };
-      final listResponse = await projectService.filterProject(queries);
-      List<Project> fetchProjects = listResponse
-          .cast<Map<String, dynamic>>()
-          .where((projectData) => projectData['deletedAt'] == null)
-          .map<Project>((projectData) {
-        return Project.fromMapInProjectsList(projectData);
-      }).toList();
-      setState(() {
-        filteredProjects = fetchProjects;
-        projects = fetchProjects;
-      });
-    } catch (e) {
-      print(e);
+      final newItems = await projectService.getProjects(params);
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        _pagingController.appendPage(newItems, nextPageKey.toInt());
+      }
+    } catch (error) {
+      _pagingController.error = error;
     }
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  void filterProjects(String query) {
-    _debouncer.run(() => setState(() {
-          filteredProjects = projects
-              .where((project) =>
-                  project.title.toLowerCase().contains(query.toLowerCase()))
-              .toList();
-        }));
-  }
-
-  Future<void> _fetchData(UserProvider userProvider) async {
-    setState(() {
-      isLoading = true;
-    });
-    await fetchProject(userProvider);
-    setState(() {
-      isLoading = false;
-    });
   }
 
   @override
   void initState() {
     super.initState();
-    final UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
-    _fetchData(userProvider);
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
   }
 
   @override
@@ -131,7 +103,7 @@ class _ProjectsState extends State<Projects> {
             Expanded(
               child: SearchBox(
                 controller: searchController,
-                onChanged: filterProjects,
+                onChanged: _updateSearchTerm,
               ),
             ),
             PopupMenuButton<String>(
@@ -247,22 +219,31 @@ class _ProjectsState extends State<Projects> {
             ),
           ],
         ),
+        const Gap(8),
         Expanded(
-          child: isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : filteredProjects.isEmpty
-                  ? const Empty()
-                  : ListView.builder(
-                      itemCount: filteredProjects.length,
-                      itemBuilder: (context, index) {
-                        return ProjectCard(
-                          project: filteredProjects[index],
-                          projectService: projectService,
-                        );
-                      },
-                    ),
+          child: RefreshIndicator(
+            onRefresh: () => Future.sync(
+              () => _pagingController.refresh(),
+            ),
+            child: PagedListView<int, Project>(
+              pagingController: _pagingController,
+              builderDelegate: PagedChildBuilderDelegate<Project>(
+                noItemsFoundIndicatorBuilder: (context) => const Empty(),
+                itemBuilder: (context, item, index) => ProjectCard(
+                  project: item,
+                  projectService: projectService,
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
   }
 }

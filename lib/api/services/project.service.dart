@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:student_hub/api/api.dart';
+import 'package:student_hub/models/models.dart';
 
 class ProjectService extends BaseApi {
   ProjectService() : super();
@@ -30,12 +31,18 @@ class ProjectService extends BaseApi {
     }
   }
 
-  Future<dynamic> getProjects() async {
+  Future<List<Project>> getProjects([Map<String, Object?>? params]) async {
+    if (params != null) {
+      params.removeWhere((key, value) => value == null || value == '');
+    }
     try {
       Response response = await dio.get(
         '/project',
+        queryParameters: params,
       );
-      return response.data['result'];
+      return response.data['result']
+          .map<Project>((item) => Project.fromMap(item))
+          .toList();
     } catch (e) {
       throw Exception('Failed to fetch projects');
     }

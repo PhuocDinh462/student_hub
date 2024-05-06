@@ -143,7 +143,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                           .bodyLarge
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
-                    Text(timeDuration,
+                    Text(widget.project.completionTime2String(context),
                         style: Theme.of(context).textTheme.labelLarge),
                   ],
                 ),
