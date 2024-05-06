@@ -113,8 +113,8 @@ class MyApp extends StatelessWidget {
                     : AuthRoutes.routes,
                 initialRoute: userProvider.currentUser != null
                     ? (userProvider.currentUser!.currentRole == Role.student
-                        ? StudentRoutes.nav
-                        : CompanyRoutes.nav)
+                        ? StudentRoutes.messageList
+                        : CompanyRoutes.messageList)
                     : themeProvider.getIsFirstCall
                         ? AuthRoutes.intro
                         : AuthRoutes.login,
