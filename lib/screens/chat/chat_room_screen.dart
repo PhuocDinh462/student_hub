@@ -13,104 +13,6 @@ import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
-List<Message> sampleMessages = [
-  Message(
-    projectId: 8,
-    senderUserId: 1,
-    receiverUserId: 2,
-    content: 'Hello, how are you?',
-    createdAt: DateTime.now(),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 2,
-    receiverUserId: 1,
-    content: 'Hi, I am doing fine. How about you?',
-    createdAt: DateTime.now().add(const Duration(minutes: 5)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 1,
-    receiverUserId: 2,
-    content: 'I am good too. Thanks for asking.',
-    createdAt: DateTime.now().add(const Duration(minutes: 10)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 2,
-    receiverUserId: 1,
-    content: 'What have you been up to lately?',
-    createdAt: DateTime.now().add(const Duration(minutes: 15)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 1,
-    receiverUserId: 2,
-    content: 'I have been busy with work. How about you?',
-    createdAt: DateTime.now().add(const Duration(minutes: 20)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 2,
-    receiverUserId: 1,
-    content: 'I have been studying for my exams.',
-    createdAt: DateTime.now().add(const Duration(minutes: 25)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 1,
-    receiverUserId: 2,
-    content: 'Good luck with your exams!',
-    createdAt: DateTime.now().add(const Duration(minutes: 30)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 2,
-    receiverUserId: 1,
-    content: 'Thank you!',
-    createdAt: DateTime.now().add(const Duration(minutes: 35)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 1,
-    receiverUserId: 2,
-    content: 'You\'re welcome. Let me know if you need any help.',
-    createdAt: DateTime.now().add(const Duration(minutes: 40)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 2,
-    receiverUserId: 1,
-    content: 'Sure, I will. Thanks again!',
-    createdAt: DateTime.now().add(const Duration(minutes: 45)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 2,
-    receiverUserId: 1,
-    title: 'Catch up meeting',
-    createdAt: DateTime.now().add(const Duration(minutes: 60)),
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(const Duration(minutes: 15)),
-    meeting: MessageFlag.interview,
-    meetingRoomId: '123456',
-    meetingRoomCode: '123456',
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 1,
-    receiverUserId: 2,
-    title: 'Catch up meeting',
-    createdAt: DateTime.now().add(const Duration(minutes: 70)),
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(const Duration(minutes: 15)),
-    meeting: MessageFlag.interview,
-    canceled: true,
-    meetingRoomId: '123456',
-    meetingRoomCode: '123456',
-  ),
-];
-
 class ChatRoomScreen extends StatefulWidget {
   const ChatRoomScreen(
       {super.key,
@@ -146,13 +48,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     setState(() {
       isLoading = true;
     });
-    print(widget.user.id);
-    print(widget.otherUser.id);
 
-    projectId = 487; //widget.project.id;
-    senderId = 2; //widget.receiver.id;
-    receiverId = 94; //widget.sender.id;
-    receiverName = 'quan'; //widget.receiver.fullname
+    projectId = widget.project.id;
+    senderId = widget.user.id;
+    receiverId = widget.otherUser.id;
+    receiverName = widget.otherUser.fullname!;
 
     _scrollController = ScrollController();
     super.initState();
