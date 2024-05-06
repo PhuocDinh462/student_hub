@@ -103,11 +103,14 @@ class StudentRoutes {
           ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
 
       final ProjectModel project = args?['project'];
-      final UserModel sender = args?['sender'];
-      final UserModel receiver = args?['receiver'];
+      final UserModel user = args?['user'];
+      final UserModel otherUser = args?['otherUser'];
 
       return ChatRoomScreen(
-          project: project, receiver: receiver, sender: sender);
+        project: project,
+        user: user,
+        otherUser: otherUser,
+      );
     },
     account: (context) => AccountHeader(
         title: AppLocalizations.of(context)!.account(''),

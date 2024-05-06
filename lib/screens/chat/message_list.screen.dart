@@ -25,7 +25,7 @@ class _MessageListScreenState extends State<MessageListScreen> {
     _searchController = TextEditingController();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      handleFetchApiMessage();
+      handleFetchApiMessage(_searchController.text);
     });
   }
 
@@ -58,7 +58,7 @@ class _MessageListScreenState extends State<MessageListScreen> {
     return latestMessages.values.toList();
   }
 
-  void handleFetchApiMessage() {
+  void handleFetchApiMessage(String name) {
     final messageService = MessageService();
 
     setState(() {
@@ -70,7 +70,7 @@ class _MessageListScreenState extends State<MessageListScreen> {
       List<MessageModel> res = getLatestMessages(data).reversed.toList();
 
       setState(() {
-        lstMessage = res;
+        lstMessage = handleFilterUser(name, res);
       });
     }).whenComplete(() {
       setState(() {
@@ -79,22 +79,19 @@ class _MessageListScreenState extends State<MessageListScreen> {
     });
   }
 
-  void handleFilterUser(String name) {
+  List<MessageModel> handleFilterUser(
+      String name, List<MessageModel> listMessage) {
     if (name.isEmpty) {
-      handleFetchApiMessage();
-      return;
+      return listMessage;
     }
 
-    List<MessageModel> filteredMessages = lstMessage.where((message) {
+    List<MessageModel> filteredMessages = listMessage.where((message) {
       String senderName = message.sender?.fullname ?? '';
       String receiverName = message.receiver?.fullname ?? '';
       return senderName.toLowerCase().contains(name.toLowerCase()) ||
           receiverName.toLowerCase().contains(name.toLowerCase());
     }).toList();
-
-    setState(() {
-      lstMessage = filteredMessages;
-    });
+    return filteredMessages;
   }
 
   @override
@@ -108,7 +105,8 @@ class _MessageListScreenState extends State<MessageListScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SearchBox(
-                  controller: _searchController, onChanged: handleFilterUser),
+                  controller: _searchController,
+                  onChanged: handleFetchApiMessage),
             ],
           ),
         ),

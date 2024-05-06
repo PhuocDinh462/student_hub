@@ -116,12 +116,12 @@ class ChatRoomScreen extends StatefulWidget {
       {super.key,
       this.chatRoom,
       required this.project,
-      required this.sender,
-      required this.receiver});
+      required this.user,
+      required this.otherUser});
   final ChatRoom? chatRoom;
   final ProjectModel project;
-  final UserModel sender;
-  final UserModel receiver;
+  final UserModel user;
+  final UserModel otherUser;
 
   @override
   State<ChatRoomScreen> createState() => _ChatRoomScreenState();
@@ -146,6 +146,9 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     setState(() {
       isLoading = true;
     });
+    print(widget.user.id);
+    print(widget.otherUser.id);
+
     projectId = 487; //widget.project.id;
     senderId = 2; //widget.receiver.id;
     receiverId = 94; //widget.sender.id;
