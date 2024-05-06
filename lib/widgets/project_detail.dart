@@ -53,9 +53,6 @@ class _ProjectDetailsState extends State<ProjectDetails> {
     daysAgo = DateTime.now().difference(project.createdAt).inDays > 0
         ? DateTime.now().difference(project.createdAt).inDays
         : 1;
-    timeDuration = project.completionTime == ProjectScopeFlag.oneToThreeMonth
-        ? '1-3 months'
-        : '3-6 months';
     studentsNeeded = project.requiredStudents;
     projectDescription = project.description;
     proposalsCount = project.countProposals;
@@ -143,7 +140,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                           .bodyLarge
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
-                    Text(timeDuration,
+                    Text(widget.project.completionTime2String(context),
                         style: Theme.of(context).textTheme.labelLarge),
                   ],
                 ),
