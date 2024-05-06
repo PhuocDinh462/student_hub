@@ -43,7 +43,10 @@ class ProjectService extends BaseApi {
       return response.data['result']
           .map<Project>((item) => Project.fromMap(item))
           .toList();
-    } catch (e) {
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        return [];
+      }
       throw Exception('Failed to fetch projects');
     }
   }
