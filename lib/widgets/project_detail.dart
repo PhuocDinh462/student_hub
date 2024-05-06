@@ -79,11 +79,6 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   widget.project.title,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
-                const Gap(10),
-                Text(
-                  widget.project.title,
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
               ],
             ),
             const Gap(16),
