@@ -1,11 +1,15 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_hub/api/services/chat.service.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/chat/message.dart';
+import 'package:student_hub/models/chat/video_conference.model.dart';
+import 'package:student_hub/providers/user.provider.dart';
 import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/utils/snack_bar.dart';
@@ -81,6 +85,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
     final size = MediaQuery.sizeOf(context);
     final alignment = (widget.message.senderUserId != widget.receiverId)
         ? Alignment.centerRight
@@ -103,7 +108,14 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
           _meetingRoomIdController.text == widget.message.meetingRoomId) {
         Navigator.pop(context);
 
-        Navigator.pushNamed(context, CompanyRoutes.videoCall);
+        VideoConferenceModel videoConferenceModel = VideoConferenceModel(
+          userID: widget.senderId.toString(),
+          userName: userProvider.currentUser!.fullname,
+          callID: widget.message.meetingRoomId.toString(),
+        );
+
+        Get.toNamed(CompanyRoutes.videoConference,
+            arguments: videoConferenceModel);
       } else {
         Navigator.pop(context);
 
