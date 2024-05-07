@@ -1,5 +1,6 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:student_hub/api/services/chat.service.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/chat/message.dart';
 import 'package:student_hub/utils/utils.dart';
@@ -39,6 +40,7 @@ class UpdateMeeting extends StatefulWidget {
 
 class _UpdateMeetingState extends State<UpdateMeeting> {
   final titleController = TextEditingController();
+  final ChatService chatService = ChatService();
   late DateTime pickedStartDate;
   late TimeOfDay pickedStartTime;
   late DateTime pickedEndDate;
@@ -81,16 +83,12 @@ class _UpdateMeetingState extends State<UpdateMeeting> {
           pickedEndTime.hour,
           pickedEndTime.minute,
         );
-        widget.socket.emit('UPDATE_INTERVIEW', {
-          'interviewId': widget.message.interviewId,
-          'senderId': widget.senderId,
-          'receiverId': widget.receiverId,
-          'projectId': widget.projectId,
-          'title': titleController.text,
-          'startTime': newStartDate.toIso8601String(),
-          'endTime': newEndDate.toIso8601String(),
-          'updateAction': true,
-        });
+        chatService.updateInterview(
+          titleController.text,
+          newStartDate,
+          newEndDate,
+          widget.message.interviewId!,
+        );
       }
     }
 

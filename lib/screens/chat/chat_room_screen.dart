@@ -13,104 +13,6 @@ import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
-List<Message> sampleMessages = [
-  Message(
-    projectId: 8,
-    senderUserId: 1,
-    receiverUserId: 2,
-    content: 'Hello, how are you?',
-    createdAt: DateTime.now(),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 2,
-    receiverUserId: 1,
-    content: 'Hi, I am doing fine. How about you?',
-    createdAt: DateTime.now().add(const Duration(minutes: 5)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 1,
-    receiverUserId: 2,
-    content: 'I am good too. Thanks for asking.',
-    createdAt: DateTime.now().add(const Duration(minutes: 10)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 2,
-    receiverUserId: 1,
-    content: 'What have you been up to lately?',
-    createdAt: DateTime.now().add(const Duration(minutes: 15)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 1,
-    receiverUserId: 2,
-    content: 'I have been busy with work. How about you?',
-    createdAt: DateTime.now().add(const Duration(minutes: 20)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 2,
-    receiverUserId: 1,
-    content: 'I have been studying for my exams.',
-    createdAt: DateTime.now().add(const Duration(minutes: 25)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 1,
-    receiverUserId: 2,
-    content: 'Good luck with your exams!',
-    createdAt: DateTime.now().add(const Duration(minutes: 30)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 2,
-    receiverUserId: 1,
-    content: 'Thank you!',
-    createdAt: DateTime.now().add(const Duration(minutes: 35)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 1,
-    receiverUserId: 2,
-    content: 'You\'re welcome. Let me know if you need any help.',
-    createdAt: DateTime.now().add(const Duration(minutes: 40)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 2,
-    receiverUserId: 1,
-    content: 'Sure, I will. Thanks again!',
-    createdAt: DateTime.now().add(const Duration(minutes: 45)),
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 2,
-    receiverUserId: 1,
-    title: 'Catch up meeting',
-    createdAt: DateTime.now().add(const Duration(minutes: 60)),
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(const Duration(minutes: 15)),
-    meeting: MessageFlag.interview,
-    meetingRoomId: '123456',
-    meetingRoomCode: '123456',
-  ),
-  Message(
-    projectId: 8,
-    senderUserId: 1,
-    receiverUserId: 2,
-    title: 'Catch up meeting',
-    createdAt: DateTime.now().add(const Duration(minutes: 70)),
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(const Duration(minutes: 15)),
-    meeting: MessageFlag.interview,
-    canceled: true,
-    meetingRoomId: '123456',
-    meetingRoomCode: '123456',
-  ),
-];
-
 class ChatRoomScreen extends StatefulWidget {
   const ChatRoomScreen(
       {super.key,
@@ -134,7 +36,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   late io.Socket socket;
   late ScrollController _scrollController;
   final FocusNode _messageFocusNode = FocusNode();
-  final MessageService messageService = MessageService();
+  final ChatService chatService = ChatService();
   bool isLoading = false;
   late int projectId;
   late int senderId;
@@ -146,13 +48,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     setState(() {
       isLoading = true;
     });
-    print(widget.user.id);
-    print(widget.otherUser.id);
 
-    projectId = 487; //widget.project.id;
-    senderId = 2; //widget.receiver.id;
-    receiverId = 94; //widget.sender.id;
-    receiverName = 'quan'; //widget.receiver.fullname
+    projectId = widget.project.id;
+    senderId = widget.user.id;
+    receiverId = widget.otherUser.id;
+    receiverName = widget.otherUser.fullname!;
 
     _scrollController = ScrollController();
     super.initState();
@@ -209,9 +109,10 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     socket.on('RECEIVE_MESSAGE', (data) {
       setState(() {
         messages.add(Message(
+          id: data['notification']['message']['id'],
           projectId: projectId,
-          senderUserId: senderId,
-          receiverUserId: receiverId,
+          senderUserId: data['notification']['sender']['id'],
+          receiverUserId: data['notification']['receiver']['id'],
           content: data['notification']['message']['content'],
           createdAt: DateTime.parse(data['notification']['createdAt']),
           meeting: MessageFlag
@@ -226,10 +127,10 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     });
 
     socket.on('RECEIVE_INTERVIEW', (data) {
-      if (data['title'] != null &&
-          data['title'].contains('Interview deleted from')) {
-        int index =
-            messages.indexWhere((element) => element.id == data['messageId']);
+      if (data['notification'] != null &&
+          data['notification']['content'] == 'Interview cancelled') {
+        int index = messages.indexWhere(
+            (element) => element.id == data['notification']['message']['id']);
         setState(() {
           messages[index] = messages[index].copyWith(
             canceled: true,
@@ -240,22 +141,25 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           data['notification']['content'] == 'Interview created') {
         setState(() {
           messages.add(Message(
+            id: data['notification']['message']['id'],
             projectId: projectId,
-            senderUserId: senderId,
-            receiverUserId: receiverId,
-            interviewId: data['notification']['interview']['id'],
-            title: data['notification']['interview']['title'],
-            createdAt:
-                DateTime.parse(data['notification']['interview']['createdAt']),
-            startTime:
-                DateTime.parse(data['notification']['interview']['startTime']),
-            endTime:
-                DateTime.parse(data['notification']['interview']['endTime']),
+            senderUserId: data['notification']['sender']['id'],
+            receiverUserId: data['notification']['receiver']['id'],
+            interviewId: data['notification']['message']['interview']['id'],
+            title: data['notification']['message']['interview']['title'],
+            createdAt: DateTime.parse(
+                data['notification']['message']['interview']['createdAt']),
+            startTime: DateTime.parse(
+                data['notification']['message']['interview']['startTime']),
+            endTime: DateTime.parse(
+                data['notification']['message']['interview']['endTime']),
             meeting: MessageFlag.interview,
-            meetingRoomId:
-                data['notification']['meetingRoom']['meeting_room_id'] ?? '',
-            meetingRoomCode:
-                data['notification']['meetingRoom']['meeting_room_code'] ?? '',
+            meetingRoomId: data['notification']['message']['interview']
+                    ['meetingRoom']['meeting_room_id'] ??
+                '',
+            meetingRoomCode: data['notification']['message']['interview']
+                    ['meetingRoom']['meeting_room_code'] ??
+                '',
           ));
           _scrollController.animateTo(
             _scrollController.position.maxScrollExtent + 200,
@@ -266,14 +170,15 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       } else if (data['notification'] != null &&
           data['notification']['content'] != null &&
           data['notification']['content'] == 'Interview updated') {
-        DateTime startTime =
-            DateTime.parse(data['notification']['interview']['startTime']);
-        DateTime endTime =
-            DateTime.parse(data['notification']['interview']['endTime']);
-        String title = data['notification']['interview']['title'];
-        bool canceled = data['notification']['interview']['disableFlag'] == 0
-            ? false
-            : true;
+        DateTime startTime = DateTime.parse(
+            data['notification']['message']['interview']['startTime']);
+        DateTime endTime = DateTime.parse(
+            data['notification']['message']['interview']['endTime']);
+        String title = data['notification']['message']['interview']['title'];
+        bool canceled =
+            data['notification']['message']['interview']['disableFlag'] == 0
+                ? false
+                : true;
         int index = messages.indexWhere(
             (element) => element.id == data['notification']['message']['id']);
         setState(() {
@@ -298,7 +203,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   _loadMessages() async {
     final listMessages =
-        await messageService.getConversations(receiverId, projectId);
+        await chatService.getConversations(receiverId, projectId);
     final List<Message> fetchMessages =
         listMessages.cast<Map<String, dynamic>>().map<Message>((msg) {
       if (msg['interview'] == null) {
@@ -359,13 +264,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         createdAt: DateTime.now(),
         meeting: MessageFlag.message,
       );
-      socket.emit('SEND_MESSAGE', {
-        'content': message.content,
-        'projectId': message.projectId,
-        'senderId': message.senderUserId,
-        'receiverId': message.receiverUserId,
-        'messageFlag': message.meeting.index,
-      });
+      chatService.sendMessage(message.projectId, message.senderUserId,
+          message.receiverUserId, message.content);
       messageController.clear();
     }
 
