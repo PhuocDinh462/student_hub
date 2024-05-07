@@ -32,7 +32,8 @@ class _ProposalListState extends State<ProposalList> {
     final ProjectProvider projectProvider =
         Provider.of<ProjectProvider>(context, listen: false);
 
-    await proposalService.getProposal(projectProvider.getCurrentProject!.id, {
+    await proposalService
+        .getProposalByProjectId(projectProvider.getCurrentProject!.id, {
       'statusFlag': widget.statusFlags.map((e) => e.index).join(','),
     }).then((value) {
       setState(() => _proposalList.addAll(value));
