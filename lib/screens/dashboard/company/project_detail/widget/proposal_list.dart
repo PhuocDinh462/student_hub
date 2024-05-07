@@ -54,26 +54,18 @@ class _ProposalListState extends State<ProposalList> {
             ? const Center(
                 child: Empty(),
               )
-            : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const Gap(10),
-                    Column(
-                      children: _proposalList
-                          .map(
-                            (item) => Column(
-                              children: [
-                                ProposalItem(
-                                  proposal: item,
-                                ),
-                                const Gap(10),
-                              ],
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ],
-                ),
+            : ListView.builder(
+                itemCount: _proposalList.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      ProposalItem(
+                        proposal: _proposalList[index],
+                      ),
+                      if (index < _proposalList.length - 1) const Gap(10),
+                    ],
+                  );
+                },
               );
   }
 }

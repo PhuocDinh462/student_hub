@@ -318,6 +318,7 @@ class _ProposalDetailState extends State<ProposalDetail> {
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: primary_300,
+                                foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -370,6 +371,7 @@ class _ProposalDetailState extends State<ProposalDetail> {
                                   },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: primary_300,
+                              foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),

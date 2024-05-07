@@ -50,7 +50,7 @@ class ProjectDetail extends StatelessWidget {
           ),
           const Expanded(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.all(10),
               child: TabBarView(
                 physics: NeverScrollableScrollPhysics(),
                 children: [
