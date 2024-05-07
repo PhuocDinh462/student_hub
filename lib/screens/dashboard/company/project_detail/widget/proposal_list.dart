@@ -55,7 +55,7 @@ class _ProposalListState extends State<ProposalList> {
                 child: Empty(),
               )
             : Padding(
-                padding: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.all(10),
                 child: ListView.builder(
                   itemCount: _proposalList.length,
                   itemBuilder: (context, index) {
