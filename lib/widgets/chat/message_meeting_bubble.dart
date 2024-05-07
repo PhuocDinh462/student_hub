@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_hub/api/services/chat.service.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/chat/message.dart';
 import 'package:student_hub/routes/company_route.dart';
@@ -42,6 +43,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
   final TextEditingController _meetingRoomCodeController =
       TextEditingController();
   late io.Socket socket;
+  final ChatService chatService = ChatService();
 
   @override
   void initState() {
@@ -113,14 +115,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
     }
 
     void cancelMeeting() {
-      socket.emit('UPDATE_INTERVIEW', {
-        'title': widget.message.title,
-        'interviewId': widget.message.interviewId,
-        'senderId': widget.message.senderUserId,
-        'receiverId': widget.message.receiverUserId,
-        'projectId': widget.projectId,
-        'deleteAction': true,
-      });
+      chatService.disableInterview(widget.message.interviewId!);
     }
 
     return Align(

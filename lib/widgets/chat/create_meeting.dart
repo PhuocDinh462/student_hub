@@ -1,5 +1,6 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:student_hub/api/services/chat.service.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/chat/message.dart';
 import 'package:student_hub/utils/utils.dart';
@@ -36,6 +37,7 @@ class _CreateMeetingState extends State<CreateMeeting> {
   late TimeOfDay pickedStartTime;
   late DateTime pickedEndDate;
   late TimeOfDay pickedEndTime;
+  final ChatService chatService = ChatService();
   @override
   void initState() {
     super.initState();
@@ -59,47 +61,29 @@ class _CreateMeetingState extends State<CreateMeeting> {
         );
         return;
       } else {
-        print(titleController.text);
-        print(widget.projectId);
-        print(widget.senderId);
-        print(widget.receiverId);
-        print(DateTime(
+        DateTime startTime = DateTime(
           pickedStartDate.year,
           pickedStartDate.month,
           pickedStartDate.day,
           pickedStartTime.hour,
           pickedStartTime.minute,
-        ).toIso8601String());
-        print(DateTime(
+        );
+        DateTime endTime = DateTime(
           pickedEndDate.year,
           pickedEndDate.month,
           pickedEndDate.day,
           pickedEndTime.hour,
           pickedEndTime.minute,
-        ).toIso8601String());
-        widget.socket.emit('SCHEDULE_INTERVIEW', {
-          'title': titleController.text,
-          'content': titleController.text,
-          'startTime': DateTime(
-            pickedStartDate.year,
-            pickedStartDate.month,
-            pickedStartDate.day,
-            pickedStartTime.hour,
-            pickedStartTime.minute,
-          ).toIso8601String(),
-          'endTime': DateTime(
-            pickedEndDate.year,
-            pickedEndDate.month,
-            pickedEndDate.day,
-            pickedEndTime.hour,
-            pickedEndTime.minute,
-          ).toIso8601String(),
-          'projectId': widget.projectId,
-          'senderId': widget.senderId,
-          'receiverId': widget.receiverId,
-          'meeting_room_code': MeetingRoom.generateMeetingRoomCode(),
-          'meeting_room_id': MeetingRoom.generateMeetingRoomId(),
-        });
+        );
+        chatService.createInterview(
+          titleController.text,
+          'Interview created',
+          startTime,
+          endTime,
+          widget.projectId,
+          widget.senderId,
+          widget.receiverId,
+        );
       }
     }
 

@@ -36,7 +36,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   late io.Socket socket;
   late ScrollController _scrollController;
   final FocusNode _messageFocusNode = FocusNode();
-  final MessageService messageService = MessageService();
+  final ChatService chatService = ChatService();
   bool isLoading = false;
   late int projectId;
   late int senderId;
@@ -109,9 +109,10 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     socket.on('RECEIVE_MESSAGE', (data) {
       setState(() {
         messages.add(Message(
+          id: data['notification']['message']['id'],
           projectId: projectId,
-          senderUserId: senderId,
-          receiverUserId: receiverId,
+          senderUserId: data['notification']['sender']['id'],
+          receiverUserId: data['notification']['receiver']['id'],
           content: data['notification']['message']['content'],
           createdAt: DateTime.parse(data['notification']['createdAt']),
           meeting: MessageFlag
@@ -126,10 +127,10 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     });
 
     socket.on('RECEIVE_INTERVIEW', (data) {
-      if (data['title'] != null &&
-          data['title'].contains('Interview deleted from')) {
-        int index =
-            messages.indexWhere((element) => element.id == data['messageId']);
+      if (data['notification'] != null &&
+          data['notification']['content'] == 'Interview cancelled') {
+        int index = messages.indexWhere(
+            (element) => element.id == data['notification']['message']['id']);
         setState(() {
           messages[index] = messages[index].copyWith(
             canceled: true,
@@ -140,22 +141,25 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           data['notification']['content'] == 'Interview created') {
         setState(() {
           messages.add(Message(
+            id: data['notification']['message']['id'],
             projectId: projectId,
-            senderUserId: senderId,
-            receiverUserId: receiverId,
-            interviewId: data['notification']['interview']['id'],
-            title: data['notification']['interview']['title'],
-            createdAt:
-                DateTime.parse(data['notification']['interview']['createdAt']),
-            startTime:
-                DateTime.parse(data['notification']['interview']['startTime']),
-            endTime:
-                DateTime.parse(data['notification']['interview']['endTime']),
+            senderUserId: data['notification']['sender']['id'],
+            receiverUserId: data['notification']['receiver']['id'],
+            interviewId: data['notification']['message']['interview']['id'],
+            title: data['notification']['message']['interview']['title'],
+            createdAt: DateTime.parse(
+                data['notification']['message']['interview']['createdAt']),
+            startTime: DateTime.parse(
+                data['notification']['message']['interview']['startTime']),
+            endTime: DateTime.parse(
+                data['notification']['message']['interview']['endTime']),
             meeting: MessageFlag.interview,
-            meetingRoomId:
-                data['notification']['meetingRoom']['meeting_room_id'] ?? '',
-            meetingRoomCode:
-                data['notification']['meetingRoom']['meeting_room_code'] ?? '',
+            meetingRoomId: data['notification']['message']['interview']
+                    ['meetingRoom']['meeting_room_id'] ??
+                '',
+            meetingRoomCode: data['notification']['message']['interview']
+                    ['meetingRoom']['meeting_room_code'] ??
+                '',
           ));
           _scrollController.animateTo(
             _scrollController.position.maxScrollExtent + 200,
@@ -166,14 +170,15 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       } else if (data['notification'] != null &&
           data['notification']['content'] != null &&
           data['notification']['content'] == 'Interview updated') {
-        DateTime startTime =
-            DateTime.parse(data['notification']['interview']['startTime']);
-        DateTime endTime =
-            DateTime.parse(data['notification']['interview']['endTime']);
-        String title = data['notification']['interview']['title'];
-        bool canceled = data['notification']['interview']['disableFlag'] == 0
-            ? false
-            : true;
+        DateTime startTime = DateTime.parse(
+            data['notification']['message']['interview']['startTime']);
+        DateTime endTime = DateTime.parse(
+            data['notification']['message']['interview']['endTime']);
+        String title = data['notification']['message']['interview']['title'];
+        bool canceled =
+            data['notification']['message']['interview']['disableFlag'] == 0
+                ? false
+                : true;
         int index = messages.indexWhere(
             (element) => element.id == data['notification']['message']['id']);
         setState(() {
@@ -198,7 +203,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   _loadMessages() async {
     final listMessages =
-        await messageService.getConversations(receiverId, projectId);
+        await chatService.getConversations(receiverId, projectId);
     final List<Message> fetchMessages =
         listMessages.cast<Map<String, dynamic>>().map<Message>((msg) {
       if (msg['interview'] == null) {
@@ -259,13 +264,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         createdAt: DateTime.now(),
         meeting: MessageFlag.message,
       );
-      socket.emit('SEND_MESSAGE', {
-        'content': message.content,
-        'projectId': message.projectId,
-        'senderId': message.senderUserId,
-        'receiverId': message.receiverUserId,
-        'messageFlag': message.meeting.index,
-      });
+      chatService.sendMessage(message.projectId, message.senderUserId,
+          message.receiverUserId, message.content);
       messageController.clear();
     }
 
