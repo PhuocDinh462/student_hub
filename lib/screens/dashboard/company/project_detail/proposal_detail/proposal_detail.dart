@@ -7,6 +7,8 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/models/proposal.dart';
 import 'package:student_hub/providers/project.provider.dart';
+import 'package:student_hub/providers/user.provider.dart';
+import 'package:student_hub/routes/company_route.dart';
 import 'package:student_hub/screens/dashboard/company/project_detail/proposal_detail/widgets/skill_item.dart';
 import 'package:student_hub/utils/extensions.dart';
 import 'package:get/get.dart';
@@ -92,6 +94,7 @@ class _ProposalDetailState extends State<ProposalDetail> {
   Widget build(BuildContext context) {
     final ProjectProvider projectProvider =
         Provider.of<ProjectProvider>(context);
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
 
     return isLoading
         ? const Center(child: CircularProgressIndicator())
@@ -315,7 +318,22 @@ class _ProposalDetailState extends State<ProposalDetail> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                ProjectModel project = ProjectModel(
+                                  id: proposal!.projectId,
+                                );
+                                UserModel user = UserModel(
+                                  id: userProvider.currentUser!.userId,
+                                  fullname: userProvider.currentUser!.fullname,
+                                );
+                                Navigator.of(context).pushNamed(
+                                    CompanyRoutes.chatScreen,
+                                    arguments: {
+                                      'user': user,
+                                      'otherUser': proposal!.user!,
+                                      'project': project,
+                                    });
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: primary_300,
                                 foregroundColor: Colors.white,

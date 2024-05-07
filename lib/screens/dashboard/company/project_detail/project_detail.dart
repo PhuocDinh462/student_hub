@@ -10,7 +10,7 @@ class ProjectDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Column(
         children: [
           TabBar(
@@ -25,13 +25,13 @@ class ProjectDetail extends StatelessWidget {
                       color: Theme.of(context).colorScheme.primary, size: 24),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 2.0),
-                child: Tab(
-                  child: Icon(Icons.message,
-                      color: Theme.of(context).colorScheme.primary, size: 24),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 2.0),
+              //   child: Tab(
+              //     child: Icon(Icons.message,
+              //         color: Theme.of(context).colorScheme.primary, size: 24),
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.only(top: 2.0),
                 child: Tab(
@@ -60,9 +60,9 @@ class ProjectDetail extends StatelessWidget {
                     child: ProjectInfo(),
                   ),
                   // Message
-                  Center(
-                    child: Text('Message'),
-                  ),
+                  // Center(
+                  //   child: Text('Message'),
+                  // ),
                   // Proposals
                   ProposalList(statusFlags: <StatusFlag>{
                     StatusFlag.waiting,
