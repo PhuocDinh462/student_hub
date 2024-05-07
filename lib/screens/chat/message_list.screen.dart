@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:student_hub/api/api.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/screens/chat/widgets/chat.widgets.dart';
