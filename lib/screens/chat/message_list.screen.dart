@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:student_hub/api/api.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/screens/chat/widgets/chat.widgets.dart';
 import 'package:student_hub/widgets/search_field.dart';
 
 class MessageListScreen extends StatefulWidget {
-  const MessageListScreen({super.key});
+  const MessageListScreen({super.key, this.projectId = -1});
+  final int projectId;
 
   @override
   State<MessageListScreen> createState() => _MessageListScreenState();
@@ -65,7 +65,10 @@ class _MessageListScreenState extends State<MessageListScreen> {
       isLoading = true;
     });
 
-    messageService.getAllMessage().then((value) {
+    (widget.projectId == -1
+            ? messageService.getAllMessage()
+            : messageService.getMessageByProjectId(widget.projectId))
+        .then((value) {
       List<dynamic> data = value;
       List<MessageModel> res = getLatestMessages(data).reversed.toList();
 
@@ -110,15 +113,10 @@ class _MessageListScreenState extends State<MessageListScreen> {
             ],
           ),
         ),
-        isLoading
-            ? const Center(
-                child: Column(children: [
-                  Gap(30),
-                  CircularProgressIndicator(),
-                ]),
-              )
-            : Expanded(
-                child: Padding(
+        Expanded(
+          child: isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : Padding(
                   padding: const EdgeInsets.only(top: 10, left: 20),
                   child: ListView.builder(
                       controller: _scrollController,
@@ -127,11 +125,15 @@ class _MessageListScreenState extends State<MessageListScreen> {
                       itemCount: lstMessage.length,
                       itemBuilder: (ctx, index) {
                         return MessageItem(
-                          message: lstMessage[index],
+                          message: widget.projectId == -1
+                              ? lstMessage[index]
+                              : lstMessage[index].copyWith(
+                                  projectModel:
+                                      ProjectModel(id: widget.projectId)),
                         );
                       }),
                 ),
-              ),
+        ),
       ]),
     );
   }

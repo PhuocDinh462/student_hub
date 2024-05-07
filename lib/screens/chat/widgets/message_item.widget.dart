@@ -90,12 +90,13 @@ class MessageItem extends StatelessWidget {
                   text: name!,
                   style: textTheme.labelMedium!,
                 ),
-                DisplayText(
-                    text: message.projectModel!.title,
-                    style: textTheme.labelSmall!.copyWith(
-                      fontSize: 10,
-                      color: colorScheme.onSurface,
-                    )),
+                if (message.projectModel!.title.isNotEmpty)
+                  DisplayText(
+                      text: message.projectModel!.title,
+                      style: textTheme.labelSmall!.copyWith(
+                        fontSize: 10,
+                        color: colorScheme.onSurface,
+                      )),
                 const Gap(5),
                 Row(
                   children: [
