@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gap/gap.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:student_hub/api/services/api.services.dart';
+import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/student_routes.dart';
@@ -110,7 +111,9 @@ class _ProjectsState extends State<Projects> {
               icon: const Icon(Icons.more_vert),
               iconSize: 32,
               offset: const Offset(-30, 45),
-              color: Theme.of(context).colorScheme.secondaryContainer,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? text_700
+                  : text_50,
               onSelected: (String value) {
                 setState(() {
                   // _selectedMenu = value;
@@ -127,13 +130,7 @@ class _ProjectsState extends State<Projects> {
                     children: [
                       Icon(
                         Icons.favorite,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(
-                                Theme.of(context).brightness == Brightness.dark
-                                    ? 1
-                                    : .7),
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                       const Gap(16),
                       Text(
@@ -167,13 +164,7 @@ class _ProjectsState extends State<Projects> {
                     children: [
                       Icon(
                         Icons.filter_alt,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(
-                                Theme.of(context).brightness == Brightness.dark
-                                    ? 1
-                                    : .7),
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                       const Gap(16),
                       Text(
@@ -196,13 +187,7 @@ class _ProjectsState extends State<Projects> {
                     children: [
                       Icon(
                         Icons.cancel,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(
-                                Theme.of(context).brightness == Brightness.dark
-                                    ? 1
-                                    : .7),
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                       const Gap(16),
                       Text(
