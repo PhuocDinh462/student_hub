@@ -8,6 +8,7 @@ class InterviewModel extends BaseModel {
   final String endTime;
   final int meetingRoomId;
   final DisableFlag disableFlag;
+  final MeetingRoomModel meetingRoom;
 
   const InterviewModel({
     this.title = '',
@@ -15,6 +16,7 @@ class InterviewModel extends BaseModel {
     this.endTime = '',
     this.meetingRoomId = -1,
     this.disableFlag = DisableFlag.enable,
+    this.meetingRoom = const MeetingRoomModel(),
     super.id,
     super.createdAt,
     super.updatedAt,
@@ -27,6 +29,7 @@ class InterviewModel extends BaseModel {
     String? endTime,
     int? meetingRoomId,
     DisableFlag? disableFlag,
+    MeetingRoomModel? meetingRoom,
     int? id,
     String? createdAt,
     String? updatedAt,
@@ -38,6 +41,7 @@ class InterviewModel extends BaseModel {
       endTime: endTime ?? this.endTime,
       meetingRoomId: meetingRoomId ?? this.meetingRoomId,
       disableFlag: disableFlag ?? this.disableFlag,
+      meetingRoom: meetingRoom ?? this.meetingRoom,
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -52,6 +56,7 @@ class InterviewModel extends BaseModel {
       'endTime': endTime,
       'meetingRoomId': meetingRoomId,
       'disableFlag': disableFlag,
+      'meetingRoom': meetingRoom.toMap(),
       'id': id,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
@@ -66,6 +71,7 @@ class InterviewModel extends BaseModel {
       endTime: map['endTime'] as String,
       meetingRoomId: map['meetingRoomId'] as int,
       disableFlag: DisableFlag.values[map['disableFlag'] as int],
+      meetingRoom: MeetingRoomModel.fromMap(map['meetingRoom']),
       id: map['id'] as int,
       createdAt: map['createdAt'] ?? map['createdAt'] as String?,
       updatedAt: map['updatedAt'] ?? map['updatedAt'] as String?,

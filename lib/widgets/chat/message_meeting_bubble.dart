@@ -109,7 +109,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
         Navigator.pop(context);
 
         VideoConferenceModel videoConferenceModel = VideoConferenceModel(
-          userID: widget.senderId.toString(),
+          userID: userProvider.currentUser!.userId.toString(),
           userName: userProvider.currentUser!.fullname,
           callID: widget.message.meetingRoomId.toString(),
         );
