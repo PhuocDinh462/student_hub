@@ -165,6 +165,6 @@
   "joinMeetingRoom": "Join a meeting room",
   "meetingRoomId": "Meeting room ID",
   "meetingRoomCode": "Meeting room code",
-  "joinMeetingRoomError": "Not find meeting room",
+  "joinMeetingRoomError": "Not found meeting room",
   "error": "Error"
 }
