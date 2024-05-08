@@ -117,7 +117,7 @@ class MyApp extends StatelessWidget {
                         : CompanyRoutes.messageList)
                     : themeProvider.getIsFirstCall
                         ? AuthRoutes.intro
-                        : AuthRoutes.forgotPassword,
+                        : AuthRoutes.login,
                 debugShowCheckedModeBanner: false,
                 theme: themeProvider.getThemeMode
                     ? AppTheme.darkTheme

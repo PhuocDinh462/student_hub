@@ -11,6 +11,7 @@ import 'package:gap/gap.dart';
 import 'package:student_hub/widgets/text_field_title.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:student_hub/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UpdateMeeting extends StatefulWidget {
   const UpdateMeeting({
@@ -63,8 +64,8 @@ class _UpdateMeetingState extends State<UpdateMeeting> {
       if (titleController.text.isEmpty) {
         MySnackBar.showSnackBar(
           context,
-          'Please fill all meeting\'s information',
-          'Error',
+          AppLocalizations.of(context)!.errorFilledMeeting,
+          AppLocalizations.of(context)!.error,
           ContentType.failure,
         );
         return;
@@ -104,7 +105,7 @@ class _UpdateMeetingState extends State<UpdateMeeting> {
             ),
             const Gap(4),
             Text(
-              'Schedule a video call interview',
+              AppLocalizations.of(context)!.scheduleInterview,
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge
@@ -117,14 +118,14 @@ class _UpdateMeetingState extends State<UpdateMeeting> {
               child: Column(
                 children: [
                   TextFieldTitle(
-                    title: 'Title',
-                    hintText: 'Enter meeting\'s title',
+                    title: AppLocalizations.of(context)!.title,
+                    hintText: AppLocalizations.of(context)!.titleHint,
                     controller: titleController,
                   ),
                   const Gap(30),
                   SelectDateTime(
-                    titleDate: 'Start Date',
-                    titleTime: 'Start Time',
+                    titleDate: AppLocalizations.of(context)!.startDate,
+                    titleTime: AppLocalizations.of(context)!.startTime,
                     date: pickedStartDate,
                     time: pickedStartTime,
                     onChanged: (startDate, startTime) {
@@ -136,8 +137,8 @@ class _UpdateMeetingState extends State<UpdateMeeting> {
                   ),
                   const Gap(30),
                   SelectDateTime(
-                    titleDate: 'End Date',
-                    titleTime: 'End Time',
+                    titleDate: AppLocalizations.of(context)!.endDate,
+                    titleTime: AppLocalizations.of(context)!.endTime,
                     date: pickedEndDate,
                     time: pickedEndTime,
                     onChanged: (endDate, endTime) {
@@ -160,7 +161,7 @@ class _UpdateMeetingState extends State<UpdateMeeting> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  text: 'Cancel',
+                  text: AppLocalizations.of(context)!.cancel,
                   colorButton: primary_300,
                   colorText: text_50,
                   width: MediaQuery.of(context).size.width * 0.4,
@@ -169,7 +170,7 @@ class _UpdateMeetingState extends State<UpdateMeeting> {
                   onTap: () {
                     updateMeeting();
                   },
-                  text: 'Update',
+                  text: AppLocalizations.of(context)!.update,
                   colorButton: primary_300,
                   colorText: text_50,
                   width: MediaQuery.of(context).size.width * 0.4,

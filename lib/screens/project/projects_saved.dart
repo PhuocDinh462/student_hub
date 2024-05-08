@@ -6,6 +6,7 @@ import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/user.provider.dart';
 import 'package:student_hub/widgets/project_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProjectsSaved extends StatefulWidget {
   const ProjectsSaved({super.key});
@@ -74,7 +75,7 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
                   children: [
                     const Gap(50),
                     Text(
-                      "There's no saved projects available",
+                      AppLocalizations.of(context)!.noSavedProject,
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,

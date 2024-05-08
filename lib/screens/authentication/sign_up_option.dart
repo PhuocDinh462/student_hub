@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/routes/auth_route.dart';
 import 'package:student_hub/widgets/button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpOption extends StatefulWidget {
   const SignUpOption({super.key});
@@ -38,7 +39,7 @@ class _SignUpOptionState extends State<SignUpOption> {
               const Gap(50),
               //Join as Company or Student
               Text(
-                'Join as Company or Student',
+                AppLocalizations.of(context)!.joinAsRoles,
                 style: Theme.of(context)
                     .textTheme
                     .displayLarge
@@ -61,7 +62,7 @@ class _SignUpOptionState extends State<SignUpOption> {
                       ),
                       child: RadioListTile<int>(
                         title: Text(
-                          'I\'m a Company, find engineer for project',
+                          AppLocalizations.of(context)!.companyOption,
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge
@@ -90,7 +91,7 @@ class _SignUpOptionState extends State<SignUpOption> {
                       ),
                       child: RadioListTile<int>(
                         title: Text(
-                          'Student',
+                          AppLocalizations.of(context)!.studentOption,
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge
@@ -117,7 +118,7 @@ class _SignUpOptionState extends State<SignUpOption> {
                 onTap: signIn,
                 colorButton: primary_300,
                 colorText: text_50,
-                text: 'Create Account',
+                text: AppLocalizations.of(context)!.createAccount,
               ),
 
               const Gap(25),
@@ -126,7 +127,7 @@ class _SignUpOptionState extends State<SignUpOption> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Already have an account ?',
+                    AppLocalizations.of(context)!.haveAccount,
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge
@@ -138,7 +139,7 @@ class _SignUpOptionState extends State<SignUpOption> {
                       Navigator.pushNamed(context, AuthRoutes.login);
                     },
                     child: Text(
-                      'Login',
+                      AppLocalizations.of(context)!.login,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold, color: primary_300),
                     ),

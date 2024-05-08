@@ -16,6 +16,7 @@ import 'package:student_hub/utils/snack_bar.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -57,8 +58,8 @@ class _LoginState extends State<Login> {
       if (email.isEmpty || password.isEmpty) {
         MySnackBar.showSnackBar(
           context,
-          'Please fill in all fields',
-          'Oh Hey!',
+          AppLocalizations.of(context)!.errorFilledContent,
+          AppLocalizations.of(context)!.errorTitle,
           ContentType.failure,
         );
         return;
@@ -105,30 +106,30 @@ class _LoginState extends State<Login> {
           }
           MySnackBar.showSnackBar(
             context,
-            'Sign in successfully',
-            'Success',
+            AppLocalizations.of(context)!.signInSuccessfully,
+            AppLocalizations.of(context)!.sucessTitle,
             ContentType.success,
           );
         } else if (response.statusCode == 422) {
           MySnackBar.showSnackBar(
             context,
-            'Invalid Credentials',
-            'Oh Hey!',
+            AppLocalizations.of(context)!.invalidCredentials,
+            AppLocalizations.of(context)!.errorTitle,
             ContentType.failure,
           );
         } else {
           MySnackBar.showSnackBar(
             context,
-            'Invalid Credentials',
-            'Oh Hey!',
+            AppLocalizations.of(context)!.invalidCredentials,
+            AppLocalizations.of(context)!.errorTitle,
             ContentType.failure,
           );
         }
       } catch (e) {
         MySnackBar.showSnackBar(
           context,
-          'Something went wrongs!',
-          'Oh Hey!',
+          AppLocalizations.of(context)!.somethingWrongs,
+          AppLocalizations.of(context)!.errorTitle,
           ContentType.warning,
         );
       }
@@ -177,14 +178,14 @@ class _LoginState extends State<Login> {
                     children: [
                       const Gap(20),
                       Text(
-                        'Welcome back!',
+                        AppLocalizations.of(context)!.welcomeBack,
                         style: textTheme.titleLarge!.copyWith(
                             color: colorScheme.primary,
                             fontWeight: FontWeight.bold),
                       ),
                       const Gap(20),
                       Text(
-                        'Please login to continue',
+                        AppLocalizations.of(context)!.loginToContinue,
                         style: textTheme.headlineMedium!
                             .copyWith(color: colorScheme.onSurface),
                       ),
@@ -193,9 +194,10 @@ class _LoginState extends State<Login> {
                         width: MediaQuery.of(context).size.width / 1.3,
                         child: TextField(
                           controller: emailController,
-                          decoration: const InputDecoration(
-                            labelText: 'Email Address',
-                            suffixIcon: Icon(Icons.email),
+                          decoration: InputDecoration(
+                            labelText:
+                                AppLocalizations.of(context)!.inputEmailText,
+                            suffixIcon: const Icon(Icons.email),
                           ),
                         ),
                       ),
@@ -206,7 +208,8 @@ class _LoginState extends State<Login> {
                           controller: passwordController,
                           obscureText: isObscured,
                           decoration: InputDecoration(
-                            labelText: 'Password',
+                            labelText:
+                                AppLocalizations.of(context)!.inputPasswordText,
                             suffixIcon: IconButton(
                               icon: Icon(
                                 isObscured
@@ -233,7 +236,7 @@ class _LoginState extends State<Login> {
                                     context, AuthRoutes.forgotPassword);
                               },
                               child: Text(
-                                'Forgot Password?',
+                                AppLocalizations.of(context)!.forgotPassword,
                                 style: textTheme.bodyMedium!.copyWith(
                                   color: colorScheme.primary,
                                   fontWeight: FontWeight.bold,
@@ -263,7 +266,7 @@ class _LoginState extends State<Login> {
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Text(
-                              'Login',
+                              AppLocalizations.of(context)!.login,
                               style: textTheme.bodyMedium!.copyWith(
                                 color: colorScheme.primary,
                                 fontWeight: FontWeight.bold,
@@ -277,7 +280,7 @@ class _LoginState extends State<Login> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Don\'t have an Account?',
+                            AppLocalizations.of(context)!.dontHaveAccount,
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           const SizedBox(width: 4),
@@ -287,7 +290,7 @@ class _LoginState extends State<Login> {
                                   context, AuthRoutes.signUpOption);
                             },
                             child: Text(
-                              'Sign up here',
+                              AppLocalizations.of(context)!.signUpHere,
                               style: textTheme.bodyMedium!.copyWith(
                                 color: colorScheme.primary,
                                 fontWeight: FontWeight.bold,

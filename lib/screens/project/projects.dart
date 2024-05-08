@@ -11,6 +11,7 @@ import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/project_filter.dart';
 import 'package:student_hub/widgets/project_card.dart';
 import 'package:student_hub/widgets/search_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Projects extends StatefulWidget {
   const Projects({super.key});
@@ -137,7 +138,7 @@ class _ProjectsState extends State<Projects> {
                       ),
                       const Gap(16),
                       Text(
-                        'Saved projects',
+                        AppLocalizations.of(context)!.savedProject,
                         style: Theme.of(context)
                             .textTheme
                             .labelMedium
@@ -177,40 +178,11 @@ class _ProjectsState extends State<Projects> {
                       ),
                       const Gap(16),
                       Text(
-                        'Filter projects',
+                        AppLocalizations.of(context)!.filterProject,
                         style: Theme.of(context)
                             .textTheme
                             .labelMedium
                             ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-                PopupMenuItem<String>(
-                  value: 'Cancel', // Giá trị cho mục "Cancel"
-                  height: 60,
-                  onTap: () {
-                    // Xử lý khi chọn "Cancel"
-                  },
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.cancel,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(
-                                Theme.of(context).brightness == Brightness.dark
-                                    ? 1
-                                    : .7),
-                      ),
-                      const Gap(16),
-                      Text(
-                        'Cancel',
-                        style:
-                            Theme.of(context).textTheme.labelMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
                       ),
                     ],
                   ),
