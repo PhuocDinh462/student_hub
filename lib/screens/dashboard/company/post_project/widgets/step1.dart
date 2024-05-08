@@ -47,7 +47,8 @@ class Step1 extends StatelessWidget {
               return null;
             },
             decoration: InputDecoration(
-              hintText: AppLocalizations.of(context)!.enterYourTitle,
+              labelText: AppLocalizations.of(context)!.enterYourTitle,
+              alignLabelWithHint: true,
               contentPadding: const EdgeInsets.all(15),
               border: const OutlineInputBorder(),
               enabledBorder: const OutlineInputBorder(
