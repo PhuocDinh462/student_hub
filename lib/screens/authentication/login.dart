@@ -265,7 +265,7 @@ class _LoginState extends State<Login> {
                             child: Text(
                               'Login',
                               style: textTheme.bodyMedium!.copyWith(
-                                color: colorScheme.onPrimary,
+                                color: colorScheme.primary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

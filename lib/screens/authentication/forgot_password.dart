@@ -153,8 +153,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               // Send code button
               Button(
                 onTap: sendNewPassword,
-                colorButton: primary_300,
-                colorText: text_50,
+                colorButton: Theme.of(context).colorScheme.tertiary,
+                colorText: Theme.of(context).colorScheme.onPrimary,
                 text: 'Send Code',
               ),
             ],

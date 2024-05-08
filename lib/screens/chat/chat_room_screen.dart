@@ -305,7 +305,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                 onTap: () async {
                   await showModalBottomSheet(
                       context: context,
-                      backgroundColor: Colors.white,
+                      backgroundColor: Theme.of(context).colorScheme.surface,
                       isScrollControlled: true,
                       builder: (ctx) {
                         return SizedBox(
@@ -557,7 +557,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       onPressed: () async {
                         await showModalBottomSheet(
                             context: context,
-                            backgroundColor: Colors.white,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.surface,
                             isScrollControlled: true,
                             builder: (ctx) {
                               return SizedBox(

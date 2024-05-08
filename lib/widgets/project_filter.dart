@@ -53,7 +53,7 @@ class _ProjectFilterState extends State<ProjectFilter> {
                 IconButton(
                   icon: const Icon(
                     Icons.cancel_rounded,
-                    color: Colors.red,
+                    color: color_1,
                   ),
                   iconSize: 30,
                   onPressed: () {
@@ -63,9 +63,9 @@ class _ProjectFilterState extends State<ProjectFilter> {
                 ),
               ],
             ),
-            const Divider(
+            Divider(
               thickness: 1.5,
-              color: primary_300,
+              color: Theme.of(context).primaryColorDark,
             ),
             const Gap(8),
             Expanded(
@@ -124,8 +124,8 @@ class _ProjectFilterState extends State<ProjectFilter> {
                             Navigator.pop(context);
                           },
                           text: 'Clear filters',
-                          colorButton: primary_300,
-                          colorText: text_50,
+                          colorButton: Theme.of(context).colorScheme.tertiary,
+                          colorText: Theme.of(context).colorScheme.onPrimary,
                           width: MediaQuery.of(context).size.width * 0.4,
                         ),
                         Button(
@@ -134,8 +134,8 @@ class _ProjectFilterState extends State<ProjectFilter> {
                             Navigator.pop(context);
                           },
                           text: 'Apply',
-                          colorButton: primary_300,
-                          colorText: text_50,
+                          colorButton: Theme.of(context).colorScheme.tertiary,
+                          colorText: Theme.of(context).colorScheme.onPrimary,
                           width: MediaQuery.of(context).size.width * 0.4,
                         ),
                       ],
