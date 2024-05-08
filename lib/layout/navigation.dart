@@ -60,56 +60,57 @@ class _NavigationState extends State<Navigation> {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) =>
-            setState(() => currentScreenIndex = index),
-        indicatorColor: Theme.of(context).brightness == Brightness.light
-            ? primary_300
-            : primary_200,
-        backgroundColor: Colors.transparent,
-        selectedIndex: currentScreenIndex,
-        destinations: <Widget>[
-          NavigationDestination(
-            icon: const Icon(
-              Icons.task,
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: (int index) => setState(() => currentScreenIndex = index),
+          selectedItemColor: Theme.of(context).brightness == Brightness.light
+              ? primary_300
+              : primary_200,
+          backgroundColor: Colors.transparent,
+          unselectedItemColor: Theme.of(context).brightness == Brightness.light
+              ? text_400
+              : text_500,
+          currentIndex: currentScreenIndex,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.task,
+              ),
+              label: AppLocalizations.of(context)!.projects,
             ),
-            label: AppLocalizations.of(context)!.projects,
-          ),
-          NavigationDestination(
-            icon: const Icon(
-              Icons.dashboard,
+            BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.dashboard,
+              ),
+              label: AppLocalizations.of(context)!.dashboard,
             ),
-            label: AppLocalizations.of(context)!.dashboard,
-          ),
-          NavigationDestination(
-            icon: const Icon(
-              Icons.message,
+            BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.message,
+              ),
+              label: AppLocalizations.of(context)!.messages,
             ),
-            label: AppLocalizations.of(context)!.messages,
-          ),
-          NavigationDestination(
-            icon: const Icon(
-              Icons.notifications,
+            BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.notifications,
+              ),
+              label: AppLocalizations.of(context)!.alerts,
             ),
-            label: AppLocalizations.of(context)!.alerts,
-          ),
-          NavigationDestination(
-            icon: const Icon(
-              Icons.video_call_rounded,
+            BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.video_call_rounded,
+              ),
+              label: AppLocalizations.of(context)!.interviews,
             ),
-            label: AppLocalizations.of(context)!.interview,
-          ),
-        ],
-      ),
-      body: <Widget>[
-        const Projects(),
-        userProvider.currentUser?.currentRole == Role.student
-            ? const DashboardStudent()
-            : const DashboardCompany(),
-        const MessageListScreen(),
-        const AlertScreen(),
-        const Interviews(),
-      ][currentScreenIndex],
-    );
+          ],
+        ),
+        body: <Widget>[
+          const Projects(),
+          userProvider.currentUser?.currentRole == Role.student
+              ? const DashboardStudent()
+              : const DashboardCompany(),
+          const MessageListScreen(),
+          const AlertScreen(),
+          const Interviews(),
+        ][currentScreenIndex]);
   }
 }
