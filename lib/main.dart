@@ -82,6 +82,9 @@ class MyApp extends StatelessWidget {
           } else {
             final ThemeProvider themeProvider =
                 Provider.of<ThemeProvider>(context);
+            final ProjectProvider projectProvider =
+                Provider.of<ProjectProvider>(context);
+            Get.put(projectProvider);
 
             ImageList.loadImage(context);
 
