@@ -8,6 +8,7 @@ import 'package:student_hub/models/chat/video_conference.model.dart';
 import 'package:student_hub/models/interview.model.dart';
 import 'package:student_hub/providers/user.provider.dart';
 import 'package:student_hub/routes/company_route.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class InterviewItem extends StatelessWidget {
   const InterviewItem({super.key, required this.interview});
@@ -94,7 +95,7 @@ class InterviewItem extends StatelessWidget {
                                     ),
                                     const Gap(5),
                                     Text(
-                                      '${DateTime.parse(interview.endTime).difference(DateTime.parse(interview.startTime)).inMinutes} minutes',
+                                      '${DateTime.parse(interview.endTime).difference(DateTime.parse(interview.startTime)).inMinutes} ${AppLocalizations.of(context)!.minutes}',
                                       style: theme.textTheme.labelSmall,
                                     ),
                                   ],
@@ -120,32 +121,32 @@ class InterviewItem extends StatelessWidget {
                         ),
                         const Gap(20),
                         // Action buttons
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                VideoConferenceModel videoConferenceModel =
-                                    VideoConferenceModel(
-                                  userID: userProvider.currentUser!.fullname,
-                                  userName: userProvider.currentUser!.fullname,
-                                  callID: interview.meetingRoomId.toString(),
-                                );
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              VideoConferenceModel videoConferenceModel =
+                                  VideoConferenceModel(
+                                userID: userProvider.currentUser!.fullname,
+                                userName: userProvider.currentUser!.fullname,
+                                callID: interview.meetingRoomId.toString(),
+                              );
 
-                                Get.toNamed(CompanyRoutes.videoConference,
-                                    arguments: videoConferenceModel);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: primary_300,
-                                foregroundColor: text_50,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
+                              Get.toNamed(CompanyRoutes.videoConference,
+                                  arguments: videoConferenceModel);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: primary_300,
+                              foregroundColor: text_50,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
                               ),
-                              child: const Text('Join',
-                                  style: TextStyle(fontSize: 16)),
                             ),
-                          ],
+                            child: Text(
+                              AppLocalizations.of(context)!.join,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
                         ),
                       ],
                     ),

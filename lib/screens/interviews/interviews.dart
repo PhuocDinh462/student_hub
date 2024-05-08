@@ -6,6 +6,7 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/interview.model.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/screens/interviews/widgets/interview_item.dart';
+import 'package:student_hub/screens/interviews/widgets/join_meeting_dialog.dart';
 
 class Interviews extends StatefulWidget {
   const Interviews({super.key});
@@ -46,7 +47,12 @@ class _InterviewsState extends State<Interviews> {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (_) => JoinMeetingDialog(rootContext: context),
+          );
+        },
         foregroundColor: theme.colorScheme.secondaryContainer,
         backgroundColor:
             theme.brightness == Brightness.dark ? primary_200 : primary_300,

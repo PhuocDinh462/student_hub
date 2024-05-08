@@ -93,11 +93,11 @@ class _NavigationState extends State<Navigation> {
             ),
             label: AppLocalizations.of(context)!.alerts,
           ),
-          const NavigationDestination(
-            icon: Icon(
+          NavigationDestination(
+            icon: const Icon(
               Icons.video_call_rounded,
             ),
-            label: 'Interview',
+            label: AppLocalizations.of(context)!.interview,
           ),
         ],
       ),
