@@ -7,7 +7,6 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/student_routes.dart';
-import 'package:student_hub/utils/empty.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/project_filter.dart';
 import 'package:student_hub/widgets/project_card.dart';

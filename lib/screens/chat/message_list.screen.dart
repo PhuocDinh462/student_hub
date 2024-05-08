@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:student_hub/api/api.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/screens/chat/widgets/chat.widgets.dart';
+import 'package:student_hub/utils/empty.dart';
 import 'package:student_hub/widgets/search_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MessageListScreen extends StatefulWidget {
   const MessageListScreen({super.key, this.projectId = -1});
@@ -17,6 +19,13 @@ class _MessageListScreenState extends State<MessageListScreen> {
   bool isLoading = false;
   late List<MessageModel> lstMessage = [];
   late ScrollController _scrollController;
+  late AppLocalizations? appLocal;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    appLocal = AppLocalizations.of(context);
+  }
 
   @override
   void initState() {
@@ -116,23 +125,29 @@ class _MessageListScreenState extends State<MessageListScreen> {
         Expanded(
           child: isLoading
               ? const Center(child: CircularProgressIndicator())
-              : Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 20),
-                  child: ListView.builder(
-                      controller: _scrollController,
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      itemCount: lstMessage.length,
-                      itemBuilder: (ctx, index) {
-                        return MessageItem(
-                          message: widget.projectId == -1
-                              ? lstMessage[index]
-                              : lstMessage[index].copyWith(
-                                  projectModel:
-                                      ProjectModel(id: widget.projectId)),
-                        );
-                      }),
-                ),
+              : lstMessage.isEmpty
+                  ? Center(
+                      child: Empty(
+                        text: appLocal!.noMessages,
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 10, left: 20),
+                      child: ListView.builder(
+                          controller: _scrollController,
+                          physics: const BouncingScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          itemCount: lstMessage.length,
+                          itemBuilder: (ctx, index) {
+                            return MessageItem(
+                              message: widget.projectId == -1
+                                  ? lstMessage[index]
+                                  : lstMessage[index].copyWith(
+                                      projectModel:
+                                          ProjectModel(id: widget.projectId)),
+                            );
+                          }),
+                    ),
         ),
       ]),
     );

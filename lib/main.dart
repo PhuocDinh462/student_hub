@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -7,11 +9,11 @@ import 'package:month_year_picker/month_year_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/models/user.dart';
+import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:student_hub/routes/routes.dart';
-import 'package:student_hub/utils/image_list.dart';
+import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/view-models/view_models.dart';
 import 'package:get/get.dart';
 
@@ -55,13 +57,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
+
     Get.put(userProvider);
 
     Future<void> initializeProviders() async {
-      await Provider.of<UserProvider>(context, listen: false)
-          .initializeProvider();
-      await Provider.of<ThemeProvider>(context, listen: false)
-          .initializeProvider();
+      ThemeProvider themeProvider =
+          Provider.of<ThemeProvider>(context, listen: false);
+      handleListenNotification(userProvider.currentUser!.userId);
+      await Future.wait([
+        userProvider.initializeProvider(),
+        themeProvider.initializeProvider(),
+      ]);
     }
 
     return FutureBuilder(
@@ -129,4 +135,18 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+}
+
+void handleListenNotification(int userId) {
+  SocketApi.init();
+  SocketApi.getNotificationModel(userId).listen(
+    (NotificationModel data) {
+      print('Asset.1: $data');
+    },
+    cancelOnError: false,
+    onError: print,
+    onDone: () {
+      print('*** asset.1 stream controller Done ***');
+    },
+  );
 }

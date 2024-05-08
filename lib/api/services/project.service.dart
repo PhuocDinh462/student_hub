@@ -62,4 +62,20 @@ class ProjectService extends BaseApi {
       throw Exception('Failed to fetch project');
     }
   }
+
+  Future<dynamic> getProjectById(int projectId) async {
+    try {
+      Response response = await dio.get(
+        '/project/$projectId',
+      );
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to fetch notification');
+    }
+  }
 }
