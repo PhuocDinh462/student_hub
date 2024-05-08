@@ -158,5 +158,13 @@
   "descriptionLetter": "Describe why you fit into this project and what you can contribute to it.",
   "yourAnwser": "Your anwser",
   "submitProposal": "Submit proposal",
-  "updateProposal": "Update proposal"
+  "updateProposal": "Update proposal",
+  "interview": "Interview",
+  "minutes": "minutes",
+  "join": "Join",
+  "joinMeetingRoom": "Join a meeting room",
+  "meetingRoomId": "Meeting room ID",
+  "meetingRoomCode": "Meeting room code",
+  "joinMeetingRoomError": "Not find meeting room",
+  "error": "Error"
 }

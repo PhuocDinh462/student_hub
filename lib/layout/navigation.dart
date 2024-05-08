@@ -7,6 +7,7 @@ import 'package:student_hub/screens/alerts/alert.screen.dart';
 import 'package:student_hub/screens/chat/chat.dart';
 import 'package:student_hub/screens/dashboard/company/dashboard.dart';
 import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
+import 'package:student_hub/screens/interviews/interviews.dart';
 import 'package:student_hub/screens/project/projects.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/utils/utils.dart';
@@ -92,6 +93,12 @@ class _NavigationState extends State<Navigation> {
             ),
             label: AppLocalizations.of(context)!.alerts,
           ),
+          NavigationDestination(
+            icon: const Icon(
+              Icons.video_call_rounded,
+            ),
+            label: AppLocalizations.of(context)!.interview,
+          ),
         ],
       ),
       body: <Widget>[
@@ -101,6 +108,7 @@ class _NavigationState extends State<Navigation> {
             : const DashboardCompany(),
         const MessageListScreen(),
         const AlertScreen(),
+        const Interviews(),
       ][currentScreenIndex],
     );
   }
