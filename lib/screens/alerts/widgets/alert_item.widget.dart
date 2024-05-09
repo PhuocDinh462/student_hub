@@ -41,6 +41,8 @@ class AlertItem extends StatelessWidget {
         Provider.of<NotificationViewModel>(context, listen: false);
     final UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
+    final ProjectProvider projectProvider =
+        Provider.of<ProjectProvider>(context);
 
     void handleClickMessage() {
       ProjectModel project = ProjectModel(id: notif.message!.projectId!);
@@ -96,7 +98,7 @@ class AlertItem extends StatelessWidget {
       });
     }
 
-    Future<ProjectModel> hanldeGetProjectById() async {
+    Future<ProjectModel> handleGetProjectById() async {
       try {
         ProjectService projectService = ProjectService();
 
@@ -109,7 +111,8 @@ class AlertItem extends StatelessWidget {
     }
 
     void handleClickOffer() async {
-      await hanldeGetProjectById().then((value) async {
+      context.loaderOverlay.show();
+      await handleGetProjectById().then((value) async {
         Project project = Project(
           id: notif.proposal!.projectId,
           createdAt: DateTime.parse(value.createdAt!),
@@ -120,7 +123,7 @@ class AlertItem extends StatelessWidget {
           proposals: notif.proposal,
           favorite: false,
         );
-        await showModalBottomSheet(
+        showModalBottomSheet(
             context: context,
             backgroundColor: Colors.white,
             isScrollControlled: true,
@@ -138,11 +141,27 @@ class AlertItem extends StatelessWidget {
             });
       }).catchError((e) {
         throw Exception(e);
-      });
+      }).whenComplete(() => context.loaderOverlay.hide());
     }
 
-    void handleClickProposal() {
-      Get.toNamed(CompanyRoutes.proposalDetail, arguments: notif.proposal!.id);
+    void handleClickProposal() async {
+      await handleGetProjectById().then((value) async {
+        Project project = Project(
+          id: notif.proposal!.projectId,
+          createdAt: DateTime.parse(value.createdAt!),
+          description: value.description,
+          title: value.title,
+          completionTime: value.projectScopeFlag,
+          requiredStudents: value.numberOfStudents,
+          proposals: notif.proposal,
+          favorite: false,
+        );
+        projectProvider.setCurrentProject = project;
+        Get.toNamed(CompanyRoutes.proposalDetail,
+            arguments: notif.proposal!.id);
+      }).catchError((e) {
+        throw Exception(e);
+      });
     }
 
     void handleClickNotification(BuildContext context) {

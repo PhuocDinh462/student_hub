@@ -4,6 +4,7 @@ import 'package:student_hub/layout/navigation.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/screens/alerts/alert.screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:student_hub/screens/project/submit_proposal.dart';
 import 'package:student_hub/screens/screens.dart';
 
 class CompanyRoutes {
@@ -28,6 +29,8 @@ class CompanyRoutes {
   static const String proposalDetail = '/project-detail/proposal-detail';
   static const String editProject = '/edit-project';
   static const String videoConference = '/video-conference';
+  static const String projectsSaved = '/projects/saved';
+  static const String submitProposalStudent = '/projects/submit-student';
 
   static Map<String, WidgetBuilder> routes = {
     nav: (context) {
@@ -113,5 +116,19 @@ class CompanyRoutes {
         title: AppLocalizations.of(context)!.editProject,
         body: const EditProject()),
     videoConference: (context) => const VideoConference(),
+    projectsSaved: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.savedProject,
+        body: const ProjectsSaved()),
+    submitProposalStudent: (context) {
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+      final int projectId = args?['projectId'] ?? 0;
+
+      return AccountHeader(
+          title: 'Apply Now',
+          body: SubmitProposal(
+            projectId: projectId,
+          ));
+    },
   };
 }
