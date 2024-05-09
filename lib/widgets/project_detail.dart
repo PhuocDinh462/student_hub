@@ -178,7 +178,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                     onTap: () {
                       Get.back();
                     },
-                    text: 'Cancel',
+                    text: 'Back',
                     colorButton: primary_300,
                     colorText: text_50,
                     width: MediaQuery.of(context).size.width * 0.4,
