@@ -123,7 +123,7 @@ class _PickedImageState extends State<PickedImage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(
-                                width: deviceSize.width * 0.6,
+                                width: deviceSize.width * 0.5,
                                 child: DisplayText(
                                   text: fileName!,
                                   style: textTheme.labelMedium!,
