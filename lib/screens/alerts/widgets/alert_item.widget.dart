@@ -110,9 +110,9 @@ class AlertItem extends StatelessWidget {
       }
     }
 
-    void handleClickOffer() async {
+    void handleClickOffer() {
       context.loaderOverlay.show();
-      await handleGetProjectById().then((value) async {
+      handleGetProjectById().then((value) {
         Project project = Project(
           id: notif.proposal!.projectId,
           createdAt: DateTime.parse(value.createdAt!),
@@ -199,7 +199,10 @@ class AlertItem extends StatelessWidget {
       child: Card(
         child: InkWell(
           onTap: () {
-            handleClickNotification(context);
+            if (notif.typeNotifyFlag != TypeNotifyFlag.offer &&
+                notif.typeNotifyFlag != TypeNotifyFlag.interview) {
+              handleClickNotification(context);
+            }
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
@@ -221,9 +224,8 @@ class AlertItem extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
+                    Wrap(
+                      children: <Widget>[
                         DisplayText(
                           text: title,
                           style: textTheme.labelMedium!,
