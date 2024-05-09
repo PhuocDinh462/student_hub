@@ -169,7 +169,8 @@ class AlertItem extends StatelessWidget {
         NotifiactionService notifiactionService = NotifiactionService();
         notifiactionService.updateNotificationRead(notif.id);
 
-        if (notif.typeNotifyFlag != TypeNotifyFlag.chat) {
+        if (notif.typeNotifyFlag != TypeNotifyFlag.chat &&
+            notif.typeNotifyFlag != TypeNotifyFlag.offer) {
           notificationViewModel.fetchNotification(
               userId: userProvider.currentUser?.userId,
               currentRole: userProvider.currentUser!.currentRole);
@@ -185,6 +186,9 @@ class AlertItem extends StatelessWidget {
           break;
         case TypeNotifyFlag.offer:
           handleClickOffer();
+          notificationViewModel.fetchNotification(
+              userId: userProvider.currentUser?.userId,
+              currentRole: userProvider.currentUser!.currentRole);
           break;
         case TypeNotifyFlag.submitted:
           handleClickProposal();
