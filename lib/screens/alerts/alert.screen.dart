@@ -80,10 +80,19 @@ class _AlertScreenState extends State<AlertScreen> {
                                           ? 'assets/images/message.png'
                                           : 'assets/images/approved.png';
 
+                          final String numChat = notifVM.numberOfChat[
+                                          '${notifVM.notif[index].senderId}'] !=
+                                      null &&
+                                  notifVM.numberOfChat[
+                                          '${notifVM.notif[index].senderId}']! >
+                                      1
+                              ? '(${notifVM.numberOfChat['${notifVM.notif[index].senderId}']})'
+                              : '';
+
                           final String title = notifVM
                                       .notif[index].typeNotifyFlag ==
                                   TypeNotifyFlag.chat
-                              ? '${appLocal?.newMessages} ·'
+                              ? '${appLocal?.newMessages} $numChat ·'
                               : notifVM.notif[index].typeNotifyFlag ==
                                       TypeNotifyFlag.interview
                                   ? '${appLocal?.newMeeting} ·'

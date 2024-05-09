@@ -85,67 +85,69 @@ class _NavigationState extends State<Navigation> {
         updateNumberOfNotif(notifVM);
       }
       return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: (int index) => setState(() => currentScreenIndex = index),
-          selectedItemColor: Theme.of(context).brightness == Brightness.light
-              ? primary_300
-              : primary_200,
-          backgroundColor: Colors.transparent,
-          unselectedItemColor: Theme.of(context).brightness == Brightness.light
-              ? text_400
-              : text_500,
-          currentIndex: currentScreenIndex,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: const Icon(
-                Icons.task,
-              ),
-              label: AppLocalizations.of(context)!.projects,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(
-                Icons.dashboard,
-              ),
-              label: AppLocalizations.of(context)!.dashboard,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(
-                Icons.message,
-              ),
-              label: AppLocalizations.of(context)!.messages,
-            ),
-            BottomNavigationBarItem(
-              icon: Badge(
-                backgroundColor: Colors.red,
-                isLabelVisible: notifVM.numberOfNotifications != 0,
-                label: DisplayText(
-                    text: notifVM.numberOfNotifications.toString(),
-                    style: textTheme.labelSmall!.copyWith(
-                        color: Colors.white,
-                        fontSize: 8,
-                        fontWeight: FontWeight.w600)),
-                child: const Icon(
-                  Icons.notifications,
+          bottomNavigationBar: BottomNavigationBar(
+            onTap: (int index) => setState(() => currentScreenIndex = index),
+            selectedItemColor: Theme.of(context).brightness == Brightness.light
+                ? primary_300
+                : primary_200,
+            backgroundColor: Colors.transparent,
+            unselectedItemColor:
+                Theme.of(context).brightness == Brightness.light
+                    ? text_400
+                    : text_500,
+            currentIndex: currentScreenIndex,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: const Icon(
+                  Icons.task,
                 ),
+                label: AppLocalizations.of(context)!.projects,
               ),
-              label: AppLocalizations.of(context)!.alerts,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(
-                Icons.video_call_rounded,
+              BottomNavigationBarItem(
+                icon: const Icon(
+                  Icons.dashboard,
+                ),
+                label: AppLocalizations.of(context)!.dashboard,
               ),
-              label: AppLocalizations.of(context)!.interviews,
-            ),
-          ],
-        ),
-        body: <Widget>[
-          const Projects(),
-          userProvider.currentUser?.currentRole == Role.student
-              ? const DashboardStudent()
-              : const DashboardCompany(),
-          const MessageListScreen(),
-          const AlertScreen(),
-          const Interviews(),
-        ][currentScreenIndex]);
+              BottomNavigationBarItem(
+                icon: const Icon(
+                  Icons.message,
+                ),
+                label: AppLocalizations.of(context)!.messages,
+              ),
+              BottomNavigationBarItem(
+                icon: Badge(
+                  backgroundColor: Colors.red,
+                  isLabelVisible: notifVM.numberOfNotifications != 0,
+                  label: DisplayText(
+                      text: notifVM.numberOfNotifications.toString(),
+                      style: textTheme.labelSmall!.copyWith(
+                          color: Colors.white,
+                          fontSize: 8,
+                          fontWeight: FontWeight.w600)),
+                  child: const Icon(
+                    Icons.notifications,
+                  ),
+                ),
+                label: AppLocalizations.of(context)!.alerts,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(
+                  Icons.video_call_rounded,
+                ),
+                label: AppLocalizations.of(context)!.interviews,
+              ),
+            ],
+          ),
+          body: <Widget>[
+            const Projects(),
+            userProvider.currentUser?.currentRole == Role.student
+                ? const DashboardStudent()
+                : const DashboardCompany(),
+            const MessageListScreen(),
+            const AlertScreen(),
+            const Interviews(),
+          ][currentScreenIndex]);
+    });
   }
 }

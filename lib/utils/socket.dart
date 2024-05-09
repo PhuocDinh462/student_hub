@@ -1,15 +1,10 @@
-// ignore_for_file: library_prefixes, avoid_print
+// ignore_for_file: avoid_print, library_prefixes
+
 import 'dart:async';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:student_hub/models/models.dart';
-
-Future<String?> getToken() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getString('token');
-}
 
 class StreamSocketController<T> {
   StreamSocketController() {
@@ -33,12 +28,14 @@ class SocketApi {
 
   SocketApi._internal();
 
-  static void init() {
+  static void init(String token) {
     if (socket.connected == false) {
+      socket.io.options?['extraHeaders'] = {'Authorization': 'Bearer $token'};
+
       socket.connect();
 
       socket.onConnect((data) => {
-            print('Connected'),
+            print('Connected to server: ${dotenv.env['API_SERVER']}'),
           });
 
       socket.on('unauthorized', (dynamic data) {
@@ -68,12 +65,6 @@ class SocketApi {
         .setTimeout(5000)
         .setReconnectionDelay(10000)
         .enableReconnection()
-        .setQuery(
-          <dynamic, dynamic>{
-            'query': {'project_id': 1},
-            'Authorization': 'Bearer ${getToken()}',
-          },
-        )
         .build(),
   );
 
@@ -83,7 +74,9 @@ class SocketApi {
     try {
       socket.on('NOTI_$userId', (dynamic data) {
         try {
-          streamSocket.addResponse(NotificationModel.fromJson(data));
+          Map<String, dynamic> notification = data['notification'];
+          streamSocket.addResponse(NotificationModel.fromMap(notification));
+          print('aaa $notification');
         } catch (e) {
           throw Exception(e);
         }
@@ -93,7 +86,7 @@ class SocketApi {
       throw Exception(e);
     } finally {
       print('Stream controller asset closed');
-      socket.off('newMsg');
+      socket.off('NOTI_$userId');
       streamSocket.dispose();
     }
   }

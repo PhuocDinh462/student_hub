@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/services/api.services.dart';
+import 'package:student_hub/models/chat/video_conference.model.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/routes.dart';
@@ -31,15 +32,26 @@ class AlertItem extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final deviceSize = context.deviceSize;
+
     final userId =
         Provider.of<UserProvider>(context, listen: false).currentUser?.userId;
-
     final String timeCreated =
         Helpers.calculateTimeFromNow(notif.createdAt!, context);
+    final NotificationViewModel notificationViewModel =
+        Provider.of<NotificationViewModel>(context, listen: false);
+    final UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
 
     void handleClickMessage() {
       ProjectModel project = ProjectModel(id: notif.message!.projectId!);
 
+      notificationViewModel
+          .updateMessageNotificationRead(notif.senderId)
+          .then((value) {
+        notificationViewModel.fetchNotification(
+            userId: userProvider.currentUser?.userId,
+            currentRole: userProvider.currentUser!.currentRole);
+      });
       if (notif.receiver?.id == userId) {
         Navigator.of(context).pushNamed(CompanyRoutes.chatScreen, arguments: {
           'user': notif.receiver,
@@ -55,7 +67,15 @@ class AlertItem extends StatelessWidget {
       }
     }
 
-    void handleClickInterview() {}
+    void handleClickInterview() {
+      VideoConferenceModel videoConferenceModel = VideoConferenceModel(
+        userID: userProvider.currentUser!.userId.toString(),
+        userName: userProvider.currentUser!.fullname,
+        callID: notif.message!.interview!.id.toString(),
+      );
+      Get.toNamed(CompanyRoutes.videoConference,
+          arguments: videoConferenceModel);
+    }
 
     void handleAcceptOffer() {
       ProposalService ps = ProposalService();
@@ -126,19 +146,15 @@ class AlertItem extends StatelessWidget {
     }
 
     void handleClickNotification(BuildContext context) {
-      final UserProvider userProvider =
-          Provider.of<UserProvider>(context, listen: false);
-
       if (notif.notifyFlag == NotifyFlag.unread) {
         NotifiactionService notifiactionService = NotifiactionService();
         notifiactionService.updateNotificationRead(notif.id);
 
-        final NotificationViewModel notificationViewModel =
-            Provider.of<NotificationViewModel>(context, listen: false);
-
-        notificationViewModel.fetchNotification(
-            userId: userProvider.currentUser?.userId,
-            currentRole: userProvider.currentUser!.currentRole);
+        if (notif.typeNotifyFlag != TypeNotifyFlag.chat) {
+          notificationViewModel.fetchNotification(
+              userId: userProvider.currentUser?.userId,
+              currentRole: userProvider.currentUser!.currentRole);
+        }
       }
 
       switch (notif.typeNotifyFlag) {
@@ -158,7 +174,6 @@ class AlertItem extends StatelessWidget {
             handleClickProposal();
           }
           break;
-
         case TypeNotifyFlag.hired:
           break;
       }
@@ -225,12 +240,7 @@ class AlertItem extends StatelessWidget {
                       ElevatedButton(
                           style: buttonGreen,
                           onPressed: () {
-                            if (notif.typeNotifyFlag ==
-                                TypeNotifyFlag.interview) {
-                              handleClickInterview();
-                            } else {
-                              handleClickOffer();
-                            }
+                            handleClickNotification(context);
                           },
                           child: DisplayText(
                             text:
