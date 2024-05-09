@@ -161,6 +161,7 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
                             child: DisplayText(
                               text: appLocal!.welcomeStudentHub,
                               style: textTheme.displayLarge!,
+                              textAlign: TextAlign.center,
                               overflow: TextOverflow.visible,
                             )),
                         if (!isHaveInfo)
