@@ -170,9 +170,15 @@ class AlertItem extends StatelessWidget {
         notifiactionService.updateNotificationRead(notif.id);
 
         if (notif.typeNotifyFlag != TypeNotifyFlag.chat) {
-          notificationViewModel.fetchNotification(
-              userId: userProvider.currentUser?.userId,
-              currentRole: userProvider.currentUser!.currentRole);
+          notificationViewModel
+              .fetchNotification(
+                  userId: userProvider.currentUser?.userId,
+                  currentRole: userProvider.currentUser!.currentRole)
+              .then((value) {
+            if (notif.typeNotifyFlag == TypeNotifyFlag.offer) {
+              handleClickOffer();
+            }
+          });
         }
       }
 
@@ -184,7 +190,6 @@ class AlertItem extends StatelessWidget {
           handleClickInterview();
           break;
         case TypeNotifyFlag.offer:
-          handleClickOffer();
           break;
         case TypeNotifyFlag.submitted:
           handleClickProposal();
