@@ -18,6 +18,7 @@ import 'package:student_hub/utils/snack_bar.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:student_hub/widgets/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MessageMeetingBubble extends StatefulWidget {
   const MessageMeetingBubble({
@@ -103,7 +104,10 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
         Navigator.pop(context);
 
         MySnackBar.showSnackBar(
-            context, 'Please fill in all fields', 'Error', ContentType.failure);
+            context,
+            AppLocalizations.of(context)!.errorFilledContent,
+            AppLocalizations.of(context)!.error,
+            ContentType.failure);
         return;
       }
       if (_meetingRoomCodeController.text == widget.message.meetingRoomCode &&
@@ -121,8 +125,11 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
       } else {
         Navigator.pop(context);
 
-        MySnackBar.showSnackBar(context, 'Wrong Meeting\'s information',
-            'Error', ContentType.failure);
+        MySnackBar.showSnackBar(
+            context,
+            AppLocalizations.of(context)!.wrongMeetingInfo,
+            AppLocalizations.of(context)!.error,
+            ContentType.failure);
       }
       _meetingRoomCodeController.clear();
       _meetingRoomIdController.clear();
@@ -170,7 +177,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
             Row(
               children: [
                 Text(
-                  'Start Time: ',
+                  AppLocalizations.of(context)!.startTime,
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: textColor,
                       ),
@@ -187,7 +194,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
             Row(
               children: [
                 Text(
-                  'End Time:   ',
+                  AppLocalizations.of(context)!.endTime,
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: textColor,
                       ),
@@ -204,7 +211,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
             Row(
               children: [
                 Text(
-                  'Meeting Room ID:       ',
+                  AppLocalizations.of(context)!.meetingRoomId,
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: textColor,
                       ),
@@ -221,7 +228,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
             Row(
               children: [
                 Text(
-                  'Meeting Room Code:  ',
+                  AppLocalizations.of(context)!.meetingRoomCode,
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: textColor,
                       ),
@@ -248,7 +255,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
                           return AlertDialog(
                             scrollable: true,
                             title: Text(
-                              'Verify Meeting Room',
+                              AppLocalizations.of(context)!.verifyMeetingRoom,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleLarge
@@ -264,16 +271,18 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
                                   children: <Widget>[
                                     TextFormField(
                                       controller: _meetingRoomIdController,
-                                      decoration: const InputDecoration(
-                                        labelText: 'Meeting Room ID',
-                                        icon: Icon(Icons.meeting_room),
+                                      decoration: InputDecoration(
+                                        labelText: AppLocalizations.of(context)!
+                                            .labelMeetingRoomId,
+                                        icon: const Icon(Icons.meeting_room),
                                       ),
                                     ),
                                     TextFormField(
                                       controller: _meetingRoomCodeController,
-                                      decoration: const InputDecoration(
-                                        labelText: 'Meeting Room Code',
-                                        icon: Icon(Icons.lock),
+                                      decoration: InputDecoration(
+                                        labelText: AppLocalizations.of(context)!
+                                            .labelMeetingRoomCode,
+                                        icon: const Icon(Icons.lock),
                                       ),
                                     ),
                                   ],
@@ -282,13 +291,15 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
                             ),
                             actions: [
                               ElevatedButton(
-                                child: const Text('Cancel'),
+                                child:
+                                    Text(AppLocalizations.of(context)!.cancel),
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
                               ),
                               ElevatedButton(
-                                child: const Text('Submit'),
+                                child:
+                                    Text(AppLocalizations.of(context)!.confirm),
                                 onPressed: () {
                                   verifyMeetingRoom();
                                 },
@@ -299,7 +310,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
                       );
                     },
                     child: DisplayText(
-                      text: 'Join',
+                      text: AppLocalizations.of(context)!.join,
                       style: Theme.of(context).textTheme.labelLarge!.copyWith(
                             color: Colors.white,
                           ),
@@ -323,7 +334,8 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
                         onTap: () async {
                           await showModalBottomSheet(
                               context: context,
-                              backgroundColor: Colors.white,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.surface,
                               isScrollControlled: true,
                               builder: (ctx) {
                                 return SizedBox(
@@ -363,7 +375,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
                             ),
                             const Gap(16),
                             Text(
-                              'Re-Schedule the meeting',
+                              AppLocalizations.of(context)!.reschedule,
                               style: Theme.of(context)
                                   .textTheme
                                   .labelMedium
@@ -392,7 +404,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
                             ),
                             const Gap(16),
                             Text(
-                              'Cancel the meeting',
+                              AppLocalizations.of(context)!.cancelTheMeeting,
                               style: Theme.of(context)
                                   .textTheme
                                   .labelMedium
@@ -405,7 +417,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
                   ),
                 if (widget.message.canceled)
                   Text(
-                    'The meeting has been canceled',
+                    AppLocalizations.of(context)!.canceledMeeting,
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall

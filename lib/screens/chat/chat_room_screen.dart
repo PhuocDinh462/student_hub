@@ -14,6 +14,7 @@ import 'package:intl/intl.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:student_hub/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChatRoomScreen extends StatefulWidget {
   const ChatRoomScreen(
@@ -307,7 +308,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                 onTap: () async {
                   await showModalBottomSheet(
                       context: context,
-                      backgroundColor: Colors.white,
+                      backgroundColor: Theme.of(context).colorScheme.surface,
                       isScrollControlled: true,
                       builder: (ctx) {
                         return SizedBox(
@@ -333,36 +334,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     ),
                     const Gap(16),
                     Text(
-                      'Schedule an interview',
+                      AppLocalizations.of(context)!.scheduleInterview,
                       style: Theme.of(context)
                           .textTheme
                           .labelMedium
                           ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              PopupMenuItem<String>(
-                value: 'Cancel', // Giá trị cho mục "Cancel"
-                height: 60,
-                onTap: () {
-                  // Xử lý khi chọn "Cancel"
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.cancel,
-                      color: Theme.of(context).colorScheme.primary.withOpacity(
-                          Theme.of(context).brightness == Brightness.dark
-                              ? 1
-                              : .7),
-                    ),
-                    const Gap(16),
-                    Text(
-                      'Cancel',
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
                     ),
                   ],
                 ),
@@ -432,9 +408,10 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                         ),
                                       ),
                                       const SizedBox(height: 4.0),
-                                      const Text(
-                                        'You\'re connected on StudentHub',
-                                        style: TextStyle(
+                                      Text(
+                                        AppLocalizations.of(context)!
+                                            .connectedMessage,
+                                        style: const TextStyle(
                                           color: Colors.grey,
                                           fontSize: 14.0,
                                         ),
@@ -559,7 +536,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       onPressed: () async {
                         await showModalBottomSheet(
                             context: context,
-                            backgroundColor: Colors.white,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.surface,
                             isScrollControlled: true,
                             builder: (ctx) {
                               return SizedBox(
@@ -598,7 +576,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                           fillColor: Theme.of(context)
                               .colorScheme
                               .onSecondaryContainer,
-                          hintText: 'Type a message',
+                          hintText: AppLocalizations.of(context)!.typeMessage,
                           hintStyle:
                               Theme.of(context).textTheme.labelSmall!.copyWith(
                                     color: text_400,

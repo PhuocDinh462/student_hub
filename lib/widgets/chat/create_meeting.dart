@@ -9,6 +9,7 @@ import 'package:gap/gap.dart';
 import 'package:student_hub/widgets/text_field_title.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:student_hub/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateMeeting extends StatefulWidget {
   const CreateMeeting({
@@ -53,8 +54,8 @@ class _CreateMeetingState extends State<CreateMeeting> {
       if (titleController.text.isEmpty) {
         MySnackBar.showSnackBar(
           context,
-          'Please fill all meeting\'s information',
-          'Error',
+          AppLocalizations.of(context)!.errorFilledMeeting,
+          AppLocalizations.of(context)!.error,
           ContentType.failure,
         );
         return;
@@ -85,91 +86,104 @@ class _CreateMeetingState extends State<CreateMeeting> {
       }
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: SizedBox(
-        width: double.infinity,
-        child: Column(
-          children: [
-            CircleContainer(
-              color: primary_300.withOpacity(0.3),
-              child: const Icon(Icons.calendar_month, color: primary_300),
-            ),
-            const Gap(4),
-            Text(
-              'Schedule a video call interview',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const Gap(4),
-            const Divider(thickness: 1.5, color: primary_300),
-            const Gap(8),
-            SingleChildScrollView(
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: SizedBox(
+              width: double.infinity,
               child: Column(
                 children: [
-                  TextFieldTitle(
-                    title: 'Title',
-                    hintText: 'Enter meeting\'s title',
-                    controller: titleController,
+                  CircleContainer(
+                    color: primary_300.withOpacity(0.3),
+                    child: const Icon(Icons.calendar_month, color: primary_300),
                   ),
-                  const Gap(30),
-                  SelectDateTime(
-                    titleDate: 'Start Date',
-                    titleTime: 'Start Time',
-                    date: pickedStartDate,
-                    time: pickedStartTime,
-                    onChanged: (startDate, startTime) {
-                      setState(() {
-                        pickedStartDate = startDate;
-                        pickedStartTime = startTime;
-                      });
-                    },
+                  const Gap(4),
+                  Text(
+                    AppLocalizations.of(context)!.scheduleInterview,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  const Gap(30),
-                  SelectDateTime(
-                    titleDate: 'End Date',
-                    titleTime: 'End Time',
-                    date: pickedEndDate,
-                    time: pickedEndTime,
-                    onChanged: (endDate, endTime) {
-                      setState(() {
-                        pickedEndDate = endDate;
-                        pickedEndTime = endTime;
-                      });
-                    },
+                  const Gap(4),
+                  Divider(
+                    thickness: 1.5,
+                    color: Theme.of(context).primaryColorDark,
                   ),
-                  const Gap(20),
-                  const Divider(thickness: 1.5, color: primary_300),
-                  const Gap(30),
+                  const Gap(8),
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        TextFieldTitle(
+                          title: AppLocalizations.of(context)!.title,
+                          hintText: AppLocalizations.of(context)!.titleHint,
+                          controller: titleController,
+                        ),
+                        const Gap(30),
+                        SelectDateTime(
+                          titleDate: AppLocalizations.of(context)!.startDate,
+                          titleTime: AppLocalizations.of(context)!.startTime,
+                          date: pickedStartDate,
+                          time: pickedStartTime,
+                          onChanged: (startDate, startTime) {
+                            setState(() {
+                              pickedStartDate = startDate;
+                              pickedStartTime = startTime;
+                            });
+                          },
+                        ),
+                        const Gap(30),
+                        SelectDateTime(
+                          titleDate: AppLocalizations.of(context)!.endDate,
+                          titleTime: AppLocalizations.of(context)!.endTime,
+                          date: pickedEndDate,
+                          time: pickedEndTime,
+                          onChanged: (endDate, endTime) {
+                            setState(() {
+                              pickedEndDate = endDate;
+                              pickedEndTime = endTime;
+                            });
+                          },
+                        ),
+                        const Gap(20),
+                        Divider(
+                          thickness: 1.5,
+                          color: Theme.of(context).primaryColorDark,
+                        ),
+                        const Gap(30),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Button(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        text: AppLocalizations.of(context)!.cancel,
+                        colorButton: Theme.of(context).colorScheme.tertiary,
+                        colorText: Theme.of(context).colorScheme.onPrimary,
+                        width: MediaQuery.of(context).size.width * 0.4,
+                      ),
+                      Button(
+                        onTap: () {
+                          createMeeting();
+                        },
+                        text: AppLocalizations.of(context)!.sendInvite,
+                        colorButton: Theme.of(context).colorScheme.tertiary,
+                        colorText: Theme.of(context).colorScheme.onPrimary,
+                        width: MediaQuery.of(context).size.width * 0.4,
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Button(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  text: 'Cancel',
-                  colorButton: primary_300,
-                  colorText: text_50,
-                  width: MediaQuery.of(context).size.width * 0.4,
-                ),
-                Button(
-                  onTap: () {
-                    createMeeting();
-                  },
-                  text: 'Send Invite',
-                  colorButton: primary_300,
-                  colorText: text_50,
-                  width: MediaQuery.of(context).size.width * 0.4,
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );

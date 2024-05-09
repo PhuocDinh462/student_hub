@@ -23,20 +23,20 @@ class InputText extends StatelessWidget {
         decoration: InputDecoration(
           prefixIcon: icon != null ? Icon(icon) : null,
           enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: text_400,
+            borderSide: BorderSide(
+              color: Theme.of(context).primaryColor,
               width: 2.0,
             ),
             borderRadius: BorderRadius.circular(10.0),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: primary_300,
+            borderSide: BorderSide(
+              color: Theme.of(context).primaryColor,
               width: 2.0,
             ),
             borderRadius: BorderRadius.circular(10.0),
           ),
-          fillColor: text_100,
+          fillColor: Theme.of(context).cardColor,
           filled: true,
           hintText: hintText,
           hintStyle: const TextStyle(color: text_500),

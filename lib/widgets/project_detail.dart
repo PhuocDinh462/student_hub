@@ -10,6 +10,7 @@ import 'package:student_hub/routes/routes.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/circle_container.dart';
 import 'package:gap/gap.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum ProjectDetailsView {
   viewProposal,
@@ -90,7 +91,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
             Row(
               children: [
                 Text(
-                  'Student are looking for:',
+                  AppLocalizations.of(context)!.studentLookingFor,
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium
@@ -133,7 +134,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Project Scope',
+                      AppLocalizations.of(context)!.projectScope,
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
@@ -154,14 +155,14 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Student required',
+                      AppLocalizations.of(context)!.studentRequire,
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '$studentsNeeded students',
+                      '$studentsNeeded ${AppLocalizations.of(context)!.student}',
                       style: Theme.of(context).textTheme.labelLarge,
                     ),
                   ],
@@ -203,10 +204,10 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                           arguments: {'projectId': widget.project.id});
                     },
                     text: widget.viewType != ProjectDetailsView.viewProposal
-                        ? 'Apply Now'
-                        : 'View Letter',
-                    colorButton: primary_300,
-                    colorText: text_50,
+                        ? AppLocalizations.of(context)!.applyNow
+                        : AppLocalizations.of(context)!.viewLetter,
+                    colorButton: Theme.of(context).colorScheme.tertiary,
+                    colorText: Theme.of(context).colorScheme.onPrimary,
                     width: MediaQuery.of(context).size.width * 0.4,
                   ),
                   if (widget.viewType != ProjectDetailsView.viewProposal &&
@@ -217,9 +218,9 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                             userProvider, widget.project.id, 0);
                         Get.back();
                       },
-                      text: 'Saved',
-                      colorButton: primary_300,
-                      colorText: text_50,
+                      text: AppLocalizations.of(context)!.save,
+                      colorButton: Theme.of(context).colorScheme.tertiary,
+                      colorText: Theme.of(context).colorScheme.onPrimary,
                       width: MediaQuery.of(context).size.width * 0.4,
                     ),
                 ],

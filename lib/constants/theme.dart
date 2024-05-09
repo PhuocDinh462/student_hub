@@ -42,6 +42,7 @@ class AppTheme {
       secondary: Colors.black,
       onSecondaryContainer: text_50,
       surfaceVariant: text_800,
+      tertiary: primary_300,
     ),
     cardTheme: const CardTheme(
       color: text_50,
@@ -100,6 +101,7 @@ class AppTheme {
       secondary: Colors.white,
       onSecondaryContainer: text_600,
       surfaceVariant: Colors.white,
+      tertiary: text_50,
     ),
     cardTheme: const CardTheme(
       color: text_800,
