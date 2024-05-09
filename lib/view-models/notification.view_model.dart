@@ -140,32 +140,33 @@ class NotificationViewModel extends ChangeNotifier {
       _notifOrigin.add(item);
     }
     _numberOfNotifications = _numberOfNotifications - numberOfChat.length;
+    if (index1 != -1) {
+      if (item.typeNotifyFlag == TypeNotifyFlag.chat) {
+        int index = _notif.indexWhere((n) =>
+            n.senderId == item.senderId &&
+            n.typeNotifyFlag == TypeNotifyFlag.chat);
 
-    if (item.typeNotifyFlag == TypeNotifyFlag.chat && index1 != -1) {
-      int index = _notif.indexWhere((n) =>
-          n.senderId == item.senderId &&
-          n.typeNotifyFlag == TypeNotifyFlag.chat);
+        if (item.notifyFlag == NotifyFlag.unread) {
+          if (_numberOfChat.containsKey('${item.senderId}')) {
+            _numberOfChat['${item.senderId}'] =
+                (_numberOfChat['${item.senderId}'] ?? 0) + 1;
+          } else {
+            _numberOfChat['${item.senderId}'] = 1;
+          }
+        }
 
-      if (item.notifyFlag == NotifyFlag.unread) {
-        if (_numberOfChat.containsKey('${item.senderId}')) {
-          _numberOfChat['${item.senderId}'] =
-              (_numberOfChat['${item.senderId}'] ?? 0) + 1;
+        if (index != -1) {
+          DateTime currentItemSentAt =
+              DateTime.parse(item.message!.createdAt ?? '');
+          DateTime existingItemSentAt =
+              DateTime.parse(_notif[index].message!.createdAt ?? '');
+
+          if (currentItemSentAt.isAfter(existingItemSentAt)) {
+            _notif[index] = item;
+          }
         } else {
-          _numberOfChat['${item.senderId}'] = 1;
+          _notif.add(item);
         }
-      }
-
-      if (index != -1) {
-        DateTime currentItemSentAt =
-            DateTime.parse(item.message!.createdAt ?? '');
-        DateTime existingItemSentAt =
-            DateTime.parse(_notif[index].message!.createdAt ?? '');
-
-        if (currentItemSentAt.isAfter(existingItemSentAt)) {
-          _notif[index] = item;
-        }
-      } else {
-        _notif.add(item);
       }
 
       if (item.typeNotifyFlag == TypeNotifyFlag.interview ||
