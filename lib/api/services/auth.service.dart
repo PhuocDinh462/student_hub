@@ -60,7 +60,7 @@ class AuthService extends BaseApi {
       }
       return response;
     } catch (e) {
-      print(e);
+      throw Exception(e);
     }
   }
 }

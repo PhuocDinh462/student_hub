@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/company_route.dart';
-import 'package:student_hub/utils/helpers.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/widgets.dart';
 

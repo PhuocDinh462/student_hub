@@ -4,8 +4,6 @@ import 'package:student_hub/api/services/chat.service.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/chat/message.dart';
 import 'package:student_hub/utils/utils.dart';
-// import 'package:student_hub/models/project.dart';
-import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/circle_container.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/widgets/text_field_title.dart';
