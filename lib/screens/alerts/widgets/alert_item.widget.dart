@@ -133,12 +133,16 @@ class AlertItem extends StatelessWidget {
                 child: ProjectDetails(
                   project: project,
                   viewType: ProjectDetailsView.viewOffer,
-                  acceptOffer: () {
-                    handleAcceptOffer();
-                  },
+                  acceptOffer: notif.notifyFlag == NotifyFlag.read
+                      ? null
+                      : handleAcceptOffer,
                 ),
               );
-            });
+            }).then((value) {
+          notificationViewModel.fetchNotification(
+              userId: userProvider.currentUser?.userId,
+              currentRole: userProvider.currentUser!.currentRole);
+        });
       }).catchError((e) {
         throw Exception(e);
       }).whenComplete(() => context.loaderOverlay.hide());
@@ -169,16 +173,11 @@ class AlertItem extends StatelessWidget {
         NotifiactionService notifiactionService = NotifiactionService();
         notifiactionService.updateNotificationRead(notif.id);
 
-        if (notif.typeNotifyFlag != TypeNotifyFlag.chat) {
-          notificationViewModel
-              .fetchNotification(
-                  userId: userProvider.currentUser?.userId,
-                  currentRole: userProvider.currentUser!.currentRole)
-              .then((value) {
-            if (notif.typeNotifyFlag == TypeNotifyFlag.offer) {
-              handleClickOffer();
-            }
-          });
+        if (notif.typeNotifyFlag != TypeNotifyFlag.chat &&
+            notif.typeNotifyFlag != TypeNotifyFlag.offer) {
+          notificationViewModel.fetchNotification(
+              userId: userProvider.currentUser?.userId,
+              currentRole: userProvider.currentUser!.currentRole);
         }
       }
 
@@ -190,9 +189,7 @@ class AlertItem extends StatelessWidget {
           handleClickInterview();
           break;
         case TypeNotifyFlag.offer:
-          if (notif.notifyFlag == NotifyFlag.read) {
-            handleClickOffer();
-          }
+          handleClickOffer();
           break;
         case TypeNotifyFlag.submitted:
           handleClickProposal();

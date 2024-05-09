@@ -183,15 +183,16 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                     colorText: text_50,
                     width: MediaQuery.of(context).size.width * 0.4,
                   ),
-                  Button(
-                    onTap: () {
-                      widget.acceptOffer!();
-                    },
-                    text: 'Accept',
-                    colorButton: primary_300,
-                    colorText: text_50,
-                    width: MediaQuery.of(context).size.width * 0.4,
-                  ),
+                  if (widget.acceptOffer != null)
+                    Button(
+                      onTap: () {
+                        widget.acceptOffer!();
+                      },
+                      text: 'Accept',
+                      colorButton: primary_300,
+                      colorText: text_50,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                    ),
                 ],
               )
             else if (widget.viewType != ProjectDetailsView.viewActiveProposal)
