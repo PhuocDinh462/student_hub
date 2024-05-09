@@ -162,8 +162,8 @@ class _LoginState extends State<Login> {
               const Gap(10),
               Text(
                 'Student Hub',
-                style: textTheme.displayLarge!.copyWith(
-                    color: colorScheme.onPrimary, fontWeight: FontWeight.bold),
+                style: textTheme.displayLarge!
+                    .copyWith(color: primary_50, fontWeight: FontWeight.bold),
               ),
               const Gap(20),
               Container(
@@ -238,7 +238,7 @@ class _LoginState extends State<Login> {
                               child: Text(
                                 AppLocalizations.of(context)!.forgotPassword,
                                 style: textTheme.bodyMedium!.copyWith(
-                                  color: colorScheme.primary,
+                                  color: primary_300,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -292,7 +292,7 @@ class _LoginState extends State<Login> {
                             child: Text(
                               AppLocalizations.of(context)!.signUpHere,
                               style: textTheme.bodyMedium!.copyWith(
-                                color: colorScheme.primary,
+                                color: primary_300,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

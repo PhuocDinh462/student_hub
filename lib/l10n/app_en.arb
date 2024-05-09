@@ -73,7 +73,7 @@
   "title": "Title",
   "description": "Description",
   "projectScope": "Project scope",
-  "studentRequire": "Student require",
+  "studentRequire": "Student required",
   "students": "students",
   "educations": "Educations",
   "skills": "Skills",
@@ -236,6 +236,27 @@
   "join": "Join",
   "reschedule": "Re-Schedule the meeting",
   "cancelTheMeeting": "Cancel the meeting",
-  "canceledMeeting": "The meeting has been canceled"
+  "canceledMeeting": "The meeting has been canceled",
+  "samePassword": "Password and Confirm Password must be the same",
+  "changeSucess": "Password changed successfully",
+  "failedChangePass": "Failed to change password",
+  "changePasswordTitle": "Change Your Password",
+  "oldPasswordHint": "Enter your old password",
+  "newPassword": "Enter new password",
+  "confirmPassword": "Confirm your Password",
+  "changePassword": "Change Password",
+  "studentLookingFor": "Student are looking for:",
+  "student": "students",
+  "applyNow": "Apply Now",
+  "viewLetter": "View Letter",
+  "save": "Save",
+  "createStudentProfile": "Please create your student's profile",
+  "failedUpdateFavoriteProject": "Failed to update favorite project",
+  "created": "Created",
+  "daysAgo": "days ago",
+  "time": "Time: ",
+  "proposals": "Proposals: ",
+  "studentsNeeded": "students needed"
+
 
 }

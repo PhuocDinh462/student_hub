@@ -320,7 +320,8 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
                         onTap: () async {
                           await showModalBottomSheet(
                               context: context,
-                              backgroundColor: Colors.white,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.surface,
                               isScrollControlled: true,
                               builder: (ctx) {
                                 return SizedBox(

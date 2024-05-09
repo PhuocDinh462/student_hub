@@ -162,8 +162,8 @@ class _UpdateMeetingState extends State<UpdateMeeting> {
                     Navigator.pop(context);
                   },
                   text: AppLocalizations.of(context)!.cancel,
-                  colorButton: primary_300,
-                  colorText: text_50,
+                  colorButton: Theme.of(context).colorScheme.tertiary,
+                  colorText: Theme.of(context).colorScheme.onPrimary,
                   width: MediaQuery.of(context).size.width * 0.4,
                 ),
                 Button(
@@ -171,8 +171,8 @@ class _UpdateMeetingState extends State<UpdateMeeting> {
                     updateMeeting();
                   },
                   text: AppLocalizations.of(context)!.update,
-                  colorButton: primary_300,
-                  colorText: text_50,
+                  colorButton: Theme.of(context).colorScheme.tertiary,
+                  colorText: Theme.of(context).colorScheme.onPrimary,
                   width: MediaQuery.of(context).size.width * 0.4,
                 ),
               ],

@@ -236,6 +236,26 @@
   "join": "Tham gia",
   "reschedule": "Đặt lại lịch cuộc họp",
   "cancelTheMeeting": "Hủy cuộc họp",
-  "canceledMeeting": "Cuộc họp đã bị hủy"
-  
+  "canceledMeeting": "Cuộc họp đã bị hủy",
+  "samePassword": "Mật khẩu và Xác nhận mật khẩu phải giống nhau",
+  "changeSucess": "Đổi mật khẩu thành công",
+  "failedChangePass": "Không thể đổi mật khẩu",
+  "changePasswordTitle": "Thay Đổi Mật Khẩu Của Bạn",
+  "oldPasswordHint": "Nhập mật khẩu cũ của bạn",
+  "newPassword": "Nhập mật khẩu mới",
+  "confirmPassword": "Xác nhận mật khẩu của bạn",
+  "changePassword": "Đổi Mật Khẩu",
+  "studentLookingFor": "Sinh viên đang tìm kiếm:",
+  "student": "sinh viên",
+  "applyNow": "Nộp Đơn",
+  "viewLetter": "Xem Thư",
+  "save": "Lưu",
+  "createStudentProfile": "Vui lòng tạo hồ sơ sinh viên của bạn",
+  "failedUpdateFavoriteProject": "Không thể cập nhật dự án yêu thích",
+  "created": "Đã tạo",
+  "daysAgo": "ngày trước",
+  "time": "Thời gian: ",
+  "proposals": "Đề xuất: ",
+  "studentsNeeded": "sinh viên"
+
 }

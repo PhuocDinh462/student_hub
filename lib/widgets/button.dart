@@ -57,7 +57,7 @@ class _ButtonState extends State<Button> {
           margin: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
             color: widget.colorButton,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Center(
             child: Text(
@@ -65,7 +65,7 @@ class _ButtonState extends State<Button> {
               style: TextStyle(
                 color: widget.colorText,
                 fontWeight: FontWeight.bold,
-                fontSize: 18,
+                fontSize: 16,
               ),
             ),
           ),
