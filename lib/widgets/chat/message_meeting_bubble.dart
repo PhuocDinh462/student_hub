@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_hub/api/services/chat.service.dart';
-import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/chat/message.dart';
 import 'package:student_hub/models/chat/video_conference.model.dart';
 import 'package:student_hub/providers/user.provider.dart';
@@ -249,65 +248,75 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
                   ElevatedButton(
                     style: buttonGreen,
                     onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            scrollable: true,
-                            title: Text(
-                              AppLocalizations.of(context)!.verifyMeetingRoom,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: primary_300,
-                                  ),
-                            ),
-                            content: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Form(
-                                child: Column(
-                                  children: <Widget>[
-                                    TextFormField(
-                                      controller: _meetingRoomIdController,
-                                      decoration: InputDecoration(
-                                        labelText: AppLocalizations.of(context)!
-                                            .labelMeetingRoomId,
-                                        icon: const Icon(Icons.meeting_room),
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      controller: _meetingRoomCodeController,
-                                      decoration: InputDecoration(
-                                        labelText: AppLocalizations.of(context)!
-                                            .labelMeetingRoomCode,
-                                        icon: const Icon(Icons.lock),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            actions: [
-                              ElevatedButton(
-                                child:
-                                    Text(AppLocalizations.of(context)!.cancel),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                              ElevatedButton(
-                                child:
-                                    Text(AppLocalizations.of(context)!.confirm),
-                                onPressed: () {
-                                  verifyMeetingRoom();
-                                },
-                              ),
-                            ],
-                          );
-                        },
+                      VideoConferenceModel videoConferenceModel =
+                          VideoConferenceModel(
+                        userID: userProvider.currentUser!.userId.toString(),
+                        userName: userProvider.currentUser!.fullname,
+                        callID: widget.message.meetingRoomId.toString(),
                       );
+
+                      Get.toNamed(CompanyRoutes.videoConference,
+                          arguments: videoConferenceModel);
+
+                      //   showDialog(
+                      //     context: context,
+                      //     builder: (BuildContext context) {
+                      //       return AlertDialog(
+                      //         scrollable: true,
+                      //         title: Text(
+                      //           AppLocalizations.of(context)!.verifyMeetingRoom,
+                      //           style: Theme.of(context)
+                      //               .textTheme
+                      //               .titleLarge
+                      //               ?.copyWith(
+                      //                 fontWeight: FontWeight.bold,
+                      //                 color: primary_300,
+                      //               ),
+                      //         ),
+                      //         content: Padding(
+                      //           padding: const EdgeInsets.all(8.0),
+                      //           child: Form(
+                      //             child: Column(
+                      //               children: <Widget>[
+                      //                 TextFormField(
+                      //                   controller: _meetingRoomIdController,
+                      //                   decoration: InputDecoration(
+                      //                     labelText: AppLocalizations.of(context)!
+                      //                         .labelMeetingRoomId,
+                      //                     icon: const Icon(Icons.meeting_room),
+                      //                   ),
+                      //                 ),
+                      //                 TextFormField(
+                      //                   controller: _meetingRoomCodeController,
+                      //                   decoration: InputDecoration(
+                      //                     labelText: AppLocalizations.of(context)!
+                      //                         .labelMeetingRoomCode,
+                      //                     icon: const Icon(Icons.lock),
+                      //                   ),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ),
+                      //         ),
+                      //         actions: [
+                      //           ElevatedButton(
+                      //             child:
+                      //                 Text(AppLocalizations.of(context)!.cancel),
+                      //             onPressed: () {
+                      //               Navigator.pop(context);
+                      //             },
+                      //           ),
+                      //           ElevatedButton(
+                      //             child:
+                      //                 Text(AppLocalizations.of(context)!.confirm),
+                      //             onPressed: () {
+                      //               verifyMeetingRoom();
+                      //             },
+                      //           ),
+                      //         ],
+                      //       );
+                      //     },
+                      //   );
                     },
                     child: DisplayText(
                       text: AppLocalizations.of(context)!.join,
