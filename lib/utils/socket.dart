@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:student_hub/models/models.dart';
-import 'package:student_hub/view-models/view_models.dart';
 
 class StreamSocketController<T> {
   StreamSocketController() {
@@ -70,16 +69,13 @@ class SocketApi {
   );
 
   // All socket related functions.
-  static Stream<NotificationModel> getNotificationModel(
-      int userId, Role currentRole, NotificationViewModel nvm) async* {
+  static Stream<NotificationModel> getNotificationModel(int userId) async* {
     final streamSocket = StreamSocketController<NotificationModel>();
     try {
       socket.on('NOTI_$userId', (dynamic data) {
         try {
           Map<String, dynamic> notification = data['notification'];
           streamSocket.addResponse(NotificationModel.fromMap(notification));
-          nvm.addNotification(
-              NotificationModel.fromMap(notification), currentRole);
         } catch (e) {
           throw Exception(e);
         }

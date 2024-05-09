@@ -133,7 +133,12 @@ class NotificationViewModel extends ChangeNotifier {
     bool isCompany = currentRole == Role.company &&
         item.typeNotifyFlag == TypeNotifyFlag.submitted;
 
-    _notifOrigin.add(item);
+    int index1 = _notif.indexWhere((element) => element.id == item.id);
+    int index2 = _notifOrigin.indexWhere((element) => element.id == item.id);
+
+    if (index2 != -1) {
+      _notifOrigin.add(item);
+    }
     _numberOfNotifications = _numberOfNotifications - numberOfChat.length;
 
     if (item.typeNotifyFlag == TypeNotifyFlag.chat) {
@@ -160,7 +165,9 @@ class NotificationViewModel extends ChangeNotifier {
           _notif[index] = item;
         }
       } else {
-        _notif.add(item);
+        if (index1 != -1) {
+          _notif.add(item);
+        }
       }
     }
 
@@ -169,14 +176,18 @@ class NotificationViewModel extends ChangeNotifier {
       if (item.notifyFlag == NotifyFlag.unread) {
         cnt++;
       }
-      _notif.add(item);
+      if (index1 != -1) {
+        _notif.add(item);
+      }
     }
 
     if ((isStudent || isCompany)) {
       if (item.notifyFlag == NotifyFlag.unread) {
         cnt++;
       }
-      _notif.add(item);
+      if (index1 != -1) {
+        _notif.add(item);
+      }
     }
 
     _numberOfNotifications =

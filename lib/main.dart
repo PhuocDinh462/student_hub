@@ -155,7 +155,7 @@ class MyApp extends StatelessWidget {
 void handleListenNotification(int userId, String token,
     NotificationViewModel nvm, Role currentRole, BuildContext context) {
   SocketApi.init(token);
-  SocketApi.getNotificationModel(userId, currentRole, nvm).listen(
+  SocketApi.getNotificationModel(userId).listen(
     (NotificationModel data) {
       final String numChat = nvm.numberOfChat['${data.senderId}'] != null &&
               nvm.numberOfChat['${data.senderId}']! > 1
@@ -181,6 +181,7 @@ void handleListenNotification(int userId, String token,
                   : data.typeNotifyFlag == TypeNotifyFlag.submitted
                       ? '${data.sender?.fullname} ${AppLocalizations.of(context)?.notifSumitted} "${data.content.split(' ').last}".'
                       : '${data.sender?.fullname} ${AppLocalizations.of(context)?.notifHired} "${data.content.split(' ').last}"';
+      nvm.addNotification(data, currentRole);
       LocalNotification.showScheduleNotification(
         title: title,
         body: content,
