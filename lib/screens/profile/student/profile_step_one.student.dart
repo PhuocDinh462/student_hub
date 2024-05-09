@@ -318,9 +318,8 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                         },
                         child: DisplayText(
                           text: appLocal!.next,
-                          style: textTheme.labelLarge!.copyWith(
-                            color: colorScheme.onSecondary,
-                          ),
+                          style: textTheme.labelLarge!
+                              .copyWith(color: Colors.white),
                         )),
                   ),
                 )

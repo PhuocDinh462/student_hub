@@ -76,7 +76,6 @@ class SocketApi {
         try {
           Map<String, dynamic> notification = data['notification'];
           streamSocket.addResponse(NotificationModel.fromMap(notification));
-          print('aaa $notification');
         } catch (e) {
           throw Exception(e);
         }
