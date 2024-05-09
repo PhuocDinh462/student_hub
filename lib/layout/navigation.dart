@@ -8,6 +8,7 @@ import 'package:student_hub/screens/alerts/alert.screen.dart';
 import 'package:student_hub/screens/chat/chat.dart';
 import 'package:student_hub/screens/dashboard/company/dashboard.dart';
 import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
+import 'package:student_hub/screens/interviews/interviews.dart';
 import 'package:student_hub/screens/project/projects.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/utils/utils.dart';
@@ -84,34 +85,36 @@ class _NavigationState extends State<Navigation> {
         updateNumberOfNotif(notifVM);
       }
       return Scaffold(
-        bottomNavigationBar: NavigationBar(
-          onDestinationSelected: (int index) =>
-              setState(() => currentScreenIndex = index),
-          indicatorColor: Theme.of(context).brightness == Brightness.light
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: (int index) => setState(() => currentScreenIndex = index),
+          selectedItemColor: Theme.of(context).brightness == Brightness.light
               ? primary_300
               : primary_200,
           backgroundColor: Colors.transparent,
-          selectedIndex: currentScreenIndex,
-          destinations: <Widget>[
-            NavigationDestination(
+          unselectedItemColor: Theme.of(context).brightness == Brightness.light
+              ? text_400
+              : text_500,
+          currentIndex: currentScreenIndex,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
               icon: const Icon(
                 Icons.task,
               ),
               label: AppLocalizations.of(context)!.projects,
             ),
-            NavigationDestination(
+            BottomNavigationBarItem(
               icon: const Icon(
                 Icons.dashboard,
               ),
               label: AppLocalizations.of(context)!.dashboard,
             ),
-            NavigationDestination(
+            BottomNavigationBarItem(
               icon: const Icon(
                 Icons.message,
               ),
               label: AppLocalizations.of(context)!.messages,
             ),
-            NavigationDestination(
+            BottomNavigationBarItem(
               icon: Badge(
                 backgroundColor: Colors.red,
                 isLabelVisible: notifVM.numberOfNotifications != 0,
@@ -127,6 +130,12 @@ class _NavigationState extends State<Navigation> {
               ),
               label: AppLocalizations.of(context)!.alerts,
             ),
+            BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.video_call_rounded,
+              ),
+              label: AppLocalizations.of(context)!.interviews,
+            ),
           ],
         ),
         body: <Widget>[
@@ -136,8 +145,7 @@ class _NavigationState extends State<Navigation> {
               : const DashboardCompany(),
           const MessageListScreen(),
           const AlertScreen(),
-        ][currentScreenIndex],
-      );
-    });
+          const Interviews(),
+        ][currentScreenIndex]);
   }
 }

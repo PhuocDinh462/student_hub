@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/layout/account_header.dart';
-import 'package:student_hub/screens/authentication/authentication.dart';
 import 'package:student_hub/screens/intro/intro.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:student_hub/screens/screens.dart';
 
 class AuthRoutes {
   static const String login = '/';
@@ -12,21 +13,42 @@ class AuthRoutes {
   static const String signUpOption = '/sign_up';
   static const String resetPassword = '/reset_password';
   static const String intro = '/intro';
+  static const String settings = '/settings';
+  static const String languages = '/settings/languages';
 
   static Map<String, WidgetBuilder> routes = {
     login: (context) => const Login(),
-    forgotPassword: (context) =>
-        const AccountHeader(title: 'Student Hub', body: ForgotPassword()),
-    verifyCode: (context) =>
-        const AccountHeader(title: 'Student Hub', body: VerifyCode()),
-    createAccountCompany: (context) =>
-        const AccountHeader(title: 'Student Hub', body: CreateAccountCompany()),
-    createAccountStudent: (context) =>
-        const AccountHeader(title: 'Student Hub', body: CreateAccountStudent()),
-    signUpOption: (context) =>
-        const AccountHeader(title: 'Student Hub', body: SignUpOption()),
-    resetPassword: (context) =>
-        const AccountHeader(title: 'Student Hub', body: ResetPassword()),
+    forgotPassword: (context) => const AccountHeader(
+        title: 'Student Hub',
+        body: ForgotPassword(),
+        userIconDestination: settings),
+    verifyCode: (context) => const AccountHeader(
+        title: 'Student Hub',
+        body: VerifyCode(),
+        userIconDestination: settings),
+    createAccountCompany: (context) => const AccountHeader(
+        title: 'Student Hub',
+        body: CreateAccountCompany(),
+        userIconDestination: settings),
+    createAccountStudent: (context) => const AccountHeader(
+        title: 'Student Hub',
+        body: CreateAccountStudent(),
+        userIconDestination: settings),
+    signUpOption: (context) => const AccountHeader(
+        title: 'Student Hub',
+        body: SignUpOption(),
+        userIconDestination: settings),
+    resetPassword: (context) => const AccountHeader(
+        title: 'Student Hub',
+        body: ResetPassword(),
+        userIconDestination: settings),
     intro: (context) => const Intro(),
+    settings: (context) => AccountHeader(
+        title: AppLocalizations.of(context)!.settings, body: const Settings()),
+    languages: (context) => AccountHeader(
+          title: AppLocalizations.of(context)!.language(''),
+          body: const Languages(),
+          userIconDestination: settings,
+        ),
   };
 }

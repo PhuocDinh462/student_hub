@@ -174,4 +174,12 @@
   "notifHired": "has been hired for the project",
   "notifEmpty": "No notifications",
   "noMessages": "No messages"
+  "interviews": "Interviews",
+  "minutes": "mins",
+  "join": "Join",
+  "joinMeetingRoom": "Join a meeting room",
+  "meetingRoomId": "Meeting room ID",
+  "meetingRoomCode": "Meeting room code",
+  "joinMeetingRoomError": "Not found meeting room",
+  "error": "Error"
 }

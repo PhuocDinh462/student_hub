@@ -174,4 +174,12 @@
   "notifHired": "đã được tuyển dụng cho dự án",
   "notifEmpty": "Không có thông báo mới",
   "noMessages": "Không có tin nhắn mới"
+  "interviews": "Phỏng vấn",
+  "minutes": "phút",
+  "join": "Tham gia",
+  "joinMeetingRoom": "Tham gia phòng họp",
+  "meetingRoomId": "ID phòng họp",
+  "meetingRoomCode": "Mật khẩu phòng họp",
+  "joinMeetingRoomError": "Không tìm thấy phòng họp",
+  "error": "Lỗi"
 }

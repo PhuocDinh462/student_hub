@@ -5,12 +5,14 @@ class AccountHeader extends StatelessWidget {
   final String title;
   final Widget body;
   final bool resizeToAvoidBottomInset;
+  final String userIconDestination;
 
   const AccountHeader({
     super.key,
     required this.title,
     required this.body,
     this.resizeToAvoidBottomInset = true,
+    this.userIconDestination = '/account',
   });
 
   @override
@@ -39,13 +41,14 @@ class AccountHeader extends StatelessWidget {
             ),
             if (!ModalRoute.of(context)!.settings.name!.contains('/account'))
               IconButton(
-                icon: const Icon(
-                  Icons.person,
-                  size: 32,
-                  color: text_50,
-                ),
-                onPressed: () => Navigator.pushNamed(context, '/account'),
-              ),
+                  icon: const Icon(
+                    Icons.person,
+                    size: 32,
+                    color: text_50,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, userIconDestination);
+                  }),
           ],
         ),
       ),
