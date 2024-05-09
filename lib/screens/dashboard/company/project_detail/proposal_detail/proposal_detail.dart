@@ -47,36 +47,6 @@ class _ProposalDetailState extends State<ProposalDetail> {
     });
   }
 
-  void openResume() async {
-    context.loaderOverlay.show();
-    profileService.getResumeStudent(proposal!.studentId).then((value) async {
-      final url = Uri.parse(value);
-      if (!await launchUrl(url)) {
-        throw Exception('Could not launch $url');
-      }
-    }).catchError((e) {
-      throw Exception(e);
-    }).whenComplete(() {
-      context.loaderOverlay.hide();
-    });
-  }
-
-  void openTranscript() async {
-    context.loaderOverlay.show();
-    profileService
-        .getTranscriptStudent(proposal!.studentId)
-        .then((value) async {
-      final url = Uri.parse(value);
-      if (!await launchUrl(url)) {
-        throw Exception('Could not launch $url');
-      }
-    }).catchError((e) {
-      throw Exception(e);
-    }).whenComplete(() {
-      context.loaderOverlay.hide();
-    });
-  }
-
   void updateStatusFlag(StatusFlag statusFlag) {
     context.loaderOverlay.show();
     proposalService
@@ -273,9 +243,14 @@ class _ProposalDetailState extends State<ProposalDetail> {
                           ),
                         ),
                         IconButton(
-                          onPressed: proposal!.resume.isEmpty
+                          onPressed: proposal!.resumeLink.isEmpty
                               ? null
-                              : () => openResume(),
+                              : () async {
+                                  final url = Uri.parse(proposal!.resumeLink);
+                                  if (!await launchUrl(url)) {
+                                    throw Exception('Could not launch $url');
+                                  }
+                                },
                           icon: const Icon(Icons.open_in_browser, size: 30),
                         ),
                       ],
@@ -303,9 +278,15 @@ class _ProposalDetailState extends State<ProposalDetail> {
                           ),
                         ),
                         IconButton(
-                          onPressed: proposal!.transcript.isEmpty
+                          onPressed: proposal!.transcriptLink.isEmpty
                               ? null
-                              : () => openTranscript(),
+                              : () async {
+                                  final url =
+                                      Uri.parse(proposal!.transcriptLink);
+                                  if (!await launchUrl(url)) {
+                                    throw Exception('Could not launch $url');
+                                  }
+                                },
                           icon: const Icon(Icons.open_in_browser, size: 30),
                         ),
                       ],

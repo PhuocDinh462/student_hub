@@ -14,6 +14,8 @@ class Proposal {
   final String transcript;
   final List<EducationModel> educations;
   final List<TechnicalModel> skillSets;
+  final String resumeLink;
+  final String transcriptLink;
 
   Proposal({
     required this.id,
@@ -28,6 +30,8 @@ class Proposal {
     required this.transcript,
     required this.educations,
     required this.skillSets,
+    required this.resumeLink,
+    required this.transcriptLink,
   });
 
   static Proposal fromMap(Map<String, dynamic> map) {
@@ -65,6 +69,8 @@ class Proposal {
                   .map((skillSet) => TechnicalModel.fromMap(skillSet)),
             )
           : [],
+      resumeLink: map['student']['resumeLink'] ?? '',
+      transcriptLink: map['student']['transcriptLink'] ?? '',
     );
   }
 }
