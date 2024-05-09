@@ -141,7 +141,7 @@ class NotificationViewModel extends ChangeNotifier {
     }
     _numberOfNotifications = _numberOfNotifications - numberOfChat.length;
 
-    if (item.typeNotifyFlag == TypeNotifyFlag.chat) {
+    if (item.typeNotifyFlag == TypeNotifyFlag.chat && index1 != -1) {
       int index = _notif.indexWhere((n) =>
           n.senderId == item.senderId &&
           n.typeNotifyFlag == TypeNotifyFlag.chat);
@@ -165,27 +165,21 @@ class NotificationViewModel extends ChangeNotifier {
           _notif[index] = item;
         }
       } else {
-        if (index1 != -1) {
-          _notif.add(item);
-        }
-      }
-    }
-
-    if (item.typeNotifyFlag == TypeNotifyFlag.interview ||
-        item.typeNotifyFlag == TypeNotifyFlag.hired) {
-      if (item.notifyFlag == NotifyFlag.unread) {
-        cnt++;
-      }
-      if (index1 != -1) {
         _notif.add(item);
       }
-    }
 
-    if ((isStudent || isCompany)) {
-      if (item.notifyFlag == NotifyFlag.unread) {
-        cnt++;
+      if (item.typeNotifyFlag == TypeNotifyFlag.interview ||
+          item.typeNotifyFlag == TypeNotifyFlag.hired) {
+        if (item.notifyFlag == NotifyFlag.unread) {
+          cnt++;
+        }
+        _notif.add(item);
       }
-      if (index1 != -1) {
+
+      if ((isStudent || isCompany)) {
+        if (item.notifyFlag == NotifyFlag.unread) {
+          cnt++;
+        }
         _notif.add(item);
       }
     }
