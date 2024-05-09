@@ -1,4 +1,5 @@
 import 'package:student_hub/models/models.dart';
+import 'package:student_hub/utils/helpers.dart';
 
 class Proposal {
   final int id;
@@ -30,6 +31,14 @@ class Proposal {
   });
 
   static Proposal fromMap(Map<String, dynamic> map) {
+    String? resumeRaw = map['student']['resume'];
+    List<String> resume =
+        resumeRaw != null ? Helpers.getFileNameAndExtension(resumeRaw) : [];
+    String? transcriptRaw = map['student']['transcript'];
+    List<String> transcript = transcriptRaw != null
+        ? Helpers.getFileNameAndExtension(transcriptRaw)
+        : [];
+
     return Proposal(
       id: map['id'],
       coverLetter: map['coverLetter'] ?? '',
@@ -41,8 +50,9 @@ class Proposal {
           ? UserModel.fromMap(map['student']['user'])
           : null,
       techStack: TechnicalModel.fromMap(map['student']['techStack']),
-      resume: map['student']['resume']?.split('resumes/')[1] ?? '',
-      transcript: map['student']['transcript']?.split('transcripts/')[1] ?? '',
+      // resume: map['student']['resume']?.split('resumes/')[1] ?? '',
+      resume: resume.isEmpty ? '' : '${resume[0]}.${resume[1]}',
+      transcript: transcript.isEmpty ? '' : '${transcript[0]}.${transcript[1]}',
       educations: map['student']['educations'] != null
           ? List<EducationModel>.from(
               map['student']['educations']
