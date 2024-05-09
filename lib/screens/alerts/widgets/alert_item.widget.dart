@@ -190,6 +190,9 @@ class AlertItem extends StatelessWidget {
           handleClickInterview();
           break;
         case TypeNotifyFlag.offer:
+          if (notif.notifyFlag == NotifyFlag.read) {
+            handleClickOffer();
+          }
           break;
         case TypeNotifyFlag.submitted:
           handleClickProposal();
