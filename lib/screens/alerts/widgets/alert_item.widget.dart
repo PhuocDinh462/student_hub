@@ -184,14 +184,10 @@ class AlertItem extends StatelessWidget {
           handleClickInterview();
           break;
         case TypeNotifyFlag.offer:
-          if (userProvider.currentUser!.currentRole == Role.student) {
-            handleClickOffer();
-          }
+          handleClickOffer();
           break;
         case TypeNotifyFlag.submitted:
-          if (userProvider.currentUser!.currentRole == Role.company) {
-            handleClickProposal();
-          }
+          handleClickProposal();
           break;
         case TypeNotifyFlag.hired:
           break;
