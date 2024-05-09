@@ -136,11 +136,13 @@ class NotificationViewModel extends ChangeNotifier {
     int index1 = _notif.indexWhere((element) => element.id == item.id);
     int index2 = _notifOrigin.indexWhere((element) => element.id == item.id);
 
-    if (index2 != -1) {
+    if (index2 == -1) {
       _notifOrigin.add(item);
     }
+
     _numberOfNotifications = _numberOfNotifications - numberOfChat.length;
-    if (index1 != -1) {
+
+    if (index1 == -1) {
       if (item.typeNotifyFlag == TypeNotifyFlag.chat) {
         int index = _notif.indexWhere((n) =>
             n.senderId == item.senderId &&
