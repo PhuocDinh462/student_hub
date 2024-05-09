@@ -15,20 +15,22 @@ class Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset(
-          imgPath,
-          width: context.deviceSize.width / 1.5,
-        ),
-        const Gap(10),
-        Text(
-          text.isEmpty ? AppLocalizations.of(context)!.noDataAvailable : text,
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        const Gap(60),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            imgPath,
+            width: context.deviceSize.width / 1.5,
+          ),
+          const Gap(10),
+          Text(
+            text.isEmpty ? AppLocalizations.of(context)!.noDataAvailable : text,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const Gap(60),
+        ],
+      ),
     );
   }
 }
