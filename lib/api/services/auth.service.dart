@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:get/get.dart' as get_x;
 import 'package:student_hub/api/api.dart';
 import 'package:student_hub/providers/providers.dart';
 
@@ -53,11 +54,13 @@ class AuthService extends BaseApi {
     try {
       Response response = await dio.post('/auth/logout');
       if (response.statusCode == 201) {
+        ProjectProvider projectProvider = get_x.Get.find();
         userProvider.removeCurrentUser();
+        projectProvider.delete();
       }
       return response;
     } catch (e) {
-      print(e);
+      throw Exception(e);
     }
   }
 }

@@ -40,7 +40,7 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
         projects.addAll(fetchProjects);
       });
     } catch (e) {
-      print(e);
+      throw Exception(e);
     }
     setState(() {
       isLoading = false;

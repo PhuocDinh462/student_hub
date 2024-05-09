@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:student_hub/api/api.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/screens/chat/widgets/chat.widgets.dart';
+import 'package:student_hub/utils/empty.dart';
 import 'package:student_hub/widgets/search_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MessageListScreen extends StatefulWidget {
-  const MessageListScreen({super.key});
+  const MessageListScreen({super.key, this.projectId = -1});
+  final int projectId;
 
   @override
   State<MessageListScreen> createState() => _MessageListScreenState();
@@ -17,6 +19,13 @@ class _MessageListScreenState extends State<MessageListScreen> {
   bool isLoading = false;
   late List<MessageModel> lstMessage = [];
   late ScrollController _scrollController;
+  late AppLocalizations? appLocal;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    appLocal = AppLocalizations.of(context);
+  }
 
   @override
   void initState() {
@@ -65,7 +74,10 @@ class _MessageListScreenState extends State<MessageListScreen> {
       isLoading = true;
     });
 
-    messageService.getAllMessage().then((value) {
+    (widget.projectId == -1
+            ? messageService.getAllMessage()
+            : messageService.getMessageByProjectId(widget.projectId))
+        .then((value) {
       List<dynamic> data = value;
       List<MessageModel> res = getLatestMessages(data).reversed.toList();
 
@@ -110,28 +122,33 @@ class _MessageListScreenState extends State<MessageListScreen> {
             ],
           ),
         ),
-        isLoading
-            ? const Center(
-                child: Column(children: [
-                  Gap(30),
-                  CircularProgressIndicator(),
-                ]),
-              )
-            : Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 20),
-                  child: ListView.builder(
-                      controller: _scrollController,
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      itemCount: lstMessage.length,
-                      itemBuilder: (ctx, index) {
-                        return MessageItem(
-                          message: lstMessage[index],
-                        );
-                      }),
-                ),
-              ),
+        Expanded(
+          child: isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : lstMessage.isEmpty
+                  ? Center(
+                      child: Empty(
+                        text: appLocal!.noMessages,
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 10, left: 20),
+                      child: ListView.builder(
+                          controller: _scrollController,
+                          physics: const BouncingScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          itemCount: lstMessage.length,
+                          itemBuilder: (ctx, index) {
+                            return MessageItem(
+                              message: widget.projectId == -1
+                                  ? lstMessage[index]
+                                  : lstMessage[index].copyWith(
+                                      projectModel:
+                                          ProjectModel(id: widget.projectId)),
+                            );
+                          }),
+                    ),
+        ),
       ]),
     );
   }

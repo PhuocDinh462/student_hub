@@ -2,6 +2,7 @@ const skills = {
   'C': 'c.png',
   'C++': 'cpp.png',
   'C#': 'cs.png',
+  'Java': 'java.png',
   'Javascript': 'js.png',
   'Python': 'python.png',
   'React': 'react.png',

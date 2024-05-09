@@ -67,30 +67,28 @@ class _ProjectListState extends State<ProjectList> {
               )
             : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const Gap(10),
-                      Column(
-                        children: projectProvider.getProjectList
-                            .where((element) => widget.typeFlag != null
-                                ? element.typeFlag == widget.typeFlag
-                                : true)
-                            .map(
-                              (item) => Column(
-                                children: [
-                                  ProjectItem(
-                                    project: item,
-                                  ),
-                                  const Gap(10),
-                                ],
-                              ),
-                            )
-                            .toList(),
-                      ),
-                      if (widget.typeFlag == TypeFlag.newType) const Gap(85),
-                    ],
-                  ),
+                child: ListView(
+                  children: [
+                    const Gap(10),
+                    Column(
+                      children: projectProvider.getProjectList
+                          .where((element) => widget.typeFlag != null
+                              ? element.typeFlag == widget.typeFlag
+                              : true)
+                          .map(
+                            (item) => Column(
+                              children: [
+                                ProjectItem(
+                                  project: item,
+                                ),
+                                const Gap(10),
+                              ],
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    if (widget.typeFlag == TypeFlag.newType) const Gap(85),
+                  ],
                 ),
               );
   }

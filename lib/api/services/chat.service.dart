@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:student_hub/api/api.dart';
+import 'package:student_hub/models/interview.model.dart';
 import 'package:student_hub/utils/utils.dart';
 
 class ChatService extends BaseApi {
@@ -109,6 +110,17 @@ class ChatService extends BaseApi {
       }
     } catch (e) {
       throw Exception('Failed to create profile company');
+    }
+  }
+
+  Future<List<InterviewModel>> getInterviewsByUserId(id) async {
+    try {
+      Response response = await dio.get('/interview/user/$id');
+      return (response.data['result'])
+          .map<InterviewModel>((item) => InterviewModel.fromMap(item))
+          .toList();
+    } catch (e) {
+      throw Exception('Failed to get interviews');
     }
   }
 }

@@ -5,21 +5,17 @@ import 'package:student_hub/models/models.dart';
 
 enum NotifyFlag { unread, read }
 
-enum TypeNotifyFlag {
-  offer,
-  interview,
-  submitted,
-  chat,
-}
+enum TypeNotifyFlag { offer, interview, submitted, chat, hired }
 
 class NotificationModel extends BaseModel {
   final int receiverId;
   final int senderId;
-  final int messageId;
+  final int? messageId;
   final String title;
   final String content;
   final NotifyFlag notifyFlag;
   final TypeNotifyFlag typeNotifyFlag;
+  final ProposalModel? proposal;
   final MessageModel? message;
   final UserModel? receiver;
   final UserModel? sender;
@@ -35,6 +31,7 @@ class NotificationModel extends BaseModel {
     this.message = const MessageModel(),
     this.receiver = const UserModel(),
     this.sender = const UserModel(),
+    this.proposal = const ProposalModel(),
     super.id,
     super.createdAt,
     super.updatedAt,
@@ -52,6 +49,7 @@ class NotificationModel extends BaseModel {
     MessageModel? message,
     UserModel? receiver,
     UserModel? sender,
+    ProposalModel? proposal,
     int? id,
     String? createdAt,
     String? updatedAt,
@@ -68,6 +66,7 @@ class NotificationModel extends BaseModel {
       message: message ?? this.message,
       receiver: receiver ?? this.receiver,
       sender: sender ?? this.sender,
+      proposal: proposal ?? this.proposal,
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -87,6 +86,7 @@ class NotificationModel extends BaseModel {
       'message': message!.toMap(),
       'receiver': receiver!.toMap(),
       'sender': sender!.toMap(),
+      'proposal': proposal!.toMap(),
       'id': id,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
@@ -98,7 +98,7 @@ class NotificationModel extends BaseModel {
     return NotificationModel(
       receiverId: map['receiverId'] as int,
       senderId: map['senderId'] as int,
-      messageId: map['messageId'] as int,
+      messageId: map['messageId'] as int?,
       title: map['title'] as String,
       content: map['content'] as String,
       notifyFlag: NotifyFlag.values[int.parse(map['notifyFlag'])],
@@ -112,6 +112,9 @@ class NotificationModel extends BaseModel {
       sender: map['sender'] == null
           ? null
           : UserModel.fromMap(map['sender'] as Map<String, dynamic>),
+      proposal: map['proposal'] == null
+          ? null
+          : ProposalModel.fromMap(map['proposal'] as Map<String, dynamic>),
       id: map['id'] as int,
       createdAt: map['createdAt'] ?? map['createdAt'] as String?,
       updatedAt: map['updatedAt'] ?? map['updatedAt'] as String?,

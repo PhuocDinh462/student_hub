@@ -2,7 +2,6 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
@@ -107,99 +106,106 @@ class _SubmitProposalState extends State<SubmitProposal> {
         body: Consumer<ProposalStudentViewModel>(
             builder: (context, proposalStudentViewModel, child) {
           if (proposalStudentViewModel.loading) {
-            context.loaderOverlay.show();
           } else {
             handleAfterLoading(proposalStudentViewModel, context);
-            context.loaderOverlay.hide();
           }
-          return ConstrainedBox(
-              constraints: BoxConstraints(minHeight: deviceSize.height),
-              child: Stack(children: [
-                SingleChildScrollView(
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        DisplayText(
-                            text: AppLocalizations.of(context)!.coverLetter,
-                            style: textTheme.headlineLarge!),
-                        const Gap(20),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 10),
-                          decoration: BoxDecoration(
-                              color: colorScheme.onSecondary,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: CommonTextField(
-                            title:
-                                AppLocalizations.of(context)!.descriptionLetter,
-                            hintText: AppLocalizations.of(context)!.yourAnwser,
-                            maxLines: 20,
-                            titleStyle: textTheme.labelSmall!
-                                .copyWith(color: primary_300),
-                            controller: _textController,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                if (!Provider.of<GlobalProvider>(context, listen: true).isFocus)
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      width: deviceSize.width,
-                      padding: const EdgeInsets.only(
-                          left: 30, right: 30, top: 20, bottom: 30),
-                      decoration: BoxDecoration(
-                          color: colorScheme.onSecondary,
-                          boxShadow: [
-                            BoxShadow(
-                              color: colorScheme.onSurface.withOpacity(0.1),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: const Offset(0, -3),
+          return proposalStudentViewModel.loading
+              ? const Center(
+                  child: Column(children: [
+                    Gap(30),
+                    CircularProgressIndicator(),
+                  ]),
+                )
+              : ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: deviceSize.height),
+                  child: Stack(children: [
+                    SingleChildScrollView(
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            DisplayText(
+                                text: AppLocalizations.of(context)!.coverLetter,
+                                style: textTheme.headlineLarge!),
+                            const Gap(20),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              decoration: BoxDecoration(
+                                  color: colorScheme.onSecondary,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: CommonTextField(
+                                title: AppLocalizations.of(context)!
+                                    .descriptionLetter,
+                                hintText:
+                                    AppLocalizations.of(context)!.yourAnwser,
+                                maxLines: 20,
+                                titleStyle: textTheme.labelSmall!
+                                    .copyWith(color: primary_300),
+                                controller: _textController,
+                              ),
                             ),
-                          ]),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ElevatedButton(
-                              style: buttonSecondary,
-                              onPressed: () {
-                                proposalStudentViewModel.setProposals([]);
-                                Get.back();
-                              },
-                              child: DisplayText(
-                                text: AppLocalizations.of(context)!.cancel,
-                                style: textTheme.labelLarge!.copyWith(
-                                  color: Colors.white,
-                                ),
-                              )),
-                          const Gap(10),
-                          ElevatedButton(
-                              style: buttonPrimary,
-                              onPressed: () {
-                                hanldeSubmitProposal(
-                                    proposalStudentViewModel, context);
-                              },
-                              child: DisplayText(
-                                text: action == ActionProposal.submit
-                                    ? AppLocalizations.of(context)!
-                                        .submitedProposal
-                                    : AppLocalizations.of(context)!
-                                        .updateProposal,
-                                style: textTheme.labelLarge!.copyWith(
-                                  color: Colors.white,
-                                ),
-                              )),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  )
-              ]));
+                    if (!Provider.of<GlobalProvider>(context, listen: true)
+                        .isFocus)
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          width: deviceSize.width,
+                          padding: const EdgeInsets.only(
+                              left: 30, right: 30, top: 20, bottom: 30),
+                          decoration: BoxDecoration(
+                              color: colorScheme.onSecondary,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: colorScheme.onSurface.withOpacity(0.1),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: const Offset(0, -3),
+                                ),
+                              ]),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ElevatedButton(
+                                  style: buttonSecondary,
+                                  onPressed: () {
+                                    proposalStudentViewModel.setProposals([]);
+                                    Get.back();
+                                  },
+                                  child: DisplayText(
+                                    text: AppLocalizations.of(context)!.cancel,
+                                    style: textTheme.labelLarge!.copyWith(
+                                      color: Colors.white,
+                                    ),
+                                  )),
+                              const Gap(10),
+                              ElevatedButton(
+                                  style: buttonPrimary,
+                                  onPressed: () {
+                                    hanldeSubmitProposal(
+                                        proposalStudentViewModel, context);
+                                  },
+                                  child: DisplayText(
+                                    text: action == ActionProposal.submit
+                                        ? AppLocalizations.of(context)!
+                                            .submitProposal
+                                        : AppLocalizations.of(context)!
+                                            .updateProposal,
+                                    style: textTheme.labelLarge!.copyWith(
+                                      color: Colors.white,
+                                    ),
+                                  )),
+                            ],
+                          ),
+                        ),
+                      )
+                  ]));
         }));
   }
 

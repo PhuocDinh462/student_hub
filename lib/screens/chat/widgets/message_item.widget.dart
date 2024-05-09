@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/company_route.dart';
-import 'package:student_hub/utils/helpers.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
@@ -90,12 +89,13 @@ class MessageItem extends StatelessWidget {
                   text: name!,
                   style: textTheme.labelMedium!,
                 ),
-                DisplayText(
-                    text: message.projectModel!.title,
-                    style: textTheme.labelSmall!.copyWith(
-                      fontSize: 10,
-                      color: colorScheme.onSurface,
-                    )),
+                if (message.projectModel!.title.isNotEmpty)
+                  DisplayText(
+                      text: message.projectModel!.title,
+                      style: textTheme.labelSmall!.copyWith(
+                        fontSize: 10,
+                        color: colorScheme.onSurface,
+                      )),
                 const Gap(5),
                 Row(
                   children: [

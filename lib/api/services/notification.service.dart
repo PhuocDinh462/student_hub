@@ -19,4 +19,14 @@ class NotifiactionService extends BaseApi {
       throw Exception('Failed to fetch notification');
     }
   }
+
+  Future<dynamic> updateNotificationRead(int notifId) async {
+    try {
+      await dio.patch(
+        '/notification/readNoti/$notifId',
+      );
+    } catch (e) {
+      throw Exception('Failed to fetch notification');
+    }
+  }
 }

@@ -163,7 +163,7 @@ class _LoginState extends State<Login> {
               Text(
                 'Student Hub',
                 style: textTheme.displayLarge!
-                    .copyWith(color: primary_50, fontWeight: FontWeight.bold),
+                    .copyWith(color: text_50, fontWeight: FontWeight.bold),
               ),
               const Gap(20),
               Container(
@@ -268,7 +268,7 @@ class _LoginState extends State<Login> {
                             child: Text(
                               AppLocalizations.of(context)!.login,
                               style: textTheme.bodyMedium!.copyWith(
-                                color: colorScheme.primary,
+                                color: text_50,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

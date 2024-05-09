@@ -99,4 +99,10 @@ class Helpers {
       return dateFormat.format(date);
     }
   }
+
+  static String formatDateTimeToCustom(String dateString) {
+    DateTime date = DateTime.parse(dateString);
+
+    return DateFormat('HH:mm - dd/MM/yyyy').format(date);
+  }
 }

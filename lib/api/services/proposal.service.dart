@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 class ProposalService extends BaseApi {
   ProposalService() : super();
 
-  Future<List<Proposal>> getProposal(projectId, [params]) async {
+  Future<List<Proposal>> getProposalByProjectId(projectId, [params]) async {
     try {
       var response = await dio.get(
         '/proposal/getByProjectId/$projectId',
@@ -16,6 +16,16 @@ class ProposalService extends BaseApi {
       return (response.data['result']['items'] as List)
           .map<Proposal>((item) => Proposal.fromMap(item))
           .toList();
+    } catch (e) {
+      printError(info: 'Get proposal error: $e');
+      throw Exception(e);
+    }
+  }
+
+  Future<Proposal> getProposalById(id) async {
+    try {
+      var response = await dio.get('/proposal/$id');
+      return Proposal.fromMap(response.data['result']);
     } catch (e) {
       printError(info: 'Get proposal error: $e');
       throw Exception(e);

@@ -56,32 +56,34 @@ class _AllProjectStudentState extends State<AllProjectStudent> {
               Gap(30),
               CircularProgressIndicator(),
             ])
-          : Column(
-              children: [
-                CommonDropdownMenu(
-                  id: 1,
-                  labelText:
-                      '${AppLocalizations.of(context)!.activeProposal} (${psvm.proposalActive.length})',
-                  proposals: psvm.proposalActive,
-                  view: ProjectDetailsView.viewActiveProposal,
-                  actionCard: (project) {
-                    handleOpenProjectDetails(
-                        project, ProjectDetailsView.viewActiveProposal);
-                  },
-                ),
-                const Gap(20),
-                CommonDropdownMenu(
-                  id: 2,
-                  labelText:
-                      '${AppLocalizations.of(context)!.submitedProposal} (${psvm.proposalSubmited.length})',
-                  proposals: psvm.proposalSubmited,
-                  view: ProjectDetailsView.viewProposal,
-                  actionCard: (project) {
-                    handleOpenProjectDetails(
-                        project, ProjectDetailsView.viewProposal);
-                  },
-                ),
-              ],
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  CommonDropdownMenu(
+                    id: 1,
+                    labelText:
+                        '${AppLocalizations.of(context)!.activeProposal} (${psvm.proposalActive.length})',
+                    proposals: psvm.proposalActive,
+                    view: ProjectDetailsView.viewActiveProposal,
+                    actionCard: (project) {
+                      handleOpenProjectDetails(
+                          project, ProjectDetailsView.viewActiveProposal);
+                    },
+                  ),
+                  const Gap(20),
+                  CommonDropdownMenu(
+                    id: 2,
+                    labelText:
+                        '${AppLocalizations.of(context)!.submitedProposal} (${psvm.proposalSubmited.length})',
+                    proposals: psvm.proposalSubmited,
+                    view: ProjectDetailsView.viewProposal,
+                    actionCard: (project) {
+                      handleOpenProjectDetails(
+                          project, ProjectDetailsView.viewProposal);
+                    },
+                  ),
+                ],
+              ),
             );
     });
   }

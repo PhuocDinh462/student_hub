@@ -99,4 +99,14 @@ class ProjectProvider with ChangeNotifier {
     _description = _currentProject!.description;
     notifyListeners();
   }
+
+  void delete() {
+    _title = '';
+    _projectScope = ProjectScopeFlag.oneToThreeMonth;
+    _numOfStudents = 1;
+    _description = '';
+    _projectList = [];
+    _currentProject = null;
+    notifyListeners();
+  }
 }

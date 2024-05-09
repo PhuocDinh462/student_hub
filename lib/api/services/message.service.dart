@@ -26,4 +26,18 @@ class MessageService extends BaseApi {
       throw Exception('Failed to create profile company');
     }
   }
+
+  Future<dynamic> getMessageByProjectId(id) async {
+    try {
+      Response response = await dio.get('/message/$id');
+
+      if (response.data.containsKey('result')) {
+        return response.data['result'];
+      } else {
+        throw Exception('The key "result" does not exist in the response');
+      }
+    } catch (e) {
+      throw Exception('Failed to create profile company');
+    }
+  }
 }

@@ -15,7 +15,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 enum ProjectDetailsView {
   viewProposal,
   viewActiveProposal,
-  viewProjectProposal
+  viewProjectProposal,
+  viewOffer
 }
 
 class ProjectDetails extends StatefulWidget {
@@ -23,9 +24,11 @@ class ProjectDetails extends StatefulWidget {
       {super.key,
       required this.project,
       this.updateProjectState,
-      this.viewType});
+      this.viewType,
+      this.acceptOffer});
 
   final Future<void> Function(UserProvider, int, int)? updateProjectState;
+  final void Function()? acceptOffer;
   final Project project;
   final ProjectDetailsView? viewType;
 
@@ -63,6 +66,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
+
     return Padding(
       padding: const EdgeInsets.all(10),
       child: SizedBox(
@@ -166,7 +170,31 @@ class _ProjectDetailsState extends State<ProjectDetails> {
               ],
             ),
             const Gap(50),
-            if (widget.viewType != ProjectDetailsView.viewActiveProposal)
+            if (widget.viewType == ProjectDetailsView.viewOffer)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Button(
+                    onTap: () {
+                      Get.back();
+                    },
+                    text: 'Cancel',
+                    colorButton: primary_300,
+                    colorText: text_50,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                  ),
+                  Button(
+                    onTap: () {
+                      widget.acceptOffer!();
+                    },
+                    text: 'Accept',
+                    colorButton: primary_300,
+                    colorText: text_50,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                  ),
+                ],
+              )
+            else if (widget.viewType != ProjectDetailsView.viewActiveProposal)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
