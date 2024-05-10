@@ -91,7 +91,7 @@
   "startWorkingThisProject": "Bắt đầu thực hiện dự án này",
   "startProjectErrorNotEnoughStudent": "Cần tuyển đủ sinh viên để bắt đầu dự án",
   "closeProjectTitle": "Đóng dự án",
-  "closeProjectContent": "Vui lòng chọn trạng thái cho dự án của bạn",
+  "closeProjectContent": "Vui lòng chọn trạng thái cho dự án của bạn:",
   "close": "Đóng",
   "closeThisProject": "Đóng dự án này",
   "optionsEmployees1": "Chỉ mình tôi",
