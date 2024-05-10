@@ -73,7 +73,7 @@ class AlertItem extends StatelessWidget {
       VideoConferenceModel videoConferenceModel = VideoConferenceModel(
         userID: userProvider.currentUser!.userId.toString(),
         userName: userProvider.currentUser!.fullname,
-        callID: notif.message!.interview!.id.toString(),
+        callID: notif.message!.interview!.meetingRoom.meetingRoomId,
       );
       Get.toNamed(CompanyRoutes.videoConference,
           arguments: videoConferenceModel);
