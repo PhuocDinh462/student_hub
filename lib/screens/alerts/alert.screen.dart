@@ -46,12 +46,7 @@ class _AlertScreenState extends State<AlertScreen> {
     return Scaffold(
       body: Consumer<NotificationViewModel>(builder: (context, notifVM, child) {
         return notifVM.loading
-            ? const Center(
-                child: Column(children: [
-                  Gap(30),
-                  CircularProgressIndicator(),
-                ]),
-              )
+            ? const Expanded(child: Center(child: CircularProgressIndicator()))
             : notifVM.notif.isEmpty
                 ? Center(
                     child: Empty(
