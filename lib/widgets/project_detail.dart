@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
+import 'package:student_hub/models/user.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/routes.dart';
 import 'package:student_hub/widgets/button.dart';
@@ -199,19 +200,21 @@ class _ProjectDetailsState extends State<ProjectDetails> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Button(
-                    onTap: () {
-                      Get.toNamed(StudentRoutes.submitProposalStudent,
-                          arguments: {'projectId': widget.project.id});
-                    },
-                    text: widget.viewType != ProjectDetailsView.viewProposal
-                        ? AppLocalizations.of(context)!.applyNow
-                        : AppLocalizations.of(context)!.viewLetter,
-                    colorButton: Theme.of(context).colorScheme.tertiary,
-                    colorText: Theme.of(context).colorScheme.onPrimary,
-                    width: MediaQuery.of(context).size.width * 0.4,
-                  ),
-                  if (widget.viewType != ProjectDetailsView.viewProposal &&
+                  if (userProvider.currentUser!.currentRole == Role.student)
+                    Button(
+                      onTap: () {
+                        Get.toNamed(StudentRoutes.submitProposalStudent,
+                            arguments: {'projectId': widget.project.id});
+                      },
+                      text: widget.viewType != ProjectDetailsView.viewProposal
+                          ? AppLocalizations.of(context)!.applyNow
+                          : AppLocalizations.of(context)!.viewLetter,
+                      colorButton: Theme.of(context).colorScheme.tertiary,
+                      colorText: Theme.of(context).colorScheme.onPrimary,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                    ),
+                  if (userProvider.currentUser!.currentRole == Role.student &&
+                      widget.viewType != ProjectDetailsView.viewProposal &&
                       widget.viewType != ProjectDetailsView.viewActiveProposal)
                     Button(
                       onTap: () async {

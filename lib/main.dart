@@ -163,24 +163,24 @@ void handleListenNotification(int userId, String token,
           : '';
 
       final String title = data.typeNotifyFlag == TypeNotifyFlag.chat
-          ? '${AppLocalizations.of(context)?.newMessages} $numChat'
+          ? 'New messages $numChat'
           : data.typeNotifyFlag == TypeNotifyFlag.interview
-              ? '${AppLocalizations.of(context)?.newMeeting}'
+              ? 'New meeting'
               : data.typeNotifyFlag == TypeNotifyFlag.offer
-                  ? '${AppLocalizations.of(context)?.newOffer}'
+                  ? 'New offer'
                   : data.typeNotifyFlag == TypeNotifyFlag.submitted
-                      ? '${AppLocalizations.of(context)?.newProposal}'
-                      : '${AppLocalizations.of(context)?.successfulHired}';
+                      ? 'New proposal'
+                      : 'Successful hired';
 
       final String content = data.typeNotifyFlag == TypeNotifyFlag.chat
-          ? '${data.sender?.fullname} (${AppLocalizations.of(context)?.sender}): ${data.message!.content}'
+          ? '${data.sender?.fullname} (sender): ${data.message!.content}'
           : data.typeNotifyFlag == TypeNotifyFlag.interview
-              ? '${AppLocalizations.of(context)?.notifInterview} "${data.message!.interview!.title}" ${AppLocalizations.of(context)?.from} ${data.sender?.fullname} ${AppLocalizations.of(context)?.at} ${Helpers.formatDateTimeToCustom(data.message!.interview!.startTime)}.'
+              ? 'You have a meeting titled "${data.message!.interview!.title}" from ${data.sender?.fullname} at ${Helpers.formatDateTimeToCustom(data.message!.interview!.startTime)}.'
               : data.typeNotifyFlag == TypeNotifyFlag.offer
-                  ? '${AppLocalizations.of(context)?.notifOffer} ${data.sender?.fullname} ${AppLocalizations.of(context)?.company}.'
+                  ? 'You have a new offer from ${data.sender?.fullname} company.'
                   : data.typeNotifyFlag == TypeNotifyFlag.submitted
-                      ? '${data.sender?.fullname} ${AppLocalizations.of(context)?.notifSumitted} "${data.content.split(' ').last}".'
-                      : '${data.sender?.fullname} ${AppLocalizations.of(context)?.notifHired} "${data.content.split(' ').last}"';
+                      ? '${data.sender?.fullname} has submitted a proposal for your project "${data.content.split(' ').last}".'
+                      : '${data.sender?.fullname} has been hired for the project "${data.content.split(' ').last}"';
       nvm.addNotification(data, currentRole);
       LocalNotification.showScheduleNotification(
         title: title,
