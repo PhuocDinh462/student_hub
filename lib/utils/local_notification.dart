@@ -26,7 +26,7 @@ class LocalNotification {
             AndroidFlutterLocalNotificationsPlugin>()
         ?.requestExactAlarmsPermission();
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('notification');
     final DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
       requestSoundPermission: false,
@@ -70,11 +70,14 @@ class LocalNotification {
             ? const Duration(seconds: 1)
             : Duration(minutes: duration)),
         const NotificationDetails(
-            android: AndroidNotificationDetails('id_3', 'name_3',
-                channelDescription: 'description_3',
-                importance: Importance.max,
-                priority: Priority.high,
-                ticker: 'ticker')),
+            android: AndroidNotificationDetails(
+          'id_3',
+          'name_3',
+          channelDescription: 'description_3',
+          importance: Importance.max,
+          priority: Priority.high,
+          ticker: 'ticker',
+        )),
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
