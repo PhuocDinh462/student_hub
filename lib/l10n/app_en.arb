@@ -91,7 +91,7 @@
   "startWorkingThisProject": "Start working this project",
   "startProjectErrorNotEnoughStudent": "You need to hire enough students for this project to start",
   "closeProjectTitle": "Close project",
-  "closeProjectContent": "Please choose yours project status:",
+  "closeProjectContent": "Please choose your project status:",
   "close": "Close",
   "closeThisProject": "Close this project",
   "optionsEmployees1": "It's just me",
