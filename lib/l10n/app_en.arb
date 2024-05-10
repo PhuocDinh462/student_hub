@@ -91,7 +91,7 @@
   "startWorkingThisProject": "Start working this project",
   "startProjectErrorNotEnoughStudent": "You need to hire enough students for this project to start",
   "closeProjectTitle": "Close project",
-  "closeProjectContent": "Do you really want to close this project?",
+  "closeProjectContent": "Please choose yours project status:",
   "close": "Close",
   "closeThisProject": "Close this project",
   "optionsEmployees1": "It's just me",
@@ -263,5 +263,7 @@
   "meetingRoomId": "Meeting room ID",
   "meetingRoomCode": "Meeting room code",
   "joinMeetingRoomError": "Not found meeting room",
-  "error": "Error"
+  "error": "Error",
+  "success": "Success",
+  "fail": "Fail"
 }

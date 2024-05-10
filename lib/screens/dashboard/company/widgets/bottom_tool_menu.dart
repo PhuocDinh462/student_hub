@@ -7,6 +7,7 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/routes/company_route.dart';
+import 'package:student_hub/screens/dashboard/company/widgets/close_project_dialog.dart';
 import 'package:student_hub/widgets/yes_no_dialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -271,16 +272,8 @@ class BottomToolMenu extends StatelessWidget {
                           Navigator.pop(context);
                           showDialog(
                             context: context,
-                            builder: (BuildContext context) {
-                              return YesNoDialog(
-                                title: AppLocalizations.of(context)!
-                                    .closeProjectTitle,
-                                content: AppLocalizations.of(context)!
-                                    .closeProjectContent,
-                                onYesPressed: () =>
-                                    updateProjectTypeFlag(TypeFlag.archived),
-                              );
-                            },
+                            builder: (_) =>
+                                CloseProjectDialog(rootContext: rootContext),
                           );
                         },
                         child: Container(

@@ -91,7 +91,7 @@
   "startWorkingThisProject": "Bắt đầu thực hiện dự án này",
   "startProjectErrorNotEnoughStudent": "Cần tuyển đủ sinh viên để bắt đầu dự án",
   "closeProjectTitle": "Đóng dự án",
-  "closeProjectContent": "Bạn có chắc muốn đóng dự án này không?",
+  "closeProjectContent": "Vui lòng chọn trạng thái cho dự án của bạn",
   "close": "Đóng",
   "closeThisProject": "Đóng dự án này",
   "optionsEmployees1": "Chỉ mình tôi",
@@ -263,5 +263,7 @@
   "meetingRoomId": "ID phòng họp",
   "meetingRoomCode": "Mật khẩu phòng họp",
   "joinMeetingRoomError": "Không tìm thấy phòng họp",
-  "error": "Lỗi"
+  "error": "Lỗi",
+  "success": "Thành công",
+  "fail": "Thất bại"
 }

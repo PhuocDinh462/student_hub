@@ -14,6 +14,12 @@ enum TypeFlag {
   archived,
 }
 
+enum ProjectStatusFlag {
+  working,
+  success,
+  fail,
+}
+
 class Project {
   final int id;
   final DateTime createdAt;
@@ -28,6 +34,7 @@ class Project {
   final int countMessages;
   int countHired;
   final TypeFlag? typeFlag;
+  final ProjectStatusFlag? statusFlag;
 
   Project({
     required this.id,
@@ -42,7 +49,8 @@ class Project {
     this.countProposals = 0,
     this.countMessages = 0,
     this.countHired = 0,
-    this.typeFlag,
+    this.typeFlag = TypeFlag.newType,
+    this.statusFlag = ProjectStatusFlag.working,
   });
 
   static Project fromMap(Map<String, dynamic> map) {
@@ -61,6 +69,9 @@ class Project {
       countMessages: map['countMessages'] ?? 0,
       countHired: map['countHired'] ?? 0,
       typeFlag: TypeFlag.values[map['typeFlag']],
+      statusFlag: map['status'] != null
+          ? ProjectStatusFlag.values[map['status']]
+          : null,
     );
   }
 
@@ -81,6 +92,9 @@ class Project {
       countHired: 0,
       typeFlag:
           map['typeFlag'] != null ? TypeFlag.values[map['typeFlag']] : null,
+      statusFlag: map['status'] != null
+          ? ProjectStatusFlag.values[map['status']]
+          : null,
     );
   }
 
@@ -102,6 +116,9 @@ class Project {
       typeFlag: map['typeFlag'] != null
           ? TypeFlag.values[map['typeFlag']]
           : TypeFlag.working,
+      statusFlag: map['status'] != null
+          ? ProjectStatusFlag.values[map['status']]
+          : null,
     );
   }
 
