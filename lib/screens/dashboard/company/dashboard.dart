@@ -61,7 +61,10 @@ class _DashboardCompanyState extends State<DashboardCompany> {
               backgroundColor: theme.brightness == Brightness.dark
                   ? primary_200
                   : primary_300,
-              child: const Icon(Icons.add),
+              child: Icon(
+                Icons.add,
+                color: theme.brightness == Brightness.dark ? text_700 : text_50,
+              ),
             )
           : null,
       body: DefaultTabController(

@@ -11,6 +11,7 @@ import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/utils/snack_bar.dart';
 import 'package:student_hub/widgets/project_detail.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProjectCard extends StatefulWidget {
   final Project project;
@@ -31,6 +32,7 @@ class _ProjectCardState extends State<ProjectCard> {
   late bool isFavorite;
   final Dio dio = Dio();
   final String? apiServer = dotenv.env['API_SERVER'];
+
   @override
   void initState() {
     super.initState();
@@ -79,12 +81,16 @@ class _ProjectCardState extends State<ProjectCard> {
       await widget.projectService.updateFavoriteProject(
           provider.currentUser!.studentId!, projectId, disableFlag);
     } catch (e) {
-      MySnackBar.showSnackBar(context, 'Please create your student\'s profile',
-          'Failed', ContentType.failure);
+      MySnackBar.showSnackBar(
+          context,
+          AppLocalizations.of(context)!.createStudentProfile,
+          AppLocalizations.of(context)!.errorOccuredContent,
+          ContentType.failure);
       setState(() {
         isFavorite = false;
       });
-      throw Exception('Failed to update favorite project');
+      throw Exception(
+          AppLocalizations.of(context)!.failedUpdateFavoriteProject);
     }
   }
 
@@ -106,7 +112,7 @@ class _ProjectCardState extends State<ProjectCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Created $daysAgo days ago',
+                  '${AppLocalizations.of(context)!.created} $daysAgo ${AppLocalizations.of(context)!.daysAgo}',
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium
@@ -123,7 +129,7 @@ class _ProjectCardState extends State<ProjectCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Time: ',
+                      AppLocalizations.of(context)!.time,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium
@@ -131,14 +137,14 @@ class _ProjectCardState extends State<ProjectCard> {
                     ),
                     Expanded(
                       child: Text(
-                        '$timeDuration, $studentsNeeded students needed',
+                        '${timeDuration == 'Less than 1 month' ? AppLocalizations.of(context)!.lessThanOneMonth : timeDuration == '1-3 months' ? AppLocalizations.of(context)!.oneToThreeMonths : timeDuration == '3-6 months' ? AppLocalizations.of(context)!.threeToSixMonths : AppLocalizations.of(context)!.moreThanSixMonths}, $studentsNeeded ${AppLocalizations.of(context)!.studentsNeeded}',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
                   ],
                 ),
                 Text(
-                  'Student are looking for:',
+                  AppLocalizations.of(context)!.studentLookingFor,
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium
@@ -168,7 +174,7 @@ class _ProjectCardState extends State<ProjectCard> {
                 Row(
                   children: [
                     Text(
-                      'Proposals: ',
+                      AppLocalizations.of(context)!.proposals,
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium
@@ -185,7 +191,7 @@ class _ProjectCardState extends State<ProjectCard> {
             onTap: () async {
               await showModalBottomSheet(
                   context: context,
-                  backgroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
                   isScrollControlled: true,
                   builder: (ctx) {
                     return SizedBox(

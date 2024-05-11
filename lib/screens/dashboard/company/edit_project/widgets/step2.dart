@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -8,6 +7,7 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/utils/extensions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Step2 extends StatelessWidget {
   Step2({
@@ -29,7 +29,8 @@ class Step2 extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('2/4\t\t\t\t\tNext, estimate the scope of your project',
+          Text(
+              '2/4\t\t\t\t\t${AppLocalizations.of(context)!.postProjectStep2Title}',
               style: Theme.of(context).textTheme.titleLarge),
           const Gap(5),
           Center(
@@ -39,7 +40,7 @@ class Step2 extends StatelessWidget {
             ),
           ),
           const Gap(5),
-          Text('How long will your project take?',
+          Text(AppLocalizations.of(context)!.postProjectStep2Scope,
               style: Theme.of(context).textTheme.titleLarge),
           const Gap(5),
           Column(
@@ -52,7 +53,7 @@ class Step2 extends StatelessWidget {
                     onChanged: (value) =>
                         projectProvider.setProjectScope = value!,
                   ),
-                  const Text('Less than 1 month'),
+                  Text(AppLocalizations.of(context)!.lessThanOneMonth),
                 ],
               ),
               Row(
@@ -63,7 +64,7 @@ class Step2 extends StatelessWidget {
                     onChanged: (value) =>
                         projectProvider.setProjectScope = value!,
                   ),
-                  const Text('1 to 3 months'),
+                  Text(AppLocalizations.of(context)!.oneToThreeMonths),
                 ],
               ),
               Row(
@@ -74,7 +75,7 @@ class Step2 extends StatelessWidget {
                     onChanged: (value) =>
                         projectProvider.setProjectScope = value!,
                   ),
-                  const Text('3 to 6 months'),
+                  Text(AppLocalizations.of(context)!.threeToSixMonths),
                 ],
               ),
               Row(
@@ -85,13 +86,13 @@ class Step2 extends StatelessWidget {
                     onChanged: (value) =>
                         projectProvider.setProjectScope = value!,
                   ),
-                  const Text('More than 6 months'),
+                  Text(AppLocalizations.of(context)!.moreThanSixMonths),
                 ],
               ),
             ],
           ),
           const Gap(20),
-          Text('How many students do you want for this project?',
+          Text(AppLocalizations.of(context)!.postProjectStep2StudentRequire,
               style: Theme.of(context).textTheme.titleLarge),
           const Gap(20),
           Row(
@@ -139,44 +140,30 @@ class Step2 extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              SizedBox(
-                width: 100,
-                child: ElevatedButton(
+              ElevatedButton(
+                  onPressed: () => back(),
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
                         Theme.of(context).brightness == Brightness.dark
                             ? text_800
                             : text_300,
-                  ),
-                  onPressed: () => back(),
-                  child: const Text(
-                    'Back',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                ),
-              ),
+                  child: const Icon(Icons.arrow_back, color: text_50)),
               const Gap(15),
-              SizedBox(
-                width: 100,
-                child: ElevatedButton(
+              ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) next();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primary_300,
-                  ),
-                  child: const Text(
-                    'Next',
-                    style: TextStyle(
-                      color: text_50,
-                      fontSize: 18,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                ),
-              ),
+                  child: const Icon(Icons.arrow_forward, color: text_50)),
             ],
           ),
         ],

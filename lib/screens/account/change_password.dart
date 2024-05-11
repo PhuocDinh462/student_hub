@@ -9,6 +9,7 @@ import 'package:student_hub/providers/user.provider.dart';
 import 'package:student_hub/utils/snack_bar.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -35,8 +36,8 @@ class _ChangePasswordState extends State<ChangePassword> {
     if (oldPassword.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       MySnackBar.showSnackBar(
         context,
-        'Please fill in all fields',
-        'Oh Hey!',
+        AppLocalizations.of(context)!.errorFilledContent,
+        AppLocalizations.of(context)!.errorOccuredContent,
         ContentType.failure,
       );
       return;
@@ -44,8 +45,8 @@ class _ChangePasswordState extends State<ChangePassword> {
     if (password != confirmPassword) {
       MySnackBar.showSnackBar(
         context,
-        'Password and Confirm Password must be the same',
-        'Oh Hey!',
+        AppLocalizations.of(context)!.samePassword,
+        AppLocalizations.of(context)!.errorOccuredContent,
         ContentType.failure,
       );
       return;
@@ -54,8 +55,8 @@ class _ChangePasswordState extends State<ChangePassword> {
       await userService.changePassword(oldPassword, password);
       MySnackBar.showSnackBar(
         context,
-        'Password changed successfully',
-        'Success',
+        AppLocalizations.of(context)!.changePassword,
+        AppLocalizations.of(context)!.sucessTitle,
         ContentType.success,
       );
       Navigator.pushNamed(context, '/account');
@@ -67,8 +68,8 @@ class _ChangePasswordState extends State<ChangePassword> {
     } catch (e) {
       MySnackBar.showSnackBar(
         context,
-        'Failed to change password',
-        'Oh Hey!',
+        AppLocalizations.of(context)!.failedChangePass,
+        AppLocalizations.of(context)!.errorOccuredContent,
         ContentType.failure,
       );
     }
@@ -90,22 +91,22 @@ class _ChangePasswordState extends State<ChangePassword> {
                     shape: BoxShape.circle,
                     border: Border.all(width: 2),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Icon(
                       Icons.lock,
                       size: 60,
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
                 ),
                 //
                 const Gap(20),
                 //welcome back
-                const Text(
-                  'Reset Your Password',
+                Text(
+                  AppLocalizations.of(context)!.changePasswordTitle,
                   style: TextStyle(
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: 22,
                       fontWeight: FontWeight.bold),
                 ),
@@ -113,7 +114,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 //old password textfield
                 InputText(
                   controller: oldPasswordController,
-                  hintText: 'Enter your old password',
+                  hintText: AppLocalizations.of(context)!.oldPasswordHint,
                   obscureText: true,
                   icon: Icons.vpn_key,
                 ),
@@ -121,7 +122,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 // password textfield
                 InputText(
                   controller: passwordController,
-                  hintText: 'Password (8 or more characters)',
+                  hintText: AppLocalizations.of(context)!.newPassword,
                   obscureText: true,
                   icon: Icons.lock,
                 ),
@@ -129,7 +130,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 // confirm password textfield
                 InputText(
                   controller: confirmPasswordController,
-                  hintText: 'Confirm your Password',
+                  hintText: AppLocalizations.of(context)!.confirmPassword,
                   obscureText: true,
                   icon: Icons.lock,
                 ),
@@ -138,9 +139,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                 //Reset Password
                 Button(
                   onTap: () => changePassword(userProvider),
-                  colorButton: Colors.blue,
-                  colorText: Colors.white,
-                  text: 'Change Password',
+                  colorButton: Theme.of(context).colorScheme.tertiary,
+                  colorText: Theme.of(context).colorScheme.onPrimary,
+                  text: AppLocalizations.of(context)!.changePassword,
                 ),
               ],
             ),

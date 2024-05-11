@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/proposal.model.dart';
+import 'package:student_hub/providers/project.provider.dart';
+import 'package:student_hub/screens/chat/message_list.screen.dart';
 import 'package:student_hub/screens/dashboard/company/project_detail/widget/project_info.dart';
 import 'widget/proposal_list.dart';
 
@@ -9,6 +12,9 @@ class ProjectDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ProjectProvider projectProvider =
+        Provider.of<ProjectProvider>(context);
+
     return DefaultTabController(
       length: 4,
       child: Column(
@@ -48,33 +54,29 @@ class ProjectDetail extends StatelessWidget {
               ),
             ],
           ),
-          const Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: TabBarView(
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  // Info
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-                    child: ProjectInfo(),
-                  ),
-                  // Message
-                  Center(
-                    child: Text('Message'),
-                  ),
-                  // Proposals
-                  ProposalList(statusFlags: <StatusFlag>{
-                    StatusFlag.waiting,
-                    StatusFlag.active,
-                    StatusFlag.offer,
-                  }),
-                  // Hired
-                  ProposalList(statusFlags: <StatusFlag>{
-                    StatusFlag.hired,
-                  }),
-                ],
-              ),
+          Expanded(
+            child: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                // Info
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+                  child: ProjectInfo(),
+                ),
+                // Message
+                MessageListScreen(
+                    projectId: projectProvider.getCurrentProject!.id),
+                // Proposals
+                const ProposalList(statusFlags: <StatusFlag>{
+                  StatusFlag.waiting,
+                  StatusFlag.active,
+                  StatusFlag.offer,
+                }),
+                // Hired
+                const ProposalList(statusFlags: <StatusFlag>{
+                  StatusFlag.hired,
+                }),
+              ],
             ),
           ),
         ],

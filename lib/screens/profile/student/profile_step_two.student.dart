@@ -11,6 +11,7 @@ import 'package:student_hub/styles/button_style.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/view-models/view_models.dart';
 import 'package:student_hub/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileStudentStepTwo extends StatefulWidget {
   const ProfileStudentStepTwo({super.key});
@@ -21,6 +22,14 @@ class ProfileStudentStepTwo extends StatefulWidget {
 
 class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
   bool isAdd = false;
+
+  late AppLocalizations? appLocal;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    appLocal = AppLocalizations.of(context);
+  }
 
   void handleCancelAdd() {
     setState(() {
@@ -68,14 +77,13 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       DisplayText(
-                        text: 'Experiences',
+                        text: appLocal!.experience,
                         style: textTheme.headlineLarge!,
                         textAlign: TextAlign.center,
                       ),
                       const Gap(10),
                       DisplayText(
-                        text:
-                            'Tell us about your self and you will be on your way connect with real-world projects.',
+                        text: appLocal!.descriptionStudent,
                         style: textTheme.bodySmall!,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.visible,
@@ -85,7 +93,8 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             DisplayText(
-                                text: 'Projects', style: textTheme.bodyLarge!),
+                                text: appLocal!.projects,
+                                style: textTheme.bodyLarge!),
                             IconButton(
                                 iconSize: 30,
                                 onPressed: () {
@@ -114,7 +123,9 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
                                 style: textTheme.headlineMedium!.copyWith(
                                   color: colorScheme.primary,
                                 ),
-                                text: 'Add more to your experience',
+                                text: appLocal!.addExperience,
+                                overflow: TextOverflow.visible,
+                                textAlign: TextAlign.center,
                               ),
                               const Gap(20),
                               Container(
@@ -150,6 +161,7 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
                                             exp.id, false);
                                       })
                                   : ExperienceItem(
+                                      appLocal: appLocal,
                                       exp: exp,
                                       actionDelete: () {
                                         handleDeleteExperience(
@@ -193,7 +205,7 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
                         }
                       },
                       child: DisplayText(
-                        text: 'Next',
+                        text: appLocal!.next,
                         style: textTheme.labelLarge!.copyWith(
                           color: Colors.white,
                         ),

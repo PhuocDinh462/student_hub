@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -5,112 +7,26 @@ import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/chat/chat_room.dart';
 import 'package:student_hub/models/chat/message.dart';
+import 'package:student_hub/models/models.dart';
 import 'package:student_hub/widgets/avatar.dart';
-import 'package:student_hub/widgets/create_meeting.dart';
-import 'package:student_hub/widgets/message_chat_bubble.dart';
-import 'package:student_hub/widgets/message_meeting_bubble.dart';
+
 import 'package:intl/intl.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-List<Message> sampleMessages = [
-  Message(
-    projectId: 1,
-    senderUserId: 1,
-    receiverUserId: 2,
-    content: 'Hello, how are you?',
-    createdAt: DateTime.now(),
-  ),
-  Message(
-    projectId: 1,
-    senderUserId: 2,
-    receiverUserId: 1,
-    content: 'Hi, I am doing fine. How about you?',
-    createdAt: DateTime.now().add(const Duration(minutes: 5)),
-  ),
-  Message(
-    projectId: 1,
-    senderUserId: 1,
-    receiverUserId: 2,
-    content: 'I am good too. Thanks for asking.',
-    createdAt: DateTime.now().add(const Duration(minutes: 10)),
-  ),
-  Message(
-    projectId: 1,
-    senderUserId: 2,
-    receiverUserId: 1,
-    content: 'What have you been up to lately?',
-    createdAt: DateTime.now().add(const Duration(minutes: 15)),
-  ),
-  Message(
-    projectId: 1,
-    senderUserId: 1,
-    receiverUserId: 2,
-    content: 'I have been busy with work. How about you?',
-    createdAt: DateTime.now().add(const Duration(minutes: 20)),
-  ),
-  Message(
-    projectId: 1,
-    senderUserId: 2,
-    receiverUserId: 1,
-    content: 'I have been studying for my exams.',
-    createdAt: DateTime.now().add(const Duration(minutes: 25)),
-  ),
-  Message(
-    projectId: 1,
-    senderUserId: 1,
-    receiverUserId: 2,
-    content: 'Good luck with your exams!',
-    createdAt: DateTime.now().add(const Duration(minutes: 30)),
-  ),
-  Message(
-    projectId: 1,
-    senderUserId: 2,
-    receiverUserId: 1,
-    content: 'Thank you!',
-    createdAt: DateTime.now().add(const Duration(minutes: 35)),
-  ),
-  Message(
-    projectId: 1,
-    senderUserId: 1,
-    receiverUserId: 2,
-    content: 'You\'re welcome. Let me know if you need any help.',
-    createdAt: DateTime.now().add(const Duration(minutes: 40)),
-  ),
-  Message(
-    projectId: 1,
-    senderUserId: 2,
-    receiverUserId: 1,
-    content: 'Sure, I will. Thanks again!',
-    createdAt: DateTime.now().add(const Duration(minutes: 45)),
-  ),
-  Message(
-    projectId: 1,
-    senderUserId: 2,
-    receiverUserId: 1,
-    title: 'Catch up meeting',
-    createdAt: DateTime.now().add(const Duration(minutes: 60)),
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(const Duration(minutes: 15)),
-    meeting: MessageFlag.interview,
-  ),
-  Message(
-    projectId: 1,
-    senderUserId: 1,
-    receiverUserId: 2,
-    title: 'Catch up meeting',
-    createdAt: DateTime.now().add(const Duration(minutes: 70)),
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(const Duration(minutes: 15)),
-    meeting: MessageFlag.interview,
-    canceled: true,
-  ),
-];
+import 'package:student_hub/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChatRoomScreen extends StatefulWidget {
-  const ChatRoomScreen({super.key, this.chatRoom});
-
+  const ChatRoomScreen(
+      {super.key,
+      this.chatRoom,
+      required this.project,
+      required this.user,
+      required this.otherUser});
   final ChatRoom? chatRoom;
+  final ProjectModel project;
+  final UserModel user;
+  final UserModel otherUser;
 
   @override
   State<ChatRoomScreen> createState() => _ChatRoomScreenState();
@@ -118,20 +34,29 @@ class ChatRoomScreen extends StatefulWidget {
 
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
   final messageController = TextEditingController();
-  final List<Message> messages =
-      // sampleMessages.isNotEmpty ? sampleMessages :
-      [];
+  final List<Message> messages = [];
+  // sampleMessages.isNotEmpty ? sampleMessages : [];
   late io.Socket socket;
   late ScrollController _scrollController;
   final FocusNode _messageFocusNode = FocusNode();
-  final MessageService messageService = MessageService();
+  final ChatService chatService = ChatService();
   bool isLoading = false;
+  late int projectId;
+  late int senderId;
+  late int receiverId;
+  late String receiverName;
 
   @override
   void initState() {
     setState(() {
       isLoading = true;
     });
+
+    projectId = widget.project.id;
+    senderId = widget.user.id;
+    receiverId = widget.otherUser.id;
+    receiverName = widget.otherUser.fullname!;
+
     _scrollController = ScrollController();
     super.initState();
     _loadMessages();
@@ -174,7 +99,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       'Authorization': 'Bearer $token',
     };
 
-    socket.io.options?['query'] = {'project_id': 1};
+    socket.io.options?['query'] = {'project_id': projectId};
 
     socket.connect();
 
@@ -187,12 +112,14 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     socket.on('RECEIVE_MESSAGE', (data) {
       setState(() {
         messages.add(Message(
-          projectId: 1,
-          senderUserId: 2,
-          receiverUserId: 2,
-          content: data['content'],
-          createdAt: DateTime.now(),
-          meeting: MessageFlag.values[data['messageFlag']],
+          id: data['notification']['message']['id'],
+          projectId: projectId,
+          senderUserId: data['notification']['sender']['id'],
+          receiverUserId: data['notification']['receiver']['id'],
+          content: data['notification']['message']['content'],
+          createdAt: DateTime.parse(data['notification']['createdAt']),
+          meeting: MessageFlag
+              .values[data['notification']['message']['messageFlag']],
         ));
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent + 100,
@@ -200,6 +127,72 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           curve: Curves.easeOut,
         );
       });
+    });
+
+    socket.on('RECEIVE_INTERVIEW', (data) {
+      if (data['notification'] != null &&
+          data['notification']['content'] == 'Interview cancelled') {
+        int index = messages.indexWhere(
+            (element) => element.id == data['notification']['message']['id']);
+        setState(() {
+          messages[index] = messages[index].copyWith(
+            canceled: true,
+          );
+        });
+      } else if (data['notification'] != null &&
+          data['notification']['content'] != null &&
+          data['notification']['content'] == 'Interview created') {
+        setState(() {
+          messages.add(Message(
+            id: data['notification']['message']['id'],
+            projectId: projectId,
+            senderUserId: data['notification']['sender']['id'],
+            receiverUserId: data['notification']['receiver']['id'],
+            interviewId: data['notification']['message']['interview']['id'],
+            title: data['notification']['message']['interview']['title'],
+            createdAt: DateTime.parse(
+                data['notification']['message']['interview']['createdAt']),
+            startTime: DateTime.parse(
+                data['notification']['message']['interview']['startTime']),
+            endTime: DateTime.parse(
+                data['notification']['message']['interview']['endTime']),
+            meeting: MessageFlag.interview,
+            meetingRoomId: data['notification']['message']['interview']
+                    ['meetingRoom']['meeting_room_id'] ??
+                '',
+            meetingRoomCode: data['notification']['message']['interview']
+                    ['meetingRoom']['meeting_room_code'] ??
+                '',
+          ));
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent + 200,
+            duration: const Duration(milliseconds: 1),
+            curve: Curves.easeOut,
+          );
+        });
+      } else if (data['notification'] != null &&
+          data['notification']['content'] != null &&
+          data['notification']['content'] == 'Interview updated') {
+        DateTime startTime = DateTime.parse(
+            data['notification']['message']['interview']['startTime']);
+        DateTime endTime = DateTime.parse(
+            data['notification']['message']['interview']['endTime']);
+        String title = data['notification']['message']['interview']['title'];
+        bool canceled =
+            data['notification']['message']['interview']['disableFlag'] == 0
+                ? false
+                : true;
+        int index = messages.indexWhere(
+            (element) => element.id == data['notification']['message']['id']);
+        setState(() {
+          messages[index] = messages[index].copyWith(
+            startTime: startTime,
+            endTime: endTime,
+            title: title,
+            canceled: canceled,
+          );
+        });
+      }
     });
   }
 
@@ -212,70 +205,70 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   }
 
   _loadMessages() async {
-    final listMessages = await messageService.getConversations(2, 1);
-    final List<Message> fetchMessages = listMessages
-        .cast<Map<String, dynamic>>()
-        .where((msg) => msg['deletedAt'] == null)
-        .map<Message>((msg) {
-      return Message(
-        id: msg['id'],
-        projectId: msg['projectId'] ?? 1,
-        senderUserId: msg['sender']['id'],
-        // receiverUserId: msg['receiver']['id'],
-        receiverUserId: 1,
-        content: msg['content'],
-        createdAt: DateTime.parse(msg['createdAt']),
-        startTime: null,
-        endTime: null,
-        title: '',
-        meeting: msg['interview'] != null
-            ? MessageFlag.interview
-            : MessageFlag.message,
-        canceled: msg['canceled'] ?? false,
-      );
+    final listMessages =
+        await chatService.getConversations(receiverId, projectId);
+    final List<Message> fetchMessages =
+        listMessages.cast<Map<String, dynamic>>().map<Message>((msg) {
+      if (msg['interview'] == null) {
+        return Message(
+          id: msg['id'],
+          projectId: msg['projectId'] ?? projectId,
+          senderUserId: msg['sender']['id'],
+          receiverUserId: msg['receiver']['id'],
+          content: msg['content'],
+          createdAt: DateTime.parse(msg['createdAt']),
+          startTime: null,
+          endTime: null,
+          title: '',
+          meeting: MessageFlag.message,
+          canceled: msg['canceled'] ?? false,
+        );
+      } else {
+        return Message(
+          id: msg['id'],
+          projectId: msg['projectId'] ?? projectId,
+          senderUserId: msg['sender']['id'],
+          receiverUserId: msg['receiver']['id'],
+          interviewId: msg['interview']['id'],
+          createdAt: DateTime.parse(msg['createdAt']),
+          startTime: DateTime.parse(msg['interview']['startTime']),
+          endTime: DateTime.parse(msg['interview']['endTime']),
+          title: msg['interview']['title'],
+          meeting: MessageFlag.interview,
+          canceled: msg['interview']['disableFlag'] == 0 ? false : true,
+          meetingRoomId:
+              msg['interview']['meetingRoom']['meeting_room_id'] ?? '',
+          meetingRoomCode:
+              msg['interview']['meetingRoom']['meeting_room_code'] ?? '',
+        );
+      }
     }).toList();
     setState(() {
       messages.clear();
       // messages.addAll(sampleMessages);
       messages.addAll(fetchMessages);
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent + 100,
+        duration: const Duration(milliseconds: 1),
+        curve: Curves.easeOut,
+      );
     });
-
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   _scrollController.animateTo(
-    //     _scrollController.position.maxScrollExtent,
-    //     duration: const Duration(milliseconds: 300),
-    //     curve: Curves.easeOut,
-    //   );
-    // });
   }
 
   @override
   Widget build(BuildContext context) {
     final viewInsets = MediaQuery.viewInsetsOf(context);
-    final currentParticipant = widget.chatRoom?.participants.firstWhere(
-      (user) => user.userId == 1,
-    );
-
-    // final otherParticipant = widget.chatRoom?.participants.firstWhere(
-    //   (user) => user.userId != currentParticipant?.userId,
-    // );
-
     void sendMessage() async {
       final message = Message(
-        projectId: 1,
-        senderUserId: 2,
-        receiverUserId: 2,
+        projectId: projectId,
+        senderUserId: senderId,
+        receiverUserId: receiverId,
         content: messageController.text,
         createdAt: DateTime.now(),
         meeting: MessageFlag.message,
       );
-      socket.emit('SEND_MESSAGE', {
-        'content': message.content,
-        'projectId': message.projectId,
-        'senderId': message.senderUserId,
-        'receiverId': message.receiverUserId,
-        'messageFlag': message.meeting.index,
-      });
+      chatService.sendMessage(message.projectId, message.senderUserId,
+          message.receiverUserId, message.content);
       messageController.clear();
     }
 
@@ -290,7 +283,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             ),
             const Gap(16),
             Text(
-              'User 2',
+              receiverName,
               style: Theme.of(context)
                   .textTheme
                   .bodyLarge
@@ -315,12 +308,18 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                 onTap: () async {
                   await showModalBottomSheet(
                       context: context,
-                      backgroundColor: Colors.white,
+                      backgroundColor: Theme.of(context).colorScheme.surface,
                       isScrollControlled: true,
                       builder: (ctx) {
                         return SizedBox(
                           height: MediaQuery.of(context).size.height * 0.7,
-                          child: const CreateMeeting(),
+                          child: CreateMeeting(
+                            projectId: projectId,
+                            senderId: senderId,
+                            receiverId: receiverId,
+                            messages: messages,
+                            socket: socket,
+                          ),
                         );
                       });
                 },
@@ -335,36 +334,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     ),
                     const Gap(16),
                     Text(
-                      'Schedule an interview',
+                      AppLocalizations.of(context)!.scheduleInterview,
                       style: Theme.of(context)
                           .textTheme
                           .labelMedium
                           ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              PopupMenuItem<String>(
-                value: 'Cancel', // Giá trị cho mục "Cancel"
-                height: 60,
-                onTap: () {
-                  // Xử lý khi chọn "Cancel"
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.cancel,
-                      color: Theme.of(context).colorScheme.primary.withOpacity(
-                          Theme.of(context).brightness == Brightness.dark
-                              ? 1
-                              : .7),
-                    ),
-                    const Gap(16),
-                    Text(
-                      'Cancel',
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
                     ),
                   ],
                 ),
@@ -402,41 +376,42 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                         return Container(
                           padding: const EdgeInsets.symmetric(
                               vertical: 8.0, horizontal: 16.0),
-                          child: const Column(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Avatar(
+                                  const Avatar(
                                     imageUrl:
                                         'assets/images/default_avatar.png',
                                     radius: 30,
                                   ),
-                                  SizedBox(width: 16.0),
+                                  const SizedBox(width: 16.0),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'User 2',
-                                        style: TextStyle(
+                                        receiverName,
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18.0,
                                         ),
                                       ),
-                                      SizedBox(height: 4.0),
-                                      Text(
+                                      const SizedBox(height: 4.0),
+                                      const Text(
                                         'StudentHub',
                                         style: TextStyle(
                                           color: Colors.grey,
                                           fontSize: 14.0,
                                         ),
                                       ),
-                                      SizedBox(height: 4.0),
+                                      const SizedBox(height: 4.0),
                                       Text(
-                                        'You\'re connected on StudentHub',
-                                        style: TextStyle(
+                                        AppLocalizations.of(context)!
+                                            .connectedMessage,
+                                        style: const TextStyle(
                                           color: Colors.grey,
                                           fontSize: 14.0,
                                         ),
@@ -445,73 +420,91 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 8.0),
-                              Divider(),
+                              const SizedBox(height: 8.0),
+                              const Divider(),
                             ],
                           ),
                         );
                       } else {
                         final message = messages[index - 1];
 
-                        final showImage = index - 1 == messages.length - 1 ||
-                            (index < messages.length - 1 &&
-                                messages[index + 1].senderUserId !=
-                                    message.senderUserId);
-
+                        // final showImage = index - 1 == messages.length - 1 ||
+                        //     (index < messages.length - 1 &&
+                        //         messages[index + 1].senderUserId !=
+                        //             message.senderUserId);
+                        // final showImage = index - 1 == messages.length ||
+                        //     messages[index - 1].senderUserId !=
+                        //         message.senderUserId;
                         return Column(
                           children: [
                             const Gap(6),
                             Row(
-                              mainAxisAlignment: (message.senderUserId != 1)
-                                  ? MainAxisAlignment.end
-                                  : MainAxisAlignment.start,
+                              mainAxisAlignment:
+                                  (message.senderUserId != receiverId)
+                                      ? MainAxisAlignment.end
+                                      : MainAxisAlignment.start,
                               children: [
-                                if (showImage && message.senderUserId == 1)
-                                  const Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Avatar(
-                                        imageUrl:
-                                            'assets/images/default_avatar.png',
-                                        radius: 12,
-                                      ),
-                                    ],
-                                  ),
+                                // if (showImage &&
+                                //     message.senderUserId == senderId)
+                                //   const Column(
+                                //     mainAxisAlignment: MainAxisAlignment.end,
+                                //     children: [
+                                //       Avatar(
+                                //         imageUrl:
+                                //             'assets/images/default_avatar.png',
+                                //         radius: 12,
+                                //       ),
+                                //     ],
+                                //   ),
                                 if (message.meeting == MessageFlag.interview)
                                   MessageMeetingBubble(
-                                    userId1: 1,
-                                    userId2: 2,
-                                    message: message,
-                                    onCancelMeeting: () {
-                                      setState(() {
-                                        // Cập nhật trạng thái của cuộc họp
-                                        message.canceled = true;
-                                      });
-                                    },
-                                  )
+                                      senderId: senderId,
+                                      receiverId: receiverId,
+                                      message: message,
+                                      projectId: projectId,
+                                      onCancelMeeting: () {
+                                        setState(() {
+                                          // Cập nhật trạng thái của cuộc họp
+                                          message.canceled = true;
+                                        });
+                                      },
+                                      onUpdateMeeting: (DateTime startTime,
+                                          DateTime endTime,
+                                          String title,
+                                          bool canceled) {
+                                        // Cập nhật thông tin cuộc họp
+                                        setState(() {
+                                          message.startTime = startTime;
+                                          message.endTime = endTime;
+                                          message.title = title;
+                                          message.canceled = canceled;
+                                        });
+                                      })
                                 else
                                   MessageChatBubble(
-                                    userId1: 1,
-                                    userId2: 2,
+                                    userId1: receiverId,
+                                    userId2: senderId,
                                     message: message,
                                   ),
-                                if (showImage && message.senderUserId != 1)
-                                  const Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Avatar(
-                                        imageUrl:
-                                            'assets/images/default_avatar.png',
-                                        radius: 12,
-                                      ),
-                                    ],
-                                  ),
+                                // if (showImage &&
+                                //     message.senderUserId != receiverId)
+                                //   const Column(
+                                //     mainAxisAlignment: MainAxisAlignment.end,
+                                //     children: [
+                                //       Avatar(
+                                //         imageUrl:
+                                //             'assets/images/default_avatar.png',
+                                //         radius: 12,
+                                //       ),
+                                //     ],
+                                //   ),
                               ],
                             ),
                             Row(
-                              mainAxisAlignment: (message.senderUserId != 1)
-                                  ? MainAxisAlignment.end
-                                  : MainAxisAlignment.start,
+                              mainAxisAlignment:
+                                  (message.senderUserId != receiverId)
+                                      ? MainAxisAlignment.end
+                                      : MainAxisAlignment.start,
                               children: [
                                 Text(
                                   '${DateFormat("MMM d").format(message.createdAt)}, ${message.createdAt.hour}:${message.createdAt.minute.toString().padLeft(2, '0')}',
@@ -543,13 +536,20 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       onPressed: () async {
                         await showModalBottomSheet(
                             context: context,
-                            backgroundColor: Colors.white,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.surface,
                             isScrollControlled: true,
                             builder: (ctx) {
                               return SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.7,
-                                child: const CreateMeeting(),
+                                child: CreateMeeting(
+                                  projectId: projectId,
+                                  senderId: senderId,
+                                  receiverId: receiverId,
+                                  messages: messages,
+                                  socket: socket,
+                                ),
                               );
                             });
                       },
@@ -576,7 +576,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                           fillColor: Theme.of(context)
                               .colorScheme
                               .onSecondaryContainer,
-                          hintText: 'Type a message',
+                          hintText: AppLocalizations.of(context)!.typeMessage,
                           hintStyle:
                               Theme.of(context).textTheme.labelSmall!.copyWith(
                                     color: text_400,

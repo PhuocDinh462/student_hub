@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/layout/account_header.dart';
 import 'package:student_hub/layout/navigation.dart';
+import 'package:student_hub/models/models.dart';
 import 'package:student_hub/screens/alerts/alert.screen.dart';
 import 'package:student_hub/screens/dashboard/student/dashboard.student.dart';
 import 'package:student_hub/screens/project/submit_proposal.dart';
@@ -28,6 +29,7 @@ class StudentRoutes {
   static const String account = '/account';
   static const String settings = '/account/settings';
   static const String languages = '/account/settings/languages';
+  static const String videoConference = '/video-conference';
 
   static Map<String, WidgetBuilder> routes = {
     nav: (context) {
@@ -51,8 +53,16 @@ class StudentRoutes {
         const AccountHeader(title: 'Student Hub', body: ChangePassword()),
     dashboardStudent: (context) =>
         const AccountHeader(title: 'Student Hub', body: DashboardStudent()),
-    welcomeCompany: (context) =>
-        const AccountHeader(title: 'Welcome', body: WelcomeCompany()),
+    welcomeCompany: (context) {
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+      final appLocal = args?['appLocal'];
+      return AccountHeader(
+          title: 'Welcome',
+          body: WelcomeCompany(
+            appLocal: appLocal,
+          ));
+    },
     profileCompany: (context) => AccountHeader(
         title: AppLocalizations.of(context)!.profile,
         body: const ProfileCompanyInput()),
@@ -88,7 +98,20 @@ class StudentRoutes {
         body: const VideoCallScreen()),
     alerts: (context) =>
         const AccountHeader(title: 'Student Hub', body: AlertScreen()),
-    chatScreen: (context) => const ChatRoomScreen(),
+    chatScreen: (context) {
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+
+      final ProjectModel project = args?['project'];
+      final UserModel user = args?['user'];
+      final UserModel otherUser = args?['otherUser'];
+
+      return ChatRoomScreen(
+        project: project,
+        user: user,
+        otherUser: otherUser,
+      );
+    },
     account: (context) => AccountHeader(
         title: AppLocalizations.of(context)!.account(''),
         body: const Account()),
@@ -97,5 +120,6 @@ class StudentRoutes {
     languages: (context) => AccountHeader(
         title: AppLocalizations.of(context)!.language(''),
         body: const Languages()),
+    videoConference: (context) => const VideoConference(),
   };
 }

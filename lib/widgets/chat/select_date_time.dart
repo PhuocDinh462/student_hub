@@ -5,13 +5,22 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/utils/helpers.dart';
 import 'package:student_hub/widgets/text_field_title.dart';
 
+// ignore: must_be_immutable
 class SelectDateTime extends StatefulWidget {
-  const SelectDateTime(
-      {super.key, required this.titleDate, required this.titleTime});
+  SelectDateTime({
+    super.key,
+    required this.titleDate,
+    required this.titleTime,
+    required this.date,
+    required this.time,
+    this.onChanged,
+  });
 
   final String titleDate;
   final String titleTime;
-
+  late DateTime date;
+  late TimeOfDay time;
+  final Function(DateTime date, TimeOfDay time)? onChanged;
   @override
   State<SelectDateTime> createState() => _SelectDateTimeState();
 }
@@ -23,8 +32,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
   @override
   void initState() {
     super.initState();
-    _pickedDate = DateTime.now();
-    _pickedTime = TimeOfDay.now();
+    _pickedDate = widget.date;
+    _pickedTime = widget.time;
   }
 
   @override
@@ -78,7 +87,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
     );
     if (pickedDate != null) {
       setState(() {
+        widget.date = pickedDate;
         _pickedDate = pickedDate;
+        widget.onChanged!(_pickedDate, _pickedTime);
       });
     }
   }
@@ -112,7 +123,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
     );
     if (pickedTime != null) {
       setState(() {
+        widget.time = pickedTime;
         _pickedTime = pickedTime;
+        widget.onChanged!(_pickedDate, _pickedTime);
       });
     }
   }

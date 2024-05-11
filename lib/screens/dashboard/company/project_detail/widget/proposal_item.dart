@@ -12,7 +12,7 @@ class ProposalItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(CompanyRoutes.proposalDetail, arguments: proposal);
+        Get.toNamed(CompanyRoutes.proposalDetail, arguments: proposal.id);
       },
       child: Card(
         child: Padding(

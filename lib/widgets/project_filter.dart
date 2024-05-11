@@ -8,6 +8,7 @@ import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/project_length_options.dart';
 import 'package:student_hub/widgets/text_field_title.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProjectFilter extends StatefulWidget {
   final String? apiServer;
@@ -53,7 +54,7 @@ class _ProjectFilterState extends State<ProjectFilter> {
                 IconButton(
                   icon: const Icon(
                     Icons.cancel_rounded,
-                    color: Colors.red,
+                    color: color_1,
                   ),
                   iconSize: 30,
                   onPressed: () {
@@ -63,9 +64,9 @@ class _ProjectFilterState extends State<ProjectFilter> {
                 ),
               ],
             ),
-            const Divider(
+            Divider(
               thickness: 1.5,
-              color: primary_300,
+              color: Theme.of(context).primaryColorDark,
             ),
             const Gap(8),
             Expanded(
@@ -78,7 +79,7 @@ class _ProjectFilterState extends State<ProjectFilter> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'Project Length',
+                          AppLocalizations.of(context)!.projectLength,
                           style:
                               Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     fontWeight: FontWeight.bold,
@@ -87,12 +88,12 @@ class _ProjectFilterState extends State<ProjectFilter> {
                       ],
                     ),
                     ProjectLengthOptions(
-                      options: const [
-                        'All',
-                        'Less than one month',
-                        '1 to 3 months',
-                        '3 to 6 months',
-                        'More than 6 months',
+                      options: [
+                        AppLocalizations.of(context)!.all,
+                        AppLocalizations.of(context)!.lessThanOneMonth,
+                        AppLocalizations.of(context)!.oneToThreeMonths,
+                        AppLocalizations.of(context)!.threeToSixMonths,
+                        AppLocalizations.of(context)!.moreThanSixMonths,
                       ],
                       onOptionSelected: (selectedOption) {
                         setState(() {
@@ -102,15 +103,15 @@ class _ProjectFilterState extends State<ProjectFilter> {
                     ),
                     const Gap(20),
                     TextFieldTitle(
-                      title: 'Students Needed',
-                      hintText: 'Enter Number of Students',
+                      title: AppLocalizations.of(context)!.studentsNeeded,
+                      hintText: AppLocalizations.of(context)!.numberOfStudents,
                       controller: studentsController,
                       isNumber: true,
                     ),
                     const Gap(16),
                     TextFieldTitle(
-                      title: 'Proposals less than',
-                      hintText: 'Enter Number of Proposals',
+                      title: AppLocalizations.of(context)!.proposalsLess,
+                      hintText: AppLocalizations.of(context)!.numberOfProposals,
                       controller: proposalsController,
                       isNumber: true,
                     ),
@@ -123,9 +124,9 @@ class _ProjectFilterState extends State<ProjectFilter> {
                             await clearFilter();
                             Navigator.pop(context);
                           },
-                          text: 'Clear filters',
-                          colorButton: primary_300,
-                          colorText: text_50,
+                          text: AppLocalizations.of(context)!.clearFilters,
+                          colorButton: Theme.of(context).colorScheme.tertiary,
+                          colorText: Theme.of(context).colorScheme.onPrimary,
                           width: MediaQuery.of(context).size.width * 0.4,
                         ),
                         Button(
@@ -133,9 +134,9 @@ class _ProjectFilterState extends State<ProjectFilter> {
                             await filterProjects();
                             Navigator.pop(context);
                           },
-                          text: 'Apply',
-                          colorButton: primary_300,
-                          colorText: text_50,
+                          text: AppLocalizations.of(context)!.apply,
+                          colorButton: Theme.of(context).colorScheme.tertiary,
+                          colorText: Theme.of(context).colorScheme.onPrimary,
                           width: MediaQuery.of(context).size.width * 0.4,
                         ),
                       ],

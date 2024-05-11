@@ -7,6 +7,7 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/utils/extensions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Step4 extends StatelessWidget {
   Step4({super.key, required this.back});
@@ -41,7 +42,8 @@ class Step4 extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('4/4\t\t\t\t\tProject details',
+        Text(
+            '4/4\t\t\t\t\t${AppLocalizations.of(context)!.postProjectStep4Title}',
             style: Theme.of(context).textTheme.titleLarge),
         const Gap(30),
         // Title
@@ -58,7 +60,7 @@ class Step4 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Title',
+                  AppLocalizations.of(context)!.title,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const Gap(5),
@@ -91,7 +93,7 @@ class Step4 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Description',
+                  AppLocalizations.of(context)!.description,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const Gap(5),
@@ -124,15 +126,13 @@ class Step4 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Project scope',
+                  AppLocalizations.of(context)!.projectScope,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const Gap(5),
                 Text(
-                  projectProvider.getProjectScope ==
-                          ProjectScopeFlag.oneToThreeMonth
-                      ? '1 to 3 months'
-                      : '3 to 6 months',
+                  Project.projectScopeFlag2String(
+                      context, projectProvider.getProjectScope),
                   style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
               ],
@@ -154,12 +154,12 @@ class Step4 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Student required',
+                  AppLocalizations.of(context)!.studentRequire,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const Gap(5),
                 Text(
-                  '${projectProvider.getNumOfStudents.toString()} students',
+                  '${projectProvider.getNumOfStudents.toString()} ${AppLocalizations.of(context)!.students}',
                   style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
               ],
@@ -171,42 +171,28 @@ class Step4 extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            SizedBox(
-              width: 100,
-              child: ElevatedButton(
+            ElevatedButton(
+                onPressed: () => back(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
                       Theme.of(context).brightness == Brightness.dark
                           ? text_800
                           : text_300,
-                ),
-                onPressed: () => back(),
-                child: const Text(
-                  'Back',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-              ),
-            ),
+                child: const Icon(Icons.arrow_back, color: text_50)),
             const Gap(15),
-            SizedBox(
-              width: 100,
-              child: ElevatedButton(
+            ElevatedButton(
                 onPressed: () => postProject(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: primary_300,
-                ),
-                child: const Text(
-                  'Post',
-                  style: TextStyle(
-                    color: text_50,
-                    fontSize: 18,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-              ),
-            ),
+                child: const Icon(Icons.check, color: text_50)),
           ],
         ),
       ],

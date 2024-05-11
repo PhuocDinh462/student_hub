@@ -6,7 +6,6 @@ import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/screens/dashboard/company/widgets/project_item.dart';
 import 'package:student_hub/utils/empty.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProjectList extends StatefulWidget {
   const ProjectList({super.key, this.typeFlag});
@@ -63,36 +62,33 @@ class _ProjectListState extends State<ProjectList> {
                     ? element.typeFlag == widget.typeFlag
                     : true)
                 .isEmpty
-            ? Center(
-                child:
-                    Empty(text: AppLocalizations.of(context)!.noDataAvailable),
+            ? const Center(
+                child: Empty(),
               )
             : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const Gap(10),
-                      Column(
-                        children: projectProvider.getProjectList
-                            .where((element) => widget.typeFlag != null
-                                ? element.typeFlag == widget.typeFlag
-                                : true)
-                            .map(
-                              (item) => Column(
-                                children: [
-                                  ProjectItem(
-                                    project: item,
-                                  ),
-                                  const Gap(10),
-                                ],
-                              ),
-                            )
-                            .toList(),
-                      ),
-                      if (widget.typeFlag == TypeFlag.newType) const Gap(85),
-                    ],
-                  ),
+                child: ListView(
+                  children: [
+                    const Gap(10),
+                    Column(
+                      children: projectProvider.getProjectList
+                          .where((element) => widget.typeFlag != null
+                              ? element.typeFlag == widget.typeFlag
+                              : true)
+                          .map(
+                            (item) => Column(
+                              children: [
+                                ProjectItem(
+                                  project: item,
+                                ),
+                                const Gap(10),
+                              ],
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    if (widget.typeFlag == TypeFlag.newType) const Gap(85),
+                  ],
                 ),
               );
   }

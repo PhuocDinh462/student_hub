@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
@@ -11,6 +10,7 @@ import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/view-models/view_models.dart';
 import 'package:student_hub/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileCompanyInput extends StatefulWidget {
   const ProfileCompanyInput({super.key});
@@ -25,14 +25,9 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
   final TextEditingController _companyName = TextEditingController();
   final TextEditingController _website = TextEditingController();
   final TextEditingController _description = TextEditingController();
+  late AppLocalizations? appLocal;
 
-  List<String> options = [
-    'It\'s just me',
-    '2-9 employees',
-    '10-99 employees',
-    '100-1000 employees',
-    'More than 1000 employees',
-  ];
+  List<String> options = [];
 
   late List<String> optionsSelected;
 
@@ -72,10 +67,20 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    appLocal = AppLocalizations.of(context);
+    options.add(appLocal!.optionsEmployees1);
+    options.add(appLocal!.optionsEmployees2);
+    options.add(appLocal!.optionsEmployees3);
+    options.add(appLocal!.optionsEmployees4);
+    options.add(appLocal!.optionsEmployees5);
+    optionsSelected = options;
+  }
+
+  @override
   void initState() {
     super.initState();
-
-    optionsSelected = options;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final profileCompanyViewModel =
@@ -89,6 +94,7 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
     _companyName.dispose();
     _website.dispose();
     _description.dispose();
+
     super.dispose();
   }
 
@@ -98,165 +104,189 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
     final deviceSize = context.deviceSize;
     final UserProvider user = Provider.of<UserProvider>(context, listen: true);
 
-    return GestureDetector(onTap: () {
-      FocusScopeNode currentFocus = FocusScope.of(context);
-      if (!currentFocus.hasPrimaryFocus) {
-        currentFocus.unfocus();
-      }
-    }, child: Scaffold(
-      body: Consumer<ProfileCompanyViewModel>(
-          builder: (context, profileCompanyViewModel, child) {
-        if (profileCompanyViewModel.loading) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            context.loaderOverlay.show();
-          });
-          isCallApi = true;
-        } else if (isCallApi) {
-          _companyName.text = profileCompanyViewModel.company.companyName;
-          _website.text = profileCompanyViewModel.company.website;
-          _description.text = profileCompanyViewModel.company.description;
-          optionsSelected = profileCompanyViewModel.company.id != -1
-              ? [options[profileCompanyViewModel.company.size]]
-              : options;
-          isHaveInfo = profileCompanyViewModel.company.id != -1;
-          isCallApi = false;
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            context.loaderOverlay.hide();
-            if (profileCompanyViewModel.errorMessage == 'empty') {
-              if (user.currentUser!.currentRole == Role.student) {
-                Get.toNamed(StudentRoutes.welcomeCompany);
-              } else {
-                Get.toNamed(CompanyRoutes.welcomeCompany);
-              }
-            }
-          });
+    if (appLocal == null) {
+      return const Column(children: [
+        Gap(30),
+        CircularProgressIndicator(),
+      ]);
+    } else {
+      return GestureDetector(onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
         }
+      }, child: Scaffold(
+        body: Consumer<ProfileCompanyViewModel>(
+            builder: (context, profileCompanyViewModel, child) {
+          if (profileCompanyViewModel.loading) {
+            isCallApi = true;
+          } else if (isCallApi) {
+            _companyName.text = profileCompanyViewModel.company.companyName;
+            _website.text = profileCompanyViewModel.company.website;
+            _description.text = profileCompanyViewModel.company.description;
+            optionsSelected = profileCompanyViewModel.company.id != -1
+                ? [options[profileCompanyViewModel.company.size]]
+                : options;
+            isHaveInfo = profileCompanyViewModel.company.id != -1;
+            isCallApi = false;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (profileCompanyViewModel.errorMessage == 'empty') {
+                if (user.currentUser!.currentRole == Role.student) {
+                  Get.toNamed(StudentRoutes.welcomeCompany, arguments: {
+                    'appLocal': appLocal,
+                  });
+                } else {
+                  Get.toNamed(CompanyRoutes.welcomeCompany, arguments: {
+                    'appLocal': appLocal,
+                  });
+                }
+              }
+            });
+          }
 
-        return SingleChildScrollView(
-          child: Container(
-            width: deviceSize.width,
-            padding:
-                const EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 0),
-            child: Column(
-              children: [
-                Container(
-                    alignment: Alignment.center,
-                    child: DisplayText(
-                      text: 'Welcome to Student Hub',
-                      style: textTheme.displayLarge!,
-                    )),
-                if (!isHaveInfo)
-                  Container(
-                      padding:
-                          const EdgeInsets.only(top: 10, left: 17, right: 17),
-                      child: DisplayText(
-                        text:
-                            'Tell us about your company and you will be on your way connect with high-skilled students.',
-                        style: textTheme.bodySmall!,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.visible,
-                      )),
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Column(
-                      verticalDirection: isHaveInfo
-                          ? VerticalDirection.up
-                          : VerticalDirection.down,
+          return SingleChildScrollView(
+            child: Container(
+              width: deviceSize.width,
+              padding: const EdgeInsets.only(
+                  top: 15, left: 10, right: 10, bottom: 0),
+              child: profileCompanyViewModel.loading
+                  ? const Column(children: [
+                      Gap(30),
+                      CircularProgressIndicator(),
+                    ])
+                  : Column(
                       children: [
-                        Column(
-                          children: [
-                            Container(
-                                margin:
-                                    const EdgeInsets.only(bottom: 10, top: 30),
-                                child: DisplayText(
-                                  text: 'How many people are in your company?',
-                                  style: textTheme.bodyLarge!,
-                                )),
-                            DisplayRadioList(
-                              items: optionsSelected,
-                              numSelected: profileCompanyViewModel.company.size,
-                              onChange: isHaveInfo ? null : _onTapSelection,
-                            ),
-                          ],
-                        ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          margin: const EdgeInsets.only(top: 20),
-                          child: Column(children: [
-                            CommonTextField(
-                              title: 'Company name',
-                              hintText: 'Your company',
-                              controller: _companyName,
-                            ),
-                            const Gap(20),
-                            CommonTextField(
-                              title: 'Website',
-                              hintText: 'Your website',
-                              controller: _website,
-                            ),
-                            const Gap(20),
-                            CommonTextField(
-                              title: 'Description',
-                              hintText: 'Your description',
-                              maxLines: 3,
-                              controller: _description,
-                            ),
-                          ]),
-                        ),
-                      ]),
-                  const Gap(15),
-                  if (!isHaveInfo)
-                    Container(
-                      padding: const EdgeInsets.only(right: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ElevatedButton(
-                              style: buttonPrimary,
-                              onPressed: () => _onTapCreateProfile(context),
+                            alignment: Alignment.center,
+                            child: DisplayText(
+                              text: appLocal!.welcomeStudentHub,
+                              style: textTheme.displayLarge!,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.visible,
+                            )),
+                        if (!isHaveInfo)
+                          Container(
+                              padding: const EdgeInsets.only(
+                                  top: 10, left: 17, right: 17),
                               child: DisplayText(
-                                text: 'Continue',
-                                style: textTheme.labelLarge!.copyWith(
-                                  color: Colors.white,
-                                ),
+                                text: appLocal!.descriptionCompany,
+                                style: textTheme.bodySmall!,
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.visible,
                               )),
-                        ],
-                      ),
-                    ),
-                  if (isHaveInfo)
-                    Container(
-                      padding: const EdgeInsets.only(right: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ElevatedButton(
-                              style: buttonPrimary,
-                              onPressed: () => _onTapUpdateProfile(context),
-                              child: DisplayText(
-                                text: 'Edit',
-                                style: textTheme.labelLarge!.copyWith(
-                                  color: Colors.white,
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                  verticalDirection: isHaveInfo
+                                      ? VerticalDirection.up
+                                      : VerticalDirection.down,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 10, top: 30),
+                                            child: DisplayText(
+                                              text: appLocal!.howManyPeople,
+                                              style: textTheme.bodyLarge!,
+                                            )),
+                                        DisplayRadioList(
+                                          items: optionsSelected,
+                                          numSelected: profileCompanyViewModel
+                                              .company.size,
+                                          onChange: isHaveInfo
+                                              ? null
+                                              : _onTapSelection,
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      margin: const EdgeInsets.only(top: 20),
+                                      child: Column(children: [
+                                        CommonTextField(
+                                          title: appLocal!.companyName,
+                                          hintText: appLocal!.yourCompany,
+                                          controller: _companyName,
+                                        ),
+                                        const Gap(20),
+                                        CommonTextField(
+                                          title: appLocal!.website,
+                                          hintText: appLocal!.yourWebsite,
+                                          controller: _website,
+                                        ),
+                                        const Gap(20),
+                                        CommonTextField(
+                                          title: appLocal!.description,
+                                          hintText: appLocal!.yourDescription,
+                                          maxLines: 3,
+                                          controller: _description,
+                                        ),
+                                      ]),
+                                    ),
+                                  ]),
+                              const Gap(15),
+                              if (!isHaveInfo)
+                                Container(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      ElevatedButton(
+                                          style: buttonPrimary,
+                                          onPressed: () =>
+                                              _onTapCreateProfile(context),
+                                          child: DisplayText(
+                                            text: appLocal!.continute,
+                                            style:
+                                                textTheme.labelLarge!.copyWith(
+                                              color: Colors.white,
+                                            ),
+                                          )),
+                                    ],
+                                  ),
                                 ),
-                              )),
-                          const Gap(15),
-                          ElevatedButton(
-                              style: buttonSecondary,
-                              onPressed: () =>
-                                  Get.toNamed(StudentRoutes.account),
-                              child: DisplayText(
-                                text: 'Cancel',
-                                style: textTheme.labelLarge!.copyWith(
-                                  color: Colors.white,
+                              if (isHaveInfo)
+                                Container(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      ElevatedButton(
+                                          style: buttonPrimary,
+                                          onPressed: () =>
+                                              _onTapUpdateProfile(context),
+                                          child: DisplayText(
+                                            text: appLocal!.edit,
+                                            style:
+                                                textTheme.labelLarge!.copyWith(
+                                              color: Colors.white,
+                                            ),
+                                          )),
+                                      const Gap(15),
+                                      ElevatedButton(
+                                          style: buttonSecondary,
+                                          onPressed: () => Get.toNamed(
+                                              StudentRoutes.account),
+                                          child: DisplayText(
+                                            text: appLocal!.cancel,
+                                            style:
+                                                textTheme.labelLarge!.copyWith(
+                                              color: Colors.white,
+                                            ),
+                                          ))
+                                    ],
+                                  ),
                                 ),
-                              ))
-                        ],
-                      ),
+                            ]),
+                      ],
                     ),
-                ]),
-              ],
             ),
-          ),
-        );
-      }),
-    ));
+          );
+        }),
+      ));
+    }
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/widgets/widgets.dart';
 
 class ProjectLengthOptions extends StatefulWidget {
@@ -53,11 +52,9 @@ class _ProjectLengthOptionsState extends State<ProjectLengthOptions> {
                 ),
                 DisplayText(
                   text: widget.options[index],
-                  style: const TextStyle(
-                    color: text_900,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                 )
               ],
             ));

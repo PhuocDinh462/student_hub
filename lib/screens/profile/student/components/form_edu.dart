@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/styles/styles.dart';
 import 'package:student_hub/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FormEdu extends StatelessWidget {
   const FormEdu(
@@ -30,21 +31,23 @@ class FormEdu extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           CommonTextField(
-              title: '', hintText: 'Enter education', controller: controller),
+              title: '',
+              hintText: AppLocalizations.of(context)!.enterEducaiion,
+              controller: controller),
           const Gap(5),
           Row(
             children: [
               Expanded(
                   child: SelectYear(
                 selectedYear: yearStart,
-                title: 'Year Start',
+                title: AppLocalizations.of(context)!.yearStart,
                 actionSelectYear: actionChangeStartYear,
               )),
               const Gap(10),
               Expanded(
                   child: SelectYear(
                 selectedYear: yearEnd,
-                title: 'Year End',
+                title: AppLocalizations.of(context)!.yearEnd,
                 actionSelectYear: actionChangeEndYear,
               ))
             ],

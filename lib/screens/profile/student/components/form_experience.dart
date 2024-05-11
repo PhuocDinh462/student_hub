@@ -4,10 +4,10 @@ import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/styles/styles.dart';
-import 'package:student_hub/utils/helpers.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/view-models/view_models.dart';
 import 'package:student_hub/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FormExpericence extends StatefulWidget {
   const FormExpericence(
@@ -110,7 +110,7 @@ class _FormExpericenceState extends State<FormExpericence> {
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         CommonTextField(
           title: '',
-          hintText: 'Enter title project',
+          hintText: AppLocalizations.of(context)!.enterTitleProject,
           controller: _titleController,
         ),
         const Gap(10),
@@ -118,7 +118,7 @@ class _FormExpericenceState extends State<FormExpericence> {
           children: [
             Expanded(
                 child: SelectMonthYear(
-              title: 'Start',
+              title: AppLocalizations.of(context)!.start,
               actionSelect: (p0) {
                 handleChangeYear(p0, 1);
               },
@@ -127,7 +127,7 @@ class _FormExpericenceState extends State<FormExpericence> {
             const Gap(10),
             Expanded(
                 child: SelectMonthYear(
-              title: 'End',
+              title: AppLocalizations.of(context)!.end,
               actionSelect: (p0) {
                 handleChangeYear(p0, 2);
               },
@@ -137,13 +137,13 @@ class _FormExpericenceState extends State<FormExpericence> {
         ),
         CommonTextField(
           title: '',
-          hintText: 'Enter description project',
+          hintText: AppLocalizations.of(context)!.enterDescriptionProject,
           controller: _desctiptionController,
           maxLines: 4,
         ),
         const Gap(10),
         DisplayText(
-          text: 'Skillset',
+          text: AppLocalizations.of(context)!.skillset,
           style: textTheme.bodyLarge!,
         ),
         const Gap(10),
@@ -193,7 +193,7 @@ class _FormExpericenceState extends State<FormExpericence> {
                                 handleCancelSkillSetInModal();
                               },
                               child: DisplayText(
-                                text: 'Cancel',
+                                text: AppLocalizations.of(context)!.cancel,
                                 style: textTheme.labelLarge!.copyWith(
                                   color: Colors.white,
                                 ),
@@ -205,7 +205,7 @@ class _FormExpericenceState extends State<FormExpericence> {
                                 handleUpdateSkillSetInModal(selectedItems);
                               },
                               child: DisplayText(
-                                text: 'Save',
+                                text: AppLocalizations.of(context)!.save,
                                 style: textTheme.labelLarge!.copyWith(
                                   color: Colors.white,
                                 ),
@@ -231,7 +231,7 @@ class _FormExpericenceState extends State<FormExpericence> {
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         margin: const EdgeInsets.only(bottom: 10),
                         child: DisplayText(
-                          text: 'Select skillset',
+                          text: AppLocalizations.of(context)!.selectSkillSet,
                           style: textTheme.titleLarge!,
                         )),
                     const Divider(
@@ -262,7 +262,9 @@ class _FormExpericenceState extends State<FormExpericence> {
                 }),
             dropdownDecoratorProps: DropDownDecoratorProps(
               dropdownSearchDecoration: InputDecoration(
-                prefixText: skillSets.isEmpty ? 'Select skillsets' : '',
+                prefixText: skillSets.isEmpty
+                    ? AppLocalizations.of(context)!.skillset
+                    : '',
                 prefixStyle: textTheme.bodySmall!.copyWith(color: text_400),
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10),

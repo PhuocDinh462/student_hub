@@ -14,7 +14,6 @@ class UserService extends BaseApi {
       );
       return response;
     } catch (e) {
-      print(e);
       throw Exception('Failed to fetch users');
     }
   }
@@ -31,7 +30,6 @@ class UserService extends BaseApi {
       );
       return response;
     } catch (e) {
-      print(e);
       throw Exception('Failed to fetch users');
     }
   }

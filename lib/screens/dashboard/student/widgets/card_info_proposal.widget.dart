@@ -5,6 +5,7 @@ import 'package:student_hub/models/models.dart';
 import 'package:student_hub/utils/helpers.dart';
 import 'package:student_hub/widgets/description_project.dart';
 import 'package:student_hub/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CardInfoProposal extends StatelessWidget {
   const CardInfoProposal(
@@ -19,13 +20,13 @@ class CardInfoProposal extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     String timeDuration = proposal.project!.projectScopeFlag ==
             ProjectScopeFlag.lessThanOneMonth
-        ? 'Less than 1 month'
+        ? AppLocalizations.of(context)!.lessThanOneMonth
         : proposal.project!.projectScopeFlag == ProjectScopeFlag.oneToThreeMonth
-            ? '1-3 months'
+            ? AppLocalizations.of(context)!.oneToThreeMonths
             : proposal.project!.projectScopeFlag ==
                     ProjectScopeFlag.threeToSixMonth
-                ? '3-6 months'
-                : 'More than 6 months';
+                ? AppLocalizations.of(context)!.threeToSixMonths
+                : AppLocalizations.of(context)!.moreThanSixMonths;
 
     int studentsNeeded = proposal.project!.numberOfStudents;
 
@@ -63,23 +64,23 @@ class CardInfoProposal extends StatelessWidget {
                   style: textTheme.titleMedium!.copyWith(color: primary_300)),
               if (view == ProjectDetailsView.viewProjectProposal)
                 _buildDisplayText(
-                    'Time $timeDuration, $studentsNeeded students',
+                    '${AppLocalizations.of(context)!.time} $timeDuration, $studentsNeeded ${AppLocalizations.of(context)!.students}',
                     textTheme,
                     colorScheme),
               if (view == ProjectDetailsView.viewProposal)
                 _buildDisplayText(
-                    'Submitted ${Helpers.calculateTimeFromNow(proposal.createdAt ?? '')}',
+                    '${AppLocalizations.of(context)!.submitted} ${Helpers.calculateTimeFromNow(proposal.createdAt ?? '', context)}',
                     textTheme,
                     colorScheme),
               if (view == ProjectDetailsView.viewActiveProposal)
                 _buildDisplayText(
-                    'Actived ${Helpers.calculateTimeFromNow(proposal.updatedAt ?? '')}',
+                    '${AppLocalizations.of(context)!.actived} ${Helpers.calculateTimeFromNow(proposal.updatedAt ?? '', context)}',
                     textTheme,
                     colorScheme),
               const Gap(15),
               DescriptionProject(
                   projectDescription: proposal.project!.description,
-                  title: 'Students are looking for:'),
+                  title: AppLocalizations.of(context)!.studentLooking),
               const Gap(20),
             ],
           ),

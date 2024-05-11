@@ -4,3 +4,5 @@ export 'project.service.dart';
 export 'user.service.dart';
 export 'proposal.service.dart';
 export 'message.service.dart';
+export 'notification.service.dart';
+export 'chat.service.dart';

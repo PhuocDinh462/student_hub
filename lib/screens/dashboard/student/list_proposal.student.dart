@@ -6,6 +6,7 @@ import 'package:student_hub/screens/dashboard/student/widgets/dashboard.widgets.
 import 'package:student_hub/utils/empty.dart';
 import 'package:student_hub/view-models/view_models.dart';
 import 'package:student_hub/widgets/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ListProposalScreen extends StatefulWidget {
   const ListProposalScreen({super.key});
@@ -71,12 +72,11 @@ class _ListProposalScreenState extends State<ListProposalScreen> {
             child: Empty(
                 imgPath: 'assets/images/Empty.png',
                 text: indexPageProvider.getIndexDBStudent == 1
-                    ? 'No project is working'
-                    : 'No project is archived'),
+                    ? AppLocalizations.of(context)!.emptyWorking
+                    : AppLocalizations.of(context)!.emptyArchived),
           );
         }
       }
-
     });
   }
 }

@@ -11,6 +11,7 @@ import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/text_field.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -32,7 +33,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       final String email = emailController.text;
       FocusScope.of(context).unfocus();
       if (email.isEmpty) {
-        MySnackBar.showSnackBar(context, 'Please fill in all fields', 'Oh Hey!',
+        MySnackBar.showSnackBar(
+            context,
+            AppLocalizations.of(context)!.errorFilledContent,
+            AppLocalizations.of(context)!.errorTitle,
             ContentType.failure);
         return;
       }
@@ -42,20 +46,29 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         if (response.statusCode == 201) {
           MySnackBar.showSnackBar(
               context,
-              'New Password has sent to your email',
-              'Success',
+              AppLocalizations.of(context)!.sucessSentPassword,
+              AppLocalizations.of(context)!.sucessTitle,
               ContentType.success);
           await Navigator.pushNamed(context, AuthRoutes.login);
         } else if (response.statusCode == 404) {
           MySnackBar.showSnackBar(
-              context, 'Not Found User', 'Oh Hey!', ContentType.failure);
+              context,
+              AppLocalizations.of(context)!.notFoundUser,
+              AppLocalizations.of(context)!.errorTitle,
+              ContentType.failure);
         } else {
           MySnackBar.showSnackBar(
-              context, 'Invalid Credentials', 'Oh Hey!', ContentType.failure);
+              context,
+              AppLocalizations.of(context)!.invalidCredentials,
+              AppLocalizations.of(context)!.errorTitle,
+              ContentType.failure);
         }
       } catch (e) {
         MySnackBar.showSnackBar(
-            context, 'Something went wrongs!', 'Oh Hey!', ContentType.failure);
+            context,
+            AppLocalizations.of(context)!.somethingWrongs,
+            AppLocalizations.of(context)!.errorTitle,
+            ContentType.failure);
       }
     }
 
@@ -72,7 +85,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      'Forgot Password?',
+                      AppLocalizations.of(context)!.forgotPassword,
                       style: Theme.of(context)
                           .textTheme
                           .displayLarge
@@ -89,7 +102,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      'Don\'t worry about your account',
+                      AppLocalizations.of(context)!.titleForgotPassword,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ],
@@ -103,7 +116,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      'Enter to send new password to your email',
+                      AppLocalizations.of(context)!.contentForgotPassword,
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
@@ -130,7 +143,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'New Password will be sent',
+                        AppLocalizations.of(context)!.newPassSent,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
@@ -138,7 +151,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       ),
                       const Gap(5),
                       Text(
-                        'less than a minute',
+                        AppLocalizations.of(context)!.lessThanMin,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: primary_300,
@@ -153,9 +166,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               // Send code button
               Button(
                 onTap: sendNewPassword,
-                colorButton: primary_300,
-                colorText: text_50,
-                text: 'Send Code',
+                colorButton: Theme.of(context).colorScheme.tertiary,
+                colorText: Theme.of(context).colorScheme.onPrimary,
+                text: AppLocalizations.of(context)!.sendCode,
               ),
             ],
           ),

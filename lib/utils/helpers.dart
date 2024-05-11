@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Helpers {
   Helpers._();
@@ -56,19 +57,52 @@ class Helpers {
     return [nameStr, extension];
   }
 
-  static String calculateTimeFromNow(String dateString) {
+  static String calculateTimeFromNow(String dateString, BuildContext context) {
     DateTime date = DateTime.parse(dateString);
     DateTime now = DateTime.now();
     Duration difference = now.difference(date);
 
-    if (difference.inDays > 0) {
-      return '${difference.inDays} days ago';
+    if (difference.inDays > 10) {
+      return '${date.day}/${date.month}/${date.year}';
+    } else if (difference.inDays > 0 && difference.inDays <= 10) {
+      return '${difference.inDays} ${AppLocalizations.of(context)!.daysAgo}';
     } else if (difference.inHours > 0) {
-      return '${difference.inHours} hours ago';
+      return '${difference.inHours} ${AppLocalizations.of(context)!.hoursAgo}';
     } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes} minutes ago';
+      return '${difference.inMinutes} ${AppLocalizations.of(context)!.mintesAgo}';
     } else {
-      return '${difference.inSeconds} seconds ago';
+      return '${difference.inSeconds} ${AppLocalizations.of(context)!.secondsAgo}';
     }
+  }
+
+  static String formatTime(String dateString) {
+    DateTime date = DateTime.parse(dateString);
+    DateTime now = DateTime.now();
+    DateFormat timeFormat = DateFormat('HH:mm');
+    DateFormat dateFormat = DateFormat('dd/MM');
+
+    // Find the first and last day of the current week
+    DateTime startOfWeek = now.subtract(Duration(days: now.weekday - 1));
+    DateTime endOfWeek = startOfWeek.add(const Duration(days: 6));
+
+    if (date.day == now.day &&
+        date.month == now.month &&
+        date.year == now.year) {
+      return timeFormat.format(date);
+    } else if (date.isAfter(startOfWeek) && date.isBefore(endOfWeek)) {
+      if (date.weekday == 7) {
+        return 'CN';
+      } else {
+        return 'T.${date.weekday + 1}';
+      }
+    } else {
+      return dateFormat.format(date);
+    }
+  }
+
+  static String formatDateTimeToCustom(String dateString) {
+    DateTime date = DateTime.parse(dateString);
+
+    return DateFormat('HH:mm - dd/MM/yyyy').format(date);
   }
 }

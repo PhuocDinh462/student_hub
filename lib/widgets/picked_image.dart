@@ -5,7 +5,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:student_hub/constants/theme.dart';
-import 'package:student_hub/utils/helpers.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/view-models/view_models.dart';
 import 'package:student_hub/widgets/widgets.dart';
@@ -124,7 +123,7 @@ class _PickedImageState extends State<PickedImage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(
-                                width: deviceSize.width * 0.6,
+                                width: deviceSize.width * 0.5,
                                 child: DisplayText(
                                   text: fileName!,
                                   style: textTheme.labelMedium!,

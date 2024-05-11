@@ -5,16 +5,19 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
+import 'package:student_hub/models/user.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/routes.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/circle_container.dart';
 import 'package:gap/gap.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum ProjectDetailsView {
   viewProposal,
   viewActiveProposal,
-  viewProjectProposal
+  viewProjectProposal,
+  viewOffer
 }
 
 class ProjectDetails extends StatefulWidget {
@@ -22,9 +25,11 @@ class ProjectDetails extends StatefulWidget {
       {super.key,
       required this.project,
       this.updateProjectState,
-      this.viewType});
+      this.viewType,
+      this.acceptOffer});
 
   final Future<void> Function(UserProvider, int, int)? updateProjectState;
+  final void Function()? acceptOffer;
   final Project project;
   final ProjectDetailsView? viewType;
 
@@ -53,9 +58,6 @@ class _ProjectDetailsState extends State<ProjectDetails> {
     daysAgo = DateTime.now().difference(project.createdAt).inDays > 0
         ? DateTime.now().difference(project.createdAt).inDays
         : 1;
-    timeDuration = project.completionTime == ProjectScopeFlag.oneToThreeMonth
-        ? '1-3 months'
-        : '3-6 months';
     studentsNeeded = project.requiredStudents;
     projectDescription = project.description;
     proposalsCount = project.countProposals;
@@ -65,6 +67,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
+
     return Padding(
       padding: const EdgeInsets.all(10),
       child: SizedBox(
@@ -82,11 +85,6 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   widget.project.title,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
-                const Gap(10),
-                Text(
-                  widget.project.title,
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
               ],
             ),
             const Gap(16),
@@ -94,7 +92,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
             Row(
               children: [
                 Text(
-                  'Student are looking for:',
+                  AppLocalizations.of(context)!.studentLookingFor,
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium
@@ -137,13 +135,13 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Project Scope',
+                      AppLocalizations.of(context)!.projectScope,
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
-                    Text(timeDuration,
+                    Text(widget.project.completionTime2String(context),
                         style: Theme.of(context).textTheme.labelLarge),
                   ],
                 ),
@@ -158,14 +156,14 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Student required',
+                      AppLocalizations.of(context)!.studentRequire,
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '$studentsNeeded students',
+                      '$studentsNeeded ${AppLocalizations.of(context)!.student}',
                       style: Theme.of(context).textTheme.labelLarge,
                     ),
                   ],
@@ -173,23 +171,50 @@ class _ProjectDetailsState extends State<ProjectDetails> {
               ],
             ),
             const Gap(50),
-            if (widget.viewType != ProjectDetailsView.viewActiveProposal)
+            if (widget.viewType == ProjectDetailsView.viewOffer)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Button(
                     onTap: () {
-                      Get.toNamed(StudentRoutes.submitProposalStudent,
-                          arguments: {'projectId': widget.project.id});
+                      Get.back();
                     },
-                    text: widget.viewType != ProjectDetailsView.viewProposal
-                        ? 'Apply Now'
-                        : 'View Letter',
+                    text: 'Back',
                     colorButton: primary_300,
                     colorText: text_50,
                     width: MediaQuery.of(context).size.width * 0.4,
                   ),
-                  if (widget.viewType != ProjectDetailsView.viewProposal &&
+                  if (widget.acceptOffer != null)
+                    Button(
+                      onTap: () {
+                        widget.acceptOffer!();
+                      },
+                      text: 'Accept',
+                      colorButton: primary_300,
+                      colorText: text_50,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                    ),
+                ],
+              )
+            else if (widget.viewType != ProjectDetailsView.viewActiveProposal)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (userProvider.currentUser!.currentRole == Role.student)
+                    Button(
+                      onTap: () {
+                        Get.toNamed(StudentRoutes.submitProposalStudent,
+                            arguments: {'projectId': widget.project.id});
+                      },
+                      text: widget.viewType != ProjectDetailsView.viewProposal
+                          ? AppLocalizations.of(context)!.applyNow
+                          : AppLocalizations.of(context)!.viewLetter,
+                      colorButton: Theme.of(context).colorScheme.tertiary,
+                      colorText: Theme.of(context).colorScheme.onPrimary,
+                      width: MediaQuery.of(context).size.width * 0.4,
+                    ),
+                  if (userProvider.currentUser!.currentRole == Role.student &&
+                      widget.viewType != ProjectDetailsView.viewProposal &&
                       widget.viewType != ProjectDetailsView.viewActiveProposal)
                     Button(
                       onTap: () async {
@@ -197,9 +222,9 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                             userProvider, widget.project.id, 0);
                         Get.back();
                       },
-                      text: 'Saved',
-                      colorButton: primary_300,
-                      colorText: text_50,
+                      text: AppLocalizations.of(context)!.save,
+                      colorButton: Theme.of(context).colorScheme.tertiary,
+                      colorText: Theme.of(context).colorScheme.onPrimary,
                       width: MediaQuery.of(context).size.width * 0.4,
                     ),
                 ],

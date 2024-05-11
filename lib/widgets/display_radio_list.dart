@@ -19,34 +19,45 @@ class _DisplayRadioListState extends State<DisplayRadioList> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return ListView.builder(
-      itemCount: widget.items.length,
-      shrinkWrap: true,
-      padding: EdgeInsets.zero,
-      itemExtent: 40,
-      itemBuilder: (ctx, index) {
-        return GestureDetector(
-            onTap: () {
-              widget.onChange!(context, index);
+    return widget.onChange == null
+        ? Row(
+            children: [
+              const Radio(value: 0, groupValue: 0, onChanged: null),
+              DisplayText(
+                text: widget.items[0],
+                style: textTheme.bodySmall!,
+              )
+            ],
+          )
+        : ListView.builder(
+            itemCount: widget.items.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            itemExtent: 40,
+            itemBuilder: (ctx, index) {
+              return GestureDetector(
+                  onTap: () {
+                    widget.onChange!(context, index);
+                  },
+                  child: Row(
+                    children: [
+                      Radio(
+                        value: index,
+                        groupValue:
+                            widget.onChange == null ? 0 : widget.numSelected,
+                        onChanged: widget.onChange == null
+                            ? null
+                            : (value) {
+                                widget.onChange!(context, index);
+                              },
+                      ),
+                      DisplayText(
+                        text: widget.items[index],
+                        style: textTheme.bodySmall!,
+                      )
+                    ],
+                  ));
             },
-            child: Row(
-              children: [
-                Radio(
-                  value: index,
-                  groupValue: widget.onChange == null ? 0 : widget.numSelected,
-                  onChanged: widget.onChange == null
-                      ? null
-                      : (value) {
-                          widget.onChange!(context, index);
-                        },
-                ),
-                DisplayText(
-                  text: widget.items[index],
-                  style: textTheme.bodySmall!,
-                )
-              ],
-            ));
-      },
-    );
+          );
   }
 }

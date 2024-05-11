@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/screens/dashboard/student/student.dart';
-
-List<String> headerTitle = ['All projects', 'Working', 'Archived'];
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardStudent extends StatefulWidget {
   const DashboardStudent({super.key});
@@ -14,7 +13,16 @@ class DashboardStudent extends StatefulWidget {
 
 class _DashboardStudentState extends State<DashboardStudent> {
   PageController pageController = PageController();
+  List<String> headerTitle = [];
   late IndexPageProvider indexPageProvider;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    headerTitle.add(AppLocalizations.of(context)!.all);
+    headerTitle.add(AppLocalizations.of(context)!.working);
+    headerTitle.add(AppLocalizations.of(context)!.archived);
+  }
 
   @override
   void initState() {
@@ -59,7 +67,7 @@ class _DashboardStudentState extends State<DashboardStudent> {
       children: [
         HeaderStudentDashboard(
           headerTitle: headerTitle,
-          title: 'Your project',
+          title: AppLocalizations.of(context)!.yourProject,
         ),
         Expanded(
           child: Container(

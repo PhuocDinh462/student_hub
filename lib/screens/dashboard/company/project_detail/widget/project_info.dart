@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/project.provider.dart';
 import 'package:student_hub/utils/extensions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProjectInfo extends StatelessWidget {
   const ProjectInfo({super.key});
@@ -30,7 +31,7 @@ class ProjectInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Title',
+                  AppLocalizations.of(context)!.title,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const Gap(5),
@@ -66,7 +67,7 @@ class ProjectInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Description',
+                  AppLocalizations.of(context)!.description,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const Gap(5),
@@ -102,12 +103,13 @@ class ProjectInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Project scope',
+                  AppLocalizations.of(context)!.projectScope,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const Gap(5),
                 Text(
-                  projectProvider.getCurrentProject!.completionTimeString(),
+                  projectProvider.getCurrentProject!
+                      .completionTime2String(context),
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],
@@ -135,7 +137,7 @@ class ProjectInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Student required',
+                  AppLocalizations.of(context)!.studentRequire,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const Gap(5),
@@ -155,7 +157,7 @@ class ProjectInfo extends StatelessWidget {
                           ),
                     ),
                     TextSpan(
-                        text: ' students',
+                        text: ' ${AppLocalizations.of(context)!.students}',
                         style: Theme.of(context).textTheme.titleLarge),
                   ]),
                 ),
