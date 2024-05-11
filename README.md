@@ -22,8 +22,4 @@ Phasing 2: https://www.youtube.com/watch?v=ILysnhvo1O4
 Phasing 3: https://www.youtube.com/watch?v=g4bN7MUudBQ
 <br/>
 <br/>
-Phasing 4:
-<ul>
-  <li>Notification: https://www.youtube.com/watch?v=RkXC33rrzxU</li>
-  <li>Enhancement: https://www.youtube.com/watch?v=BdA3Ued6yNU</li>
-</ul>
+Phasing 4: https://www.youtube.com/watch?v=RkXC33rrzxU
