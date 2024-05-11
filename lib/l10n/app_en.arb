@@ -265,5 +265,7 @@
   "joinMeetingRoomError": "Not found meeting room",
   "error": "Error",
   "success": "Success",
-  "fail": "Fail"
+  "fail": "Fail",
+  "errorEmailContent": "Please enter valid email",
+  "errorPasswordContent": "Please enter valid password (has capital letter and number)"
 }

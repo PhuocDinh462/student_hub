@@ -50,9 +50,30 @@ class _CreateAccountCompanyState extends State<CreateAccountCompany> {
           context,
           AppLocalizations.of(context)!.errorFilledContent,
           AppLocalizations.of(context)!.errorTitle,
-          ContentType.warning,
+          ContentType.failure,
         );
 
+        return;
+      }
+      // checking valid email with regex
+      if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+          .hasMatch(email)) {
+        MySnackBar.showSnackBar(
+          context,
+          AppLocalizations.of(context)!.errorEmailContent,
+          AppLocalizations.of(context)!.errorTitle,
+          ContentType.failure,
+        );
+        return;
+      }
+      //checking valid password has capital letter and number
+      if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[0-9]).{8,}$').hasMatch(password)) {
+        MySnackBar.showSnackBar(
+          context,
+          AppLocalizations.of(context)!.errorPasswordContent,
+          AppLocalizations.of(context)!.errorTitle,
+          ContentType.failure,
+        );
         return;
       }
 
