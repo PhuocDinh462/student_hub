@@ -130,7 +130,7 @@ class _LoginState extends State<Login> {
           context,
           AppLocalizations.of(context)!.somethingWrongs,
           AppLocalizations.of(context)!.errorTitle,
-          ContentType.warning,
+          ContentType.failure,
         );
       }
     }
