@@ -110,7 +110,7 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
                             actionCancel: () {
                               handleCancelAdd();
                             }),
-                      if (profileStudentModel.student.experiences.isEmpty)
+                      if (profileStudentModel.student.experiences!.isEmpty)
                         Container(
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           decoration: BoxDecoration(
@@ -146,11 +146,11 @@ class _ProfileStudentStepTwoState extends State<ProfileStudentStepTwo> {
                         height: deviceSize.height * 0.6,
                         child: ListView.builder(
                             itemCount:
-                                profileStudentModel.student.experiences.length,
+                                profileStudentModel.student.experiences!.length,
                             shrinkWrap: true,
                             itemBuilder: (ctx, index) {
                               ExperienceModel exp = profileStudentModel
-                                  .student.experiences[index];
+                                  .student.experiences![index];
 
                               return exp.isEdit
                                   ? FormExpericence(

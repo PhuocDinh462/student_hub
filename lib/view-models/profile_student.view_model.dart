@@ -51,13 +51,13 @@ class ProfileStudentViewModel extends ChangeNotifier {
   }
 
   void addSkillset(TechnicalModel value) {
-    _student = _student.copyWith(skillSets: [..._student.skillSets, value]);
+    _student = _student.copyWith(skillSets: [..._student.skillSets!, value]);
     notifyListeners();
   }
 
   void removeSkillset(TechnicalModel value) {
     _student = _student.copyWith(skillSets: [
-      ..._student.skillSets.where((element) => element.id != value.id)
+      ..._student.skillSets!.where((element) => element.id != value.id)
     ]);
     notifyListeners();
   }
@@ -69,7 +69,7 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
   void setLanguageById(int idLang, LanguageModel value) {
     _student = _student.copyWith(
-        languages: _student.languages
+        languages: _student.languages!
             .map((e) => e.id == idLang
                 ? e.copyWith(
                     languageName: value.languageName, level: value.level)
@@ -79,20 +79,20 @@ class ProfileStudentViewModel extends ChangeNotifier {
   }
 
   void addLanguage(LanguageModel value) {
-    _student = _student.copyWith(languages: [value, ..._student.languages]);
+    _student = _student.copyWith(languages: [value, ..._student.languages!]);
     notifyListeners();
   }
 
   void removeLanguage(int id) {
     _student = _student.copyWith(languages: [
-      ..._student.languages.where((element) => element.id != id)
+      ..._student.languages!.where((element) => element.id != id)
     ]);
     notifyListeners();
   }
 
   void setOnEditLanguage(int idLang) {
     _student = _student.copyWith(
-        languages: _student.languages
+        languages: _student.languages!
             .map((e) => e.copyWith(isEdit: e.id == idLang))
             .toList());
     notifyListeners();
@@ -100,7 +100,7 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
   void setEditLanguageById(int idLang, bool value) {
     _student = _student.copyWith(
-        languages: _student.languages
+        languages: _student.languages!
             .map((e) => e.copyWith(isEdit: e.id == idLang ? value : false))
             .toList());
     notifyListeners();
@@ -109,7 +109,7 @@ class ProfileStudentViewModel extends ChangeNotifier {
   void setEditLanguage(bool value) {
     _student = _student.copyWith(
         languages:
-            _student.languages.map((e) => e.copyWith(isEdit: value)).toList());
+            _student.languages!.map((e) => e.copyWith(isEdit: value)).toList());
     notifyListeners();
   }
 
@@ -120,7 +120,7 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
   void setEduById(int idEdu, EducationModel value) {
     _student = _student.copyWith(
-        educations: _student.educations
+        educations: _student.educations!
             .map((e) => e.id == idEdu
                 ? e.copyWith(
                     schoolName: value.schoolName,
@@ -133,20 +133,20 @@ class ProfileStudentViewModel extends ChangeNotifier {
   }
 
   void addEducation(EducationModel value) {
-    _student = _student.copyWith(educations: [value, ..._student.educations]);
+    _student = _student.copyWith(educations: [value, ..._student.educations!]);
     notifyListeners();
   }
 
   void removeEducation(EducationModel value) {
     _student = _student.copyWith(educations: [
-      ..._student.educations.where((element) => element.id != value.id)
+      ..._student.educations!.where((element) => element.id != value.id)
     ]);
     notifyListeners();
   }
 
   void setEditEduById(int idEdu, bool value) {
     _student = _student.copyWith(
-        educations: _student.educations
+        educations: _student.educations!
             .map((e) => e.copyWith(isEdit: e.id == idEdu ? value : false))
             .toList());
     notifyListeners();
@@ -154,8 +154,9 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
   void setEditEdu(bool value) {
     _student = _student.copyWith(
-        educations:
-            _student.educations.map((e) => e.copyWith(isEdit: value)).toList());
+        educations: _student.educations!
+            .map((e) => e.copyWith(isEdit: value))
+            .toList());
     notifyListeners();
   }
 
@@ -165,13 +166,14 @@ class ProfileStudentViewModel extends ChangeNotifier {
   }
 
   void addExperience(ExperienceModel value) {
-    _student = _student.copyWith(experiences: [value, ..._student.experiences]);
+    _student =
+        _student.copyWith(experiences: [value, ..._student.experiences!]);
     notifyListeners();
   }
 
   void setExpById(int idExp, ExperienceModel value) {
     _student = _student.copyWith(
-        experiences: _student.experiences
+        experiences: _student.experiences!
             .map((e) => e.id == idExp
                 ? e.copyWith(
                     title: value.title,
@@ -187,14 +189,14 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
   void removeExperience(ExperienceModel value) {
     _student = _student.copyWith(experiences: [
-      ..._student.experiences.where((element) => element.id != value.id)
+      ..._student.experiences!.where((element) => element.id != value.id)
     ]);
     notifyListeners();
   }
 
   void setEditExpById(int idExp, bool value) {
     _student = _student.copyWith(
-        experiences: _student.experiences
+        experiences: _student.experiences!
             .map((e) => e.copyWith(isEdit: e.id == idExp ? value : false))
             .toList());
     notifyListeners();
@@ -255,7 +257,7 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
     try {
       Map<String, dynamic> data = await profileService.createProfileStudent(
-          student.techStack, student.skillSets);
+          student.techStack, student.skillSets!);
       String studentJson = jsonEncode(data);
 
       ProfileStudentModel res = ProfileStudentModel.fromJson(studentJson);
@@ -282,12 +284,12 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
     try {
       Map<String, dynamic> data = await profileService.updateProfileStudent(
-          _student.id, student.techStack, student.skillSets);
+          _student.id, student.techStack, student.skillSets!);
       String studentJson = jsonEncode(data);
 
       ProfileStudentModel res = ProfileStudentModel.fromJson(studentJson);
 
-      setSkillSet(res.skillSets);
+      setSkillSet(res.skillSets!);
       setTechStack(res.techStack);
     } catch (e) {
       _errorMessage = 'Failed to fetch company profile';
@@ -309,7 +311,7 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
     try {
       List<dynamic> data = await profileService.updateLanguageStudent(
-          _student.id, student.languages);
+          _student.id, student.languages!);
       List<LanguageModel> res =
           data.map((e) => LanguageModel.fromMap(e)).toList();
 
@@ -334,7 +336,7 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
     try {
       List<dynamic> data = await profileService.updateEducationStudent(
-          _student.id, student.educations);
+          _student.id, student.educations!);
 
       List<EducationModel> res =
           data.map((e) => EducationModel.fromMap(e)).toList();
@@ -358,7 +360,7 @@ class ProfileStudentViewModel extends ChangeNotifier {
 
     try {
       await profileService.updateExperienceStudent(
-          _student.id, student.experiences);
+          _student.id, student.experiences!);
     } catch (e) {
       _errorMessage = 'Failed to fetch company profile';
     } finally {

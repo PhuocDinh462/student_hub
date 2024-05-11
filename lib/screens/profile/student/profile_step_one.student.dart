@@ -92,7 +92,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
   void handleCancelSkillSetInModal(
     ProfileStudentViewModel ps,
   ) {
-    _popupSkillSetKey.currentState!.changeSelectedItems(ps.student.skillSets);
+    _popupSkillSetKey.currentState!.changeSelectedItems(ps.student.skillSets!);
     Navigator.pop(_popupSkillSetKey.currentContext!);
   }
 
@@ -126,7 +126,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
         langEdit = !itemsLangChecked.contains(-1);
       });
     } else {
-      ps.setLanguage(ps.student.languages
+      ps.setLanguage(ps.student.languages!
           .where((element) => !itemsLangChecked.contains(element.id))
           .toList());
     }
@@ -229,7 +229,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
         eduEdit = !itemsEduChecked.contains(-1);
       });
     } else {
-      ps.setEducation(ps.student.educations
+      ps.setEducation(ps.student.educations!
           .where((element) => !itemsEduChecked.contains(element.id))
           .toList());
     }
@@ -399,7 +399,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                           icon: const Icon(
                             Icons.add,
                           )),
-                      if (profileStudentModel.student.languages.isNotEmpty)
+                      if (profileStudentModel.student.languages!.isNotEmpty)
                         IconButton(
                             iconSize: 25,
                             onPressed: () {
@@ -428,7 +428,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                 });
               },
             ),
-          if (profileStudentModel.student.languages.isNotEmpty)
+          if (profileStudentModel.student.languages!.isNotEmpty)
             ConstrainedBox(
               constraints: BoxConstraints(
                   minHeight: 0,
@@ -438,11 +438,11 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                   child: ListView.builder(
-                    itemCount: profileStudentModel.student.languages.length,
+                    itemCount: profileStudentModel.student.languages!.length,
                     shrinkWrap: true,
                     itemBuilder: (ctx, index) {
                       LanguageModel tmp =
-                          profileStudentModel.student.languages[index];
+                          profileStudentModel.student.languages![index];
                       return tmp.isEdit
                           ? FormLanguage(
                               controller: _languageController,
@@ -551,7 +551,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                           icon: const Icon(
                             Icons.add,
                           )),
-                      if (profileStudentModel.student.educations.isNotEmpty)
+                      if (profileStudentModel.student.educations!.isNotEmpty)
                         IconButton(
                             iconSize: 25,
                             onPressed: () {
@@ -584,7 +584,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                 handleChangeYear(time, 2);
               },
             ),
-          if (profileStudentModel.student.educations.isNotEmpty)
+          if (profileStudentModel.student.educations!.isNotEmpty)
             ConstrainedBox(
               constraints: BoxConstraints(
                   minHeight: 0,
@@ -594,11 +594,11 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                   child: ListView.builder(
-                    itemCount: profileStudentModel.student.educations.length,
+                    itemCount: profileStudentModel.student.educations!.length,
                     shrinkWrap: true,
                     itemBuilder: (ctx, index) {
                       EducationModel tmp =
-                          profileStudentModel.student.educations[index];
+                          profileStudentModel.student.educations![index];
 
                       return tmp.isEdit
                           ? FormEdu(
@@ -663,7 +663,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
           DropdownSearch<TechnicalModel>.multiSelection(
               key: _popupSkillSetKey,
               items: profileStudentModel.listSkillset,
-              selectedItems: profileStudentModel.student.skillSets,
+              selectedItems: profileStudentModel.student.skillSets!,
               dropdownBuilder: (context, selectedItems) {
                 return Wrap(
                   spacing: 10,
@@ -778,7 +778,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                   }),
               dropdownDecoratorProps: DropDownDecoratorProps(
                 dropdownSearchDecoration: InputDecoration(
-                  prefixText: profileStudentModel.student.skillSets.isEmpty
+                  prefixText: profileStudentModel.student.skillSets!.isEmpty
                       ? appLocal!.selectSkillSet
                       : '',
                   prefixStyle: textTheme.bodySmall!.copyWith(color: text_400),
