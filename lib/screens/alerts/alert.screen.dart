@@ -45,7 +45,7 @@ class _AlertScreenState extends State<AlertScreen> {
     return Scaffold(
       body: Consumer<NotificationViewModel>(builder: (context, notifVM, child) {
         return notifVM.loading
-            ? const Expanded(child: Center(child: CircularProgressIndicator()))
+            ? const Center(child: CircularProgressIndicator())
             : notifVM.notif.isEmpty
                 ? Center(
                     child: Empty(
@@ -58,6 +58,7 @@ class _AlertScreenState extends State<AlertScreen> {
                     padding: const EdgeInsets.all(10),
                     child: ListView.builder(
                         itemCount: notifVM.notif.length,
+                        shrinkWrap: true,
                         itemBuilder: (ctx, index) {
                           final String img = notifVM
                                       .notif[index].typeNotifyFlag ==

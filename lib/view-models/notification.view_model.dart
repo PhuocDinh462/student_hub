@@ -101,7 +101,6 @@ class NotificationViewModel extends ChangeNotifier {
       _notif = res.reversed.toList();
       _notif.sort((a, b) => b.id.compareTo(a.id));
     } catch (e) {
-      print(e);
       _errorMessage = 'Failed to fetch notification';
     } finally {
       _loading = false;

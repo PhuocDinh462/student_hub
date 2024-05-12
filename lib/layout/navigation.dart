@@ -67,87 +67,87 @@ class _NavigationState extends State<Navigation> {
     });
   }
 
-  Future<void> updateNumberOfNotif(NotificationViewModel notifVM) async {
-    try {
-      await FlutterAppBadger.updateBadgeCount(notifVM.numberOfNotifications);
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
+  // Future<void> updateNumberOfNotif(NotificationViewModel notifVM) async {
+  //   try {
+  //     await FlutterAppBadger.updateBadgeCount(notifVM.numberOfNotifications);
+  //   } catch (e) {
+  //     throw Exception(e);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
     final textTheme = Theme.of(context).textTheme;
 
-    return Consumer<NotificationViewModel>(builder: (context, notifVM, child) {
-      if (!notifVM.loading) {
-        updateNumberOfNotif(notifVM);
-      }
-      return Scaffold(
-          bottomNavigationBar: BottomNavigationBar(
-            onTap: (int index) => setState(() => currentScreenIndex = index),
-            selectedItemColor: Theme.of(context).brightness == Brightness.light
-                ? primary_300
-                : primary_200,
-            backgroundColor: Colors.transparent,
-            unselectedItemColor:
-                Theme.of(context).brightness == Brightness.light
-                    ? text_400
-                    : text_500,
-            currentIndex: currentScreenIndex,
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: const Icon(
-                  Icons.task,
-                ),
-                label: AppLocalizations.of(context)!.projects,
+    return Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: (int index) => setState(() => currentScreenIndex = index),
+          selectedItemColor: Theme.of(context).brightness == Brightness.light
+              ? primary_300
+              : primary_200,
+          backgroundColor: Colors.transparent,
+          unselectedItemColor: Theme.of(context).brightness == Brightness.light
+              ? text_400
+              : text_500,
+          currentIndex: currentScreenIndex,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.task,
               ),
-              BottomNavigationBarItem(
-                icon: const Icon(
-                  Icons.dashboard,
-                ),
-                label: AppLocalizations.of(context)!.dashboard,
+              label: AppLocalizations.of(context)!.projects,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.dashboard,
               ),
-              BottomNavigationBarItem(
-                icon: const Icon(
-                  Icons.message,
-                ),
-                label: AppLocalizations.of(context)!.messages,
+              label: AppLocalizations.of(context)!.dashboard,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.message,
               ),
-              BottomNavigationBarItem(
-                icon: Badge(
-                  backgroundColor: Colors.red,
-                  isLabelVisible: notifVM.numberOfNotifications != 0,
-                  label: DisplayText(
-                      text: notifVM.numberOfNotifications.toString(),
-                      style: textTheme.labelSmall!.copyWith(
-                          color: Colors.white,
-                          fontSize: 8,
-                          fontWeight: FontWeight.w600)),
-                  child: const Icon(
-                    Icons.notifications,
-                  ),
+              label: AppLocalizations.of(context)!.messages,
+            ),
+            BottomNavigationBarItem(
+              icon: Badge(
+                backgroundColor: Colors.red,
+                isLabelVisible:
+                    Provider.of<NotificationViewModel>(context, listen: true)
+                            .numberOfNotifications !=
+                        0,
+                label: DisplayText(
+                    text: Provider.of<NotificationViewModel>(context,
+                            listen: true)
+                        .numberOfNotifications
+                        .toString(),
+                    style: textTheme.labelSmall!.copyWith(
+                        color: Colors.white,
+                        fontSize: 8,
+                        fontWeight: FontWeight.w600)),
+                child: const Icon(
+                  Icons.notifications,
                 ),
-                label: AppLocalizations.of(context)!.alerts,
               ),
-              BottomNavigationBarItem(
-                icon: const Icon(
-                  Icons.video_call_rounded,
-                ),
-                label: AppLocalizations.of(context)!.interviews,
+              label: AppLocalizations.of(context)!.alerts,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.video_call_rounded,
               ),
-            ],
-          ),
-          body: <Widget>[
-            const Projects(),
-            userProvider.currentUser?.currentRole == Role.student
-                ? const DashboardStudent()
-                : const DashboardCompany(),
-            const MessageListScreen(),
-            const AlertScreen(),
-            const Interviews(),
-          ][currentScreenIndex]);
-    });
+              label: AppLocalizations.of(context)!.interviews,
+            ),
+          ],
+        ),
+        body: <Widget>[
+          const Projects(),
+          userProvider.currentUser?.currentRole == Role.student
+              ? const DashboardStudent()
+              : const DashboardCompany(),
+          const MessageListScreen(),
+          const AlertScreen(),
+          const Interviews(),
+        ][currentScreenIndex]);
   }
 }
