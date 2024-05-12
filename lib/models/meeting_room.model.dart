@@ -5,7 +5,7 @@ import 'package:student_hub/models/models.dart';
 class MeetingRoomModel extends BaseModel {
   final String meetingRoomCode;
   final String meetingRoomId;
-  final String expiredAt;
+  final String? expiredAt;
 
   const MeetingRoomModel({
     this.meetingRoomCode = '',
@@ -53,7 +53,7 @@ class MeetingRoomModel extends BaseModel {
     return MeetingRoomModel(
       meetingRoomCode: map['meeting_room_code'] as String,
       meetingRoomId: map['meeting_room_id'] as String,
-      expiredAt: map['expired_at'] as String,
+      expiredAt: map['expired_at'] as String?,
       id: map['id'] as int,
       createdAt: map['createdAt'] ?? map['createdAt'] as String?,
       updatedAt: map['updatedAt'] ?? map['updatedAt'] as String?,
