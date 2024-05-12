@@ -267,5 +267,6 @@
   "success": "Thành công",
   "fail": "Thất bại",
   "errorEmailContent": "Vui lòng nhập email hợp lệ",
-  "errorPasswordContent": "Vui lòng nhập mật khẩu hợp lệ (có chữ in hoa và số)"
+  "errorPasswordContent": "Vui lòng nhập mật khẩu hợp lệ (có chữ in hoa và số)",
+  "search": "Tìm kiếm"
 }
