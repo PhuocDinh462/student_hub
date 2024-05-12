@@ -10,10 +10,10 @@ class ProfileStudentModel extends BaseModel {
   final String? transcript;
   final int? techStackId;
   final TechnicalModel techStack;
-  final List<TechnicalModel> skillSets;
-  final List<EducationModel> educations;
-  final List<ExperienceModel> experiences;
-  final List<LanguageModel> languages;
+  final List<TechnicalModel>? skillSets;
+  final List<EducationModel>? educations;
+  final List<ExperienceModel>? experiences;
+  final List<LanguageModel>? languages;
 
   const ProfileStudentModel({
     this.userId = -1,
@@ -70,10 +70,10 @@ class ProfileStudentModel extends BaseModel {
       'transcript': transcript,
       'techStack': techStack.toMap(),
       'techStackId': techStackId,
-      'skillSets': skillSets.map((x) => x.toMap()).toList(),
-      'educations': educations.map((x) => x.toMap()).toList(),
-      'experiences': experiences.map((x) => x.toMap()).toList(),
-      'languages': languages.map((x) => x.toMap()).toList(),
+      'skillSets': skillSets!.map((x) => x.toMap()).toList(),
+      'educations': educations!.map((x) => x.toMap()).toList(),
+      'experiences': experiences!.map((x) => x.toMap()).toList(),
+      'languages': languages!.map((x) => x.toMap()).toList(),
       'id': id,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
@@ -89,26 +89,34 @@ class ProfileStudentModel extends BaseModel {
       techStackId: map['techStackId'] ?? map['techStackId'] as int?,
       techStack:
           TechnicalModel.fromMap(map['techStack'] as Map<String, dynamic>),
-      skillSets: List<TechnicalModel>.from(
-        (map['skillSets'] as List).map<TechnicalModel>(
-          (x) => TechnicalModel.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
-      educations: List<EducationModel>.from(
-        (map['educations'] as List).map<EducationModel>(
-          (x) => EducationModel.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
-      experiences: List<ExperienceModel>.from(
-        (map['experiences'] as List).map<ExperienceModel>(
-          (x) => ExperienceModel.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
-      languages: List<LanguageModel>.from(
-        (map['languages'] as List).map<LanguageModel>(
-          (x) => LanguageModel.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
+      skillSets: map['skillSets'] == null
+          ? null
+          : List<TechnicalModel>.from(
+              (map['skillSets'] as List).map<TechnicalModel>(
+                (x) => TechnicalModel.fromMap(x as Map<String, dynamic>),
+              ),
+            ),
+      educations: map['educations'] == null
+          ? null
+          : List<EducationModel>.from(
+              (map['educations'] as List).map<EducationModel>(
+                (x) => EducationModel.fromMap(x as Map<String, dynamic>),
+              ),
+            ),
+      experiences: map['experiences'] == null
+          ? null
+          : List<ExperienceModel>.from(
+              (map['experiences'] as List).map<ExperienceModel>(
+                (x) => ExperienceModel.fromMap(x as Map<String, dynamic>),
+              ),
+            ),
+      languages: map['languages'] == null
+          ? null
+          : List<LanguageModel>.from(
+              (map['languages'] as List).map<LanguageModel>(
+                (x) => LanguageModel.fromMap(x as Map<String, dynamic>),
+              ),
+            ),
       id: map['id'] as int,
       createdAt: map['createdAt'] ?? map['createdAt'] as String?,
       updatedAt: map['updatedAt'] ?? map['updatedAt'] as String?,
