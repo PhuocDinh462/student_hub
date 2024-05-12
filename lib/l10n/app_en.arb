@@ -267,5 +267,6 @@
   "success": "Success",
   "fail": "Fail",
   "errorEmailContent": "Please enter valid email",
-  "errorPasswordContent": "Please enter valid password (has capital letter and number)"
+  "errorPasswordContent": "Please enter valid password (has capital letter and number)",
+  "search": "Search"
 }

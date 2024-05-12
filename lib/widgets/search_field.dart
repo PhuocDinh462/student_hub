@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_hub/constants/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchBox extends StatefulWidget {
   final TextEditingController controller;
@@ -25,20 +26,20 @@ class _SearchBoxState extends State<SearchBox> {
             ),
             child: TextField(
               controller: widget.controller,
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.all(0),
-                prefixIcon: Icon(
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(0),
+                prefixIcon: const Icon(
                   Icons.search,
                   color: text_700,
                   size: 20,
                 ),
-                prefixIconConstraints: BoxConstraints(
+                prefixIconConstraints: const BoxConstraints(
                   maxHeight: 20,
                   minWidth: 25,
                 ),
                 border: InputBorder.none,
-                hintText: 'Search',
-                hintStyle: TextStyle(
+                hintText: AppLocalizations.of(context)!.search,
+                hintStyle: const TextStyle(
                   color: text_500,
                 ),
               ),
