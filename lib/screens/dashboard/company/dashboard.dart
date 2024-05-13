@@ -32,6 +32,7 @@ class _DashboardCompanyState extends State<DashboardCompany> {
         Provider.of<UserProvider>(context, listen: false);
     final ProjectProvider projectProvider =
         Provider.of<ProjectProvider>(context, listen: false);
+    if (userProvider.currentUser?.companyId == null) return;
 
     setState(() => _isLoading = true);
     await projectService
