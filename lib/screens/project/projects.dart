@@ -93,6 +93,12 @@ class _ProjectsState extends State<Projects> {
   }
 
   @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -199,11 +205,5 @@ class _ProjectsState extends State<Projects> {
         ),
       ],
     );
-  }
-
-  @override
-  void dispose() {
-    _pagingController.dispose();
-    super.dispose();
   }
 }

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:gap/gap.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:month_year_picker/month_year_picker.dart';
@@ -16,6 +17,7 @@ import 'package:student_hub/routes/routes.dart';
 import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/view-models/view_models.dart';
 import 'package:get/get.dart';
+import 'package:student_hub/widgets/display_text.dart';
 
 void main() async {
   await dotenv.load(fileName: '.env');
@@ -86,9 +88,41 @@ class MyApp extends StatelessWidget {
       future: initializeProviders(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(primary_300),
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: Container(
+              color: Theme.of(context).colorScheme.onPrimary,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 300,
+                      height: 300,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/Hand-coding.png'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const Gap(20),
+                    const CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(primary_300),
+                    ),
+                    const Gap(10),
+                    DisplayText(
+                      text: 'Waiting...',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(fontSize: 14),
+                      overflow: TextOverflow.visible,
+                      textAlign: TextAlign.center,
+                    )
+                  ],
+                ),
+              ),
             ),
           );
         } else {
