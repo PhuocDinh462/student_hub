@@ -7,6 +7,8 @@ import 'package:student_hub/models/interview.model.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/screens/interviews/widgets/interview_item.dart';
 import 'package:student_hub/screens/interviews/widgets/join_meeting_dialog.dart';
+import 'package:student_hub/utils/empty.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Interviews extends StatefulWidget {
   const Interviews({super.key});
@@ -63,17 +65,23 @@ class _InterviewsState extends State<Interviews> {
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: interviews.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    InterviewItem(interview: interviews[index]),
-                    if (index == interviews.length - 1) const Gap(85),
-                  ],
-                );
-              },
-            ),
+          : interviews.isEmpty
+              ? Center(
+                  child: Empty(
+                    text: AppLocalizations.of(context)!.noActiveInterviews,
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: interviews.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        InterviewItem(interview: interviews[index]),
+                        if (index == interviews.length - 1) const Gap(85),
+                      ],
+                    );
+                  },
+                ),
     );
   }
 }

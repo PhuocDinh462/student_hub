@@ -86,7 +86,7 @@ class StudentRoutes {
       final int projectId = args?['projectId'] ?? 0;
 
       return AccountHeader(
-          title: 'Apply Now',
+          title: AppLocalizations.of(context)!.applyNow,
           body: SubmitProposal(
             projectId: projectId,
           ));

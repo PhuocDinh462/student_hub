@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:student_hub/api/api.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/screens/chat/widgets/chat.widgets.dart';
@@ -110,18 +111,9 @@ class _MessageListScreenState extends State<MessageListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(children: [
-        SizedBox(
-          height: 90,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SearchBox(
-                  controller: _searchController,
-                  onChanged: handleFetchApiMessage),
-            ],
-          ),
-        ),
+        const Gap(15),
+        SearchBox(
+            controller: _searchController, onChanged: handleFetchApiMessage),
         Expanded(
           child: isLoading
               ? const Center(child: CircularProgressIndicator())

@@ -47,6 +47,7 @@ class _CreateAccountCompanyState extends State<CreateAccountCompany> {
       if (email.isEmpty ||
           password.isEmpty ||
           fullname.isEmpty ||
+          confirmPassword.isEmpty ||
           !agreePersonalData) {
         MySnackBar.showSnackBar(
           context,
