@@ -152,7 +152,7 @@
   "errorTitle": "Lỗi!",
   "sucessTitle": "Thành công",
   "errorFilledContent": "Vui lòng điền đầy đủ thông tin",
-  "sucessAccountContent": "Tạo tài khoản thành công",
+  "sucessAccountContent": "Email xác nhận đã được gửi đến Gmail. Xác nhận để kích hoạt tài khoản của bạn!",
   "errorAccountContent": "Tạo tài khoản thất bại",
   "errorOccuredContent": "Đã xảy ra lỗi trong quá trình đăng ký",
   "signUpCompany": "Đăng ký Công Ty",
@@ -269,5 +269,6 @@
   "errorEmailContent": "Vui lòng nhập email hợp lệ",
   "errorPasswordContent": "Vui lòng nhập mật khẩu hợp lệ (có chữ in hoa và số)",
   "search": "Tìm kiếm",
-  "noCompanyProfile": "Không tìm thấy hồ sơ công ty"
+  "noCompanyProfile": "Không tìm thấy hồ sơ công ty",
+  "errorPasswordMatchContent": "Vui lòng xác nhận đúng mật khẩu"
 }
