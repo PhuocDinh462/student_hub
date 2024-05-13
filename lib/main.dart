@@ -87,11 +87,13 @@ class MyApp extends StatelessWidget {
     return FutureBuilder(
       future: initializeProviders(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
+        final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+
         if (snapshot.connectionState == ConnectionState.waiting) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Container(
-              color: Theme.of(context).colorScheme.onPrimary,
+              color: themeProvider.getThemeMode ? text_900 : Colors.white,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -132,8 +134,6 @@ class MyApp extends StatelessWidget {
               textDirection: TextDirection.ltr,
             );
           } else {
-            final ThemeProvider themeProvider =
-                Provider.of<ThemeProvider>(context);
             final ProjectProvider projectProvider =
                 Provider.of<ProjectProvider>(context);
             Get.put(projectProvider);
