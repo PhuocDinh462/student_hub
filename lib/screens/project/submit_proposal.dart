@@ -216,13 +216,14 @@ class _SubmitProposalState extends State<SubmitProposal> {
         if (action == ActionProposal.submit) {
           Get.toNamed(StudentRoutes.nav, arguments: {
             'index': 0,
-            'message': proposalStudentViewModel.successMessage,
+            'message':
+                AppLocalizations.of(context)!.notifSuccessCreatedProposal,
             'messageType': ContentType.success,
           });
         } else {
           MySnackBar.showSnackBar(
             context,
-            proposalStudentViewModel.successMessage,
+            AppLocalizations.of(context)!.notifSuccessUpdateProposal,
             'Successful',
             ContentType.success,
           );
@@ -238,7 +239,7 @@ class _SubmitProposalState extends State<SubmitProposal> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         MySnackBar.showSnackBar(
           context,
-          proposalStudentViewModel.errorMessage,
+          AppLocalizations.of(context)!.notifFail,
           'Failed',
           ContentType.failure,
         );

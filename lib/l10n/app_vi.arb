@@ -231,7 +231,6 @@
   "changePassword": "Đổi Mật Khẩu",
   "studentLookingFor": "Sinh viên đang tìm kiếm:",
   "student": "sinh viên",
-  "applyNow": "Nộp Đơn",
   "viewLetter": "Xem Thư",
   "save": "Lưu",
   "createStudentProfile": "Vui lòng tạo hồ sơ sinh viên của bạn",
@@ -272,5 +271,8 @@
   "noCompanyProfile": "Không tìm thấy hồ sơ công ty",
   "errorPasswordMatchContent": "Vui lòng xác nhận đúng mật khẩu",
   "noActiveInterviews": "Không có cuộc họp nào được lên lịch",
-  "applyNow": "Nộp đơn"
+  "applyNow": "Nộp đơn",
+  "notifSuccessCreatedProposal": "Đề xuất của bạn đã được gửi thành công.",
+  "notifSuccessUpdateProposal": "Đề xuất của bạn đã được cập nhật thành công.",
+  "notifFail": "Đã xảy ra lỗi, vui lòng thử lại..."
 }

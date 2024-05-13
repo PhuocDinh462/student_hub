@@ -235,7 +235,6 @@
   "changePassword": "Change Password",
   "studentLookingFor": "Student are looking for:",
   "student": "students",
-  "applyNow": "Apply Now",
   "viewLetter": "View Letter",
   "createStudentProfile": "Please create your student's profile",
   "failedUpdateFavoriteProject": "Failed to update favorite project",
@@ -272,5 +271,8 @@
   "noCompanyProfile": "Company profile is not found",
   "errorPasswordMatchContent": "Please enter the same password",
   "noActiveInterviews": "No active interviews",
-  "applyNow": "Apply now"
+  "applyNow": "Apply now",
+  "notifSuccessCreatedProposal": "Your requirement has been sent successfully.",
+  "notifSuccessUpdateProposal": "Your requirement has been updated successfully.",
+  "notifFail": "An error occurred, please try again..."
 }
