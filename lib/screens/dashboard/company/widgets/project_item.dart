@@ -28,15 +28,15 @@ class ProjectItem extends StatelessWidget {
       child: Card(
         child: Stack(
           children: [
-            if (project.statusFlag != ProjectStatusFlag.working)
+            if (project.typeFlag == TypeFlag.archived)
               Positioned.fill(
                 child: Align(
                   alignment: Alignment.center,
-                  child: project.statusFlag == ProjectStatusFlag.success
-                      ? Icon(Icons.check_rounded,
-                          color: Colors.green.withOpacity(.1), size: 150)
-                      : Icon(Icons.close_rounded,
-                          color: Colors.red.withOpacity(.1), size: 150),
+                  child: project.statusFlag == ProjectStatusFlag.fail
+                      ? Icon(Icons.close_rounded,
+                          color: Colors.red.withOpacity(.1), size: 150)
+                      : Icon(Icons.check_rounded,
+                          color: Colors.green.withOpacity(.1), size: 150),
                 ),
               ),
             Padding(
