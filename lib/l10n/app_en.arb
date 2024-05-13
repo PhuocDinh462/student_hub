@@ -155,7 +155,7 @@
   "errorTitle": "Oh Hey!",
   "sucessTitle": "Sucess",
   "errorFilledContent": "Please fill in all fields",
-  "sucessAccountContent": "Create account successfully",
+  "sucessAccountContent": "An verify email has been sent to your Gmail. Verify to activate account!",
   "errorAccountContent": "Failed to create account",
   "errorOccuredContent": "An error occurred during sign up",
   "signUpCompany": "Sign Up As Company",
@@ -269,5 +269,6 @@
   "errorEmailContent": "Please enter valid email",
   "errorPasswordContent": "Please enter valid password (has capital letter and number)",
   "search": "Search",
-  "noCompanyProfile": "Company profile is not found"
+  "noCompanyProfile": "Company profile is not found",
+  "errorPasswordMatchContent": "Please enter the same password"
 }

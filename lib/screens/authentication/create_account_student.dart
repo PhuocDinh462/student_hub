@@ -25,6 +25,7 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
   final AuthService authService = AuthService();
 
   bool agreePersonalData = false;
@@ -41,6 +42,7 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
     void signUp() async {
       final String email = emailController.text;
       final String password = passwordController.text;
+      final String confirmPassword = confirmPasswordController.text;
       final String fullname = nameController.text;
       FocusScope.of(context).unfocus();
 
@@ -54,11 +56,11 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
           AppLocalizations.of(context)!.errorTitle,
           ContentType.failure,
         );
+
         return;
       }
-
       // checking valid email with regex
-      if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+      else if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
           .hasMatch(email)) {
         MySnackBar.showSnackBar(
           context,
@@ -69,10 +71,18 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
         return;
       }
       //checking valid password has capital letter and number
-      if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[0-9]).{8,}$').hasMatch(password)) {
+      else if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[0-9]).{8,}$').hasMatch(password)) {
         MySnackBar.showSnackBar(
           context,
           AppLocalizations.of(context)!.errorPasswordContent,
+          AppLocalizations.of(context)!.errorTitle,
+          ContentType.failure,
+        );
+        return;
+      } else if (password != confirmPassword) {
+        MySnackBar.showSnackBar(
+          context,
+          AppLocalizations.of(context)!.errorPasswordMatchContent,
           AppLocalizations.of(context)!.errorTitle,
           ContentType.failure,
         );
@@ -150,7 +160,13 @@ class _CreateAccountStudentState extends State<CreateAccountStudent> {
                     icon: Icons.lock,
                   ),
                   const Gap(20),
-                  //forgot password
+                  // confirm password textfield
+                  InputText(
+                    controller: confirmPasswordController,
+                    hintText: AppLocalizations.of(context)!.confirmPassword,
+                    obscureText: true,
+                    icon: Icons.lock,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Row(
