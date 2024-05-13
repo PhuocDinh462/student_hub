@@ -210,7 +210,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
             Row(
               children: [
                 Text(
-                  AppLocalizations.of(context)!.meetingRoomId,
+                  '${AppLocalizations.of(context)!.meetingRoomId}: ',
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: textColor,
                       ),
@@ -227,7 +227,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
             Row(
               children: [
                 Text(
-                  AppLocalizations.of(context)!.meetingRoomCode,
+                  '${AppLocalizations.of(context)!.meetingRoomCode}: ',
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: textColor,
                       ),
