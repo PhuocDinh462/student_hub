@@ -11,6 +11,7 @@ import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/routes.dart';
 import 'package:student_hub/screens/profile/student/components/components.dart';
 import 'package:student_hub/styles/styles.dart';
+import 'package:student_hub/utils/custom_dio.dart';
 import 'package:student_hub/utils/extensions.dart';
 import 'package:student_hub/view-models/view_models.dart';
 
@@ -238,7 +239,7 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
   }
 
   Future<void> hanldeUpdateCurrentUser() async {
-    AuthService authService = Provider.of<AuthService>(context, listen: false);
+    AuthService authService = AuthService();
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
 
@@ -254,14 +255,11 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
         roles.add(role == 0 ? Role.student : Role.company);
       }
 
-      Role currentRole =
-          userInfo['roles'][0] == 0 ? Role.student : Role.company;
-
       User currentUser = User(
         userId: userInfo['id'],
         fullname: userInfo['fullname'],
         roles: roles,
-        currentRole: currentRole,
+        currentRole: Role.student,
         companyId: companyId,
         studentId: studentId,
       );
@@ -848,7 +846,9 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                     style: buttonPrimary,
                     onPressed: () {
                       profileStudentModel.updateProfileStudent().then((value) {
-                        hanldeUpdateCurrentUser();
+                        if (userProvider.currentUser == null) {
+                          hanldeUpdateCurrentUser();
+                        }
                       });
                     },
                     child: DisplayText(

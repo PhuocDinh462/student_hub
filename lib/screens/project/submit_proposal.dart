@@ -89,9 +89,13 @@ class _SubmitProposalState extends State<SubmitProposal> {
         studentId: userProvider.currentUser!.studentId ?? -1);
 
     if (action == ActionProposal.submit) {
-      psm.createProposalStudent(pm);
+      psm.createProposalStudent(pm).then((value) {
+        handleAfterLoading(psm, context);
+      });
     } else {
-      psm.updateProposalStudent(pm);
+      psm.updateProposalStudent(pm).then((value) {
+        handleAfterLoading(psm, context);
+      });
     }
   }
 
@@ -105,10 +109,6 @@ class _SubmitProposalState extends State<SubmitProposal> {
         backgroundColor: colorScheme.secondaryContainer,
         body: Consumer<ProposalStudentViewModel>(
             builder: (context, proposalStudentViewModel, child) {
-          if (proposalStudentViewModel.loading) {
-          } else {
-            handleAfterLoading(proposalStudentViewModel, context);
-          }
           return proposalStudentViewModel.loading
               ? const Center(
                   child: Column(children: [

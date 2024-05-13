@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/user.dart';
 import 'package:student_hub/providers/providers.dart';
@@ -9,6 +10,36 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class WelcomeCompany extends StatelessWidget {
   const WelcomeCompany({super.key, required this.appLocal});
   final AppLocalizations appLocal;
+
+  Future<void> hanldeUpdateCurrentUser(
+      UserProvider userProvider, Role currentRole) async {
+    AuthService authService = AuthService();
+
+    try {
+      final userInfo = await authService.getMe();
+      final companyId =
+          userInfo['company'] != null ? userInfo['company']['id'] : null;
+      final studentId =
+          userInfo['student'] != null ? userInfo['student']['id'] : null;
+      List<Role> roles = [];
+
+      for (var role in userInfo['roles']) {
+        roles.add(role == 0 ? Role.student : Role.company);
+      }
+
+      User currentUser = User(
+        userId: userInfo['id'],
+        fullname: userInfo['fullname'],
+        roles: roles,
+        currentRole: currentRole,
+        companyId: companyId,
+        studentId: studentId,
+      );
+      userProvider.setCurrentUser(currentUser);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +63,12 @@ class WelcomeCompany extends StatelessWidget {
             const SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
-                if (user.currentUser!.currentRole == Role.student) {
-                  user.setCurrentUser(user.currentUser!.copyWith(
-                      currentRole: Role.company,
-                      roles: [Role.student, Role.company]));
-                } else {
-                  Navigator.pushNamed(context, CompanyRoutes.nav,
-                      arguments: {'index': 1});
-                }
+                hanldeUpdateCurrentUser(user, Role.company).then((value) {
+                  if (user.currentUser!.currentRole != Role.student) {
+                    Navigator.pushNamed(context, CompanyRoutes.nav,
+                        arguments: {'index': 1});
+                  }
+                });
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: primary_300,

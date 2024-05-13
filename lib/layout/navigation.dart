@@ -42,7 +42,9 @@ class _NavigationState extends State<Navigation> {
           Provider.of<UserProvider>(context, listen: false);
       final NotificationViewModel notificationViewModel =
           Provider.of<NotificationViewModel>(context, listen: false);
-
+      if (userProvider.currentUser != null) {
+        print(userProvider.currentUser!.companyId);
+      }
       notificationViewModel.fetchNotification(
           userId: userProvider.currentUser?.userId,
           currentRole: userProvider.currentUser!.currentRole);
