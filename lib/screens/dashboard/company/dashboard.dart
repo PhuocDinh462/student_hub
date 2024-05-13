@@ -5,6 +5,7 @@ import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/routes/company_route.dart';
+import 'package:student_hub/utils/empty.dart';
 import 'widgets/project_list.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -53,11 +54,8 @@ class _DashboardCompanyState extends State<DashboardCompany> {
         Provider.of<UserProvider>(context, listen: false);
 
     return userProvider.currentUser?.companyId == null
-        ? const Center(
-            child: Text(
-              'Please update your company profile',
-              textDirection: TextDirection.ltr,
-            ),
+        ? Center(
+            child: Empty(text: AppLocalizations.of(context)!.noCompanyProfile),
           )
         : Scaffold(
             floatingActionButton: _showPostProjectBtn

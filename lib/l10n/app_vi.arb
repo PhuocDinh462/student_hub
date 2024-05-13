@@ -268,5 +268,6 @@
   "fail": "Thất bại",
   "errorEmailContent": "Vui lòng nhập email hợp lệ",
   "errorPasswordContent": "Vui lòng nhập mật khẩu hợp lệ (có chữ in hoa và số)",
-  "search": "Tìm kiếm"
+  "search": "Tìm kiếm",
+  "noCompanyProfile": "Không tìm thấy hồ sơ công ty"
 }
