@@ -3,12 +3,13 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/providers.dart';
-import 'package:student_hub/utils/snack_bar.dart';
+import 'package:student_hub/utils/utils.dart';
 import 'package:student_hub/widgets/project_detail.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,7 +25,7 @@ class ProjectCard extends StatefulWidget {
 }
 
 class _ProjectCardState extends State<ProjectCard> {
-  late int daysAgo;
+  late String daysAgo;
   late String timeDuration;
   late int studentsNeeded;
   late String projectDescription;
@@ -32,31 +33,6 @@ class _ProjectCardState extends State<ProjectCard> {
   late bool isFavorite;
   final Dio dio = Dio();
   final String? apiServer = dotenv.env['API_SERVER'];
-
-  @override
-  void initState() {
-    super.initState();
-    initializeStateProject();
-  }
-
-  void initializeStateProject() {
-    final project = widget.project;
-    daysAgo = DateTime.now().difference(project.createdAt).inDays > 0
-        ? DateTime.now().difference(project.createdAt).inDays
-        : 1;
-    timeDuration = project.completionTime == ProjectScopeFlag.lessThanOneMonth
-        ? 'Less than 1 month'
-        : project.completionTime == ProjectScopeFlag.oneToThreeMonth
-            ? '1-3 months'
-            : project.completionTime == ProjectScopeFlag.threeToSixMonth
-                ? '3-6 months'
-                : 'More than 6 months';
-
-    studentsNeeded = project.requiredStudents;
-    projectDescription = project.description;
-    proposalsCount = project.countProposals;
-    isFavorite = project.favorite;
-  }
 
   Future<void> updateProjectState(
       UserProvider provider, int projectId, int disableFlag) async {
@@ -66,18 +42,7 @@ class _ProjectCardState extends State<ProjectCard> {
           isFavorite = true;
         });
       }
-      // Map<String, dynamic> headers = {
-      //   'Authorization': 'Bearer ${provider.currentUser?.token}',
-      // };
-      // final data = {
-      //   'projectId': projectId,
-      //   'disableFlag': disableFlag,
-      // };
-      // await dio.patch(
-      //   '$apiServer/favoriteProject/${provider.currentUser!.studentId!}',
-      //   data: data,
-      //   options: Options(headers: headers),
-      // );
+
       await widget.projectService.updateFavoriteProject(
           provider.currentUser!.studentId!, projectId, disableFlag);
     } catch (e) {
@@ -98,6 +63,27 @@ class _ProjectCardState extends State<ProjectCard> {
   Widget build(BuildContext context) {
     final UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
+
+    final textTheme = Theme.of(context).textTheme;
+
+    daysAgo = Helpers.calculateTimeFromNow(
+        widget.project.createdAt.toIso8601String(), context);
+
+    timeDuration = widget.project.completionTime ==
+            ProjectScopeFlag.lessThanOneMonth
+        ? 'Less than 1 month'
+        : widget.project.completionTime == ProjectScopeFlag.oneToThreeMonth
+            ? '1-3 months'
+            : widget.project.completionTime == ProjectScopeFlag.threeToSixMonth
+                ? '3-6 months'
+                : 'More than 6 months';
+
+    studentsNeeded = widget.project.requiredStudents;
+    projectDescription = widget.project.description;
+    proposalsCount = widget.project.countProposals;
+    isFavorite = widget.project.favorite;
+
+    final pjDes = projectDescription.split('.');
     return Card(
       elevation: 2,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -112,19 +98,19 @@ class _ProjectCardState extends State<ProjectCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${AppLocalizations.of(context)!.created} $daysAgo ${AppLocalizations.of(context)!.daysAgo}',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.bold),
-                ),
-                Text(
                   widget.project.title,
                   style: const TextStyle(
                     color: primary_300,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                Text(
+                  '${AppLocalizations.of(context)!.created} $daysAgo',
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: textTheme.labelSmall?.color!.withOpacity(0.7),
+                      fontSize: 12),
+                ),
+                const Gap(10),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -132,13 +118,13 @@ class _ProjectCardState extends State<ProjectCard> {
                       AppLocalizations.of(context)!.time,
                       style: Theme.of(context)
                           .textTheme
-                          .bodyMedium
+                          .labelMedium
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     Expanded(
                       child: Text(
                         '${timeDuration == 'Less than 1 month' ? AppLocalizations.of(context)!.lessThanOneMonth : timeDuration == '1-3 months' ? AppLocalizations.of(context)!.oneToThreeMonths : timeDuration == '3-6 months' ? AppLocalizations.of(context)!.threeToSixMonths : AppLocalizations.of(context)!.moreThanSixMonths}, $studentsNeeded ${AppLocalizations.of(context)!.studentsNeeded}',
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: Theme.of(context).textTheme.labelSmall,
                       ),
                     ),
                   ],
@@ -147,29 +133,34 @@ class _ProjectCardState extends State<ProjectCard> {
                   AppLocalizations.of(context)!.studentLookingFor,
                   style: Theme.of(context)
                       .textTheme
-                      .bodyMedium
+                      .labelMedium
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: projectDescription
-                      .split('.')
-                      .where((sentence) =>
-                          sentence.trim().length >
-                          1) // Lọc các câu có độ dài lớn hơn 1
-                      .map((formattedSentence) => Padding(
+                  children: pjDes.length > 1
+                      ? pjDes
+                          .where((sentence) =>
+                              sentence.trim().length >
+                              1) // Lọc các câu có độ dài lớn hơn 1
+                          .map((formattedSentence) => Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 16, top: 4),
+                                child: Text(
+                                  '• ${formattedSentence.trim()}',
+                                  style: Theme.of(context).textTheme.labelSmall,
+                                ),
+                              ))
+                          .toList()
+                      : [
+                          Padding(
                             padding: const EdgeInsets.only(left: 16, top: 4),
                             child: Text(
-                              '• ${formattedSentence.trim()}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              '• ${pjDes[0].trim()}',
+                              style: Theme.of(context).textTheme.labelSmall,
                             ),
-                          ))
-                      .toList(),
+                          )
+                        ],
                 ),
                 Row(
                   children: [
@@ -177,12 +168,12 @@ class _ProjectCardState extends State<ProjectCard> {
                       AppLocalizations.of(context)!.proposals,
                       style: Theme.of(context)
                           .textTheme
-                          .bodyMedium
+                          .labelMedium
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     Text(
                       '$proposalsCount',
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme.of(context).textTheme.labelSmall,
                     ),
                   ],
                 ),

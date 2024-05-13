@@ -20,9 +20,10 @@ class CommonTabbarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final IndexPageProvider indexPage = Provider.of<IndexPageProvider>(context);
     final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return CommonContainer(
-      color: text_100,
+      color: colorScheme.primaryContainer,
       width: width,
       height: height,
       child: ListView.builder(
@@ -40,13 +41,10 @@ class CommonTabbarButton extends StatelessWidget {
                 width: width / listItem.length - 2 * space,
                 curve: Curves.easeIn,
                 decoration: BoxDecoration(
-                  color: indexPage.getIndexDBStudent == index
-                      ? primary_300
-                      : text_100,
-                  borderRadius: indexPage.getIndexDBStudent == index
-                      ? BorderRadius.circular(100)
-                      : const BorderRadius.all(Radius.zero),
-                ),
+                    color: indexPage.getIndexDBStudent == index
+                        ? primary_300
+                        : text_100,
+                    borderRadius: BorderRadius.circular(100)),
                 child: Center(
                   child: DisplayText(
                       text: listItem[index],

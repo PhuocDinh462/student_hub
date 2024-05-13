@@ -22,9 +22,11 @@ class Account extends StatelessWidget {
 
     void logout() async {
       context.loaderOverlay.show();
-      await authService
-          .logout(user.currentUser!.token, user)
-          .whenComplete(() => context.loaderOverlay.hide());
+      await getToken().then((value) async {
+        await authService
+            .logout(value!, user)
+            .whenComplete(() => context.loaderOverlay.hide());
+      });
     }
 
     return Scaffold(

@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
@@ -234,6 +235,40 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
           .toList());
     }
     ps.updateEducationStudent();
+  }
+
+  Future<void> hanldeUpdateCurrentUser() async {
+    AuthService authService = Provider.of<AuthService>(context, listen: false);
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+
+    try {
+      final userInfo = await authService.getMe();
+      final companyId =
+          userInfo['company'] != null ? userInfo['company']['id'] : null;
+      final studentId =
+          userInfo['student'] != null ? userInfo['student']['id'] : null;
+      List<Role> roles = [];
+
+      for (var role in userInfo['roles']) {
+        roles.add(role == 0 ? Role.student : Role.company);
+      }
+
+      Role currentRole =
+          userInfo['roles'][0] == 0 ? Role.student : Role.company;
+
+      User currentUser = User(
+        userId: userInfo['id'],
+        fullname: userInfo['fullname'],
+        roles: roles,
+        currentRole: currentRole,
+        companyId: companyId,
+        studentId: studentId,
+      );
+      userProvider.setCurrentUser(currentUser);
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   @override
@@ -812,7 +847,9 @@ class _ProfileStudentStepOneState extends State<ProfileStudentStepOne> {
                 ElevatedButton(
                     style: buttonPrimary,
                     onPressed: () {
-                      profileStudentModel.updateProfileStudent();
+                      profileStudentModel.updateProfileStudent().then((value) {
+                        hanldeUpdateCurrentUser();
+                      });
                     },
                     child: DisplayText(
                       text: appLocal!.save,

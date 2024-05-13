@@ -67,6 +67,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = Provider.of<UserProvider>(context);
+    final pjDes = projectDescription.split('.');
 
     return Padding(
       padding: const EdgeInsets.all(10),
@@ -104,25 +105,29 @@ class _ProjectDetailsState extends State<ProjectDetails> {
               height: MediaQuery.of(context).size.height * 0.2,
               child: SingleChildScrollView(
                 child: ListView(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: projectDescription
-                      .split('.')
-                      .where((sentence) => sentence.trim().length > 1)
-                      .map((formattedSentence) => Padding(
-                            padding: const EdgeInsets.only(left: 16, top: 8),
-                            child: Text(
-                              '• ${formattedSentence.trim()}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: pjDes.length > 1
+                        ? pjDes
+                            .where((sentence) => sentence.trim().length > 1)
+                            .map((formattedSentence) => Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 16, top: 8),
+                                  child: Text('• ${formattedSentence.trim()}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall),
+                                ))
+                            .toList()
+                        : [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16, top: 8),
+                              child: Text(
+                                '• ${pjDes[0].trim()}',
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
                             ),
-                          ))
-                      .toList(),
-                ),
+                          ]),
               ),
             ),
             const Divider(thickness: 1.5, color: primary_300),
@@ -142,7 +147,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     Text(widget.project.completionTime2String(context),
-                        style: Theme.of(context).textTheme.labelLarge),
+                        style: Theme.of(context).textTheme.labelSmall),
                   ],
                 ),
               ],
@@ -164,7 +169,7 @@ class _ProjectDetailsState extends State<ProjectDetails> {
                     ),
                     Text(
                       '$studentsNeeded ${AppLocalizations.of(context)!.student}',
-                      style: Theme.of(context).textTheme.labelLarge,
+                      style: Theme.of(context).textTheme.labelSmall,
                     ),
                   ],
                 ),

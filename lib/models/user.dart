@@ -10,7 +10,7 @@ class User extends Equatable {
   // final String email;
   final List<Role> roles;
   final Role currentRole;
-  final String token;
+  final String? token;
   final int? companyId;
   final int? studentId;
 
@@ -21,7 +21,7 @@ class User extends Equatable {
     // required this.email,
     required this.roles,
     required this.currentRole,
-    required this.token,
+    this.token,
     this.companyId,
     this.studentId,
   });
@@ -58,7 +58,7 @@ class User extends Equatable {
       // email: map['email'],
       roles: map['roles'],
       currentRole: Role.values[map['currentRole']],
-      token: map['token'],
+      token: map['token'] as String?,
       companyId: map['companyId'],
       studentId: map['studentId'],
     );
