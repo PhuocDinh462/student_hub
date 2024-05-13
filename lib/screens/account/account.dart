@@ -96,7 +96,7 @@ class Account extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 20),
                       child: Row(
                         children: [
-                          const Gap(30),
+                          const Gap(40),
                           const Icon(Icons.add_circle_outline_outlined,
                               size: 28),
                           const Gap(8),
