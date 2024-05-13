@@ -271,5 +271,6 @@
   "search": "Search",
   "noCompanyProfile": "Company profile is not found",
   "errorPasswordMatchContent": "Please enter the same password",
-  "noActiveInterviews": "No active interviews"
+  "noActiveInterviews": "No active interviews",
+  "applyNow": "Apply now"
 }

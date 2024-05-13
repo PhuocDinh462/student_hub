@@ -271,5 +271,6 @@
   "search": "Tìm kiếm",
   "noCompanyProfile": "Không tìm thấy hồ sơ công ty",
   "errorPasswordMatchContent": "Vui lòng xác nhận đúng mật khẩu",
-  "noActiveInterviews": "Không có cuộc họp nào được lên lịch"
+  "noActiveInterviews": "Không có cuộc họp nào được lên lịch",
+  "applyNow": "Nộp đơn"
 }
