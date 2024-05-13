@@ -22,7 +22,7 @@ class _AllProjectStudentState extends State<AllProjectStudent> {
       Project project, ProjectDetailsView view) async {
     await showModalBottomSheet(
         context: context,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         isScrollControlled: true,
         builder: (ctx) {
           return SizedBox(

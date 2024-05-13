@@ -1,6 +1,5 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/models/user.dart';
 import 'package:student_hub/providers/user.provider.dart';
@@ -66,14 +65,6 @@ class _NavigationState extends State<Navigation> {
       }
     });
   }
-
-  // Future<void> updateNumberOfNotif(NotificationViewModel notifVM) async {
-  //   try {
-  //     await FlutterAppBadger.updateBadgeCount(notifVM.numberOfNotifications);
-  //   } catch (e) {
-  //     throw Exception(e);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

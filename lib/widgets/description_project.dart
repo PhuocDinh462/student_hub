@@ -10,7 +10,7 @@ class DescriptionProject extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-
+    final pjDes = projectDescription.split('.');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -20,17 +20,26 @@ class DescriptionProject extends StatelessWidget {
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: projectDescription
-              .split('.')
-              .where((sentence) => sentence.trim().length > 1)
-              .map((formattedSentence) => Padding(
+          children: pjDes.length > 1
+              ? pjDes
+                  .where((sentence) => sentence.trim().length > 1)
+                  .map((formattedSentence) => Padding(
+                        padding: const EdgeInsets.only(left: 10, top: 3),
+                        child: DisplayText(
+                            text: '• ${formattedSentence.trim()}',
+                            style: textTheme.labelSmall!,
+                            overflow: TextOverflow.visible),
+                      ))
+                  .toList()
+              : [
+                  Padding(
                     padding: const EdgeInsets.only(left: 10, top: 3),
                     child: DisplayText(
-                        text: '• ${formattedSentence.trim()}',
+                        text: '• ${pjDes[0].trim()}',
                         style: textTheme.labelSmall!,
                         overflow: TextOverflow.visible),
-                  ))
-              .toList(),
+                  )
+                ],
         ),
       ],
     );
