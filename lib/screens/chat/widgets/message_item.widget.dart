@@ -100,7 +100,7 @@ class MessageItem extends StatelessWidget {
                 Row(
                   children: [
                     SizedBox(
-                      width: deviceSize.width - 170,
+                      width: deviceSize.width - 150,
                       child: DisplayText(
                         text: message.content,
                         style: textTheme.labelSmall!

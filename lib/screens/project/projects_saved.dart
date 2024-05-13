@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:student_hub/api/services/api.services.dart';
 import 'package:student_hub/models/project.dart';
 import 'package:student_hub/providers/user.provider.dart';
+import 'package:student_hub/utils/empty.dart';
 import 'package:student_hub/widgets/project_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -57,49 +57,21 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            children: [
-              const Gap(30),
-              if (isLoading)
-                const Column(
-                  children: [
-                    Gap(50),
-                    CircularProgressIndicator(),
-                  ],
-                )
-              else if (projects.isEmpty)
-                Column(
-                  children: [
-                    const Gap(50),
-                    Text(
-                      AppLocalizations.of(context)!.noSavedProject,
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                )
-              else
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: projects.length,
-                    itemBuilder: (context, index) {
-                      return ProjectCard(
-                          project: projects[index],
-                          projectService: projectService);
-                    },
-                  ),
+    return Expanded(
+      child: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : projects.isEmpty
+              ? Center(
+                  child:
+                      Empty(text: AppLocalizations.of(context)!.noSavedProject))
+              : ListView.builder(
+                  itemCount: projects.length,
+                  itemBuilder: (context, index) {
+                    return ProjectCard(
+                        project: projects[index],
+                        projectService: projectService);
+                  },
                 ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
