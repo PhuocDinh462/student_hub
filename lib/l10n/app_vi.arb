@@ -270,5 +270,6 @@
   "errorPasswordContent": "Vui lòng nhập mật khẩu hợp lệ (có chữ in hoa và số)",
   "search": "Tìm kiếm",
   "noCompanyProfile": "Không tìm thấy hồ sơ công ty",
-  "errorPasswordMatchContent": "Vui lòng xác nhận đúng mật khẩu"
+  "errorPasswordMatchContent": "Vui lòng xác nhận đúng mật khẩu",
+  "noActiveInterviews": "Không có cuộc họp nào được lên lịch"
 }
