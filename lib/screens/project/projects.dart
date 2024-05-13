@@ -37,7 +37,6 @@ class _ProjectsState extends State<Projects> {
 
   void _updateSearchTerm(String searchTerm) {
     _debouncer.run(() {
-      clearFilters();
       _searchTerm = searchTerm;
       _pagingController.refresh();
     });
@@ -45,7 +44,6 @@ class _ProjectsState extends State<Projects> {
 
   Future<void> updateFilteredProjects(int? studentsNeeded, int? proposalsCount,
       int? projectScopeFlag, UserProvider provider) async {
-    clearSearch();
     _studentsNeeded = studentsNeeded;
     _proposalsCount = proposalsCount;
     _projectScopeFlag = projectScopeFlag;

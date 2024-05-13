@@ -268,5 +268,6 @@
   "fail": "Fail",
   "errorEmailContent": "Please enter valid email",
   "errorPasswordContent": "Please enter valid password (has capital letter and number)",
-  "search": "Search"
+  "search": "Search",
+  "noCompanyProfile": "Company profile is not found"
 }
