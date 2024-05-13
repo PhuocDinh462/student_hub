@@ -181,14 +181,16 @@ void handleListenNotification(int userId, String token,
                   : data.typeNotifyFlag == TypeNotifyFlag.submitted
                       ? '${data.sender?.fullname} has submitted a proposal for your project "${data.content.split(' ').last}".'
                       : '${data.sender?.fullname} has been hired for the project "${data.content.split(' ').last}"';
-      nvm.addNotification(data, currentRole);
-      LocalNotification.showScheduleNotification(
-        title: title,
-        body: content,
-        payload: title,
-        duration: 0,
-        id: data.id,
-      );
+      if (!data.title.contains('cancelled')) {
+        nvm.addNotification(data, currentRole);
+        LocalNotification.showScheduleNotification(
+          title: title,
+          body: content,
+          payload: title,
+          duration: 0,
+          id: data.id,
+        );
+      }
     },
     cancelOnError: false,
     onError: print,
