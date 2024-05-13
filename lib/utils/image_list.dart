@@ -5,6 +5,7 @@ class ImageList {
     'assets/images/Coding-workshop.png',
     'assets/images/Hand-coding.png',
     'assets/images/Detailed-analysis.png',
+    'assets/images/Fast-loading.png',
   ];
 
   static void loadImage(BuildContext context) {

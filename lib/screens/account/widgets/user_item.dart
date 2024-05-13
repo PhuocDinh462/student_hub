@@ -17,32 +17,35 @@ class UserItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         actionChangeRole(role);
       },
-      child: Row(
-        children: [
-          Icon(role == Role.student ? Icons.school_outlined : Icons.business,
-              size: 32),
-          const Gap(10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                username,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              Text(
-                AppLocalizations.of(context)!
-                    .user(role == Role.student ? 'student' : 'company'),
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      fontStyle: FontStyle.italic,
-                    ),
-              ),
-            ],
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Row(
+          children: [
+            Icon(role == Role.student ? Icons.school_outlined : Icons.business,
+                size: 32),
+            const Gap(10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  username,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Text(
+                  AppLocalizations.of(context)!
+                      .user(role == Role.student ? 'student' : 'company'),
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        fontStyle: FontStyle.italic,
+                      ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

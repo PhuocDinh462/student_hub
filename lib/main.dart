@@ -101,7 +101,7 @@ class MyApp extends StatelessWidget {
                       height: 300,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage('assets/images/Hand-coding.png'),
+                          image: AssetImage('assets/images/Fast-loading.png'),
                           fit: BoxFit.cover,
                         ),
                       ),
