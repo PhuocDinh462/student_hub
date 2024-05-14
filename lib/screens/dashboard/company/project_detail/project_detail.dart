@@ -59,10 +59,7 @@ class ProjectDetail extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 // Info
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-                  child: ProjectInfo(),
-                ),
+                const ProjectInfo(),
                 // Message
                 MessageListScreen(
                     projectId: projectProvider.getCurrentProject!.id),
