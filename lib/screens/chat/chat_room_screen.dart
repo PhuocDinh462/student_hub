@@ -573,9 +573,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                           contentPadding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 0),
                           filled: true,
-                          fillColor: Theme.of(context)
-                              .colorScheme
-                              .onSecondaryContainer,
+                          fillColor: Theme.of(context).colorScheme.onPrimary,
                           hintText: AppLocalizations.of(context)!.typeMessage,
                           hintStyle:
                               Theme.of(context).textTheme.labelSmall!.copyWith(
