@@ -55,7 +55,7 @@ class _AlertScreenState extends State<AlertScreen> {
                 : Container(
                     width: deviceSize.width,
                     height: deviceSize.height,
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: ListView.builder(
                         itemCount: notifVM.notif.length,
                         shrinkWrap: true,
@@ -114,11 +114,17 @@ class _AlertScreenState extends State<AlertScreen> {
                                           ? '${notifVM.notif[index].sender?.fullname} ${appLocal?.notifSumitted} "${notifVM.notif[index].content.split(' ').last}".'
                                           : '${notifVM.notif[index].sender?.fullname} ${appLocal?.notifHired} "${notifVM.notif[index].content.split(' ').last}"';
 
-                          return AlertItem(
-                            notif: notifVM.notif[index],
-                            content: content,
-                            img: img,
-                            title: title,
+                          return Padding(
+                            padding: EdgeInsets.only(
+                                top: 10,
+                                bottom:
+                                    index == notifVM.notif.length - 1 ? 10 : 0),
+                            child: AlertItem(
+                              notif: notifVM.notif[index],
+                              content: content,
+                              img: img,
+                              title: title,
+                            ),
                           );
                         }));
       }),

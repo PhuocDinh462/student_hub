@@ -8,27 +8,24 @@ class Languages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        width: double.infinity,
-        margin: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            LanguageItem(
-              countryCode: 'us',
-              languageCode: 'en',
-              languageName: AppLocalizations.of(context)!.language('english'),
-            ),
-            const Gap(20),
-            LanguageItem(
-              countryCode: 'vn',
-              languageCode: 'vi',
-              languageName:
-                  AppLocalizations.of(context)!.language('vietnamese'),
-            ),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: ListView(
+        children: [
+          const Gap(20),
+          LanguageItem(
+            countryCode: 'us',
+            languageCode: 'en',
+            languageName: AppLocalizations.of(context)!.language('english'),
+          ),
+          const Gap(20),
+          LanguageItem(
+            countryCode: 'vn',
+            languageCode: 'vi',
+            languageName: AppLocalizations.of(context)!.language('vietnamese'),
+          ),
+          const Gap(20),
+        ],
       ),
     );
   }

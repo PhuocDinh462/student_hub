@@ -54,21 +54,17 @@ class _ProposalListState extends State<ProposalList> {
             ? const Center(
                 child: Empty(),
               )
-            : Padding(
-                padding: const EdgeInsets.all(10),
-                child: ListView.builder(
-                  itemCount: _proposalList.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        ProposalItem(
-                          proposal: _proposalList[index],
-                        ),
-                        if (index < _proposalList.length - 1) const Gap(10),
-                      ],
-                    );
-                  },
-                ),
+            : ListView.builder(
+                itemCount: _proposalList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsets.fromLTRB(
+                        10, 10, 10, index == _proposalList.length - 1 ? 10 : 0),
+                    child: ProposalItem(
+                      proposal: _proposalList[index],
+                    ),
+                  );
+                },
               );
   }
 }

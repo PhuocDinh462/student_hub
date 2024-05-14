@@ -15,8 +15,7 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return ListView(
       // Theme mode
       children: [
         InkWell(

@@ -29,8 +29,7 @@ class Account extends StatelessWidget {
       });
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return ListView(
       children: [
         // Users
         Theme(
