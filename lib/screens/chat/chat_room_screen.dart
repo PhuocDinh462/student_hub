@@ -571,7 +571,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                 color: Theme.of(context).colorScheme.secondary),
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 0),
+                              horizontal: 20, vertical: 0),
                           filled: true,
                           fillColor: Theme.of(context).colorScheme.onPrimary,
                           hintText: AppLocalizations.of(context)!.typeMessage,
