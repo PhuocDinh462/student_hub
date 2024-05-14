@@ -99,7 +99,7 @@ class IntroState extends State<Intro> {
       back: const Icon(Icons.arrow_back),
       skip: const Text('Skip',
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
-      next: const Icon(Icons.arrow_forward),
+      next: const Icon(Icons.arrow_forward, semanticLabel: 'Next'),
       done: const Text('Get Started',
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
       curve: Curves.fastLinearToSlowEaseIn,

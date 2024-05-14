@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_hub/api/api.dart';
 import 'package:student_hub/constants/theme.dart';
@@ -10,7 +11,6 @@ import 'package:student_hub/models/chat/message.dart';
 import 'package:student_hub/models/models.dart';
 import 'package:student_hub/widgets/avatar.dart';
 
-import 'package:intl/intl.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:student_hub/widgets/widgets.dart';

@@ -27,14 +27,14 @@ class ButtonIconRetangle extends StatelessWidget {
       child: IconButton(
         iconSize: iconSize,
         style: ButtonStyle(
-          shape: MaterialStateProperty.resolveWith(
+          shape: WidgetStateProperty.resolveWith(
             (states) => RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
           ),
-          iconColor: MaterialStateProperty.resolveWith((states) => iconColor),
+          iconColor: WidgetStateProperty.resolveWith((states) => iconColor),
           backgroundColor:
-              MaterialStateProperty.resolveWith((states) => backgroundColor),
+              WidgetStateProperty.resolveWith((states) => backgroundColor),
         ),
         onPressed: () {
           onPressed();

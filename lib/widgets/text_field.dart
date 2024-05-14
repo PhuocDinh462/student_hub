@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:student_hub/constants/theme.dart';
 
 class InputText extends StatelessWidget {
   final TextEditingController controller;
@@ -36,10 +35,17 @@ class InputText extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(10.0),
           ),
+          hintText: hintText,
+          labelText: hintText,
           fillColor: Theme.of(context).cardColor,
           filled: true,
-          hintText: hintText,
-          hintStyle: const TextStyle(color: text_500),
+          labelStyle: Theme.of(context).textTheme.bodySmall!,
+          hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+              color: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .color!
+                  .withOpacity(0.5)),
         ),
       ),
     );

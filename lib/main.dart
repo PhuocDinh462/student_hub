@@ -72,12 +72,14 @@ class MyApp extends StatelessWidget {
       await Future.wait([
         userProvider.initializeProvider().then((value) {
           getToken().then((value) {
-            handleListenNotification(
-                userProvider.currentUser!.userId,
-                value!,
-                notificationViewModel,
-                userProvider.currentUser!.currentRole,
-                context);
+            if (userProvider.currentUser != null) {
+              handleListenNotification(
+                  userProvider.currentUser!.userId,
+                  value!,
+                  notificationViewModel,
+                  userProvider.currentUser!.currentRole,
+                  context);
+            }
           });
         }),
         themeProvider.initializeProvider(),

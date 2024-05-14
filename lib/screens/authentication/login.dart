@@ -147,7 +147,6 @@ class _LoginState extends State<Login> {
               colors: [
                 linearColor1,
                 linearColor2,
-                linearColor3,
               ],
             ),
           ),
@@ -165,9 +164,9 @@ class _LoginState extends State<Login> {
                 style: textTheme.displayLarge!
                     .copyWith(color: text_50, fontWeight: FontWeight.bold),
               ),
-              const Gap(20),
+              const Gap(40),
               Container(
-                  height: MediaQuery.of(context).size.height / 1.7,
+                  padding: const EdgeInsets.only(bottom: 20),
                   width: MediaQuery.of(context).size.width / 1.1,
                   decoration: BoxDecoration(
                     color: colorScheme.primaryContainer,
@@ -179,17 +178,14 @@ class _LoginState extends State<Login> {
                       const Gap(20),
                       Text(
                         AppLocalizations.of(context)!.welcomeBack,
-                        style: textTheme.titleLarge!.copyWith(
-                            color: colorScheme.primary,
-                            fontWeight: FontWeight.bold),
+                        style: textTheme.displayLarge!.copyWith(
+                          color: colorScheme.primary,
+                        ),
                       ),
                       const Gap(20),
-                      Text(
-                        AppLocalizations.of(context)!.loginToContinue,
-                        style: textTheme.headlineMedium!
-                            .copyWith(color: colorScheme.onSurface),
-                      ),
-                      const Gap(20),
+                      Text(AppLocalizations.of(context)!.loginToContinue,
+                          style: textTheme.labelSmall!),
+                      const Gap(10),
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 1.3,
                         child: TextField(
@@ -197,6 +193,20 @@ class _LoginState extends State<Login> {
                           decoration: InputDecoration(
                             labelText:
                                 AppLocalizations.of(context)!.inputEmailText,
+                            hintText:
+                                AppLocalizations.of(context)!.inputEmailText,
+                            labelStyle: Theme.of(context).textTheme.bodySmall!,
+                            hintStyle: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .color!
+                                        .withOpacity(0.5)),
+                            filled: true,
+                            fillColor: Theme.of(context).colorScheme.onPrimary,
                             suffixIcon: const Icon(Icons.email),
                           ),
                         ),
@@ -210,6 +220,20 @@ class _LoginState extends State<Login> {
                           decoration: InputDecoration(
                             labelText:
                                 AppLocalizations.of(context)!.inputPasswordText,
+                            hintText:
+                                AppLocalizations.of(context)!.inputPasswordText,
+                            labelStyle: Theme.of(context).textTheme.bodySmall!,
+                            hintStyle: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .color!
+                                        .withOpacity(0.5)),
+                            filled: true,
+                            fillColor: Theme.of(context).colorScheme.onPrimary,
                             suffixIcon: IconButton(
                               icon: Icon(
                                 isObscured
@@ -226,7 +250,7 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 20, 40, 20),
+                        padding: const EdgeInsets.fromLTRB(20, 10, 40, 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -237,7 +261,7 @@ class _LoginState extends State<Login> {
                               },
                               child: Text(
                                 AppLocalizations.of(context)!.forgotPassword,
-                                style: textTheme.bodyMedium!.copyWith(
+                                style: textTheme.bodySmall!.copyWith(
                                   color: primary_300,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -259,7 +283,6 @@ class _LoginState extends State<Login> {
                               colors: [
                                 linearColor1,
                                 linearColor2,
-                                linearColor3,
                               ],
                             ),
                           ),
@@ -275,13 +298,13 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                       ),
-                      const Gap(20),
+                      const Gap(30),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             AppLocalizations.of(context)!.dontHaveAccount,
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context).textTheme.labelSmall,
                           ),
                           const SizedBox(width: 4),
                           GestureDetector(
@@ -291,9 +314,8 @@ class _LoginState extends State<Login> {
                             },
                             child: Text(
                               AppLocalizations.of(context)!.signUpHere,
-                              style: textTheme.bodyMedium!.copyWith(
+                              style: textTheme.labelLarge!.copyWith(
                                 color: primary_300,
-                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),

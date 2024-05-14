@@ -73,9 +73,9 @@ class LanguageItem extends StatelessWidget {
                       height: 20,
                       child: Checkbox(
                           checkColor: Colors.white,
-                          fillColor: MaterialStateProperty.resolveWith<Color?>(
-                              (states) {
-                            if (states.contains(MaterialState.selected)) {
+                          fillColor:
+                              WidgetStateProperty.resolveWith<Color?>((states) {
+                            if (states.contains(WidgetState.selected)) {
                               return primary_300;
                             }
                             return Colors.white;

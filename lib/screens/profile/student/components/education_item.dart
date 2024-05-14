@@ -71,8 +71,8 @@ class EducationItem extends StatelessWidget {
                     child: Checkbox(
                         checkColor: Colors.white,
                         fillColor:
-                            MaterialStateProperty.resolveWith<Color?>((states) {
-                          if (states.contains(MaterialState.selected)) {
+                            WidgetStateProperty.resolveWith<Color?>((states) {
+                          if (states.contains(WidgetState.selected)) {
                             return primary_300;
                           }
                           return Colors.white;

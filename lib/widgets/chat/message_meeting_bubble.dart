@@ -94,7 +94,7 @@ class _MessageMeetingBubbleState extends State<MessageMeetingBubble> {
         : Alignment.centerLeft;
 
     final color = Theme.of(context).colorScheme.onPrimary;
-    final textColor = Theme.of(context).colorScheme.surfaceVariant;
+    final textColor = Theme.of(context).colorScheme.surfaceContainerHighest;
     Future<void> verifyMeetingRoom() async {
       if (_meetingRoomIdController.text.isEmpty ||
           _meetingRoomCodeController.text.isEmpty) {
