@@ -21,7 +21,7 @@ class _SearchBoxState extends State<SearchBox> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
+              color: Theme.of(context).colorScheme.onPrimary,
               borderRadius: BorderRadius.circular(1000),
             ),
             child: TextField(
