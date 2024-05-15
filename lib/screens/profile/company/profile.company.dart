@@ -267,8 +267,7 @@ class ProfileCompanyInputState extends State<ProfileCompanyInput> {
                                       const Gap(15),
                                       ElevatedButton(
                                           style: buttonSecondary,
-                                          onPressed: () => Get.toNamed(
-                                              StudentRoutes.account),
+                                          onPressed: () => Get.back(),
                                           child: DisplayText(
                                             text: appLocal!.cancel,
                                             style:
