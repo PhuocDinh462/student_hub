@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:student_hub/models/models.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/screens/dashboard/student/widgets/dashboard.widgets.dart';
 import 'package:student_hub/utils/empty.dart';
@@ -41,6 +42,23 @@ class _ListProposalScreenState extends State<ListProposalScreen> {
     });
   }
 
+  void handleOpenProjectDetails(
+      Project project, ProjectDetailsView view) async {
+    await showModalBottomSheet(
+        context: context,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        isScrollControlled: true,
+        builder: (ctx) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: ProjectDetails(
+              project: project,
+              viewType: view,
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ProposalStudentViewModel>(builder: (context, psvm, child) {
@@ -61,7 +79,10 @@ class _ListProposalScreenState extends State<ListProposalScreen> {
               itemBuilder: (ctx, index) {
                 return CardInfoProposal(
                   proposal: psvm.proposals[index],
-                  // action: widget.actionCard,
+                  action: (project) {
+                    handleOpenProjectDetails(
+                        project, ProjectDetailsView.viewActiveProposal);
+                  },
                   view: ProjectDetailsView.viewProjectProposal,
                 );
               },

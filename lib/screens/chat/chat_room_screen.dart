@@ -35,7 +35,6 @@ class ChatRoomScreen extends StatefulWidget {
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
   final messageController = TextEditingController();
   final List<Message> messages = [];
-  // sampleMessages.isNotEmpty ? sampleMessages : [];
   late io.Socket socket;
   late ScrollController _scrollController;
   final FocusNode _messageFocusNode = FocusNode();
@@ -107,8 +106,6 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           print('Connected'),
         });
 
-    // socket.onConnectError((data) => print('$data'));
-    // socket.onError((data) => print(data));
     socket.on('RECEIVE_MESSAGE', (data) {
       setState(() {
         messages.add(Message(
@@ -245,7 +242,6 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     }).toList();
     setState(() {
       messages.clear();
-      // messages.addAll(sampleMessages);
       messages.addAll(fetchMessages);
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent + 100,
@@ -296,11 +292,6 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             icon: const Icon(Icons.more_vert),
             offset: const Offset(-30, 45),
             color: Theme.of(context).colorScheme.secondaryContainer,
-            onSelected: (String value) {
-              setState(() {
-                // _selectedMenu = value;
-              });
-            },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               PopupMenuItem<String>(
                 value: 'Schedule an interview',
