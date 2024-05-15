@@ -274,5 +274,7 @@
   "applyNow": "Nộp đơn",
   "notifSuccessCreatedProposal": "Đề xuất của bạn đã được gửi thành công.",
   "notifSuccessUpdateProposal": "Đề xuất của bạn đã được cập nhật thành công.",
-  "notifFail": "Đã xảy ra lỗi, vui lòng thử lại..."
+  "notifFail": "Đã xảy ra lỗi, vui lòng thử lại...",
+  "sendMessageTitle": "Gửi tin nhắn",
+  "sendMessageContent": "Bạn có muốn gửi tin nhắn cho ứng viên này hay không?"
 }

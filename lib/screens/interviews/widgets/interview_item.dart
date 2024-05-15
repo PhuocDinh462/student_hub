@@ -129,7 +129,8 @@ class InterviewItem extends StatelessWidget {
                                   VideoConferenceModel(
                                 userID: userProvider.currentUser!.fullname,
                                 userName: userProvider.currentUser!.fullname,
-                                callID: interview.meetingRoomId.toString(),
+                                callID: interview.meetingRoom.meetingRoomId
+                                    .toString(),
                               );
 
                               Get.toNamed(CompanyRoutes.videoConference,

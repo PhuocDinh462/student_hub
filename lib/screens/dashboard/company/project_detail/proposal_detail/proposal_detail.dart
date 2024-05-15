@@ -47,12 +47,40 @@ class _ProposalDetailState extends State<ProposalDetail> {
     });
   }
 
-  void updateStatusFlag(StatusFlag statusFlag) {
+  Future<void> updateStatusFlag(StatusFlag statusFlag) async {
     context.loaderOverlay.show();
     proposalService
         .updateProposalStatusFlag(proposal!.id, statusFlag)
         .then((value) {
       setState(() => proposal!.statusFlag = statusFlag);
+    }).catchError((e) {
+      throw Exception(e);
+    }).whenComplete(() {
+      context.loaderOverlay.hide();
+    });
+  }
+
+  Future<void> updateStatusActive(UserProvider userProvider) async {
+    context.loaderOverlay.show();
+    proposalService
+        .updateProposalStatusFlag(proposal!.id, StatusFlag.active)
+        .then((value) {
+      context.loaderOverlay.hide();
+      setState(() {
+        proposal!.statusFlag = StatusFlag.active;
+        ProjectModel project = ProjectModel(
+          id: proposal!.projectId,
+        );
+        UserModel user = UserModel(
+          id: userProvider.currentUser!.userId,
+          fullname: userProvider.currentUser!.fullname,
+        );
+        Navigator.of(context).pushNamed(CompanyRoutes.chatScreen, arguments: {
+          'user': user,
+          'otherUser': proposal!.user!,
+          'project': project,
+        });
+      });
     }).catchError((e) {
       throw Exception(e);
     }).whenComplete(() {
@@ -307,21 +335,38 @@ class _ProposalDetailState extends State<ProposalDetail> {
                           children: [
                             ElevatedButton(
                                 onPressed: () {
-                                  ProjectModel project = ProjectModel(
-                                    id: proposal!.projectId,
-                                  );
-                                  UserModel user = UserModel(
-                                    id: userProvider.currentUser!.userId,
-                                    fullname:
-                                        userProvider.currentUser!.fullname,
-                                  );
-                                  Navigator.of(context).pushNamed(
-                                      CompanyRoutes.chatScreen,
-                                      arguments: {
-                                        'user': user,
-                                        'otherUser': proposal!.user!,
-                                        'project': project,
-                                      });
+                                  if (proposal!.statusFlag ==
+                                      StatusFlag.waiting) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return YesNoDialog(
+                                          title: AppLocalizations.of(context)!
+                                              .sendMessageTitle,
+                                          content: AppLocalizations.of(context)!
+                                              .sendMessageContent,
+                                          onYesPressed: () =>
+                                              updateStatusActive(userProvider),
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    ProjectModel project = ProjectModel(
+                                      id: proposal!.projectId,
+                                    );
+                                    UserModel user = UserModel(
+                                      id: userProvider.currentUser!.userId,
+                                      fullname:
+                                          userProvider.currentUser!.fullname,
+                                    );
+                                    Navigator.of(context).pushNamed(
+                                        CompanyRoutes.chatScreen,
+                                        arguments: {
+                                          'user': user,
+                                          'otherUser': proposal!.user!,
+                                          'project': project,
+                                        });
+                                  }
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: primary_300,
