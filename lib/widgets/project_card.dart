@@ -48,15 +48,7 @@ class _ProjectCardState extends State<ProjectCard> {
   void initializeStateProject() {
     daysAgo = Helpers.calculateTimeFromNow(
         widget.project.createdAt.toIso8601String(), widget.rootContext);
-    timeDuration = widget.project.completionTime ==
-            ProjectScopeFlag.lessThanOneMonth
-        ? 'Less than 1 month'
-        : widget.project.completionTime == ProjectScopeFlag.oneToThreeMonth
-            ? '1-3 months'
-            : widget.project.completionTime == ProjectScopeFlag.threeToSixMonth
-                ? '3-6 months'
-                : 'More than 6 months';
-
+    timeDuration = widget.project.completionTime2String(widget.rootContext);
     studentsNeeded = widget.project.requiredStudents;
     projectDescription = widget.project.description;
     proposalsCount = widget.project.countProposals;
@@ -135,7 +127,7 @@ class _ProjectCardState extends State<ProjectCard> {
                     ),
                     Expanded(
                       child: Text(
-                        '${timeDuration == 'Less than 1 month' ? AppLocalizations.of(context)!.lessThanOneMonth : timeDuration == '1-3 months' ? AppLocalizations.of(context)!.oneToThreeMonths : timeDuration == '3-6 months' ? AppLocalizations.of(context)!.threeToSixMonths : AppLocalizations.of(context)!.moreThanSixMonths}, $studentsNeeded ${AppLocalizations.of(context)!.studentsNeeded}',
+                        timeDuration,
                         style: Theme.of(context).textTheme.labelSmall,
                       ),
                     ),
