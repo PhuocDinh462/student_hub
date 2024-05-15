@@ -57,21 +57,18 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : projects.isEmpty
-              ? Center(
-                  child:
-                      Empty(text: AppLocalizations.of(context)!.noSavedProject))
-              : ListView.builder(
-                  itemCount: projects.length,
-                  itemBuilder: (context, index) {
-                    return ProjectCard(
-                        project: projects[index],
-                        projectService: projectService);
-                  },
-                ),
-    );
+    return isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : projects.isEmpty
+            ? Center(
+                child:
+                    Empty(text: AppLocalizations.of(context)!.noSavedProject))
+            : ListView.builder(
+                itemCount: projects.length,
+                itemBuilder: (context, index) {
+                  return ProjectCard(
+                      project: projects[index], projectService: projectService);
+                },
+              );
   }
 }
