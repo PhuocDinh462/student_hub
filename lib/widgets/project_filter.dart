@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
-import 'package:student_hub/constants/theme.dart';
 import 'package:student_hub/providers/providers.dart';
 import 'package:student_hub/widgets/button.dart';
 import 'package:student_hub/widgets/project_length_options.dart';
@@ -45,17 +44,22 @@ class _ProjectFilterState extends State<ProjectFilter> {
     return Scaffold(
       backgroundColor: Colors.transparent, // Đặt màu nền trong suốt
       body: Padding(
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.fromLTRB(18, 18, 18, 0),
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.cancel_rounded,
-                    color: color_1,
+                Text(
+                  AppLocalizations.of(context)!.filterProject,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close_rounded),
                   iconSize: 30,
                   onPressed: () {
                     Navigator.of(context)
@@ -64,17 +68,13 @@ class _ProjectFilterState extends State<ProjectFilter> {
                 ),
               ],
             ),
-            Divider(
-              thickness: 1.5,
-              color: Theme.of(context).primaryColorDark,
-            ),
-            const Gap(8),
+            const Divider(thickness: .5, height: 5),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Gap(20),
+                    const Gap(10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -101,7 +101,7 @@ class _ProjectFilterState extends State<ProjectFilter> {
                         });
                       },
                     ),
-                    const Gap(20),
+                    const Gap(10),
                     TextFieldTitle(
                       title: AppLocalizations.of(context)!.studentsNeeded,
                       hintText: AppLocalizations.of(context)!.numberOfStudents,
@@ -115,7 +115,7 @@ class _ProjectFilterState extends State<ProjectFilter> {
                       controller: proposalsController,
                       isNumber: true,
                     ),
-                    const Gap(50),
+                    const Gap(25),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -145,6 +145,7 @@ class _ProjectFilterState extends State<ProjectFilter> {
                 ),
               ),
             ),
+            const Gap(10),
           ],
         ),
       ),
