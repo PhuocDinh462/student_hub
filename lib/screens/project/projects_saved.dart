@@ -67,7 +67,10 @@ class _ProjectsSavedState extends State<ProjectsSaved> {
                 itemCount: projects.length,
                 itemBuilder: (context, index) {
                   return ProjectCard(
-                      project: projects[index], projectService: projectService);
+                    project: projects[index],
+                    projectService: projectService,
+                    rootContext: context,
+                  );
                 },
               );
   }

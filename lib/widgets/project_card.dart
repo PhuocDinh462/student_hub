@@ -17,8 +17,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ProjectCard extends StatefulWidget {
   final Project project;
   final ProjectService projectService;
-  const ProjectCard(
-      {super.key, required this.project, required this.projectService});
+  final BuildContext rootContext;
+  const ProjectCard({
+    super.key,
+    required this.project,
+    required this.projectService,
+    required this.rootContext,
+  });
 
   @override
   State<ProjectCard> createState() => _ProjectCardState();
@@ -33,6 +38,30 @@ class _ProjectCardState extends State<ProjectCard> {
   late bool isFavorite;
   final Dio dio = Dio();
   final String? apiServer = dotenv.env['API_SERVER'];
+
+  @override
+  void initState() {
+    super.initState();
+    initializeStateProject();
+  }
+
+  void initializeStateProject() {
+    daysAgo = Helpers.calculateTimeFromNow(
+        widget.project.createdAt.toIso8601String(), widget.rootContext);
+    timeDuration = widget.project.completionTime ==
+            ProjectScopeFlag.lessThanOneMonth
+        ? 'Less than 1 month'
+        : widget.project.completionTime == ProjectScopeFlag.oneToThreeMonth
+            ? '1-3 months'
+            : widget.project.completionTime == ProjectScopeFlag.threeToSixMonth
+                ? '3-6 months'
+                : 'More than 6 months';
+
+    studentsNeeded = widget.project.requiredStudents;
+    projectDescription = widget.project.description;
+    proposalsCount = widget.project.countProposals;
+    isFavorite = widget.project.favorite;
+  }
 
   Future<void> updateProjectState(
       UserProvider provider, int projectId, int disableFlag) async {
@@ -63,27 +92,10 @@ class _ProjectCardState extends State<ProjectCard> {
   Widget build(BuildContext context) {
     final UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
-
     final textTheme = Theme.of(context).textTheme;
 
-    daysAgo = Helpers.calculateTimeFromNow(
-        widget.project.createdAt.toIso8601String(), context);
-
-    timeDuration = widget.project.completionTime ==
-            ProjectScopeFlag.lessThanOneMonth
-        ? 'Less than 1 month'
-        : widget.project.completionTime == ProjectScopeFlag.oneToThreeMonth
-            ? '1-3 months'
-            : widget.project.completionTime == ProjectScopeFlag.threeToSixMonth
-                ? '3-6 months'
-                : 'More than 6 months';
-
-    studentsNeeded = widget.project.requiredStudents;
-    projectDescription = widget.project.description;
-    proposalsCount = widget.project.countProposals;
-    isFavorite = widget.project.favorite;
-
     final pjDes = projectDescription.split('.');
+
     return Card(
       elevation: 2,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

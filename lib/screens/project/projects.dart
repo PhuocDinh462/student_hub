@@ -198,6 +198,7 @@ class _ProjectsState extends State<Projects> {
                 itemBuilder: (context, item, index) => ProjectCard(
                   project: item,
                   projectService: projectService,
+                  rootContext: context,
                 ),
               ),
             ),
