@@ -40,6 +40,10 @@ class TextFieldTitle extends StatelessWidget {
             readOnly: readOnly,
             controller: controller,
             maxLines: maxLines,
+            keyboardType: isNumber
+                ? const TextInputType.numberWithOptions(
+                    decimal: false, signed: true)
+                : TextInputType.text,
             onChanged: (value) async {
               if (isNumber) {
                 if (double.tryParse(value) == null && value.isNotEmpty) {

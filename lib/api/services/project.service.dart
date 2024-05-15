@@ -33,7 +33,8 @@ class ProjectService extends BaseApi {
 
   Future<List<Project>> getProjects([Map<String, Object?>? params]) async {
     if (params != null) {
-      params.removeWhere((key, value) => value == null || value == '');
+      params.removeWhere(
+          (key, value) => value == null || value == '' || value == -1);
     }
     try {
       Response response = await dio.get(
