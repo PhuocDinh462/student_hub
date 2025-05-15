@@ -44,7 +44,7 @@ class AppTheme {
       surfaceContainerHighest: text_800,
       tertiary: primary_300,
     ),
-    cardTheme: const CardTheme(
+    cardTheme: const CardThemeData(
       color: text_50,
       surfaceTintColor: Colors.transparent,
       shadowColor: text_900,
@@ -103,7 +103,7 @@ class AppTheme {
       surfaceContainerHighest: Colors.white,
       tertiary: text_50,
     ),
-    cardTheme: const CardTheme(
+    cardTheme: const CardThemeData(
       color: text_800,
       surfaceTintColor: Colors.transparent,
       shadowColor: text_600,
